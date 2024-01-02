@@ -222,7 +222,7 @@ window.pS = (function() {
             // github server
             } else if (window.location.href.includes("m-jim-d")) {
                if (href.includes("www.timetocode")) {
-                  finalHref = href.replace( "https://www.timetocode.org", "https://m-jim-d.github.io/ttc-root");
+                  finalHref = href.replace( "https://www.timetocode.org", "https://m-jim-d.github.io/ttc");
                   $(this).attr("href", finalHref);
                    
                } else {
