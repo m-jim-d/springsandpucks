@@ -1,0 +1,590 @@
+﻿<!doctype html>
+
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <!-- also tried an initial-scale factor, 0.5, a compromise for rendering the text in the domain menu -->
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="revision history for timetocode.org">
+
+   <title>S&P Revisions</title>
+
+   <link href="ttc-disc.css" rel="stylesheet" type="text/css">
+
+   <!-- The navigation menu -->
+   <script src="jquery-3.6.1.min.js?v=3"></script>
+   <link href="sitemap.css?v=10" rel="stylesheet" type="text/css">
+   
+   <script src="utilities.js?v=7"></script>
+   <script src="pageStuff.js?v=7"></script>
+
+   <script>
+      // After the page loads (and canvas element is defined)....
+      $(document).ready( function() { 
+         pS.init({"pageDesc":"SP: Rev History"});
+      });
+   </script>
+</head>
+
+<body style=''>
+
+<!-- The navigation menu -->
+<div id="navDiv"></div>
+<span class="menuicon" id="opener" style="font-size:19px; cursor:pointer;">&#9776;</span>
+
+<div class="pageblock">
+	<div class="title_line">
+      <a name="top"></a>
+      <h1>Revisions at timetocode.org</h1>
+      <span class="float_right">(<a href="javascript:history.go(-1)">return</a>)&nbsp;&nbsp;(<a href="index.html">springs & pucks</a>)</span>
+   </div>
+	<p><strong>Next:</strong> Pause and share... </p>
+	<ul>
+		<li>December, 2023<ul>
+			<li><a target="_blank" href="index.html?EpLReport">EpL and Speed</a> reports
+			<li>Demos illustrating inelastic collisions: 
+            <a target="_blank" href="index.html?4c.inelastic">4c.inelastic</a>,
+            <a target="_blank" href="index.html?5b">5b</a>,
+            <a target="_blank" href="index.html?5b.two">5b.two</a>,
+            <a target="_blank" href="index.html?5b.four">5b.four</a>
+			<li>Closed-form predictions of final state:
+            These are spreadsheet-like calculators for the 5b, 5b.two, and 5b.four demos. After making a final-state
+            prediction, the engine can be run using the calculator's "run" button and its row of initial conditions.
+         <li>History of page-level links:
+            With the "Ctrl" and "Shift" keys down, use the left/right arrow keys to step through the history of page links that have
+            been clicked (the up-arrow key jumps to the top of the page).
+         <li>The position of attachment and multi-select points update so as to scale well with puck-dimensional edits. Demos where this helps (i.e. ones with non-COM attachments) include 5a, 5e, and 5f.
+         <li>Made use of the above feature in making this demo: <a target="_blank" href="index.html?5a.threeAndOne">5a.threeAndOne</a>
+         </ul>
+		<li>September, 2023<ul>
+			<li>An Android update revealed a need for change in the Two-Thumbs 
+			virtual game pad... While functionally the same, it now establishes 
+			state based on events, then repaints the whole canvas each frame 
+			using an animation loop. Previously, sub-section repaints were done 
+			directly in response to events.</ul>
+		<li>August, 2023<ul>
+			<li><a href="https://www.timetocode.org/?codeLinks">Refactoring</a></ul>
+		<li>June, 2023<ul>
+			<li>Cookie manager on pages with embedded videos.</ul>
+		<li>May, 2023<ul>
+			<li>Resolved conflict between box2dweb and versions 3 and 4 of 
+			socket.io.</ul>
+		<li>March, 2023<ul>
+			<li>side note: new
+			<a href="https://waconia.timetocode.org/weather.html?station=KRLD&amp;days=24h">
+			charting</a> page for
+			<a href="https://waconia.timetocode.org/FAQ.htm">Waconia</a></ul>
+		<li>January, 2023<ul>
+			<li>Network connections to the server are now timed to warn at 20 
+			minutes and shutdown after 40 minutes of idle time (no chat).<li>
+			help command from chat field</ul>
+		<li>November, 2022<ul>
+			<li>under remove/add items<ul>
+				<li>shift capture (center a small-canvas capture on a larger 
+				canvas)</ul>
+		</ul>
+		<ul>
+			<li>added an hsl object for supporting demos that step through 
+				the HSL color space. To try this, paste "hsl(50, 100%, 0%)" into 
+				a puck's color attribute. Run the modified capture and then 
+				recapture to see the hsl object that gets created for the puck. 
+				In it you can edit the color-step size (default is 2).</li>
+			<li>added S &amp; L buttons to save and load captures to the local file 
+			system.</li>
+			<li>videos<ul>
+				<li>twinkle toes<li>swingy springs</ul>
+		</ul>
+		<li>October, 2022<ul>
+			<li>added under remove/add items<ul>
+				<li>toggle display of SCM (System Center of Mass)<li>toggle 
+				display of MSC (Multi-Select Center)<li>bullets from pucks (make 
+				all human-client pucks cannibalistic)<li>modify 
+				capture (use JSON, like {"color":"yellow"}, in the chat field, 
+				to modifiy the objects in the capture as indicate by the 
+				multi-select.</ul>
+		</ul>
+		<ul>
+			<li>videos<ul>
+				<li>internal shake-up<li>there's a cannibal in here</ul>
+		</ul>
+		<li>September, 2022<ul>
+			<li>added under remove/add items<ul>
+				<li>chain, worm, and springy-chain<li>arc selected</ul>
+			<li>videos<ul>
+				<li>tears and infinity<li>dandelion parachute<li>the rack<li>tight spots</ul>
+		</ul>
+		<li>August, 2022<ul>
+			<li>Upgraded <em>Monkey Hunt</em> and <em>Bipartisan Hoops</em> to 
+			be playable games, including connections to the leaderboard. These 
+			projectile games can be fully controlled from a touch screen. A 
+			second-finger touch toggles the fine-moves for precise aiming.<li>separate module for Monkey Hunt</ul>
+		<li>July, 2022<ul>
+			<li>videos:<ul>
+				<li>path of the opposition<li>the nature of it<li>transform</ul>
+			<li>"Run" button: an alternate way to play a capture<li>A capture 
+			can be immediately taken after starting a demo (before the engine 
+			alters the state) by clicking the "Run" button<br />while holding the shift key down. This can be used to get an updated 
+			copy of an existing capture. This is also a good way to<br />take an un-altered (0th frame) capture of the "a" versions of the 
+			demos.<li>separate module for capture and restore<li>separate module 
+			for leader board</ul>
+		<li>June, 2022<ul>
+			<li>videos:<ul>
+				<li>ball and chain<li>five sides to this story</ul>
+			<li>under remove/add items:<ul>
+				<li>add joint limits<li>toggle joint limits<li>add fixed-length 
+				spring</ul>
+			<li>separate module for jello madness game 
+		</ul>
+		<li>May, 2022<ul>
+			<li>videos:<ul>
+				<li>strength and length</ul>
+		</ul>
+		<ul>
+			<ul>
+				<li>exit stage left</ul>
+			<li>Added reporting of pendulum and spring periods (and their ratio) 
+			when the spring is selected in demo 5c.<li>shift-alt-s as first step 
+			to produce a capture without softconstraints key<li>shift-s now 
+			reports the spring nature of the springs in multiselect.<li>Added 
+			features for quantifying the lag of rendered cursor on canvas 
+			relative to system cursor. User must have "lagtest" in chat field 
+			before checking the local-cursor box under multiplayer. This coupled 
+			with p (stop the game loop) and alt-p (inhibit erasing) provide info 
+			on mouse input delay.<li>Added feature to automatically restart the 
+			game loop after actions, such as changing to full-screen, that 
+			affect cursor lag.<li>"Tab" key steps through a menu for multiselect 
+			operations. For the spring and revolute options in the tab menu, the 
+			"enter" key steps through, and gives focus to individual springs 
+			and revolute joints.<li>Monkey Hunt demo, 4e.<li>For non-colliding 
+			objects, the top object (drawn last), is always the one that is 
+			cursor selected.</ul>
+		<li>April, 2022<ul>
+			<li>Spring report is displayed (including stretch amount), for a selected spring.<li>Tab key presents 
+			delete options for multi-selected compound objects.<li>Alt-c now 
+			works in two steps: the first alt-c acts to center the selection 
+			point in the middle of the narrowest dimension, the second alt-c 
+			acts to push the selection point out to the nearest end.<li>Added 
+			collision detection, shot logic, and corresponding screen comments 
+			to the bipartisan hoops game. See bpHoops.js module.<li>videos:<ul>
+				<li>shock absorber<li>a bit of a drag<li>someday</ul>
+			<li>Extracted Puck Popper code to a module: puckPopper.js.</ul>
+		<li>March, 2022<ul>
+			<li>videos: 
+			<ul>
+				<li>Pharaoh's not happy<li>some restitution please<li>it's 
+				almost a party (multi-select)<li>pool-shot forecasts 
+				<li>bullets and the 
+				stepper<li>projectile forecast<li>bipartisan hoops (application 
+				of the projectile forecast)<li>ghost on 
+				host (playing directly with mouse and keyboard)</ul>
+		</ul>
+		<li>January, 2022<ul>
+			<li>videos<ul>
+				<li>ghost ball pool (shots aimed from a cell-phone 
+			client)<li>grab a puck (a first video on interacting)</ul>
+			<li>demo 
+			<a href="index.html?5g">5g</a> 
+			on the wild west...<li>new options under the "remove/add items" 
+			control<ul>
+				<li>"add pyramid" and "add stack"<li>"toggle", "reveal", and "hide" bullet options for converting pucks to bullets to avoid 
+				penetration anomalies with high-speed shots.<li>add 
+				non-colliding puck grid (7x7)</ul>
+			<li>alt-c 
+			keyboard shortcut 
+			<ul>
+				<li>when 
+				doing drag rotation to aim and shoot a rectangular puck, this 
+				centers the cursor-spring attachment point along the narrowest 
+				dimension of the puck<li>centers multi-select marks along the 
+				narrowest dimension of rectangular pucks</ul>
+			<li>projectile-path visualization for aiming projectiles (when 
+			shooting with gravity on)<ul>
+				<li><a href="index.html?5e.basketball">basketball</a> demo 
+				(almost a new game). Press the "v" key to view full screen. Read 
+				the on-screen help on how to shoot.</ul>
+		</ul>
+		<li>November, 2021
+         <ul>
+			 <li>Added alignment feature for objects in the multi-select group. See "align selected" under "remove/add items." Alternately, use alt-l to run it.
+			</ul>
+		<li>October, 2021
+         <ul>
+			 <li>Applied revolute joint in double-compound pendulum (see 
+			 <a href="index.html?5f">5f</a>). Added feature (drawDuringPE attribute) to inhibit drawing
+         of a specific puck while in pause-erase mode (alt-p).
+			 <li>Added fixed-length variation of the distance joint. Applied it
+         for Newton's cradle demos (see demo <a href="index.html?5h">5h</a>).</ul>
+		<li>July, 2021<ul>
+			<li>"remove/add items" select control for clearing off the canvas 
+			and then adding stuff: springs, pucks, walls, pins etc.<li>Added "Joints" prototype in Constructors and Prototypes module.<li>Added "revolute joint" and "chain" to the "remove/add items" select 
+			control. Also see demo <a href="index.html?5e">5e</a>.</ul>
+		<li>April, 2021<ul>
+			<li>Touch-screen play of ghost-ball pool for the host computer, 
+			useful for playing on a tablet.<li>Finemove toggle, the b key, 
+			useful for disengaging the ghost-ball from target balls, or turning 
+			finemoves on/off in other demos.<li>Shot history stepper, alt-b and 
+			alt-n, step you back and forth through the shot history.<li>Refined 
+			the ghost-ball visualization to include indications for:
+			<ul>
+				<li>non-ideal (non pool-ball) collisions,<li>glancing angles, 
+				<li>around-other-objects shots,<li>post-collision path lines.</ul>
+			<li>Moved ghost-ball code into a module, ghostBall.js.</ul>
+		<li>February, 2021<ul>
+			<li>Finemoves algorithm added for Ghost-Ball pool game. When the 
+			ghostball touches an object ball or cushion, the resolution of the 
+			mouse movement is increased by a factor of about 7. This improves 
+			aiming accuracy. After disengaging from the target, ghostball 
+			movement reverts to the normal 1 to 1.</ul>
+		<li>January, 2021<ul>
+			<li>Several new network commands (enter in the chat) for the host:<ul>
+				<li><strong>rr</strong>: room report<li><strong>dcir</strong>: 
+				disconnect all clients in the room<li><strong>ping:p2p-uNNN</strong>: 
+				ping test along P2P path to user uNNN<li><strong>dbrtc:on
+				</strong>or <strong>dbrtc:off</strong>: turn on/off debug 
+				logging for WebRTC in the browser console (ctrl-shift-i)</ul>
+			<li>Mapping function for Ghost Ball pool that effectively stretches 
+			out the surface of a cellphone (controlling shots) making it easier 
+			to reach the table cushions<li>Changed behavior in Ghost-Ball when 
+			two clients are addressing the same ball. First player 
+			addressing the ball now maintains control.<li>Put code for virtual 
+			game pad into separate module.</ul>
+		<li>September, 2020<ul>
+			<li>Enlisted the Ghost-Ball Pool game into the leaderboard reporting 
+			and added game-rule governance and feedback that runs during game 
+			play.</ul>
+		<li>July, 2020<ul>
+			<li>Dandelion demo: <a href="index.html?5d">5d</a>. Demonstration of 
+			image rotation and dissimilar drag characteristics in a compound 
+			object. Also makes a good object to launch into the air (with 
+			gravity on) using the pool-shot feature.</ul>
+		<li>June, 2020<ul>
+			<li>Added ghost-ball feature for cue-ball shots off the cushion.<li>Touch-screen features added for ghost-ball pool. You can aim and 
+			shoot from your cell phone (use the desktop client from your phone 
+			to connect to a host computer).</ul>
+		<li>May, 2020<ul>
+			<li>Pool-shot feature for aiming and shooting a puck: <br />Try some pool shots in demo 
+			<a href="https://www.timetocode.org/?3d">3d</a>, 
+			Ghost-Ball Pool. Instructions are displayed at the beginning of the 
+			game and in the left panel.<li>Updated the network client to support the features of Ghost-Ball 
+			Pool. Nice!</ul>
+		<li>April, 2020<ul>
+			<li>Video <a href="videos.html">walkthrough page</a> and
+			<a href="https://www.youtube.com/watch?v=GNULhG6uVP0&amp;list=PLTMmJ3C3RoL9fD2v7BqE20FDQWL-fVcjg">playlist</a> including 
+			videos on the cell phone interface (virtual game pad) for Puck 
+			Popper.<li>The combination of the "alt" and "p" keys toggle the 
+			canvas eraser on/off. The eraser normally precedes each frame. When 
+			toggled off, some drawing features, such as for springs, are 
+			inhibited.</ul>
+		<li>March, 2020<ul>
+			<li>Client names (or nicknames) are displayed above the client 
+			pucks, at game start, and when "?" key or client-color square is 
+			touched on the virtual game pad.<li>CV checkbox for optionally 
+			displaying the drone pucks as Coronaviruses.</ul>
+		<li>February, 2020<ul>
+			<li>Adapted the client page to run in both desktop mode:
+			<a href="https://www.timetocode.org/client.html">timetocode.org/client.html</a>, and mobile-friendly mode:
+			<a href="https://www.timetocode.org/client.html?m">timetocode.org/client.html?m</a>. 
+			The mobile version offers the most direct path the Two Thumbs game 
+			pad. The desktop version supports all the streaming and 
+			cursor-related options, and yes, can be used from a cell phone.<li>Virtual game pad changes:<ul>
+				<li>Reversed the jet control so that the touch point sets the 
+				direction of the nose cone, not the jet tube.<li>Revised the "scope" control to have a sweep rate indicator. 
+				The result of the sweeping action, the tube angle, is now 
+				transmitted from the host to the client, and rendered there. The 
+				gun and jet tube angles are synced with the host when Puck 
+				Popper is started or when the Two Thumbs game pad is started or 
+				reset.<li>The color square on the Two Thumbs game pad now 
+				indicates, with a black dot, whether the client has a puck or 
+				not.</ul>
+		</ul>
+		<li>January, 2020<ul>
+			<li>Split the main code module into three parts. Links to the new 
+			code modules are in the tour (first topic in the outline).</ul>
+		<li>November, 2019<ul>
+			<li>"Canvas" button enlarges the canvas to match the size and aspect 
+			ratio of the screen (view port). When using this button, the 
+			perimeter fence (in the physics world) is enlarged to match the 
+			dimensions of the larger canvas.</ul>
+		<li>July, 2019<ul>
+			<li>Added the PiEngine class to gwModule.js. This is a javascript 
+			version of the algorithm for calculating pi digits
+			<a href="https://pet.timetocode.org/?countpi" target="_blank">originally</a> written in Python. The 
+			<a href="index.html?1d">1d</a> and <a href="index.html?1e">1e</a> demos use PiEngine.</ul>
+		<li>June, 2019<ul>
+			<li>Demo <a href="index.html?1c">1c</a> presents an unusual method for calculating the first two digits of pi (31) using two elastically colliding pucks.<li>Removed the page folds in the left panel. Added an outline of topics 
+			at the top. Should be more context sensitive now and better 
+			summarized by search engines.</ul>
+		<li>May, 2019<ul>
+			<li>For demo 2, changed how wave speed is specified, now in units of 
+			pixels per frame (see propSpeed_ppf_px in captures). This gives 
+			consistent rendering, independent of device frame rate.<li>Demo 
+			<a href="index.html?2c">2c</a> makes use of 
+			a new option to specify the object speed in Mach number.<li>Demo 
+			<a href="index.html?2e">2e</a> incorporates hsl( hue, saturation%, lightness%) color 
+			for the pulse rings. The hue level is incremented 3 points between 
+			each pulse ring. The saturation and lightness levels can be edited 
+			in the capture.<li>Added a second video to the
+			<a href="https://pet.timetocode.org?perfect-kiss" target="_blank">Perfect Kiss topic</a> (on the Python page). This demonstrates the 
+			reversibility of the Perfect Kiss algorithm.</ul>
+		<li>April, 2019<ul>
+			<li>YouTube <a href="https://youtu.be/ZAeRF1GOurA" target="_blank">video</a> 
+			on the keyboard interface for playing Puck Popper.<li>Refined the capture process 
+			to produce a more concise and editable JSON recording.<li>The 
+			"Reverse" button flips the velocity and reverses the rotation rate 
+			of each puck.<li>Enlisted the Jello Madness game into the 
+			leaderboard reporting. Try untangling <a href="index.html?6a">6a</a> and 
+			<a href="index.html?6d">6d</a>. How does your time 
+			compare?<li>Changed the local launching point for the drone bullets 
+			to originate from the center of the drone pucks (not the end of 
+			their guns). This is more compatible with the algorithm that 
+			calculates the leading angle need to anticipate the movement of the 
+			targets. So the drones are even sharper shooters now.<li>Changed the 
+			starting puck position and velocity, for the first four network 
+			players in Puck Popper, to be consistent, not random as before. This 
+			provides a more repeatable game. These starting states are editable 
+			in the startingPosAndVels array of the capture.<li>Command to 
+			generate a new drone and navigation pin at the location of the local 
+			cursor: depress the shift, d, and p 
+			keys together (shift-d-p).</ul>
+		<li>March, 2019<ul>
+			<li>Added new variations of Puck Popper. Click on the #8 button, 
+			then click on the letters in the "Plus" row under the button 
+			cluster. Versions "d", and "e" have no drag force on the 
+			host puck. "c" and "d" have elastic collisions (restitution of 1.0). 
+			"e" applies no recoil when firing bullets and so it's good for 
+			demonstrating the target-leading algorithm.<li>Now inhibiting collisions between the bullets, themselves, and their 
+			host. This cleans up the game play somewhat and avoids an anomaly in 
+			the physics engine when shooting at walls at very close range.<li>Code revisions:<ul>
+				<li>Allow the host (local) puck to be treated (edited and 
+				captured) separately from the pucks of the network clients. 
+				Network client pucks are instantiated as copies of the host puck 
+				if it is available.<li>Changed treatment of NPC (drone) pucks 
+				that are taken off the navigation pins. The free-floating NPC 
+				pucks are drawn without a jet tube or jet flame.</ul>
+			<li>Holding the control key down, displays the 
+			position and elasticity properties of a single selected puck.</ul>
+		<li>December, 2018<ul>
+			<li>The new "Friendly fire" checkbox (visible when the "Multiplayer" 
+			control is checked) controls whether bullets from real Puck Popper 
+			players can affect the health of other real players. If unchecked, 
+			human bullets can only hit the drones. In this mode multiple players 
+			act as a team to scrub out those nasty drones. Nice.</ul>
+		<li>November, 2018<ul>
+			<li>New parameters in the leaderboard records to better characterize 
+			the various ways the games can be played.<li>Toggle link (at the end 
+			of the title row for the report) for viewing the two leaderboard 
+			tables (time and score), one at a time.<li>The "More" row beneath 
+			the button cluster. For some demos, this row will contain links to 
+			variations on the primary version of the demo.</ul>
+		<li>September, 2018<ul>
+			<li>Secured the timetocode.org domain.</ul>
+		<li>August, 2018<ul>
+			<li>Changes in the code: <br />Revised the Spring class to include the functionality that was in 
+			the client-cursor springs (originally called them cursor strings). 
+			Springs can now be attached at off-center points on pucks (turn off 
+			"Select COM" to establish off-center selection points). 
+			Client-cursor springs are implemented using the revised Spring 
+			class.</ul>
+		<li>July, 2018<ul>
+			<li>Leaderboard report: the top 15 scores get reported below the 
+			game score table. The report consists of two query results, one 
+			table sorted by score, the other by time. The backend of the 
+			leaderboard, a Google sheet, is queried depending on the version of 
+			the Puck Popper game (e.g. demo #7 results are reported separate 
+			from #8). Custom versions of Puck Popper, made using the capture 
+			feature, are reported separately as distinguished by a unique 
+			identifier in the capture. Game results where the mouse was used (in 
+			the Canvas area) or the drones are "sleeping", are filtered out of 
+			the reports.<li>Editor features to adjust the surface-friction (+/- 
+			keys) and drag (&lt;/&gt; keys) of 
+			selected pucks.<li>Puck finder: the question-mark key 
+			identifies your puck in demos #7 and #8.<li>Pinned-spring 
+			constraints in demo #9 will gently return the three balls to the 
+			triangle orientation. The hidden springs and pins are now visible if 
+			the "Edit walls &amp; pins" feature is enabled.<li>A way to enter a 
+			nickname without connecting to the multiplayer server. From the host 
+			page, type the nickname into the chat field, 
+			before starting demos #7 or #8. That nickname will be used when 
+			reporting to the leaderboard.</ul>
+		<li>June, 2018<ul>
+			<li>Added scoring features to Puck Popper (demos 7 and 8):<ul>
+				<li>+200 for last puck-player standing<li>+100 for popping 
+				client and drone pucks<li>+50 for popping a regular puck<li>+10 for hitting a puck with one of your bullets<li>-10 for 
+				getting hit by a bullet<li>-1 for shooting a bullet that expires 
+				before it hits another puck</ul>
+			<li>A score summary for each player is reported in the chat panel at 
+			the end of the game (one puck left).</ul>
+		<li>April, 2018<ul>
+			<li>Puck popping sound effect.<li>Scope control: <br />Located in the bottom right corner of the virtual gamepad, this 
+			control precisely rotates the pea shooter and shoots from a fixed 
+			position. Touching the center block stops the movement of your puck, 
+			and then shoots without recoil (and no rotation). The surrounding 
+			two blocks rotate the shooter tube. The rotation rate is reduced as 
+			the touch point approaches the center block.</ul>
+		<li>March, 2018<ul>
+			<li>Virtual gamepad:<br />The client interface has been extended to include support for 
+			touch-screen devices. Yes, cell-phone play for Puck Popper, demos 7 
+			and 8. This is accessed via the Two-Thumbs button on the client. 
+			First, from your phone, connect a client page to the host, then 
+			touch the Two-Thumbs button.<li>Full-screen button (bottom right):
+			<br />Nice for viewing the demos with nothing but the animation canvas 
+			visible. This works best in Chrome. Once in fullscreen mode, use 
+			ctrl +/- to scale up or down. When hosting, this is the best way to 
+			present a Puck Popper game to a group of viewers.
+            <li>Prior to connecting, put a nickname is in the chat field.
+			This helps to keep track of who's in a multiplayer Puck Popper game.</ul>
+		<li>January, 2018<ul>
+			<li><a href="https://www.timetocode.org/?9">Demo #9</a>: additive color mixing<li>Option to put startup info in the URL (the query string). For 
+			example: <a href="https://www.timetocode.org/?7b">www.timetocode.org/?7b</a> starts the b version of demo #7,
+			<a href="https://www.timetocode.org/?8">www.timetocode.org/?8</a> 
+			starts demo #8. This allows the user to post a link to a specific 
+			demo. Related to this, improved the startup process: framerate is 
+			sampled on a blank canvas for about one second.<li>Group copy and 
+			paste with multi-select (ctrl-v replicates the selected group or 
+			single object 
+			to the cursor position). A spring-only paste is now done with 
+			ctrl-s.<li>Drone copying. Copy operations directed at a drone puck 
+			now replicate the drone client. The copy will simply float (not 
+			navigate) unless you copy and paste a navigation spring from another 
+			drone. See discussion under demo #7.</ul>
+		<li>December, 2017<ul>
+			<li>Moved most of the editor's rotation features to be part of 
+			multi-select. Automated the editors use of the COM feature.<li>Use "o" key for single stepping and repeatedly (hold "o" key 
+			down) slow stepping the animation (use "p" to resume normal 
+			animation).<li>Option to model springs with soft constrains. This is 
+			Erin Catto's spring modeling approach (distance joints) in Box2D. 
+			Please refer to the discussion for demo #5.<li>Editing option for 
+			modifying the spring-damping and puck-restitution coefficients: 
+			select object, then use page-up or page-down keys.</ul>
+		<ul>
+			<li>Group-rotation for the editor's multi-select (select multiple 
+			objects, then hold control and shift key down, then mouse drag).</ul>
+		<li>November, 2017<ul>
+			<li>Run-it links in the demo topics (follow the more-on-the-demos link 
+			on the <a href="index.html">main page</a>). The run-it links 
+			automatically feed a capture to the engine and then run it.<li>Multi-body drag. Hold control key down, then click and drag to 
+			move all bodies in the multi-select group.<li>Automatic setting of the engine's timestep.<li>Frame stepper (button) 
+			when animation is paused.<li>Box selector for multi-select. Hold alt key down, then click and 
+			drag.</ul>
+		<li>October, 2017<ul>
+			<li>P2P video stream from host to client (canvas to video element). This facilitates multiuser play outside the boundaries 
+			of a single physical room.</ul>
+		<li>September, 2017<ul>
+			<li>WebRTC <a href="peer2peer.html" target="_blank">peer-to-peer</a> 
+			(P2P) layer added to the socket.io functionality (note that shift-p 
+			acts to toggle P2P on/off from the client page).</ul>
+		<li>August, 2017<ul>
+			<li>Ray-casting drones for demos #7 and #8<ul>
+				<li>Guns lead (aim ahead) to compensate for target-object motion.
+            	<li>Drone navigation forces render as jets.</ul>
+		</ul>
+		<li>July, 2017<ul>
+			<li>Modified the spring object to allow for storage on two pins (see 
+			demo #4).</ul>
+		<li>June, 2017<ul>
+			<li>Multi-object selection functionality for the editor<li>More 
+			editor features for puck objects (resizing)<li>An example of a 
+			<a href="demo6b.js.html">JSON 
+			capture</a> of a modified version of demo #6</ul>
+		<li>May, 2017<ul>
+			<li>Some editor features now apply to 
+			non-wall objects: drag pins, delete pins and pucks, change angle and 
+			rotation rate for pucks.</ul>
+		<li>April, 2017<ul>
+			<li>A control for setting the physics-engine timestep. This supports 
+			users running displays at higher (than 60hz) refresh rates.</ul>
+		<li>March, 2017<ul>
+			<li>Demo #8 introduces a basic wall editor and a capture feature to 
+			build (and save) terrain for Puck Popper battles.
+			<li>A tangle timer for demo #6 (Jello Madness). This coupled with 
+			the capture feature makes for a playable game.<li>Sound-field 
+			simulation for demo #2</ul>
+		<li>February, 2017<ul>
+			<li>Demo #7 brings in some game-feature objects: jets, guns, 
+			shields, and health indicators. This is similar to the Puck Popper 
+			game from the
+			<a href="https://pet.timetocode.org/">tutorial</a> page and helps 
+	to demonstrate receiving keyboard events from the multiplayer clients.</ul>
+		<li>January, 2017<ul>
+			<li>Multiplayer features for the demo page
+			<ul>
+				<li>Client-to-host communication using node.js and socket.io</li>
+				<li>Feature for testing latency (ping-to-server and 
+				ping-to-host)</li>
+				<li>Chat feature</li>
+				<li>A <a href="multiplayer.html">discussion page</a> on the use 
+				of these features and instructions for installing a local node 
+				server</li>
+			</ul>
+			</li>
+		</ul>
+		<li>November, 2016<ul>
+			<li>A Spring prototype to supplement Box2dWeb&nbsp; 			
+			<ul>
+				<li>Modeling of spring-damper systems to determine forces 
+				exerted on objects</li>
+				<li>Functionality for representing (drawing) the springs as they 
+				stretch and get thinner</li>
+				<li>Demos 5 and 6</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li>October, 2016<ul>
+			<li>A start at translating the final topic from the
+			<a href="https://pet.timetocode.org/">tutorial</a> page for use in a 
+			web browser
+			<ul>
+				<li>JavaScript code using a Revealing Module design pattern with 
+				prototypes</li>
+				<li>Box2dWeb physics engine</li>
+				<li>An initial framework for rendering to the HTML5 Canvas<ul>
+					<li>Drawing functions for walls, circular and rectangular 
+					pucks, cursor springs</li>
+				</ul>
+				</li>
+				<li>DOM controls for changing parameters and starting the demos</li>
+				<li>A vector prototype</li>
+				<li>A Client prototype with cursor-spring functionality for 
+				selecting and moving objects<ul>
+					<li>Modeling of simple cursor-spring forces and object drag 
+					resistance</li>
+					<li>Cursor-spring selection options for center-of-mass (COM) 
+					or other local points on an object</li>
+				</ul>
+				</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li>March, 2016<ul>
+			<li>Purchased timetocode.org from Google domains. This domain name 
+			seemed about right for me and nicely represents the collision between 
+			my retirement and my interest in coding...</li>
+			<li>Started hosting at 50webs and added two subdomains: 
+			<ul>
+				<li>pet.timetocode.org</li>
+				<li>waconia.timetocode.org</li></li>
+			</ul>
+			</li>
+			<li>Moved the Physics Engine Tutorial (PET) content from gustavus.edu to 
+		pet.timetocode.org.</li>
+			<li>Moved my Waconia weather-gleaner and charting site to inside my 
+		local network at home. The site was most recently hosted on my office 
+		computer at Gustavus. Sorry, it's only for me now. It has 
+		sentimental value as it was a starting point of sorts that got me going 
+		as a developer at PNNL. In a sense I have archived it at 
+			<a href="https://waconia.timetocode.org">waconia.timetocode.org</a>. Some
+			<a href="https://waconia.timetocode.org/charts.html">sample</a> charts from my local network get 
+		pushed out there every hour. I even put together some
+			<a href="https://waconia.timetocode.org/Install_rosy.htm">installation</a> 
+		instructions. It's a tricky install. Let me know if you get it up and 
+		running on your local network.</li>
+		</ul>
+	</ul>
+   
+</div>
+
+</body>
+
+</html>

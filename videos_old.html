@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html id="helpScroller">
+
+<head>
+
+<meta content="text/html; charset=windows-1252" http-equiv="content-type">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S&P Videos</title>
+
+<link rel="canonical" href="https://www.timetocode.org/videos.html" />
+
+<script src="jquery-3.6.1.min.js"></script>
+<!-- 
+Script for loading YouTube iframes on demand. This modifies the div.video-container elements below.
+Note that jquery is required for this.
+-->
+<script src="youTubeLoadOnDemand.js?v=6"></script>
+
+<link href="videos.css" rel="stylesheet" type="text/css">
+
+<!-- Google icon library -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<!-- The navigation menu -->
+<link href="sitemap.css" rel="stylesheet" type="text/css">
+<script src="https://www.timetocode.org/w3data.js"></script>
+
+<script>
+   // Version 1.1 (12:15 PM Mon June 24, 2019)
+   // Written by: James D. Miller
+   
+   //document.cookie = 'SameSite=None; Secure';
+   
+   function scrollPage( targetID, mode='jump') {
+      //var container = $('#helpScroller'); // see html tag
+      // Ended up using the method below to reference the full page. This works in all three
+      // browsers: Chrome, Firefox, and Edge. The method above, using the helpScroller id, does not
+      // work in Edge.
+      var container = $('html, body');
+      var nudgeOffset = -8;
+      
+      // Search for ID 
+      var scrollTarget  = $('#' + targetID);
+      
+      // If can't find ID, search for a named anchor element
+      if (scrollTarget.length == 0) {
+         var anchorSearchString = 'a[name=' + targetID + ']';
+         var scrollTarget = $( anchorSearchString);
+         if (scrollTarget.length == 0) {
+            console.log('found nothing');
+            return null;
+         } else {
+            console.log('found name');
+         }
+      } else {
+         console.log('found ID');
+      }
+
+      // Must have found the ID. Now, scroll the page.
+      if (scrollTarget.offset()) {
+         if (mode == 'pageReload') {
+            console.log('jump to top');
+            // Jump to top, wait, then slowly scroll to the target.
+            container.animate( {scrollTop:'0px'}, 0, function() {
+               window.setTimeout( function() {
+                  console.log('slowly scroll to target');
+                  container.animate( {scrollTop: scrollTarget.offset().top + nudgeOffset}, 1000);
+               }, 700);         
+            });
+
+         } else if (mode == 'jump') {
+            // This mode is used for scrolling to targets on the same page.
+            // e.g. put this in the anchor element: onclick="scrollPage('pygame');"
+            container.animate( {scrollTop: scrollTarget.offset().top + nudgeOffset}, 1000);
+         }
+      } else {
+         console.log("scrollTarget.offset() not found or defined");
+      }
+   }
+   
+   function logEntry( eventDescription, mode='normal') {
+      var sheetURL = 'https://script.google.com/macros/s/AKfycbymaDOxbOAtZAzgxPwm6yIvWG8Euw8jcHM1weyQ_caVSL0BkBI/exec';
+      // AJAX
+      var xhttp = new XMLHttpRequest();
+      xhttp.open('GET', sheetURL + '?mode=' + mode + '&eventDesc=' + eventDescription, true);
+      xhttp.send();
+   }
+   
+   // After the page loads...
+   $(window).on('load', function() {
+      // This zero delay seems necessary for Chrome to behave as expected on page refresh (should jump to the top, then scroll to the target)
+      window.setTimeout( function() {
+         // The ready approach does not work well with a page having many auto-sizing images. Rather, better to wait
+         // until EVERYTHING is done loading, including images, as is done in the 'load' method above.
+         //$(document).ready( function() {});
+         
+         // Bailed on using hash parameter in URL. Native jumps to anchors are confusing. So sidestepping that mess by using query parameters.
+         //var hashID = window.location.hash;
+         
+         // Discard everything after the "&".
+         var queryStringInURL = window.location.search.split("&")[0];
+         // Then use the part after the "?".
+         var queryID = queryStringInURL.slice(1);
+         console.log("queryID=" + queryID);
+         if (queryID) scrollPage( queryID, 'pageReload');
+         
+      }, 0);
+      
+      logEntry('SP Videos (page load)');
+   });
+</script> 
+
+</head>
+
+<body>
+
+<!-- The navigation menu -->
+<div w3-include-html="sitemap.html?v=125"></div>
+<script>
+   function openNav() {
+       document.getElementById("myNav").style.height = "100%";
+   }
+   function closeNav() {
+       document.getElementById("myNav").style.height = "0%";
+   }
+   w3IncludeHTML();
+</script>
+<span class="menuicon" title="Menu" style="font-size:20px; cursor:pointer;" onclick="openNav()">&#9776;</span>
+
+
+<div class="pageblock">
+	<div class="title_line">
+      <h1 class="maintitle">Video Walkthrough</h1>
+      <span class="float_right">
+      	(<a class="jump" href="rev-history.html">revisions</a>)
+         (<a href="index.html" title="Springs &amp; Pucks">S&amp;P</a>)
+      </span>
+   </div>
+   
+	<table border="0" width="100%">
+   
+	<tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="GNULhG6uVP0">
+         <img class="frameCapture" src="screenshots/colormixer.png" width="550" height="auto">
+      </div>
+      
+      <p>The following 
+	  <a href="https://www.youtube.com/watch?v=GNULhG6uVP0&amp;list=PLTMmJ3C3RoL9fD2v7BqE20FDQWL-fVcjg" target="_blank" title="playlist for all the videos">videos</a> are recordings from
+      the
+	  <a href="index.html" target="_blank" title="Springs &amp; Pucks">Springs &amp; Pucks</a> page at timetocode.org. 
+	  Watch, then go there and play, interact with the animations, maybe even 
+	  edit and save a custom version of a game.</p>
+      
+      <ul>
+         <li><a onclick="scrollPage('fullscreenview');">favoriten</a> von mir</li>
+         <li>the <a onclick="scrollPage('thegames');">games</a> </li>
+         <li><a onclick="scrollPage('editor');">editing</a></li>
+         <li>state <a onclick="scrollPage('capture');">capture</a></li>
+      </ul>
+      
+      <p>(Click an image to load the YouTube player. Then, click again to play.)</p>      
+      
+      <p>This first video looks at a few of the demos and how to run their 
+      variations via the links in the "plus" row. QuietGuy plays
+      Puck Popper and Jello Madness.</p>
+      
+      <p>timetocode.org is the offspring of the ideas and code on the <a href="https://pet.timetocode.org" target="_blank">Python page</a>. 
+      If you've come from there you may want to stay. 
+      </p>
+	  <p>The web browser has a rich development environment for
+	  <a href="index.html?codeLinks" target="_blank" title="links to code files">
+	  JavaScript</a>, all free. The HTML5 canvas offers beautiful rendering.  
+      The WebRTC communication protocol supports multiplayer networking. Box2dWeb animates here, 
+	  no installations or plugins needed.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="sectionbreak" colspan="2"><a name="fullscreenview"></a>
+      <strong>favoriten</strong>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      
+      <p style="margin-top: -1px;">The videos on this page are best viewed full screen and at a quality setting of 1080p60. 
+      Note the <i class="material-icons" style="font-size:30px; position:relative; top:9px; left:0px; margin: 0px -3px;">fullscreen</i> 
+      full-screen icon, bottom right of each video, as it is playing. The esc key will pop you back to this page view.</p>
+      
+      <p style="margin-top: -7px;">This first group of unrelated videos (favorites) were recorded with use of the
+      <i class="material-icons" style="font-size:24px; position:relative; top:5px; left:0px; margin: 0px 2px;">aspect_ratio</i>
+      full-screen button as seen in the right panel on the 
+      <a href="index.html" target="_blank" title="Springs &amp; Pucks">S&amp;P</a> page.
+      This enlarges the canvas to match the view port of the monitor (crisp 1:1 rendering) and provides more space to interact with the animations.
+      </p>
+     
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="_lUszvXIwGQ">
+         <img class="frameCapture" src="screenshots/color-tail.png" width="550" height="auto">
+      </div>
+      
+      <p><strong class="title_2">Moving the Source</strong></p>
+      
+      <p>A puck is emitting expanding circles (like sound). Each circle is incrementally tagged with a color from the visible
+      spectrum, yielding the appearance of a rainbow tail behind the moving 
+      puck. During the recording, the puck diameter is 
+      adjusted (up and down arrow keys).</p>
+      
+      <p>(low-compression version:
+	  <a href="https://vimeo.com/402738898" target="_blank" title="sound field">
+	  Vimeo</a>)</p>
+   </td>
+   </tr>
+   
+   <tr id="countpi">
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="202O9hOFeuQ">
+         <img class="frameCapture" src="screenshots/pi-calcs.png" width="550" height="auto">
+      </div>
+   
+      <p><strong class="title_2">Counting to Pi</strong></p>
+      
+      <p>A collision-counting method for calculating the digits of pi, is described in <a href="https://www.maths.tcd.ie/~lebed/Galperin.%20Playing%20pool%20with%20pi.pdf" target="_blank">Galperin's paper</a> 
+      and also a 3Blue1Brown <a href="https://www.youtube.com/watch?v=jsYwFizhncE" target="_blank">video</a>.</p>
+      <p>The video here presents calculations of this kind yielding 1, 2, 3, and 5 digits of pi. 
+      The 2D pucks provide a good visual representation of the 100,000,000 mass ratio in the 5-digit case. 
+      Try this interactively by running 
+	  <a href="index.html?1c" target="_blank" title="2 digits of Pi">1c</a>, 
+	  <a href="index.html?1d" target="_blank" title="3 digits of Pi">1d</a>, and 
+	  <a href="index.html?1e" target="_blank" title="5 digits of Pi">1e</a> on 
+	  the <a href="index.html" target="_blank" title="Springs &amp; Pucks">S&amp;P</a> page.</p>
+      <p>The first two cases use the Box2D engine. Higher number of
+      digits require a small specialized engine that can be seen as the PiEngine prototype 
+      in the constructorsAndPrototypes.js <a href="constructorsAndPrototypes.js.html" target="_blank">module</a>.</p>
+   </td>
+   </tr>		
+   
+   <tr id="">
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="FFFQTaVRVa0">
+         <img class="frameCapture" src="screenshots/no-erase.png" width="550" height="auto">
+      </div>
+   
+      <p><strong class="title_2">Please, don't erase...</strong></p>
+       
+      <p>The <a href="https://www.timetocode.org/?2e" target="_blank">2e</a> and <a href="https://www.timetocode.org/?4d" target="_blank">4d</a> demos 
+      are run while inhibiting the canvas clearing (erasing) that happens at the beginning of each frame. Simultaneously press the "alt" and "p" keys to try it.
+      For the 2e case, go full-canvas, shrink the puck all the way down (arrow keys), give it a good hard fling, then alt-p.
+      </p>
+   </td>
+   </tr>		
+   
+   <tr id="leadingangle">
+   <td class="indent" colspan="2">
+      
+      <div class="video-container" data-videoID="7Wq5ndoG-Pk">
+         <img class="frameCapture" src="screenshots/leading-angle-sideways.png" width="550" height="auto">
+      </div>
+   
+      <p><strong class="title_2">Leading the target</strong></p>
+      
+      <!--
+      ::: Some snarky writing that got demoted to comments ::: 
+      
+      <p>The next section on games enlists some bad guys, computer drones 
+      that travel along a path, searching for targets, and mercilessly 
+      pummeling them with projectiles. Playing against these adversaries 
+      leaves you with the eerie sense of something anticipating your moves, 
+      expecting you to continue on course and walk into the trouble they send 
+      your way. It's like riding on a clay pigeon as expert sportsmen aim 
+      their shotguns ahead of your position, leading, accounting for the 
+      movement that transpires after the shot, before the pellets reach the 
+      target.</p> 
+
+      <p>Is there any hope against such heartless skill, such guile, such 
+      relentless focus? Well, no actually, zero hope, "zip, zilch, 
+      nada." After a year of hosting Puck Popper, it appears that casual 
+      attempts at the game don't go well: toasted, fried, popped, worse than 
+      zero hope.</p> 
+         
+      <p>But I'm here, finally, to offer you a little help. You've tried 
+      wild-eyed aggression (fun, but how did that go?). Yes, a glimmer of hope 
+      will come in the form of insightful defensive maneuvers that set the 
+      stage for a successful offense. This video provides you with the 
+      technical insight, the mathematical savvy, the chutzpah, to take down 
+      these bad boys in a blazing and decisive scorched-earth victory. 
+      Generally, only released to those with the need-to-know and ultra 
+      top-secret security clearances, this info is presented here, to you, yes 
+      you.</p> 
+      -->
+      
+      <p>This video starts with a <a href="images/leading-angle.png" 
+      target="_blank">diagram</a> showing the relationship between the bullet 
+	  and target velocities in Puck Popper (see next section). This is in the 
+	  reference frame of the shooter (riding along) looking at the target. The 
+	  idea is that the bullet will hit the target if the gun is angled such that 
+	  its perpendicular component of velocity (perpendicular to the line between 
+	  bullet and target) matches that of the target. This puts the bullet on the 
+	  needed collision course (left-right movement matching the target). The 
+	  other requirement is that the parallel component of velocity is such that, 
+	  in time, the bullet will overtake the target and collide.</p> 
+      
+      <p>The video records a session of the 
+	  <a href="index.html?8e" target="_blank">8e version</a> of the game. This version 
+	  has settings that yield a nearly ideal environment for this aim-to-lead 
+	  algorithm: (a) there are no drag 
+      forces associated with puck movement, (b) all collisions are elastic. Note that the settings that make this good for the aiming algorithm, make 
+      it harder to play. <a href="index.html?8c" target="_blank">8c</a> 
+      is easier.<p>This algorithm is implemented in a very small amount of code. Take a look at the AimToLead 
+      method in the Client prototype in the  
+      constructorsAndPrototypes.js <a href="constructorsAndPrototypes.js.html" target="_blank">module</a>.</p>
+	  <p>These calculations can be applied in estimating how to
+      aim a shotgun, to lead, when skeet shooting. Assuming a muzzle velocity of 
+      1200 fps, clay pigeon speed of 50 mph (73 fps), a shotgun length of 
+      48 inches, and that your eye is about 3/4 of that length from the bead, 
+      you can calculate how far the bead needs to be from the line of site to the target: 36 * (73/1200) = 2 inches.</p>
+      
+   </td>
+   </tr>		
+   
+   
+   <tr>
+   <td class="sectionbreak" colspan="2"><a name="thegames"></a><strong>the games</strong></td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <p style="text-align: left"> (game-related <a href="https://www.youtube.com/watch?v=GNULhG6uVP0&amp;list=PLTMmJ3C3RoL_RMozovTAH_gwhP4aF8YJn" target="_blank">playlist</a>)</p>
+      
+      <p style="text-align: left">
+      These games were originally intended to be fertile ground, 
+      a coding environment for students in a college <a href="https://pet.timetocode.org" target="_blank">J-term course</a> on Python. 
+      Especially the Puck Popper game was useful for
+      parsing out small assignments that led to a completed game, all within the <a href="https://pet.timetocode.org/pe_tutorial_revhistory.html" target="_blank">scope</a> of a few weeks of class time... 
+      So, of course, they are kind of cute and campy, and I think, 
+      fun and playable. But that's for you to find out. They are short time-based games, that work well in small groups, couch co-op. No installs, no cost, cell phones are useful. Note the
+      friendly-fire option under multiplayer; unselect it to team up against the drones.
+      </p>      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+   
+      <p><strong class="title_2">Puck Popper</strong></p>
+      
+      <p>The Puck Popper game enlists computer drones that 
+      travel along a path, searching for targets, anticipating their motion and 
+      then shooting at them. The video in the previous section shows a drone puck working
+      to clear out a set of targets. It sweeps the field, locks in, then
+      aims the gun tube so as to lead the target, accounting for the movement
+      that will happen after the shot.</p>   
+         
+      <p>Here are some tips that may help when playing against the drones and
+      their aim-to-lead algorithm:</p>
+         <ul>
+         <li>Move out of range of the sweeping rays. That's how the drones sees you.</li>
+         <li>If they lock onto you, keep moving. Acceleration is good. Use your 
+         jet, zig and zag. Evasive flying is fun with the <a onclick="scrollPage('network-connection');">virtual game 
+         pad</a> (cell-phone controller).</li>
+         <li>Back away. You can out run perfectly-aimed bullets in many cases.</li>
+         <li>Bounce off a wall to confuse the drones.</li>
+         <li>Use your shield (spacebar).</li>
+         <li>Shoot at them. You're bullet stream will deflect the incoming.</li>
+         <li>The drones' algorithm checks if there are drag forces on your puck, and 
+         in those cases, it will split the difference between line-of-sight and 
+         perfect-lead angle. So, if you can maintain speed (counter the drag 
+         force with your jet), the drone will generally miss behind you.</li>
+         <li>If you're using the virtual game pad (see videos below), try the 
+         center touch point on the scope. That will instantly freeze your position 
+         and possibly avoid leading shots. But don't stay in one 
+         spot too long...</li>
+         <li>Try the "f" key (almost cheating).</li>
+         <li>Adjust the drag of your client puck. Grab it with your mouse, then 
+         use the "&lt;" or "&gt;" keys to lower or raise the drag. The higher the 
+         drag, the easier it is to drive, and the harder for the drones to 
+         shoot you.</li>
+      </ul>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="ZAeRF1GOurA">
+         <img class="frameCapture" src="screenshots/tt-keyboard.png" width="550" height="auto">
+      </div>
+   
+      <p><strong class="title_2">Driving with the keyboard</strong></p>
+      
+      <p>This first video, an epic 3 minutes, describes the keyboard interface. 
+      The Google voice brings some attitude but does a nice job explaining the puck features. A keyboard is a good way to just get started and try it.</p><p>
+      You can bring up the 7a version of the game in a separate tab with this <a href="https://www.timetocode.org/?7" target="_blank">link</a>.
+      You'll see a written description and help in the left panel, similar to what's in this video.</p>
+   </td>
+   </tr>
+   
+   <tr id="network-connection">
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="XM87n9YFWXg">
+         <img class="frameCapture" src="screenshots/network-connection.png" width="550" height="auto">
+      </div>
+   
+      <p><strong class="title_2">Network connections</strong></p>
+
+      <p>This video shows how to connect a cell phone (or laptop) to a second device (usually a desktop) that is serving as the game host. The mobile client
+      page is demonstrated here, but the same approach can be used with the desktop client page on a laptop.</p><p>
+      Synchronized cell phone (the virtual game pad) and desktop screen captures 
+	  are shown superimposed in this and the next two videos. This gives you a 
+	  sense of the two devices: the cell-phone game pad in your hands, with your 
+	  eyes looking out at the desktop screen.
+      Cell phone touch points are shown as white dots.</p>
+      
+      <p>(Network connections are not needed when a solo-player is using a keyboard.)</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="FBjb9hbaRa4">
+         <img class="frameCapture" src="screenshots/two-thumbs-cell.png" width="550" height="auto">
+      </div>
+   
+      <p><strong class="title_2">Virtual game pad</strong></p>
+
+      <p>The layout of controls on the virtual game pad (aka Two Thumbs) interface are explained.
+      The game pad offers somewhat more fluid game play and generally, after a little practice, lower time scores in Puck Popper.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="PRNdIAfqoMQ">
+         <img class="frameCapture" src="screenshots/virus-drone.png" width="550" height="auto">
+      </div>
+      
+      <p><strong class="title_2">Taking aim at the Coronavirus</strong></p>
+
+      <p>Want to squish one of those little virus guys? Here's a Puck Popper game played with the drone puck in a Coronavirus costume.
+      Try playing Puck Popper with the CV option selected.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+   
+      <p><strong class="title_2">Jello Madness</strong></p>
+      
+      <p>To stop the madness, detangle. Straighten out the block of jello (no 
+	  pucks touching each other) and the tangle timer stops. Pass the jello to 
+	  your opponent. Lowest time wins.</p>   
+         
+      <p>Here are some tips that may help:</p>
+         <ul>
+         <li>Spin the jello, grab and fling, using the right mouse button. 
+		 Sometimes the whole thing will straighten out in one good spin.</li>
+			 <li>Use the right-mouse button (to pull on a puck) quickly followed 
+			 by a click of the &quot;f&quot; key.</li>
+			 <li>Use the editor for more creative manipulations (see 6a tricks 
+			 below). Depending on house rules, you may want to prohibit puck 
+			 deletions.</li>
+      </ul>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="j6QSGN565ZQ">
+         <img class="frameCapture" src="screenshots/harp-cropped.png" width="550" height="auto">
+      </div>
+      
+      <p><strong class="title_2">Marx brothers straighten out new jello</strong></p>
+
+      <p>This shows the rhythm of two players taking turns and playing Jello Madness. Also shown here
+      is the use of the editor and capture features to create a custom version and save it for later use.
+      </p>
+      <p>
+      While this is ideally played from one computer, this turn-taking approach can be adapted for use under social-distancing guidelines. All you
+      need to do is share the capture (copy and paste it into an email), then load that capture (paste it into the capture box) 
+      and run it (click the #6 button) on each computer. Your scores
+      will be reported and ranked by the time it took you to straighten out the jello.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="xiUtsBrxLIs">
+         <img class="frameCapture" src="screenshots/jello-stretch.png" width="550" height="auto">
+      </div>
+      
+      <p><strong class="title_2">Tricks for beating 6a</strong></p>
+
+      <p>
+      Editor can be handy for dealing with stubborn jello. This video shows ways to enlist it
+      in separating those pucks. Any scheme that puts the light of day between the pucks, counts, a win.
+      </p>
+
+   </td>
+   </tr>
+   
+   
+   <tr>
+      <td class="sectionbreak" colspan="2"><a name="editor"></a><strong>editor</strong></td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <p>In that it's probably more helpful to see the editor in use than to 
+	  read about it, here are a few video examples. You can find 
+	  descriptions of features on the 
+	  <a href="index.html" target="_blank" title="Springs &amp; Pucks">S&amp;P</a> 
+	  page (see "editing" 
+	  link in the outline). Here's a short summary of the keys used in 
+	  editing: </p>
+	  <ul>
+		  <li>"e" key enables (toggles) edits of walls and pins and makes hidden elements 
+		  (like navigation springs) visible</li>
+		  <li>arrow keys, - +, [ ], and < > increase or decrease various object properties </li>
+		  <li>ctrl-x deletes a selected object or group</li>
+		  <li>ctrl-v, ctrl-c, ctrl-s are used in replication</li>
+		  <li>"alt" and "shift" keys are used with the mouse in selecting groups</li>
+		  <li>"t" key (or shift-t) changes the rotation rate of selected objects</li>
+	  </ul>
+      <p>Each video has a semi-transparent keyboard overlay. The keys listed 
+	  here are highlighted green in the overlay.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <div class="video-container" data-videoID="USE8K5WgY60">
+         <img class="frameCapture" src="screenshots/editing-colormixer.png" width="550" height="auto">
+      </div>
+   
+      <p><strong class="title_2">Restoring order</strong></p>
+
+      <p>First step: the "e" key is used to enable editing (copying) of the anchor pins behind the each three-puck system. 
+      The "alt" key is held down while dragging the mouse to select a group. Then paste (replicate) the group at the position of the cursor using control-v.
+      The "g" key is used to toggle the gravity on, then off. The right mouse button (strongest cursor spring) is used to get a good grip on one of the pucks and drag it around for
+      mixing. Try this yourself and leave the wall/pin editor on to see the work that the springs do in restoring order to the multi-group system.</p>
+   </td>
+   </tr>
+   
+   
+   <tr>
+      <td class="sectionbreak" colspan="2"><a name="capture"></a><strong>state capture</strong></td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <p>The capture feature can be used to save work that you've created with the editor and then replay it. There are examples of this in the topics above
+      such as the new jello used by the Marx brothers.</p>
+      
+      <p>However, there are object attributes that can not be modified through
+      the editor. Many of these are accessible through the capture and can be changed there as shown in the following videos.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <div class="video-container" data-videoID="u1XXfPifKYY">
+         <img class="frameCapture" src="screenshots/edit-velocities.png" width="550" height="auto">
+      </div>
+   
+      <p><strong class="title_2">Adding angular momentum</strong></p>
+
+      <p>The goal: demonstrate conservation of angular momentum by changing the spring lengths of the tri-puck object in demo 5a. (similar to how 
+      figure skaters increase their rotation rate by pulling in their arms and legs during a spin) 
+      The group must be centered so the longer springs don't cause the pucks to touch the walls.</p>
+      
+      <p>The method (a dash of physics): Do this by editing a capture of the centered system. Change the y component of velocity of two pucks such that the net change
+      of their y components of momentum is zero. This causes rotation without causing movement of the system's center.</p>
+      
+      <p>Alternative method (without the capture edit or physics): use multi-select to copy the rotating trio, then paste to a centered cursor position
+      with control-v, then delete the original trio (for the reader to try, not in the video).</p>
+   </td>
+   </tr>   
+   
+   <tr>
+   <td class="indent">
+      <div class="video-container" data-videoID="4uB8iqzTPBM">
+         <img class="frameCapture" src="screenshots/the-end.png" width="550" height="auto">
+      </div>
+   
+      <p><strong class="title_2">auf Wiedersehen...</strong></p>
+
+      <p>This shows how to edit the tail and puck attributes in the 2e capture to produce a non-expanding tail.</p>
+      
+   </td>
+   </tr>   
+   
+   <tr>
+   <td class="indent">
+      <p>
+      .<br/>      
+      .<br/>
+      .<br/>      
+      </p>
+   </td>
+   </tr>
+   
+   <!--    -->
+
+	</table>
+	<p><a href="index.html">(back to Springs & Pucks)</a></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+/* For the cookie dialog */
+
+h2.dialog {
+   margin: 3px 0px;
+}
+button.dialog {
+   color: white;
+   background-color: black;
+   padding: 6px 10px;
+   
+   border-width: 0px;
+   border-color: lightgray;
+   border-radius: 0px;
+   
+   margin-left: 2px;
+   margin-right: 2px;
+}
+button.dialog:hover {
+   color: black;
+   background-color: lightgreen;
+}

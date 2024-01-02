@@ -1,0 +1,128 @@
+﻿/* used by videos.html */
+body {
+	font-family: Helvetica;
+	font-size: 100%;
+   background-color: #d1cdc7; /* #d1cdc7 #92a191 */
+}
+
+div.pageblock {   
+	min-width: 800px;
+	max-width: 1100px;
+	margin: 0 auto;
+   background-color: white;
+   
+   padding: 5px 20px 20px;
+   border-radius: 10px;   
+}
+
+
+a {
+	color: black;
+	text-decoration: underline;
+}
+a:hover {
+	color: white;
+	text-decoration: none;
+	background: black;
+}
+/* All the links that don't have href attributes, e.g. anchors that scroll the page */
+a:not([href]) {
+   cursor: pointer;
+}
+
+
+h1.maintitle {
+	font-size: 175%;
+	color: #000000; /* slightly less black: #222222 */
+   /*       top R/L bottom  */
+   padding: 7px 0px  9px;
+   margin-bottom: 0px;
+}
+
+
+strong {
+	color: black;
+}
+strong.title_2 {
+	font-size: 130%;
+   color: #000000; /* slightly less black: #222222 */
+}
+strong.sectionbreak {
+   color: white;
+}
+span.sectionbreak {
+   color: black;
+   font-size: 105%;
+   font-weight: bold;
+}
+
+
+/*  The following div and span work together to float the return links to the right of the main title.  */
+div.title_line {
+   position:relative;
+   padding-bottom: 0px;
+}
+span.float_right {
+   position:absolute; 
+   top:  25%; /* vertical adjustment */
+   right: 0%;
+}
+
+
+table {
+}
+td {
+	vertical-align: top;
+	text-align: left;
+}
+td.sectionbreak {
+   border-radius: 5px;
+   padding-left: 4px;
+	/* 
+   Note that the text color is established in span.sectionbreak above or here:
+   color: white;
+   
+   This background image varies from a dark version of the page background
+   to the actual page background color. Text color should be white for this to work well.
+   background-image: linear-gradient(to right, #666461, #d1cdc7);
+   */
+	background-color: #e8e3dc; /* #e8e3dc #d1cdc7 */
+}
+td.minorsection {
+	color: black;
+	background-color: white;
+}
+td.indent {
+   padding-left: 15px;
+}
+
+
+/* For YouTube load-on-demand. See youTubeLoadOnDemand.js */
+div.video-container {
+   margin: 15px;
+   border: 0px;
+   float: right;  
+   cursor: pointer; 
+   position: relative; 
+}      
+img.frameCapture {
+   top:0; left:0; 
+   margin: 0px; 
+   border: 0px; 
+}
+img.playButton {
+   position: absolute; 
+   top:50%; left:50%; 
+   width:15%; height:auto; 
+   transform: translate(-50%,-50%); 
+   opacity: 0.7;
+}
+
+
+
+
+
+
+
+
+

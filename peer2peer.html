@@ -1,0 +1,234 @@
+﻿<!doctype html>
+
+<html lang="en" id="helpScroller">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="discussion of webrtc for timetocode.org">
+
+   <title>S&P P2P</title>
+
+   <link href="ttc-disc.css" rel="stylesheet" type="text/css">
+   <!-- The navigation menu -->
+   <link href="sitemap.css" rel="stylesheet" type="text/css">   
+
+   <style type="text/css">
+   .auto-style2 {
+      color: #0000FF;
+   }
+   </style>
+
+   <!-- The navigation menu -->
+   <script src="jquery-3.6.1.min.js?v=3"></script>
+   <link href="sitemap.css?v=10" rel="stylesheet" type="text/css">
+   
+   <script src="utilities.js?v=7"></script>
+   <script src="pageStuff.js?v=7"></script>
+
+   <script>
+      // After the page loads (and canvas element is defined)....
+      $(document).ready( function() { 
+         pS.init({"pageDesc":"SP: P2P"});
+      });
+   </script> 
+
+</head>
+
+<body>
+
+<!-- The navigation menu -->
+<div id="navDiv"></div>
+<span class="menuicon" id="opener" style="font-size:19px; cursor:pointer;">&#9776;</span>
+
+<div class="pageblock">
+	<div class="title_line">
+      <h1>Multiplayer: Peer to Peer (P2P)</h1>
+      <span class="float_right">(<a href="javascript:history.go(-1)">return</a>)&nbsp;&nbsp;(<a href="index.html">springs & pucks</a>)</span>
+   </div>
+   <div style="float: right; margin: 0px 0px 30px 20px;">
+      <div style="margin: 0px 0px 30px 0px;">
+      <img alt="data flow" src="images/peer-to-peer.png"/>
+      <br/><strong>Figure 1.</strong> Socket.io connections via a local Node.js server
+      </div>
+      <br/>
+      <div style="margin: 0px 0px 0px 0px;">
+      <img alt="data flow" src="images/peer-to-peer-3b.png"/>
+      <br/><strong>Figure 2.</strong> Direct P2P connections established with a remote
+		  <br>Node.js server</div>
+   </div>
+   <p>
+   A P2P layer has been added to the multiplayer functionality for the demos. The socket.io connectivity described on the 
+   original <a href="multiplayer.html">multiplayer page</a> is still in place 
+   and facilitates P2P and also acts as a backup if 
+   P2P connections can't be established.</p>
+	<p>
+    P2P offers only a minor performance 
+	advantage when compared to the local Node.js server configuration 
+	represented in Figure 1. The time consumed in sending mouse and keyboard 
+	data through a middle-man is small when all computers 
+	are on the same local network.</p>
+	<p>
+    A key drawback with this configuration is the required installation of a Node.js server 
+	onto the host computer. It's a simple install but any install can be a 
+	barrier to the recruiting process for a multiplayer game.</p>
+	<p>
+    Prior to now, the <a href="index.html">demo</a> page, in multiplayer mode, 
+	ran with the default Node.js server being a remote one, at Heroku (like 
+	Figure 1, but with the yellow circle far outside the local network). No 
+	install needed. But the time-of-flight lag, back and forth to Heroku, is 
+	quite noticeable especially in mouse movements projected to the host. This 
+	lag (latency) is a key drawback of the non-local node server. Even more so, this lag 
+	is a hindrance to any kind of 
+	synchronized play between users on different networks.</p>
+	<p>An alternative to synchronizing two physics engines is to stream (P2P) 
+	the rendered result from the host's canvas out to a video element on the 
+	client page. Client mouse movements (over the video element) and keyboard 
+	events are sent to the host, interacting with the host physics engine. Using 
+	only one engine, two users can play in different physical rooms, networks, 
+	states, countries...</p>
+	<p>As the educational (classroom) applications of this site are considered, 
+	the advantages of P2P connections become clear:</p>
+	<ul>
+		<li>No installation</li>
+		<li>Snappy lag-free mouse and keyboard performance using a WebRTC 
+		datachannel</li>
+		<li>Video streaming from the host's canvas out to the clients</li>
+		<li>The potential for synchronized play with remote clients</li>
+	</ul>
+	<p>And so began a time of wandering through the online documentation for WebRTC, a P2P 
+	protocol that is native now in most browsers.</p>
+   <h2>WebRTC</h2>
+	<p>
+    The diagram in Figure 2 shows the current default configuration for multiplayer. 
+	The thin lines represent the socket.io connections that continue to support 
+	the chat feature and now the signaling process for the WebRTC 
+	connections.</p>
+	<p>
+    Signaling is the process by which the clients and host exchange their 
+	network configuration data needed for NAT traversal, etc. It depends on 
+	having a server that is accessible from all computers involved. That means a public server, like the default Heroku server used here, or a 
+	computer inside your local network.</p>
+	<p>
+    Figure 2 shows an example where host and clients are on the same local 
+	network. This reflects the same-physical-room setup that has been discussed 
+	here; everyone looking at the same display, maybe a projection. Video-stream 
+	functionality has been recently added (using the P2P connection of WebRTC). 
+	This allows players to be in different rooms, states, countries. </p>
+	<p>
+    The Node server is shown at a distant location in Figure 2. Since its role 
+	now is mainly to establish the P2P connection, its location can be anywhere 
+	without reducing performance.</p>
+	<p>
+    The Heroku server has Node.js running on a free account. By default, the 
+	host and client pages use this distant Heroku server for signaling 
+	activities. If the default server is used, which is done by leaving the 
+	"server" field set to timetocode.herokuapp.com, 
+	there is no installation task needed to try the P2P and multiplayer features here. If your 
+	network environment/security blocks the WebRTC signaling process, you can 
+	try installing the node-server code on a local server following the 
+	instructions <a href="multiplayer.html">here</a>.</p>
+	<p>
+    The following ping-test result is along the P2P connection (local WiFi) to 
+	the u6 client. Fast! Even a little faster than the result from a local node 
+	server.</p>
+	<img alt="ping" src="images/ping4.png" />
+	<p>A few useful things to know:</p>
+	<ul>
+		<li>The letters, "P2P", are displayed on the client's canvas (the 
+		colored horizontal bar under the client's "Chat" button) when the 
+		WebRTC connection succeeds. The color of the bar indicates the color of 
+		the client's cursor and jet tube.</li>
+		<li>The P2P connection can be toggled on/off by using shift-p on the 
+		client. When P2P is 
+		off, the socket.io connection, via the Node.js server, is used. You can 
+		get a good sense for the lag reduction by making a circular mouse 
+		pattern on a client, both with P2P on and off, and watching the rendered 
+		mouse movements on the host.</li>
+		<li>If you're looking through the code here it's helpful to remember 
+		that the host side of the each WebRTC connection is stored as an 
+		attribute of the corresponding Client object; one connection for each 
+		client. On the client side, there is only one WebRTC connection, i.e. a 
+		connection to the host (no client-client connectivity).</li>
+	</ul>
+	<p>All the network magic is contained 
+	in three files:</p>
+	<ul>
+		<li>Two files for the Node.js server: <a href="package.json.html">package.json</a> and
+		<a href="server.js.html">server.js</a>, and </li>
+		<li>One file used by the host and client pages:
+		<a href="hostAndClient.js.html">hostAndClient.js</a>.</li>
+	</ul>
+    <p>An outline of the P2P connection process as commented in the code 
+	(hostAndClient.js):</p>
+<pre>
+   Host: 
+      starting with the "Create" button, runs "connect_and_listen" to establish socket.io connection with server. 
+      io.connect and init_socket_listeners are run
+   Server: 
+      on connection, listeners are initialized on the server for that connection
+      server automatically sends to "connect" listener on host
+   Host: 
+      from "connect" listener, host sends to "roomJoin" listener on server with room name as indicated on the host's page
+   Server: 
+      from "roomJoin" listener, server sets up the room, adds the host to the room as host, 
+      and sends to "room-joining-message" listener on host: (1) you joined room, (2) you are host
+   Client (and Server): 
+      Starting with the "Connect" button, the client makes a similar (like the host's above) exchange with the server to establish 
+      the socket.io connection and join the room as a member (not as host).
+      The server sends to the "your name is" listener on the client where the rtc object is instantiated and openDataChannel is run.
+      openDataChannel( false, clientName); // client run this as NOT the initiator 
+         the guts of the WebRTC is instantiated ----> new RTCPeerConnection
+         onicecandidate event handler established which uses the "signaling message" listeners
+         ondatachannel handler is defined (responds to data channel initiation by the host)
+   Server: 
+      At the end of the client connection process an additional step is done in the server's "roomJoin" listener. 
+      The server sends the new client name to the "new-game-client" listener on the host. 
+   Host: 
+      "new-game-client" listener instantiates a new Client object where the host-side of each P2P connection, for each client, exists:
+         createNetworkClient(...)
+      Then these two calls start the P2P connection process:
+         openDataChannel( true, clientName); // host opens as the initiator
+            the guts of the WebRTC is instantiated ----> new RTCPeerConnection
+            onicecandidate event handler established
+               handler will send ICE info to the server's "signaling message" listener, then relayed to the client's listener.
+            createDataChannel: starts the datachannel on the host; client responds with its ondatachannel handler
+         createOffer
+            an offer is forwarded to the client using the "signaling message" listeners
+   Client:
+      "signaling message" listener
+         handleOffer
+            cl.rtc.pc.setRemoteDescription
+            cl.rtc.pc.createAnswer
+            cl.rtc.pc.setLocalDescription( answer);
+            an answer is sent to the Host via "signaling message" listeners
+   Host:
+      "signaling message" listener
+         handleAnswer
+            cl.rtc.pc.setRemoteDescription( answer)
+</pre>
+    <p>Resources that were helpful:</p>
+	<ul>
+		<li>WebRTC
+		<a href="http://w3c.github.io/webrtc-pc/#peer-to-peer-data-example" target="_blank">
+		datachannel</a> and
+		<a href="http://w3c.github.io/webrtc-pc/#simple-peer-to-peer-example" target="_blank">simple-peer-to-peer</a> examples at W3C</li>
+		<li><a href="https://www.html5rocks.com/en/tutorials/webrtc/basics/">
+		Getting Started with WebRTC</a></li>
+		<li>
+		<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API">
+		WebRTC API</a></li>
+		<li>For diagnostic tools, enter these <span class="auto-style2">strings</span> 
+		into the URL of a separate tab in your browser:
+		<ul>
+			<li>Chrome: <span class="auto-style2">chrome://webrtc-internals</span></li>
+			<li>Firefox:&nbsp; <span class="auto-style2">about:webrtc</span></li>
+		</ul>
+		</li>
+		<li>After getting connections working in both Chrome and Firefox, the adapter-latest.js file 
+		is used (get it
+		<a href="https://github.com/webrtc/adapter" target="_blank">here</a>) via a script tag. 
+		This resolves implementation conflicts in other browsers.</li>
+	</ul>
+</div>
+</body>
+</html>

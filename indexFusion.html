@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<!-- test page for working with Google fusion tables and Google sheets -->
+
+<head>
+<title>FusionTables test page</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+
+<script src="https://apis.google.com/js/api.js"></script>
+
+<script>
+
+
+//////////////////////////////////////////////////////////////////
+// Ajax stuff...
+//////////////////////////////////////////////////////////////////
+
+function ajaxGetTest() {
+   var tableID = "1gAZIcVkJJ26BSu8pehqumfY1-2vPDnQCOh-_2Oho";
+   var fusionTablesAPIkey = "AIzaSyBinhHlz-NOQbo0RCNSF5sZTbKqKsJc7JQ";
+   
+   //var urlString1 = "https://www.googleapis.com/fusiontables/v2/tables/1gAZIcVkJJ26BSu8pehqumfY1-2vPDnQCOh-_2Oho/columns?key=AIzaSyBinhHlz-NOQbo0RCNSF5sZTbKqKsJc7JQ";
+   //var urlString = "https://www.googleapis.com/fusiontables/v2/tables/" + tableID + "/columns?key=" + fusionTablesAPIkey;
+
+   var urlString = "https://www.googleapis.com/fusiontables/v2/query";
+   var sqlString = "sql=SELECT ROWID, nickname, highscore, location, date FROM " + tableID;
+   var keyString = "key=" + fusionTablesAPIkey;
+
+   var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         console.log(this.responseText);
+      }
+   };
+   
+   //xhttp.open("GET", urlString1, true);
+   xhttp.open("GET", urlString + "?" + sqlString + "&" + keyString, true);
+   xhttp.send();
+}
+
+// This one does not have enough authority to run correctly.
+function ajaxPostTest() {
+   var tableID = "1gAZIcVkJJ26BSu8pehqumfY1-2vPDnQCOh-_2Oho";
+   var fusionTablesAPIkey = "AIzaSyBinhHlz-NOQbo0RCNSF5sZTbKqKsJc7JQ";
+
+   var sqlString = "sql=INSERT INTO " + tableID + " (nickname, highscore, location, date) VALUES ('Jimbo', 250, 'Saint Peter', '5:04 PM Mon April 16, 2018')";
+   var keyString = "key=" + fusionTablesAPIkey;
+
+   var urlString = "https://www.googleapis.com/fusiontables/v2/query";
+
+   var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         console.log(this.responseText);
+      }
+   };
+   xhttp.open("POST", urlString, true);
+   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+   var finalString = sqlString + "&" + keyString;
+   xhttp.send( finalString);
+}
+
+//////////////////////////////////////////////////////////////////
+// Unauthorized query with JS library
+//////////////////////////////////////////////////////////////////
+
+function start() {
+   // Initializes the client with the API key and the Translate API.
+   gapi.client.init({
+      'apiKey': 'AIzaSyBinhHlz-NOQbo0RCNSF5sZTbKqKsJc7JQ',
+      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/fusiontables/v2/rest'],
+   }).then(function() {
+      // Executes an API request, and returns a Promise.
+      // The method name `language.translations.list` comes from the API discovery.
+      return gapi.client.request({
+         'path': 'https://www.googleapis.com/fusiontables/v2/query',
+         'method': 'GET',
+         'params': {'sql':'SELECT ROWID, nickname, highscore, location, date FROM 1gAZIcVkJJ26BSu8pehqumfY1-2vPDnQCOh-_2Oho'}
+      });
+   }).then(function( response) {
+      console.log(JSON.stringify( response.result));
+   }, function(reason) {
+      console.log('Error: ' + reason.result.error.message);
+   });
+};
+function jsClientTest() {
+   // Loads the JavaScript client library and invokes 'start' afterward.
+   gapi.load('client', start);
+}
+   
+//////////////////////////////////////////////////////////////////
+// Authorized query with JS library
+//////////////////////////////////////////////////////////////////
+/*
+This section requires the running from a public domain, not nuc. Must publish this
+out to timetocode.org and run it from there.
+
+Can NOT do an anonymous write with this approach. Must use my account credentials (login
+as me) or user must be invited.
+*/
+
+function loadJSforAuth() {
+   // Loads the client library and the auth2 library together for efficiency.
+   // Loading the auth2 library is optional here since `gapi.client.init` function will load
+   // it if not already loaded. Loading it upfront can save one network request.
+   gapi.load('client:auth2', initClient);
+}   
+
+function initClient() {
+   // Initialize the client with API key, and initialize OAuth with an
+   // OAuth 2.0 client ID and scopes (space delimited string) to request access.
+   gapi.client.init({
+      'apiKey': 'AIzaSyBinhHlz-NOQbo0RCNSF5sZTbKqKsJc7JQ',
+      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/fusiontables/v2/rest'],
+      'clientId': '405310264310-n7ubkl09db8n7mabq0mihu80pegeeqi0.apps.googleusercontent.com',
+      'scope': 'https://www.googleapis.com/auth/fusiontables'
+   }).then(function () {
+      // Listen for sign-in state changes and (maybe) run the API call.
+      gapi.auth2.getAuthInstance().isSignedIn.listen( updateSigninStatus);
+
+      // Handle (check), immediately, the initial sign-in state.
+      updateSigninStatus( gapi.auth2.getAuthInstance().isSignedIn.get());
+   });
+}
+
+function updateSigninStatus( isSignedIn) {
+   // When signin status changes, this function is called.
+   // If the signin status is changed to signedIn, we make an API call.
+   if (isSignedIn) {
+      console.log('looks like you have signed in.');
+      // Generally, useful to do something immediately.
+      //makeApiCall();
+   }
+}
+
+function makeApiCall() {
+   // Executes an API request, and returns a Promise.
+   // The method name `language.translations.list` comes from the API discovery.
+   console.log('inside makeApiCall');
+   
+   // "INSERT INTO 1gAZIcVkJJ26BSu8pehqumfY1-2vPDnQCOh-_2Oho (nickname, highscore, location, date) VALUES ('Jimbo', 250, 'Saint Peter', '5:04 PM Mon April 16, 2018')"
+   // 'SELECT ROWID, nickname, highscore, location, date FROM 1gAZIcVkJJ26BSu8pehqumfY1-2vPDnQCOh-_2Oho'
+   
+   gapi.client.request({
+      'path': 'https://www.googleapis.com/fusiontables/v2/query',
+      'method': 'POST',
+      'params': {'sql':"INSERT INTO 1gAZIcVkJJ26BSu8pehqumfY1-2vPDnQCOh-_2Oho (nickname, highscore, location, date) VALUES ('Jimbo', 250, 'Saint Peter', '5:04 PM Mon April 16, 2018')"}
+   }).then(function( response) {
+      console.log('from INSERT');
+      console.log(response.result);
+      console.log('------------------');
+      gapi.client.request({
+         'path': 'https://www.googleapis.com/fusiontables/v2/query',
+         'method': 'GET',
+         'params': {'sql':'SELECT ROWID, nickname, highscore, location, date FROM 1gAZIcVkJJ26BSu8pehqumfY1-2vPDnQCOh-_2Oho'}
+      }).then(function( response) {
+         console.log('from SELECT');
+         console.log(response.result.rows);
+      }, function(reason) {
+         console.log('Error: ' + reason.result.error.message);
+      });
+      
+   }, function(reason) {
+      console.log('Error: ' + reason.result.error.message);
+   });
+}
+
+function handleSignInClick(event) {
+   // Ideally the button should only show up after gapi.client.init finishes, so that this
+   // handler won't be called before OAuth is initialized.
+   console.log('inside handleSignInClick');
+   gapi.auth2.getAuthInstance().signIn();
+}
+
+function handleSignOutClick(event) {
+   console.log('inside handleSignOutClick');
+   gapi.auth2.getAuthInstance().signOut();
+}
+
+///////////////////////////////////////////////////////////////////////
+////  Using Google Spreadsheet, sending AJAX GET to sheet application
+///////////////////////////////////////////////////////////////////////
+
+/*
+CAN DO an anonymous write with this approach. Yeah!
+*/
+
+function spreadSheetAccess( mode) {
+
+   var sheetURL = 'https://script.google.com/macros/s/AKfycbz2DWA7VNas0M4ZwIADjPBSxF9SLqX64PxnwpF-bbM0xECDZrhS/exec';
+   var userScore = Math.floor(Math.random() * 100);
+   var userName = 'Doggy';
+   var gameVersion = '2.b';
+   
+   //Set up the AJAX request 
+   var xhttp = new XMLHttpRequest();
+   xhttp.open('GET', sheetURL + '?mode=' + mode + '&id=' + userName + '&score=' + userScore + '&gameVersion=' + gameVersion, true);
+   xhttp.send();
+   xhttp.onreadystatechange = function () {
+      //If we get a successful reply from our spreadsheet:
+      if (this.readyState == 4 && this.status == 200) {
+         var topTenJson = JSON.parse( this.responseText);
+         
+         if (topTenJson.result == 'report') {
+            console.log('You (' + topTenJson.userID + ') placed ' + topTenJson.userRank + ' of ' + topTenJson.scoreCount + ' with a score of ' + topTenJson.userScore);
+            for (var i = 0; i < topTenJson.users.length; i++) {
+               //convert the date to something friendly 
+               var recordDate = new Date(topTenJson.users[i].date);
+               var recordDateString = recordDate.getDate() + '/' + (recordDate.getMonth() + 1) + '/' + recordDate.getFullYear() + ' ' + recordDate.getHours() + ':' + recordDate.getMinutes();         
+            
+               console.log(recordDateString + ', ' + topTenJson.users[i].id + ', ' + topTenJson.users[i].score);
+            }         
+         } else {
+            console.log( topTenJson.result);
+         }
+         
+         /*
+         console.log(this.responseText);
+         console.log('===========================');
+         console.log(topTenJson);
+         console.log('===========================');       
+         */
+      }
+   }
+}
+   
+</script>
+
+
+</head>
+  
+<body bgcolor="#EFEFEF">
+
+<p>For all of these, output is written to the development console.</p>
+
+<button class="" onclick="ajaxGetTest();" id="b1" title="">ajax get test</button>
+<br/><br/>
+
+<p>This one does not have enough authority to run.</p>
+<button class="" onclick="ajaxPostTest();" id="b2" title="">ajax post test</button>
+<br/><br/><br/>
+
+<button class="" onclick="jsClientTest();" id="b3" title="">js client library test</button>
+<br/><br/>
+
+<p>Note: Must run the following group from timetocode.org, not local on the nuc.</p>
+<button class="" onclick="loadJSforAuth();" id="b4" title="">load auth client</button><br/>
+<button id="signin-button" onclick="handleSignInClick()">sign in</button><br/>
+<button id="api-button" onclick="makeApiCall()">make API call</button><br/>
+<button id="signout-button" onclick="handleSignOutClick()">sign out</button>
+<br/><br/><br/>
+
+<button class="" onclick="spreadSheetAccess('noReport');" id="b5" title="">spreadsheet (no report)</button>
+<button class="" onclick="spreadSheetAccess('report');"   id="b6" title="">spreadsheet (report)</button>
+<br/><br/>
+
+</body>
+</html>

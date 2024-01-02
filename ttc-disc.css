@@ -1,0 +1,80 @@
+﻿/* originally used these discussion (disc) pages: 
+   multiplayer
+   peer2peer
+   rev-history
+ */
+ 
+body {
+	font-family: Helvetica;
+	font-size: 100%;
+   background-color: #d1cdc7 ; /* */
+}
+
+div.pageblock {   
+	min-width: 800px;
+	max-width: 1000px;
+	margin: 0 auto;
+   
+   background-color: white;
+	font-size: 100%;
+   
+   padding: 5px 20px 20px;
+   border-radius: 10px;
+}
+/* For the main page title */
+div.pageblock h1 {
+	font-size: 175%;
+	color: black;
+   /*       top R/L bottom   */
+   padding: 2px 0px 5px;
+}
+div.pageblock h2 {
+	font-size: 130%;
+	color: black; 
+}
+div.pageblock h3 {
+	font-size: 110%;
+	color: black; 
+}
+div.pageblock a {
+	color: black;
+	text-decoration: underline;
+}
+div.pageblock a:hover {
+	color: white;
+	text-decoration: none;
+	background: black;
+}
+
+
+/* The following div and span work together to float the return links to the right of the main title. */
+div.title_line {
+   position:relative;
+}
+span.float_right {
+   position:absolute; 
+   top: 25%;
+   right: 0%;
+}
+
+
+p.code {
+   color: white;
+   background: #2d2d2d;
+   font-family: monospace;
+   padding: 10px;
+   border-radius: 4px;
+}
+
+strong {
+	font-size: 100%;
+	color: black;
+}
+
+li {
+	font-size: 100%;
+}
+
+div.links {
+	float: right;
+}

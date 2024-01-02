@@ -1,0 +1,143 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <!-- 
+   Added viewport-fit parameter to keep fullscreen views of the video element out of the notch on cell phones that have one.
+   Needed for multi-touch use in Ghost-Ball pool for notched clients, very jumpy behavior without it.     
+   -->
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+   
+   <meta name="description" content="client for multiplayer at timetocode.org">
+
+   <title>S&P client</title>
+
+   <link rel="canonical" href="https://www.timetocode.org/client.html" />
+
+   <!-- Google icon library -->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+   <link href="hostAndClient.css?v=16" rel="stylesheet" type="text/css">
+
+   <style></style>
+
+   <noscript>
+      <br/><br/><br/><br/><br/>
+      <p style="font-family:Helvetica; font-size:150%; color:brown;">
+      timetocode.org requires JavaScript.
+      <br/><br/> 
+      Please enable JavaScript in your browser<br/>
+      and then reload this page.
+      </p>
+      <br/><br/><br/><br/><br/><br/><br/>
+   </noscript>
+
+   <script src="jquery-3.6.1.min.js?v=3"></script>
+   <!-- see https://github.com/josdejong/mathjs ; use "math.", lowercase m, to reference methods in math.js -->
+   <script src="math.min.js?v=2"></script>
+
+   <script src="utilities.js?v=45"></script>
+   <script src="pageStuff.js?v=45"></script>
+   <script src="drawFunc.js?v=45"></script>
+   <script src="worldScreen.js?v=45"></script>
+   <script src="demoStart.js?v=45"></script>
+   
+   <script src="hostAndClient.js?v=45"></script>
+   <script src="eventsNonHost.js?v=45"></script>
+   <script src="twoThumbs.js?v=45"></script>
+   <script src="ghostBall.js?v=45"></script>
+
+   <script>
+      // After the page loads (and canvas or video element is defined)...
+      $(document).ready( function() { 
+         pS.init({"pageDesc":"SP: Client", "scrollAtLoad":false, "navMenu":false});
+         hC.init_nonHostClients();
+      });
+   </script>
+
+   <!--
+   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+   -->
+   <script src="adapter-latest.js?v=2"></script>
+   
+</head>
+  
+<body> <!-- #EFEFEF -->
+<!-- This div temporarily covers everything, and therefore hides the movement of elements during page load (this cover div is hidden after loading) -->
+<div id="blankWhiteDiv" style="z-index:10000; background-color:#FFF; position:fixed; top:0; left:0; width:100%; height:100%;"></div>
+
+<div class="main">
+   <div class="containerRow">
+   
+      <div class="maintext" id="multiPlayer" style="">
+         <div class="scroller">
+            
+            <!-- A spot to move the Two Thumbs button when in mobile mode-->
+            <div id="divForTwoThumbsMobile" style="display:inline-block; float:left;"></div>
+            
+            <div id="nodeServerDiv" style="display:inline-block; float:left;">
+               <datalist id="nodeServerList"></datalist>
+               <span id="serverTitle">Server</span><input id="nodeServer" list="nodeServerList" value="timetocode.herokuapp.com" title='Use the default unless you have an ip address (and port) for a local node server.'>
+            </div>
+            <div id="roomAndConnect" style="display:inline-block; float:right;">
+               <span id="roomTitle">Room</span><input id="roomName" title="Enter the room name provide by your host then click the 'Connect' button.">
+               <button id="ConnectButton" class="chat" onclick="hC.connect_and_listen('normal');" title='Initiate (or reset) the client connection.'>Connect</button>
+            </div>
+            </br>
+            
+            <form id="chatForm" action="" style="display:inline-block; float:right; white-space:nowrap;">
+               <input id="inputField" autocomplete="off" 
+                      title="Use the 'Enter' key or click the 'Chat' button to submit a message." 
+                      value=" put an optional NICKNAME here before connecting"
+                      onFocus="hC.clearInputDefault( this)"/>
+               <button disabled id="ChatButton" class="chat">Chat</button>
+            </form>
+            
+            <div id="connectionCanvasDiv" style="display:inline-block; float:right; margin: 2px 0px 0px 0px;">
+               <canvas id="connectionCanvas" onclick="document.activeElement.blur();" title="'P2P' indicates a peer-to-peer connection (low lag)."></canvas>
+            </div>
+            <div id="playerAndCursor" style="display:inline-block; float:left;">
+               <input type="checkbox" id="chkPlayer" autocomplete="off" title="Request a Puck-Popper player when connecting.">Player<br>
+               <input type="checkbox" id="chkLocalCursor" autocomplete="off" title="Render the local cursor when over the video element">Local cursor
+            </div>
+            <div id="streamAndFullscreen" style="display:inline-block; float:left;">
+               <span style="" >
+                  <input style="vertical-align:top" disabled type="checkbox" id="chkRequestStream" autocomplete="off" title="Request a video stream (or shut it off).">
+                  <span  style="vertical-align:top" id='streamChkDesc'>Stream</span>
+               </span>
+               <!-- For now, fullscreen button is always enabled. Put "disabled" after button to start grayed out... -->
+               <button class="fullScreen" id="btnFullScreen_Client" style="margin-left: 10px; width: 50px;" title='Start full-screen mode for the display area.'>
+                  <i class="material-icons" style="font-size:30px; color:black">fullscreen</i>
+               </button>
+            </div>
+            <div id="twoThumbsButtonDiv" style="display:inline-block; float:right;">
+               <button disabled style="height:37px" class="clientLastRow" id="twoThumbsButton" title="Virtual-game-pad for touch screens (must first connect to your host's room)">Start Two Thumbs</button>
+            </div>
+            <ul id="messages" style="display:inline-block;"></ul>
+            
+         </div>
+      </div>
+      
+      <!-- A placeholder, mainly to keep things similar to the host page. -->
+      <div class="maintext" id="ttcIntro" style="display:none">
+      </div>
+      
+      <!-- The display elements -->
+      <div class="clientVideo" id="divForClientCanvas">
+         <!-- There is a background-color css style for this videoMirror element that matches the color of the poster image (if used) -->
+         <!-- poster attribute for the video element:   poster="images/green.jpg" or similar... -->
+         <video autoplay  id="videoMirror" poster="images/gray.png" width="600" height="600" onclick="document.activeElement.blur();"></video>
+         <canvas hidden   id="twoThumbsCanvas" width="600" height="600" onclick="document.activeElement.blur();"></canvas>
+      </div>
+      
+      <!-- Hidden control that is sometimes used in testing... -->
+      <div class="controls" id="controlsDiv" style="display:none">
+         <span><input type="checkbox" id="chkTwoThumbs" autocomplete="off" title="Multi-touch interface controlled by two thumbs">Two Thumbs<br></span>
+      </div>
+         
+   </div>
+</div>   
+
+</body>
+</html>

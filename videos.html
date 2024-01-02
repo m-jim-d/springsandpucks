@@ -1,0 +1,1656 @@
+<!doctype html>
+
+<html lang="en" id="helpScroller">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="videos as captured at timetocode.org">
+
+   <title>S&P Videos</title>
+
+   <link rel="canonical" href="https://www.timetocode.org/videos.html">
+
+   <script src="jquery-3.6.1.min.js?v=3"></script>
+
+   <link href="videos.css?v=9" rel="stylesheet" type="text/css">
+   <link href="dialog.css?v=3" rel="stylesheet" type="text/css">
+
+   <!-- Google icon library -->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+   <!-- 
+   js-cookie is an alternative for managing cookie:
+   https://github.com/js-cookie/js-cookie/tree/latest
+   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+   -->
+
+   <!-- The navigation menu -->
+   <link href="sitemap.css?v=20" rel="stylesheet" type="text/css">
+   
+   <script src="utilities.js?v=7"></script>
+   <script src="pageStuff.js?v=21"></script>
+
+   <script>
+      // after the page loads    "scrollAdjust":-13
+      $(document).ready( function() { 
+         pS.init({"pageDesc":"SP: Videos", "scrollAdjust":-13, "dialogOptions":true});
+      });
+   </script> 
+</head>
+
+<body>
+
+<!-- The navigation menu -->
+<div id="navDiv"></div>
+<span class="menuicon" id="opener" style="font-size:19px; cursor:pointer;">&#9776;</span>
+
+
+<dialog id="cookieConsent" style="z-index:5; width:400px">
+  <h2 class="dialog" id="label">Cookies<span id="dialog-status" style="font-size:30px; color:black"></span></h2>
+  <p>
+    This page loads YouTube videos and related cookies.
+    <i>Accept</i> to view the videos as embedded on this page.
+    <i>Reject</i> to decline cookies and view in a new tab.
+  </p>
+  <form method="dialog">
+    <button class="dialog" id="firstDialogButton" value="accept">Accept</button>
+    <button class="dialog" value="reject">Reject</button>    
+    <button class="dialog" value="close" style="float: right;">Close (no change)</button>
+  </form>
+  <p>
+    If you accept, click a video to load; click again to play.
+  </p>
+</dialog>
+
+
+<div class="pageblock">
+
+	<div class="title_line">
+      <!-- <a name="top"></a><a name="TOP"></a> -->
+      <h1 class="maintitle">S&P Videos</h1>
+      <span class="float_right">
+      	(<a class="jump" href="rev-history.html">revisions</a>)
+         (<a href="index.html" title="Springs &amp; Pucks">S&amp;P</a>)
+      </span>
+   </div>
+   
+	<table border="0" width="100%">
+   <!--
+   <caption>help topics for demos and games</caption>
+   -->
+	<tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/enzQJgU8oX4?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="enzQJgU8oX4">
+         <img class="frameCapture" src="screenshots/cannibal-in-here_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      <!-- this next hidden element is used for logging the video usage -->
+      <p style="display:none"><strong class="title_2">cannibal in fence</strong></p>
+      
+      <p>These videos are recordings from the
+      <a href="index.html" target="_blank" title="try it; you'll like it...">Springs &amp; Pucks</a> 
+      page at timetocode.org. Watch, then go there and play.</p>
+      <!--  -->
+      <p>In this first video, the shooter from the Puck Popper game is repurposed in a demonstration.
+      You can find more on this in the <a class="scroll-link" data-scroll-target="internalExternal" href="#">last topic</a> in the sundries section below.
+      Try the <a href="index.html?7e" target="_blank" title="control the cannibal">live</a> demo.
+      <!--  -->
+      </p>
+      
+      <p style="margin-bottom:-5px">Topics here:</p>
+      
+      <div style="text-align: left;">
+         <div style="display: inline-block; vertical-align: top;">
+         <ul>
+            <li><a class="scroll-link" data-scroll-target="interactions" href="#">interactions</a> </li>
+            <li><a class="scroll-link" data-scroll-target="editorStuff" href="#">editing</a>
+               <ul>
+                  <li><a class="scroll-link" data-scroll-target="assembleSystem" href="#">assembling</a></li>
+                  <li><a class="scroll-link" data-scroll-target="adjustProperties" href="#">adjusting attributes</a></li>
+               </ul>
+            </li>
+            <li><a class="scroll-link" data-scroll-target="editorExamples" href="#" title="using the editor">let's build one</a></li>
+            <li><a class="scroll-link" data-scroll-target="fullscreenview" title="aka favorites" href="#">sundries</a></li>
+            <li><a class="scroll-link" data-scroll-target="limitations" title="yes, but no" href="#">limitations</a></li>
+            <li><a class="scroll-link" data-scroll-target="capture" href="#">state capture</a></li>
+         </ul>
+         </div>
+         
+         <div style="display: inline-block; vertical-align: top;">
+         <ul>
+            <li><a class="scroll-link" data-scroll-target="thegames" href="#">games</a></li> 
+            <li><a class="scroll-link" data-scroll-target="puckPopper" href="#">puck popper</a></li>
+            <li><a class="scroll-link" data-scroll-target="ghostBallPool" href="#">ghost-ball pool</a></li>
+            <li><a class="scroll-link" data-scroll-target="projectiles" href="#">some gravity</a>
+               <ul>
+                  <li><a class="scroll-link" data-scroll-target="monkey" href="#">monkey hunt</a></li>
+                  <li><a class="scroll-link" data-scroll-target="basketball" href="#">bipartisan hoops</a></li>
+               </ul>
+            </li>
+            <li><a class="scroll-link" data-scroll-target="jelloMadness" href="#">jello madness</a></li>
+         </ul>
+         </div>
+      </div>
+      
+      <p>The <a href="index.html" target="_blank" title="Springs &amp; Pucks">S&amp;P</a> page is the offspring of the ideas and code on the 
+      <a href="https://pet.timetocode.org" title="Physics Engine Tutorial" target="_blank">Python</a> page.
+      If you've come from there you may want to stay awhile. 
+      </p>
+      <p>The web browser has a rich development environment for
+      <a href="index.html?codeLinks" target="_blank" title="links to code files">
+      JavaScript</a>, all free. The HTML5 canvas offers beautiful rendering.  
+      The WebRTC communication protocol supports multiple users and enhanced play via virtual game pads. Box2dWeb animates here, 
+      no installations or plugins needed.</p>
+   
+      <p style="margin-top: 0px;">These videos are best viewed full screen and at a quality setting of 1080p60. 
+      As each plays, note its <i class="material-icons" style="font-size:30px; position:relative; top:10px; left:0px; margin: -15px -2px;">fullscreen</i> 
+      full-screen icon, bottom right. The esc key will pop you back to this page view.
+      <br><br>
+      Click to <a id="cookieLink" href="#">manage</a> cookies. If you accept them, click a video to load; click again to play.
+      </p>
+   </td>
+   </tr>
+   
+   
+   
+   <tr>
+   <td class="sectionbreak" colspan="2"><a name="interactions"></a><span class="sectionbreak">interactions</span></td>
+   </tr>
+
+   <tr>
+   <td class="indent" colspan="2">
+      <p style="text-align: left">
+      This group of videos demonstrates the keyboard and mouse operations used in interacting with the demos of the S&P page.
+      </p>
+   </td>
+   </tr>
+  
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/SPm32QoGzTQ?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      -->
+      <div class="video-container" data-videoID="SPm32QoGzTQ">
+         <img class="frameCapture" src="screenshots/positioning_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Fling, move, and rotate</strong></p>
+      
+      <p>This is a good place to start. The video shows how to throw (and catch), move, and rotate, a single puck, wall, or pin. The demos
+      will never be quite the same after you've learned how to muscle things around.</p>
+      
+      <details>
+      <summary title="click for details">Mouse and keyboard details:</summary>
+      <ul>
+         <li>mouse <strong>buttons</strong> and cursor spring strength:
+         <ul>
+            <li><strong>left:</strong> medium</li>
+            <li><strong>center:</strong> weak</li>
+            <li><strong>right:</strong> strong</li>
+         </ul>
+         </li>
+         <li><strong>c key:</strong> toggle attachment mode, center or off-center</li>
+         <li><strong>drag</strong> with <strong>ctrl</strong> key <strong>down:</strong> to position the puck</li>
+         <li><strong>drag</strong> with <strong>ctrl</strong> and <strong>shift</strong> keys <strong>down:</strong> to rotate the puck</li>
+         <ul>
+            <li><strong>release</strong> the mouse button <strong>over</strong> the puck to disengage <br>(and not shoot the puck)</li>
+         </ul>
+         <li><strong>e key:</strong> to toggle the lock on wall movement</li>
+      </ul>
+      </details>
+   </td>
+   </tr>
+
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/QJnV7GwXYsw?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      -->
+      <div class="video-container" data-videoID="QJnV7GwXYsw">
+         <img class="frameCapture" src="screenshots/projectile-forecasting_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+
+      <p><strong class="title_2">Forecast and shoot</strong></p>
+      
+      <p>Shoot (launch) a puck as a projectile. Keyboard shortcuts are demonstrated for forecasting the motion and controlling the shot.</p>
+      <p> 
+      Forecasts are based on the same symplectic Euler integration scheme that Box2D uses. The forecast is identical to the result that follows
+      from the physics engine. The code for the forecast can be found in the drawProjectilePath
+      function of the <a href="ghostBall.js.html" target="_blank" title="Ghost Ball">ghostBall.js</a> module.
+      </p>
+      <details>
+      <summary title="click for details">Details:</summary>
+      <ul>
+         <li><strong>drag</strong> with <strong>ctrl</strong> and <strong>shift</strong> keys <strong>down:</strong> to rotate the puck</li>
+         <ul>
+            <li><strong>release</strong> the mouse button <strong>outside</strong> the boundaries of the puck to launch it</li>
+         </ul>
+         <li><strong>ctrl-Shift-L:</strong> lock down ctrl-Shift</li>
+         <ul>
+            <li><strong>drag</strong> with <strong>ctrl</strong> key <strong>down:</strong> to position the bullet</li>
+            <li><strong>drag</strong> with <strong>ctrl</strong> key <strong>up:</strong> to aim the shot</li>
+         </ul>
+         <li><strong>b key:</strong> toggles the fine-adjust positioning</li>
+      </ul>
+      </details>
+   </td>
+   </tr>
+
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/3njR3RlhP3o?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      -->
+      <div class="video-container" data-videoID="3njR3RlhP3o">
+         <img class="frameCapture" src="screenshots/bullet-shot_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Speed shots and the stepper</strong></p>
+      
+      <p>
+      Visualize high-speed shots into a target (a stack). 
+      After composing a shot, interrupt the engine loop with the stepper:
+      </p>
+      <p>
+      Note that pucks modeled as bullets are shown in black.
+      </p>
+      
+      <details>
+      <summary title="click for details">Details:</summary>
+      <ul>
+         <li><strong>o key:</strong> stop the physics engine</li>
+         <ul><li>then, <strong>release</strong> the mouse button: to shoot</li></ul>
+         <li><strong>u key:</strong> take a capture for replaying the shot</li>
+         <li><strong>o key:</strong> repeatedly single step the engine</li>
+         <li><strong>p key:</strong> resume normal engine stepping</li>
+         <li><strong>change &Delta;t:</strong> optionally, change the physics engine timestep</li>
+         <li><strong>#1 key:</strong> run the capture (if based on a demo from the #1 group)</li>
+      </ul>
+      </details>
+      
+   </td>
+   </tr>
+   
+
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/-gkMXSyy2T0?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      -->
+      <div class="video-container" data-videoID="-gkMXSyy2T0">
+         <img class="frameCapture" src="screenshots/green-pool-balls3_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><a name="nogravity"></a><strong class="title_2">No gravity</strong></p>
+      <p>
+      Without the effects of gravity in our 2D model, objects behave like balls on a pool table (or pucks on an air table). 
+      Shots are aimed using a ghost-ball technique (the ghost of a cue ball).
+      This forecasts the resulting motion after a collision with a puck or wall.
+      </p><p> 
+      Forecast lines are based on the contact normals for a ghost ball touching the surface of the object ball (or wall). 
+      These collision forecasts are ideal in that the ghost ball is kept at the surface and does not penetrate the object. This is very close, 
+      but not identical to the approximate collision calculations of Box2D. 
+      For a discussion of ideal-contact-normal (exact) collision calculations, refer to the <a href="https://pet.timetocode.org/?perfect-kiss" target="_blank" title="">perfect kiss</a> topic on the Python page.
+      </p><p>
+      <details>
+      <summary title="click for details">Details:</summary>
+      <ul>
+         <li><strong>ctrl-Shift-L:</strong> toggle on the ctrl-Shift lock (note: this is ON by default in Ghost Ball Pool, the #3-d demos)</li>
+         <li><strong>z key:</strong> set and lock the shot speed</li>
+         <li><strong>z key</strong> (with mouse button <strong>up</strong>):</strong> unlocks the shot speed</li>
+         <li><strong>alt key:</strong> for opposite direction shooting</li>
+         <li><strong>b key:</strong> toggles the fine-adjust positioning</li>
+      </ul>
+      </details>
+      </p>
+   </td>
+   </tr>
+   
+   
+   
+   <tr>
+      <td class="sectionbreak" colspan="2"><a name="editorStuff"></a><span class="sectionbreak">editing</span></td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <p>The editing features can help you change existing demos, make new stuff, maybe even try some interactive <a class="scroll-link" data-scroll-target="basketball" title="bipartisan hoops" href="#">satire</a>.
+      Coupled with the means to save it (<a class="scroll-link" data-scroll-target="capture" href="#">state capture</a>), the editor can produce something to be replayed. 
+      All of the demos on the S&P page were (to varying degrees) generated with the use of these features.
+      You can find corresponding discussion on the 
+      <a href="index.html" target="_blank" title="Springs &amp; Pucks">S&amp;P</a> 
+      page (see "editing" link in the outline in the left panel).</p>
+   
+      Keys used: 
+      <ul>
+         <li>"e" key enables (toggles) edits of walls and pins and makes hidden elements 
+         (like navigation springs) visible</li>
+         <li>&#8594;&#8592;&nbsp;, &#8593;&#8595;&nbsp;, -&nbsp;+&nbsp;, [&nbsp;]&nbsp;, and <&nbsp;>&nbsp; increase or decrease various object properties </li>
+         <li>ctrl-x deletes a selected object or group</li>
+         <li>ctrl-v, ctrl-c, ctrl-s are used in replication</li>
+         <li>"alt" and "shift" keys are used with the mouse in selecting groups</li>
+         <li>ctrl-shift and ctrl-alt rotate the group about its center and the object centers respectively</li>
+         <li>"t" key (or shift-t) changes the rotation rate of selected objects</li>
+      </ul>
+      </p>
+      
+      <hr style="margin-top:25px">
+      <p><a name="assembleSystem"></a><strong class="title_2">Assembling</strong></p>
+   
+      <p>Get some pucks, position and rotate them, set attachment points, then connect them together with springs and revolute joints.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/qxBWKG20HNU?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="qxBWKG20HNU">
+         <img class="frameCapture" src="screenshots/multiselect_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Multi-select</strong></p>
+
+      <p>A first step in editing is to select one or more objects on the canvas.
+      Do this by attaching a cursor spring (single-select) or by marking one or more objects as selected (multi-select). 
+      Objects in a multi-select group are marked with a yellow dot. Selection can be done in two ways: 
+      (1) drag the cursor over an object while the shift key is down (use the right mouse button to erase a mark), and 
+      (2) drag with the alt key down to form a selection box.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/2nsF8TfB3hk?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    
+      </div>
+      -->
+      <div class="video-container" data-videoID="2nsF8TfB3hk">
+         <img class="frameCapture" src="screenshots/spring-connections_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Connecting with springs</strong></p>
+
+      <p>This is the first video to demonstrate the addition of a spring connection. This is done via the remove/add menu and
+      also with the corresponding keyboard shortcut (ctrl-alt-S). </p>
+      
+      <p>This also shows the use of the multi-select menu that can be stepped through
+      with the "tab" key. This directs actions to subgroups in the multi-select. Here, springs are given focus, then individual springs are stepped 
+      through with the "enter" key. S3 is shown to be compressed when dangling.</p>
+      
+      <p>And: a capture is used to change a spring's color; the edited capture is
+      "run"; full-canvas viewing; gravity toggled;
+      spring length adjusted as a group; a wall is moved and its width is increased; the two methods of cursor selection
+      are shown using the "alt" and "shift" keys.
+      </p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/9msTMmAh4SI?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    
+      </div>
+      -->
+      <div class="video-container" data-videoID="9msTMmAh4SI">
+         <img class="frameCapture" src="screenshots/joint-connections_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Connecting with revolute joints</strong></p>
+
+      <p>This is the first use of a revolute joint. They can be added to a pair of multi-select attachment points via the remove/add menu and
+      also with the corresponding keyboard shortcut (alt-R).</p>
+      
+      <p>Attachment points can be centered along a rectangular puck's narrowest dimension, 
+      and then pushed out to the end. This starts with turning off the COM feature (C key), 
+      and marking two attachment points with the shift key down.
+      Then repeatedly use alt-C, first time centers, second time pushes to the end. 
+      Finally, the alt-R is used to attach the joint.
+      </p>
+      
+      <p>A selected source spring is set for copying using ctrl-C. That spring can be pasted onto new attachement points using ctrl-S. 
+      To de-select the source spring, use ctrl-C (mouse buttons up).
+      </p>
+   </td>
+   </tr>
+      
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/Es3a36GIEcA?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    
+      </div>
+      -->
+      <div class="video-container" data-videoID="Es3a36GIEcA">
+         <img class="frameCapture" src="screenshots/pentagon_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Pentagon of joints and springs</strong></p>
+
+      <p>A spring is added to the ends of a joined puck pair.
+      The spring is lengthened until compressed and acting to keep the pair in line. 
+      The puck pair is duplicated and joined. 
+      One of the springs is set as a source for copying. 
+      This spring is pasted three times as the object is further extended and joined to complete the five-sided polygon.</p>
+      
+      <p>The "tab" key is used to give focus to the springs within the multi-select. The "enter" key then steps through the springs,
+      showing a report, indicating compression (negative stretch) is equal in all five legs of the polygon.
+      </p>
+      
+      <p>Various joints in the object are deleted to show the transition to a new equilibrium. The "tab" key is used to give focus to the joints so that
+      springs are not deleted.
+      </p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <hr> 
+      <p><a name="adjustProperties"></a><strong class="title_2">Adjusting Attributes</strong></p>   
+      
+      <p>A system's interactions, with itself and its environment, can be adjusted though the attributes of its pucks and springs.
+      In the "multi-select" section above, size changes were made through the dimensional attributes of the pucks.      
+      Other attributes affect energy transfer and dissipation: restitution, damping, surface friction, and spring forces.
+      In this section, I play with these.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/nCteJ-2A2bw?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="nCteJ-2A2bw">
+         <img class="frameCapture" src="screenshots/restitution_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Restitution, align and linearize</strong></p>
+
+      <p>This is the first in a series of videos that shows how systems can lose energy: restitution, surface friction, translational and rotational drag, and spring damping.</p>
+
+      <p>A line of balls with restitutions varying linearly from 0.86 to 0.61 are dropped. 
+      This video demonstrates the use of the alignment feature (use alt-L or the "align selected" option under the "remove/add items" control). 
+      A small puck is replicated to form a group which is then aligned. The restitution of the far left and right pucks is set using the [ and ] keys. 
+      The alignment feature is run again and now acts to linearize the restitution values of the intermediate pucks. Finally, the g key is used to turn on gravity.</p>
+
+      <p>The middle segment of the video is rendered at 2x speed (I'm not that fast). The final bouncing-puck segment was recorded at a 4ms timestep and then rendered at 4x speed.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/9HOvKjV1Uj8?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="9HOvKjV1Uj8">
+         <img class="frameCapture" src="screenshots/surface-friction_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Surface friction</strong></p>
+
+      <p>This video has four segments, each showing the effects of changing the surface friction. This puck attribute is changed using the minus (-) and plus (+) keys from the main part
+      of the keyboard. Holding these keys down repeats the change.</p>
+      <ul>
+         <li>A puck with surface friction is replicated to form a tacky stack.</li>
+         <li>With no friction, the pucks form a 1-D version of Newton's Cradle.</li>
+         <li>Pucks follow the wall-collision forecast line when surface friction is set to zero.</li>
+         <li>Pharaoh's not happy with this construction done by greasers from the 1950s.</li>
+      </ul>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/O5mMOmSbDm4?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="O5mMOmSbDm4">
+         <img class="frameCapture" src="screenshots/translational-drag_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Translational drag</strong></p>
+
+      <p>The three segments in this video show the effects of changing the drag coefficient. This puck attribute is changed using the less-than (<) and greater-than (>) keys. 
+      Holding these keys down repeats the change.</p>
+      <ul>
+         <li>A pair of pucks, connected by a spring, are set in motion about their midpoint. 
+             This becomes a perfect circle (note: alt-p is used to toggle the frame erasing) due to damping in the spring and no drag force on the pucks. 
+             They slow to a stop only after the puck drag coefficient is increased above zero.</li>
+         <li>Drag affects projectile forecasts.</li>
+         <li>A row of pucks with increasing drag coefficients is dropped.</li>
+      </ul>
+      <p>(Note: this one has been left unannotated, just too pretty to mark up. 
+      You might find the annotations, in the video in the Spring Damping section below, related and helpful.)</p>
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/jp2mmlOgRPo?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="jp2mmlOgRPo">
+         <img class="frameCapture" src="screenshots/rotational-drag_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Rotational drag</strong></p>
+
+      <p>This video show the effects of changing the rotational drag coefficient. This puck attribute is changed using the less-than (<) and greater-than (>) keys with the alt key down. 
+      Holding these keys down repeats the change.</p>
+      
+      <p>This section wouldn't be complete without a dandelion being torqued by two springs. 
+      The little lion starts out with no rotational drag but some translational drag. 
+      There's no damping in the springs. Try cursor <a href="https://www.timetocode.org/?5a.dandelion" target="_blank">interactions</a> with this system. 
+      The translational drag, coupled with the spring forces, act to return the puck to center after any displacement.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/FOTnHMOTvEU?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      -->
+      <div class="video-container" data-videoID="FOTnHMOTvEU">
+         <img class="frameCapture" src="screenshots/spring-damper_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Spring damping</strong></p>
+
+      <p> Here, the energy loss is affected by changing the damping coefficient of the connecting spring. This attribute is changed using the less-than (<) and greater-than (>) keys with the S key down. 
+      Holding these keys down repeats the change.</p>
+      <p>This video compliments the one above on translational drag. There, the spring damping acts to eliminate the relative motion and form the perfect circular orbit. Here, the F key acts to halt the orbit,
+      leaving the two pucks to oscillate on the damped and later the un-damped spring.</p>
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/uiaJiCM2yyc?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      -->
+      <div class="video-container" data-videoID="uiaJiCM2yyc">
+         <img class="frameCapture" src="screenshots/spring-stiffness_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Spring length and stiffness</strong></p>
+
+      <p>There are three contrasting spring systems in the segments of this video: (a) pair of pucks, (b) blocks on an inclined plane, and (3) a pinned puck without gravity.
+      Each of these demonstrates the spring nature as affected by length and stiffness.</p>
+      
+      With the S key down, adjust a selected spring using the arrow keys:
+      <ul>
+         <li>&#8592; &#8594; &nbsp;&nbsp;strength</li>
+         <li>&#8593; &nbsp;&nbsp;&nbsp; &#8595; &nbsp;&nbsp;length</li>
+      </ul>
+      With the S and Alt keys down:
+      <ul>
+         <li>&#8592; &#8594; &nbsp;&nbsp;unstretched width</li>
+      </ul>
+
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="sectionbreak" colspan="2"><a name="editorExamples"></a><span class="sectionbreak">let's build one</span></td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <p>In that it's probably helpful to see the editor in use, here are a few unrelated examples:</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/USE8K5WgY60?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="USE8K5WgY60">
+         <img class="frameCapture" src="screenshots/editing-colormixer_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Restoring order</strong></p>
+
+      <p>First step: the "e" key is used to enable editing (copying) of the anchor pins behind the each three-puck system. 
+      The "alt" key is held down while dragging the mouse to select a group. Then paste (replicate) the group at the position of the cursor using control-v.
+      The "g" key is used to toggle the gravity on, then off. The right mouse button (strongest cursor spring) is used to get a good grip on one of the pucks and drag it around for
+      mixing. Try this yourself and leave the wall/pin editor on to see the work that the springs do in restoring order to the multi-group system.</p>
+      
+      <p>There is a semi-transparent keyboard overlay in this video. 
+      The keys typically used in editing are highlighted green.</p>
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/aW8E9uHNPHk?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="aW8E9uHNPHk">
+         <img class="frameCapture" src="screenshots/edit-drone-path_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><a name="changingDronePath"></a><strong class="title_2">Changing the drone path</strong></p>
+
+      <p>
+      The Puck Popper demos in the 7 and 8 groups (and seen in the games section below) were produced using the drone-path editing features seen in this video:
+      <ul>
+         <li>creating a drone puck with a navigation pin and spring (shift-d-p)</li>
+         <li>extending the path by dragging and replicating the pin (drag with repeated v key)</li>
+         <li>replicating the drone (ctrl-v)</li>
+         <li>setting a navigation spring to be the source for copying (ctrl-c)</li>
+         <li>pasting the spring onto a drone puck and pin (ctrl-s)</li>
+         <li>deleting pins (ctrl-x)</li>
+      </ul>
+      </p>
+      
+      <p>The video plays at double-time until the first capture is run. You may find the space bar useful to pause and read the annotations.
+      A sister topic below, <a class="scroll-link" data-scroll-target="captureEditClientAndDrones" href="#">The nature of client and drone pucks</a>, shows how to dial the
+      game by editing a capture.
+      
+      </p>
+   </td>
+   </tr> 
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/orxaWhZWNNg?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="orxaWhZWNNg">
+         <img class="frameCapture" src="screenshots/spring-man_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Fixed-length distance joints</strong></p>
+
+      <p>A Box2d distance joint can be configured for spring or fixed-length behavior. The fixed-length type is useful for building compound
+      objects as shown in this video. Set the separation distance between two pucks, select them, then pick the "add fixed-length spring" option from the "remove/add items" menu.
+      </p>
+      
+      <p>All editing features for springs apply also to these fixed-length springs (distance joints). After the first fixed-length joint is added (here), it is used as a source for
+      identical replication in making the first row of the rolling pyramid (five equally spaced pucks). Then a subset of the row is used to make the next higher (and shorter) row. Later,
+      two additional fixed-length joints are added to join the whole system into one compound body (motivating the disclaimer at the beginning, ha ha). 
+      At the end, all the joints are deleted.
+      </p>
+   </td>
+   </tr> 
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/7Zadsk5r6kI?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="7Zadsk5r6kI">
+         <img class="frameCapture" src="screenshots/infinity_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Springy chain</strong></p>
+
+      <p>This topic is similar to "Pentagon of Springs and Joints" above. There are more, and smaller segments in the chain. Plus
+      the joints, springs, and puck edges are hidden. This gives the appearance of continuous flexible stick, connected into a loop.
+      The video starts by clearing off the canvas and adding a springy-chain from the remove/add menu.
+      </p>
+      
+      <p>This system is also different in that all puck-puck collisions are inhibited. This allows for the overlap needed in making the infinity sign.
+      </p>
+      
+      <p>The tear is formed by deleting one of the springs. The technique for targeting only springs for deletion is used and annotated in the video of the Pentagon topic.
+      </p>
+      
+      <p>The f key is frequently used to momentarily stop translational movement. This brings the system to equilibrium quicker and is useful in encouraging oscillation modes of interest.
+      </p>
+   </td>
+   </tr> 
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/lglc3F2nuBw?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="lglc3F2nuBw">
+         <img class="frameCapture" src="screenshots/center-of-mass_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><a name="systemCOM"></a><strong class="title_2">System center of mass</strong></p>
+
+      <p>The mass-weighted center of all the pucks on the canvas is shown as a small white circle with cross hairs. The second segment
+      shows a compressed spring being added to a three-puck system. Notice how the system's center is unaffected. Only at the end, when
+      a cursor spring is used to apply an external force, does the system center move.
+      </p>
+      
+      <p>This serves as an introduction to the <a class="scroll-link" data-scroll-target="internalExternal" href="#">Internal/External</a> topic below.</p>
+   </td>
+   </tr> 
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/gMnFDW8Guo0?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="gMnFDW8Guo0">
+         <img class="frameCapture" src="screenshots/fluid-motion_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Hybrid edits</strong></p>
+
+      <p>The first clip shows the editor enlisted in changing the surface friction of the 101 pucks in demo 1b. The lower friction
+      results in a more fluid motion as the system of pucks "drains" to the floor.
+      </p>
+      
+      <p>The second clip uses the "modify capture" feature under remove/add to reveal the magic of how demo 1b produces a surprisingly
+      ordered color pattern at the end of a seemingly random process.
+      </p>
+      
+   </td>
+   </tr> 
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/PyiboX7208k?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="PyiboX7208k">
+         <img class="frameCapture" src="screenshots/spring-pendulum_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Tuning a spring pendulum</strong></p>
+
+      <p>The <a href="https://www.timetocode.org/?5c" target="_blank">spring pendulum</a> is a fascinating, yet simple piece of apparatus in the lab: spring with hanging mass. The first clip
+      shows the resulting system after adjusting spring length, spring strength, and hanging mass to produce a ratio of pendulum period to spring-bounce period
+      of about 1.8. Ratios near 2 will produce a system that wanders back and forth between two modes: a pure vertical bouncing motion and a pure pendulum motion.
+      The second clip has the ratio up near 5 and shows a spring oscillation superimposed on an orbit around the pin. The third clip had the unstretched length
+      of the spring adjusted to zero and yields a period ratio of exactly 1.0.</p>
+      
+      <p>Puck color is varied by stepping through the lightness index in the HSL color space. "alt-p" toggles screen erasing on/off and shows motion history.
+      The "f" key stops movement.</p>
+      <p>
+      <details>
+      <summary title="click for details">Prior to recording the video:</summary>
+      <ul>
+         <li>starting with link above to demo 5c, then, from the remove/add menu, remove the fence</li> 
+         <li>the "e" key enables selection of the pin, click and drag to position it</li> 
+         <li>mouse dragging, with the "alt" key down, box selects the pin-spring-puck system</li>
+         <li>with "s" key down, arrow keys adjust spring strength and length</li>
+         <li>with "s" key up, arrow keys adjust the selected puck size</li>
+         <li>set puck attributes in the capture</li>
+         <ul>
+            <li>"color": "hsl(50, 100%, 0%)" (used in the second clip). Note: run the modified capture and then recapture to see the hsl object that gets created. 
+            In it you can edit the color-step size (default is 2).</li>
+            <li>"angleLine": false</li>
+            <li>"borderWidth_px": 0</li>
+         </ul>
+         <li>use shift-R to run the capture</li>
+      </ul>
+      </details>
+      </p>
+   </td>
+   </tr> 
+   
+   
+   
+   <tr>
+   <td class="sectionbreak" colspan="2"><a name="thegames"></a><span class="sectionbreak">games</span></td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <p style="text-align: left">
+      These games were originally intended to be fertile ground, 
+      a coding environment for students in a college <a href="https://pet.timetocode.org" target="_blank">J-term course</a> on Python. 
+      Especially the Puck Popper game was useful for
+      parsing out small assignments that led to a completed game, all within the <a href="https://pet.timetocode.org/pe_tutorial_revhistory.html" target="_blank">scope</a> of a few weeks of class time... 
+      So, of course, they are kind of cute, and I think, 
+      fun and playable. But that's for you to find out. They are short time-based games, that work well in small groups, couch co-op. No installs, no cost, cell phones are useful. Note the
+      friendly-fire option under multiplayer; unselect it to team up against the drones.
+      </p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <hr>
+      <p><a name="puckPopper"></a><strong class="title_2">Puck Popper</strong></p>
+      
+      <p>The Puck Popper game enlists computer drones that 
+      travel along a path, searching for targets, anticipating their motion and 
+      then shooting at them. The video in the previous section shows a drone puck working
+      to clear out a set of targets. It sweeps the field, locks in, then
+      aims the gun tube so as to lead the target, accounting for the movement
+      that will happen after the shot.</p>   
+         
+      <p style="text-align: left"> (<a href="https://youtube.com/playlist?list=PLTMmJ3C3RoL84UDGZWGzV4RF5_3ZT8avc" target="_blank" title="videos on Puck Popper">playlist</a>)</p>
+         
+      <details>
+      <summary title="click for details">Tips for playing against the drones and their aim-to-lead algorithm:</summary>
+      <ul>
+         <li>Move out of range of the sweeping rays. That's how the drones sees you.</li>
+         <li>If they lock onto you, keep moving. Acceleration is good. Use your 
+         jet, zig and zag. Evasive flying is fun with the <a class="scroll-link" data-scroll-target="network-connection" href="#">virtual game 
+         pad</a> (cell-phone controller).</li>
+         <li>Back away. You can out run perfectly-aimed bullets in many cases.</li>
+         <li>Bounce off a wall to confuse the drones.</li>
+         <li>Use your shield (spacebar).</li>
+         <li>Shoot at them. You're bullet stream will deflect the incoming.</li>
+         <li>The drones' algorithm checks if there are drag forces on your puck, and 
+         in those cases, it will split the difference between line-of-sight and 
+         perfect-lead angle. So, if you can maintain speed (counter the drag 
+         force with your jet), the drone will generally miss behind you.</li>
+         <li>If you're using the virtual game pad (see videos below), try the 
+         center touch point on the scope. That will instantly freeze your position 
+         and possibly avoid leading shots. But don't stay in one 
+         spot too long...</li>
+         <li>Try the "f" key (almost cheating).</li>
+         <li>Adjust the drag of your client puck. Grab it with your mouse, then 
+         use the "&lt;" or "&gt;" keys to lower or raise the drag. The higher the 
+         drag, the easier it is to drive, and the harder for the drones to 
+         shoot you.</li>
+      </ul>
+      </details>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/ZAeRF1GOurA?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="ZAeRF1GOurA">
+         <img class="frameCapture" src="screenshots/tt-keyboard_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Driving with the keyboard</strong></p>
+      
+      <p>This first video, an epic 3 minutes, describes the keyboard interface. 
+      The Google voice brings some attitude but does a nice job explaining the puck features. A keyboard is a good way to just get started and try it.</p><p>
+      You can bring up the 7a version of the game in a separate tab with this <a href="https://www.timetocode.org/?7" target="_blank">link</a>.
+      You'll see a written description and help in the left panel, similar to what's in this video.</p>
+   </td>
+   </tr>
+   
+   <tr id="network-connection">
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/XM87n9YFWXg?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="XM87n9YFWXg">
+         <img class="frameCapture" src="screenshots/network-connection_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Network connections</strong></p>
+
+      <p>(A couple things have been renamed since this video was made: "mini-client" was originally "mobile client" and the "springs & pucks" page title was "time to code.")</p>
+
+      <p>This video shows how to connect a cell phone (or laptop) to a second device (usually a desktop) that is serving as the game host. The mini-client
+      page is demonstrated here, but the same approach can be used with the full client page.</p><p>
+      Synchronized cell phone (the virtual game pad) and desktop screen captures 
+	  are shown superimposed in this and the next two videos. This gives you a 
+	  sense of the two devices: the cell-phone game pad in your hands, with your 
+	  eyes looking out at the desktop screen.
+      Cell phone touch points are shown as white dots.</p>
+      
+      <p>Note that a host room is not needed when a solo-player is using a keyboard. </p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="339" src="https://www.youtube.com/embed/FBjb9hbaRa4?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="FBjb9hbaRa4">
+         <img class="frameCapture" src="screenshots/two-thumbs-cell_550w.png" width="550" height="339" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+   
+      <p><strong class="title_2">Virtual game pad</strong></p>
+
+      <p>The layout of controls on the virtual game pad (aka Two Thumbs) interface are explained.
+      The game pad offers somewhat more fluid game play and generally, after a little practice, lower time scores in Puck Popper.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/PRNdIAfqoMQ?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="PRNdIAfqoMQ">
+         <img class="frameCapture" src="screenshots/virus-drone_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Taking aim at the Coronavirus</strong></p>
+
+      <p>Want to squish one of those little virus guys? Here's a Puck Popper game played with the drone puck in a Coronavirus costume.
+      Try playing Puck Popper with the CV option selected.</p>
+      
+      <p>
+      More ideas for customizing your game: 
+      <a class="scroll-link" data-scroll-target="changingDronePath" href="#">changing the drone path</a> and
+      <a class="scroll-link" data-scroll-target="captureEditClientAndDrones" href="#">the nature of clients</a>.      
+      </p>
+      
+   </td>
+   </tr>
+   
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <hr>
+      <p><a name="jelloMadness"></a><strong class="title_2">Jello Madness</strong></p>
+      
+      <p>To stop the madness, detangle. Straighten out the block of jello (no 
+	  pucks touching each other) and the tangle timer stops. Pass the jello to 
+	  your opponent. Lowest time wins.</p>   
+         
+      <p>
+      <details>
+      <summary title="click for details">Tips that may help:</summary>
+      <ul>
+         <li>Spin the jello, grab and fling, using the right mouse button. Sometimes the whole thing will straighten out in one good spin.</li>
+         <li>Use the right-mouse button (to pull on a puck) quickly followed by a click of the &quot;f&quot; key.</li>
+         <li>Use the editor for more creative manipulations (see 6a tricks below). Depending on house rules, you may want to prohibit puck deletions.</li>
+      </ul>
+      </details>
+      </p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/j6QSGN565ZQ?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="j6QSGN565ZQ">
+         <img class="frameCapture" src="screenshots/harp-cropped_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Marx brothers straighten out new jello</strong></p>
+
+      <p>This shows the rhythm of two players taking turns and playing Jello Madness. Also shown here
+      is the use of the editor and capture features to create a custom version and save it for later use.
+      </p>
+      <p>
+      While this is ideally played from one computer, this turn-taking approach can be adapted for use under social-distancing guidelines. All you
+      need to do is share the capture (copy and paste it into an email), then load that capture (paste it into the capture box) 
+      and run it (click the #6 button) on each computer. Your scores
+      will be reported and ranked by the time it took you to straighten out the jello.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/xiUtsBrxLIs?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="xiUtsBrxLIs">
+         <img class="frameCapture" src="screenshots/jello-stretch_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Tricks for beating 6a</strong></p>
+
+      <p>
+      Editor can be handy for dealing with stubborn jello. This video shows ways to enlist it
+      in separating those pucks. Any scheme that puts the light of day between the pucks, counts, a win.
+      </p>
+
+   </td>
+   </tr>
+   
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <hr>
+      <p><a name="ghostBallPool"></a><strong class="title_2">Ghost-Ball Pool</strong></p>
+      
+      <p>This pool game is built around the <a href="https://billiards.colostate.edu/faq/aiming/ghost-ball/" target="_blank" title="description of the Ghost-Ball method">ghost-ball</a> aiming method. 
+      An image of the cue ball (the ghost) can be positioned in contact with the object ball. Contact normals are drawn which serve to predict the paths of the cue ball and object ball after the
+      collision.
+      </p>
+      
+      <p>The game can be played with the client (a virtual gamepad).
+      This facilitates demonstrations in the classroom, a teacher on the host computer, multiple students using the client on their cell phones or laptops.
+      The second video in this section shows how to connect a client.
+      </p>
+      
+      <p>
+      (<a href="https://www.youtube.com/watch?v=-gkMXSyy2T0&list=PLTMmJ3C3RoL949TYDwlTDCPA3XPci5rk6" target="_blank" title="videos on Ghost-Ball Pool">playlist</a>)
+      </p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/_q-Gtyi25KE?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="_q-Gtyi25KE">
+         <img class="frameCapture" src="screenshots/ghost-ball-eight_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+
+      <p><strong class="title_2">Playing solo on the host</strong></p>
+
+      <p>
+      Watch (or <a href="https://www.timetocode.org/?3d" target="_blank" title="">play</a>) a game of Ghost-Ball on the host computer.
+      <br><br>Take a shot:
+      <ol>
+         <li>Click and drag the ghost out from the cue ball.</li>
+         <li>Optionally adjust the shot speed with the z key.</li>
+         <li>Aim the shot by touching the ghost to the object ball.</li>
+         <li>Release the mouse button to shoot.</li>
+      </ol>  
+      </p>
+      
+      <p>Note that "host" indicates playing directly on a computer (or device) without use of the network client (as seen in the next video). 
+      Shots in this video are aimed directly with a mouse. Touch pads and touch screens also work well on the host for aiming shots.</p>
+      
+   </td>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="440" src="https://www.youtube.com/embed/CSYE-lp5RkM?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="CSYE-lp5RkM">
+         <img class="frameCapture" src="screenshots/ghost-ball-v2_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">  <!-- screenshots/ghostball-v10.png -->
+      </div>
+      <!-- this next hidden element is used for logging the video usage -->
+      <p><strong class="title_2">Client has the ball</strong></p>
+
+      <!--  -->
+      <p>QuietGuy uses a cell-phone client to aim <a href="index.html?3d" target="_blank" title="start a game">pool</a> shots on a host computer. 
+      Multiple players can use this network feature and participate in class demonstrations or couch co-op gameplay.
+      <!-- This network feature supports multiple players and is nice for in-class demonstrations or couch co-op gameplay. -->
+      </p>
+      
+      <p>The client works best if it and the host computer have access to local Wi-Fi. 
+      It uses WebRTC, native in browsers, to establish a peer-to-peer connection. 
+      The response of the client is best when a local route is established.
+      </p>
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/ExHiEVWppV4?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="ExHiEVWppV4">
+         <img class="frameCapture" src="screenshots/tough-shots_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+
+      <p><strong class="title_2">A few ideas...</strong></p>
+
+      <p>...for special situations:
+      <ul>
+         <li>getting a better angle on a shot by using the corner of the cushion</li>
+         <li>how to shoot a cue ball when it's touching the object ball</li>
+         <li>a manual exit from fine-moves</li>
+      </ul>
+      </p>
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/ZJmPgz6_nX0?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="ZJmPgz6_nX0">
+         <img class="frameCapture" src="screenshots/trick-shots_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+
+      <p><strong class="title_2">Racks and trick shots</strong></p>
+
+      <p>
+      The line and arc methods are demonstrated in forming unusual rack patterns for trick-shot breaks. 
+      </p>
+      <p>
+      In one clip, gravity is turned on, introducing projectile motion to the game, as if the table has been lowered on one side.
+      </p>
+      <p>
+      The final clip shows how the editor can be used to shorten, lengthen, and rotate the cushions of the table.
+      </p>
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <hr>
+      <p><a name="projectiles"></a><strong class="title_2">Projectile Games</strong></p>
+      
+      <p>Monkey Hunt and Bipartisan Hoops enlist gravity in producing projectile motion. Projectile forecasts are drawn. Monkey Hunt also has a sight line drawn.
+      These are used for aiming at targets.</p>
+      
+      <p>
+      With these projectile games, fine-adjust is toggled manually using a second-finger on a touch-screen client, or the b key on a keyboard client.
+      This is in contrast to the fine-adjust positioning for the Ghost Ball pool game. 
+      There, fine-adjust turns on automatically as the ghost ball touches the object ball.
+      </p>
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/PTPS4D5p8hU?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="PTPS4D5p8hU">
+         <img class="frameCapture" src="screenshots/monkey-hunt_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+
+      <p><a name="monkey"></a><strong class="title_2">Monkey Hunt</strong></p>
+
+      <p>The classic physics demo, <i>The Monkey and the Hunter</i>, is animated here. The platform under the monkey releases when the ball is shot.
+      The goal is to hit the monkey before he hits the ground, even more points if you send him outside via the window.
+      </p> 
+      
+      <p>You'll get six shots. The b key toggles on fine-adjust for better aiming. The s key can be used to manually setup
+      the next shot (instead of waiting).
+      </p>
+
+      <p>Take up the
+      <a href="https://www.timetocode.org/?4e.monkeyhunt" target="_blank" title="get that monkey">hunt</a> yourself.
+      Follow the link. After the game loads in, press the v key to view it fullscreen.
+      </p>
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/Bk0EI4IMqOQ?rel=0" frameborder="0"
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="Bk0EI4IMqOQ">
+         <img class="frameCapture" src="screenshots/hoops_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+
+      <p><a name="basketball"></a><strong class="title_2">Bipartisan Hoops</strong></p>
+
+      <p>Presidents Biden and Trump bring their game. I show some reluctance.
+         If you like, encourage all eight U.S. political leaders ('21-'22) to 
+         <a href="https://www.timetocode.org/?5e.basketball" target="_blank" title="finally, some cooperation across the aisle...">come off the bench.</a>
+         Follow the link, and then, after the basketball game loads in, press the v key to view it fullscreen.
+      </p>
+      <details title="my prayer">
+      <summary>Godly, peaceful, and quiet...</summary> 
+      <p>
+      Scripture states, "First of all, then, I urge that supplications, prayers, intercessions, and thanksgivings be made for all people,
+      for kings and all who are in high positions, that we may lead a peaceful and quiet life, 
+      godly and dignified in every way" (1 Timothy 2:1-2, English Standard Version).
+      </p>
+      <p>
+      This is my prayer in making this game, that these leaders would allow us to lead godly, peaceful, and quiet lives.
+      </p>
+      </details>
+      <br>
+   </td>
+   </tr>
+
+   
+   
+   <tr>
+   <td class="sectionbreak" colspan="2"><a name="fullscreenview"></a><span class="sectionbreak" title="favorites">sundries</span></td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <p style="margin-top: 2px;">Many of the videos on this page were recorded with use of the
+      <i class="material-icons" style="font-size:24px; position:relative; top:5px; left:0px; margin: 0px 3px;">aspect_ratio</i>
+      full-canvas button as seen in the right panel on the 
+      <a href="index.html" target="_blank" title="Springs &amp; Pucks">S&amp;P</a> page.
+      This enlarges the canvas to match the view port of the monitor (crisp 1:1 rendering) and provides more space to interact with the animations.
+      </p>
+      <p>This section has a few of my favorite recordings:</p>
+      <p>
+      (<a href="https://www.youtube.com/watch?v=_lUszvXIwGQ&list=PLTMmJ3C3RoL_O0SjQhTpuBz-OQiPqnvy2" target="_blank" title="my favorites">playlist</a>)
+      </p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/_lUszvXIwGQ?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="_lUszvXIwGQ">
+         <img class="frameCapture" src="screenshots/color-tail-e.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this, 'color-tail.png');">
+      </div>
+      
+      <p><strong class="title_2">Moving the source</strong></p>
+      
+      <p>A puck is emitting expanding circles (like sound). Each circle is incrementally tagged with a color from the visible
+      spectrum, yielding the appearance of a rainbow tail behind the moving 
+      puck. During the recording, the puck diameter is 
+      adjusted (up and down arrow keys).</p>
+      
+      <p>(low-compression version:
+	  <a href="https://vimeo.com/402738898" target="_blank" title="sound field">
+	  Vimeo</a>)</p>
+   </td>
+   </tr>
+   
+   <tr id="countpi">
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/202O9hOFeuQ?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="202O9hOFeuQ">
+         <img class="frameCapture" src="screenshots/pi-calcs_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+   
+      <p><strong class="title_2">Counting to Pi</strong></p>
+      
+      <p>A collision-counting method for calculating the digits of pi, is described in <a href="https://www.maths.tcd.ie/~lebed/Galperin.%20Playing%20pool%20with%20pi.pdf" target="_blank">Galperin's paper</a> 
+      and also a 3Blue1Brown <a href="https://www.youtube.com/watch?v=jsYwFizhncE" target="_blank">video</a>.</p>
+      <p>The video here presents calculations of this kind yielding 1, 2, 3, and 5 digits of pi. 
+      The 2D pucks provide a good visual representation of the 100,000,000 mass ratio in the 5-digit case. 
+      Try this interactively by running 
+	  <a href="index.html?1c" target="_blank" title="2 digits of Pi">1c</a>, 
+	  <a href="index.html?1d" target="_blank" title="3 digits of Pi">1d</a>, and 
+	  <a href="index.html?1e" target="_blank" title="5 digits of Pi">1e</a> on 
+	  the <a href="index.html" target="_blank" title="Springs &amp; Pucks">S&amp;P</a> page.</p>
+      <p>The first two cases use the Box2D engine. Higher number of
+      digits require a small specialized engine that can be seen as the <a href="piEngine.js.html" target="_blank">piEngine.js</a> module.</p>
+   </td>
+   </tr>		
+   
+   <tr id="">
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/FFFQTaVRVa0?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="FFFQTaVRVa0">
+         <img class="frameCapture" src="screenshots/no-erase_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+   
+      <p><strong class="title_2">Please, don't erase...</strong></p>
+       
+      <p>The <a href="https://www.timetocode.org/?2e" target="_blank">2e</a> and <a href="https://www.timetocode.org/?4d" target="_blank">4d</a> demos 
+      are run while inhibiting the canvas clearing (erasing) that happens at the beginning of each frame. Simultaneously press the "alt" and "p" keys to try it.
+      For the 2e case, go full-canvas, shrink the puck all the way down (arrow keys), give it a good hard fling, then alt-p.
+      </p>
+   </td>
+   </tr>		
+   
+   <tr id="leadingangle">
+   <td class="indent" colspan="2">
+      
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/7Wq5ndoG-Pk?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="7Wq5ndoG-Pk">
+         <img class="frameCapture" src="screenshots/leading-angle-sideways_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+   
+      <p><strong class="title_2">Leading the target</strong></p>
+      
+      <p>This video starts with a <a href="images/leading-angle.png" 
+      target="_blank">diagram</a> showing the relationship between the bullet 
+	  and target velocities in <a class="scroll-link" data-scroll-target="puckPopper" href="#">Puck Popper</a>. This is in the 
+	  reference frame of the shooter (riding along) looking at the target. The 
+	  idea is that the bullet will hit the target if the gun is angled such that 
+	  its perpendicular component of velocity (perpendicular to the line between 
+	  bullet and target) matches that of the target. This puts the bullet on the 
+	  needed collision course (left-right movement matching the target). The 
+	  other requirement is that the parallel component of velocity is such that, 
+	  in time, the bullet will overtake the target and collide.</p> 
+      
+      <p>The video records a session of the 
+	  <a href="index.html?8e" target="_blank">8e version</a> of the game. This version 
+	  has settings that yield a nearly ideal environment for this aim-to-lead 
+	  algorithm: (a) there are no drag 
+      forces associated with puck movement, (b) all collisions are elastic. Note that the settings that make this good for the aiming algorithm, make 
+      it harder to play. <a href="index.html?8c" target="_blank">8c</a> 
+      is easier.<p>This algorithm is implemented in a very small amount of code. Take a look at the aimToLead 
+      function in the <a href="puckPopper.js.html" target="_blank">puckPopper.js</a> module.</p>
+	  <p>These calculations can be applied in estimating how to
+      aim a shotgun, to lead, when skeet shooting. Assuming a muzzle velocity of 
+      1200 fps, clay pigeon speed of 50 mph (73 fps), a shotgun length of 
+      48 inches, and that your eye is about 3/4 of that length from the bead, 
+      you can calculate how far the bead needs to be from the line of site to the target: 36 * (73/1200) = 2 inches.</p>
+      
+   </td>
+   </tr>		
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/zz7tcol-ej0?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="zz7tcol-ej0">
+         <img class="frameCapture" src="screenshots/high-and-low_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">High and low drag</strong></p>
+      
+      <p>The effects of drag are demonstrated here using a system with two connected pucks. It's like a parachute providing a soft landing for a payload.
+      Halfway through, the timestep is reduced, providing some slow-motion viewing. The ctrl-shift-L shooting lock has been applied here, so shots, at 200 mps, 
+      are done using drag and release.</p>
+      
+      <p></p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/enzQJgU8oX4?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="enzQJgU8oX4">
+         <img class="frameCapture" src="screenshots/cannibal-in-here_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><a name="internalExternal"></a><strong class="title_2">Internal / external</strong></p>
+      
+      <p>A modified puck popper (the cannibal) is introduced here. It accounts for the physics of shooting
+      a bullet (launching a little puck):
+      
+      <ul>
+         <li>The mass of the system (the shooter and its bullets) is conserved. This means the mass of the bullet is taken from the shooter's puck (cannibalized).
+         The reduced puck size is drawn with a decreased radius.</li>
+         <li>The ejected mass (the bullet) starts its movement from the center of the shooter's puck.</li>
+         <li>The shooter's puck has no drag (no external force).</li>
+         <li>The shooter's jet behaves as usual in the Puck Popper game. It provides a pure external force: no accounting for exhaust mass, 
+         and no accounting for interactions with other objects.</li>
+      </ul>
+
+      The center of mass of all the pucks is displayed as a small white circle with cross hairs. This is introduced in the 
+      <a class="scroll-link" data-scroll-target="systemCOM" href="#">System Center of Mass</a> topic above.</p>
+      
+      <p>The cannibal is placed into three different rings: springy chain, chain, and triangle. Each of these is composed of pucks that contribute to
+      the system center of mass. Whether inside or outside of the ring, the cannibal is not able to move the SCM until it uses its jet (an external force).</p>
+   </td>
+   </tr>
+   
+   
+   
+   <tr>
+      <td class="sectionbreak" colspan="2"><a name="limitations"></a><span class="sectionbreak">limitations</span></td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <p>Box2D uses several approximations to simulate rigid body physics efficiently. This brings some limitations as quoted from the Box2D documentation:</p>
+      
+      <ul>
+      <li>Box2D uses the symplectic Euler integration scheme. It does not reproduce parabolic motion of projectiles and has only first-order accuracy.</li>
+      <li>Box2D uses an iterative solver to provide real-time performance. You will not get precisely rigid collisions or pixel perfect accuracy.</li>     
+      </ul>
+      
+      <p>The <a class="scroll-link" data-scroll-target="nogravity" href="#">no gravity</a> topic discusses deviations from ideal puck-collision physics. 
+      The next topic discusses limitations in modeling springs.</p>
+      
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/z7kaLS8Nkmo?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="z7kaLS8Nkmo">
+         <img class="frameCapture" src="screenshots/twinkle-toes_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Instability and losses</strong></p>
+      
+      <p>Hooke's law springs have reduced stability as shown in the first two clips. You can <a href="https://www.timetocode.org/?5a.twinkle" target="_blank">play</a> with
+      the tap dancer. After the demo loads,
+      use the shift-alt-S command, and check to see that the timestep is set to 17ms.
+      </p>
+      
+      <p>The third clip shows energy loss in an undamped distance joint (right side, third row). The Hooke's law
+      equivalent (left side), shows the ideal undamped behavior.
+      See also the corresponding <a href="https://www.timetocode.org/?5a.soft" target="_blank">demo</a> 
+      and discussion for Box2D Distance Joints.
+      </p>
+      
+   </td>
+   </tr>
+   
+   
+   
+   <tr>
+      <td class="sectionbreak" colspan="2"><a name="capture"></a><span class="sectionbreak">state capture</span></td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <p>The capture feature can be used to save work that you've created/modified with the editor and then replay it. 
+      There are examples of this in the topics above such as the new jello used by the Marx brothers.</p>
+      
+      <p>However, there are object attributes that can not be modified through the editor. 
+      Many of these attributes are accessible through the JSON in a capture and can be changed there as shown in the following videos.</p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/guwK3hpiwcE?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="guwK3hpiwcE">
+         <img class="frameCapture" src="screenshots/starting-positions_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><a name="captureEditClientAndDrones"></a><strong class="title_2">The nature of clients, humans and drones</strong></p>
+
+      <p>The balance of power, in Puck Popper, between the client pucks and drone pucks, can be adjusted by editing the capture.
+      </p>
+      <ul>
+         <li>raycasting sweep <strong>rate and reach</strong>: the aggressiveness of the drones is partly established by their
+         numbers and their navigation course (see topic above, <a class="scroll-link" data-scroll-target="changingDronePath" href="#">Changing the drone path</a>). 
+         The nature of the drones raycasting has an equally strong effect on how quickly they eliminate a target as is shown in the first two segments of this video.</li>
+         
+         <li><strong>bullet-life limit</strong>: short bullet-life will motivate more hand-to-hand combat, longer life will allow successful ricochet shots off the fence, even longer will 
+         basically turn you into a fumigator.</li>
+         
+         <li><strong>recoil</strong>: turn off recoil to stay put while shooting.</li>
+         
+         <li>network clients <strong>starting positions</strong>: some positions are inherently more defensible. No hills here, but corners generally are good places to take a stand.</li>
+      </ul>
+      
+      <p>The host's puck is a template for all the network-client pucks. That keeps it fair if you are playing against each other and not only
+      teaming up against the drones. Edit the following attributes on the host puck and you will see the same attributes on the network client pucks: 
+      <i>radius_m, hitLimit, noRecoil, linDamp, restitution, restitution_fixed, friction, friction_fixed</i>. As shown in the video, the starting positions and velocities,
+      for each of the first four network clients, can be set in <i>startingPosAndVels</i> near the end of the capture.
+      
+      </p>
+   </td>
+   </tr>   
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/u1XXfPifKYY?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="u1XXfPifKYY">
+         <img class="frameCapture" src="screenshots/edit-velocities_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">Adding angular momentum</strong></p>
+
+      <p>The goal: demonstrate conservation of angular momentum by changing the spring lengths of the tri-puck object in demo 5a. (similar to how 
+      figure skaters increase their rotation rate by pulling in their arms and legs during a spin) 
+      The group must be centered so the longer springs don't cause the pucks to touch the walls.</p>
+      
+      <p>The method (a dash of physics): Do this by editing a capture of the centered system. Change the y component of velocity of two pucks such that the net change
+      of their y components of momentum is zero. This causes rotation without causing movement of the system's center.</p>
+      
+      <p>Alternative method (without the capture edit or physics): use multi-select to copy the rotating trio, then paste to a centered cursor position
+      with control-v, then delete the original trio (for the reader to try, not in the video).</p>
+   </td>
+   </tr>   
+   
+   <tr>
+   <td class="indent">
+      <!--
+      <div class="video-container">
+         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/4uB8iqzTPBM?rel=0" frameborder="0" 
+         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+      </div>
+      -->
+      <div class="video-container" data-videoID="4uB8iqzTPBM">
+         <img class="frameCapture" src="screenshots/the-end_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+
+      <p><strong class="title_2">Thanks for watching...</strong></p>
+
+      <p>This tale-end video shows how to edit the tail and puck attributes in the 2e capture to produce a non-expanding tail.</p>
+      
+   </td>
+   </tr>   
+   
+   <tr>
+   <td class="indent">
+      <p>
+      .<br/>      
+      .<br/>
+      .<br/>      
+      </p>
+   </td>
+   </tr>
+
+	</table>
+	<p><a href="index.html">(back to Springs & Pucks)</a></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,499 @@
+/* 
+11:56 AM Fri February 26, 2021 
+Written by: James D. Miller 
+*/
+
+/* Disable text selection (via cursor). This stops accidental selection behavior
+   when the cursor is dragged off the canvas. */
+body {
+  -webkit-user-select: none;
+     -moz-user-select: -moz-none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+#serverTitle {
+   font-size: 0.9em;
+   width: 3.0em;
+   display: inline-block;
+   text-align: right;
+   padding-left: 0em;
+}
+#roomTitle {
+   font-size: 0.9em;
+   width: 3.2em;
+   display: inline-block;
+   text-align: right;
+}
+
+/* blocks the blue background for checkboxes in recent chrome release */
+input[type='checkbox']:checked {-webkit-filter: grayscale(100%);}
+/* turn it off completely */
+select:active, select:hover {
+  outline: none
+}
+/*
+no luck trying to do something similar with select elements
+select option:hover {-webkit-filter: grayscale(100%);}
+*/
+   
+/* Multiplayer Interface (note the width of these input fields is set by adjustSizeOfChatDiv method in demoStart.js) */
+#inputField { 
+   height: 20px; 
+   margin: 0.00em; 
+   padding-left: 0px;
+}
+#nodeServer { 
+   height: 20px; 
+   margin-left: 0.25em; 
+   padding: 0;
+}
+#roomName   { 
+   height: 20px; 
+   margin-left: 0.25em; 
+   padding: 0; 
+   border: 2px solid red;
+}
+
+#jsonCapture { height: 30px; width: 165px; 
+               margin-bottom: 0px; margin-top: 2px; margin-left: 2px; 
+               padding: 0; 
+               background-color: #f4f3f1;
+               white-space: pre;
+               overflow-wrap: normal;
+               overflow-x: scroll;}
+
+#messages    { list-style-type: none; margin: 0.8em 0em; padding: 0;        font: 0.9em Helvetica, Arial, sans-serif; }
+#messages li {                                   padding: 5px 10px; border: 1px solid #d9d9d9;}
+/*
+#messages li:nth-child(odd) { background: #d9d9d9;}
+*/
+
+/* Table for score summary (without an outer border). */
+table.score {
+   border-collapse: collapse;
+   border-style: hidden;
+}
+td.scoreHeader {
+   text-align: center;
+   font-size: 100%;
+   padding: 1px 2px;
+   border-bottom: 2px solid brown;
+   border-left:   1px solid brown;
+   border-right:  1px solid brown;
+}
+td.score {
+   font-size: 100%;
+   padding: 1px 2px;
+   border: 1px solid brown;
+}
+td.leaderboardHeader {
+   text-align: center;
+   font-size: 95%;
+   padding: 1px 2px;
+   border-bottom: 2px solid brown;
+   border-left:   1px solid brown;
+   border-right:  1px solid brown;
+}
+td.leaderboardScore {
+   /* vertical 0px */
+   font-size: 95%;
+   padding: 1px 2px;
+   border: 1px solid brown;
+}
+td.leaderboardIndex {
+   font-size: 70%;
+   padding: 1px 2px;
+   border: 1px solid brown;
+}
+td.leaderboardName {
+   font-size: 85%;
+   padding: 1px 2px;
+   border: 1px solid brown;
+}
+
+br.score {
+   display: block;     /* makes it have a width */
+   content: "";        /* clears default height */
+   margin-bottom: 9px; /* here's where you dial the bottom gap */
+}
+
+/* Outline with the demo details */
+#outline1 {
+   margin: 0px; 
+   padding: 0px 0px 0px 0px;
+}
+#outline1 li {
+}
+
+span.gameBullet {
+   /* 
+   font-size: 100%;
+   color: darkgreen;
+   background: lightyellow;
+   font-style: italic; 
+   */
+}
+
+p.title {
+   color:black; /* #5d8989 #008080 */
+   text-align: center;
+   font-size: 175%;
+   font-weight: bold;
+   margin-top:    20px;
+   margin-bottom: 10px;  /* 27 */
+}
+
+#browserAdvice {
+   color:gray; /* #5d8989 #008080 */
+   text-align:center; 
+   font-size: 80%;
+   margin-top:    0px;
+   margin-bottom: 0px;
+}
+
+body, p {
+   font-family: Helvetica, Arial, sans-serif;
+   font-size: 100%;
+   background-color: #f4f3f1; /* pink #a7a09a  #EFEFEF */
+}
+
+/*
+context menus in mainDiv are inhibited in gwModule.js
+
+This height of mainDiv is effectively established by the height of the scroller div below.
+
+Extending this class of divs presence down the page so the mouse behavior, related to
+drag-over-the-boundary events, are inhibited. This is needed when drag operations extend
+off the canvas, while using the right mouse button, to avoid right-click menus from being 
+displayed at the end of the drag. So down at the very bottom there is still room to 
+right click to view the page source.
+
+You can still to the right of the controls. 
+*/
+#mainDiv {
+   font-family: Helvetica, Arial, sans-serif;
+   font-size: 16px;
+   
+   display: table;
+   margin-left: 1.5625em;
+   max-width:  87.5em;
+}
+
+div.containerRow {
+   display: row;
+}
+
+div.maintext {   
+   min-width: 33.75em;
+   max-width: 33.75em;
+   
+   padding-left:  0.3125em;
+   padding-right: 0.6250em;
+   
+   display: table-cell;
+   vertical-align: top;
+   
+   text-align: justify;
+}
+#multiPlayer {
+}
+
+div.clientVideo {
+   display: table-cell;
+   vertical-align: top;
+}
+div.canvas {
+   display: table-cell; /* table-cell inline-block flex */
+   vertical-align: top;
+
+   /*
+   Chrome changed today (2:59 PM Thu May 28, 2020): 
+   The container div no longer resizes as the child canvas dimensions change.
+   
+   width: fit-content;   
+   width: auto;
+   height: auto;
+   position: relative;   
+
+   width: 100%;
+   overflow: auto; 
+   */
+}
+
+div.controls {
+   vertical-align: top;
+   min-width: 140px;
+   max-width: 160px;
+   display: table-cell;
+}
+
+/* 
+   This scroller div is used to make the left panel scroll. Appears necessary to specify the
+   height. The 98vh uses up most the vertical space without triggering the far left scroll
+   bar for the page (99vh and you see the far left scroll bar).
+   
+   The height of scroller effectively established the height of the mainDiv div above.
+*/   
+div.scroller {
+   vertical-align: top;
+   overflow-y: scroll; 
+   height: 98vh;   /* 98vh */
+   padding-right: 0.625em;
+}
+
+#editGuide {
+   font-size:  smaller;
+   padding-left:  20px;
+   padding-top:    5px;
+   padding-bottom: 5px; 
+}
+#buttonGroup {
+   margin-top:    -9px;
+   padding-top:    0px;
+   padding-bottom: 0px; 
+   padding-left:   4px;
+}
+
+#variationLine {
+   padding-top:      5px;
+   padding-bottom:  15px; 
+   padding-left:     0px;
+}
+#indexInPlusRow {
+   margin: 0px 0px 0px 4px; 
+   padding: 2px;
+   border-radius: 0px;
+}
+
+#divFullScreen {
+   padding-top:    7px;
+   padding-bottom: 12px; 
+   padding-left:   2px;
+}
+
+#divEditorChk {
+   padding-top:     3px;
+   padding-bottom:  15px; 
+   padding-left:    0px;
+}
+
+
+/*monospace  90%*/
+#FrameRate, #TableActions {
+   font-family: Helvetica, Arial, sans-serif;
+   font-size: smaller;
+   
+   border-radius: 3px;
+
+   margin-left: 4px;
+   margin-top:  3px;
+   background-color: lightgray; /* lightgray #d1e0e0 */
+}
+   
+#hostCanvas {
+   cursor: none; /* cursor: default; */
+   
+   /* Border color and background color are set via DOM code in gwModule. */
+   border-style: solid;
+   border-width: 5px;
+   
+   /* This prevents single-touch scrolling of the host's touch-screen canvas, but allows pinch zoom. 
+   Note: this doesn't block any touch operations for Android Firefox. */
+   touch-action: pinch-zoom;
+}
+/* When fullscreen on android cellphone (chrome), these media queries prevent the host's canvas from cropping.*/
+@media screen and (orientation: landscape) and (max-device-width: 980px) {
+   #hostCanvas:-webkit-full-screen {
+      height: 100%;
+      width: 100%; /* auto */
+   }
+   /* 
+   Avoids dead spot at play-button position on cell phones; needed for Ghost-Ball game.
+   However, changed to completely hide the controls on the videoMirror element. See style
+   for video::-webkit-media-controls below.
+   #videoMirror { pointer-events: none;}
+   */
+}
+@media screen and (orientation: portrait) and (max-device-width: 980px) {
+   #hostCanvas:-webkit-full-screen {
+      height: 100%; /* auto */
+      width: 100%;
+   }
+   /* see landscape media query 
+   #videoMirror { pointer-events: none;}
+   */
+}
+
+/* Hide media controls even when in full-screen mode. This removes the controls on the videoMirror element. Needed for Chrome. */
+video::-webkit-media-controls {
+   display:none !important;
+}
+
+#videoMirror {
+   cursor: default; /*  cursor: none; */
+   border: #008080 5px solid; /* 5px */
+   touch-action: none; /* prevent scrolling of the video element on touch screens */
+   /* #004241 matches the color of the poster image images/green.jpg used with the video element */
+   /* #4D5D53 matches green2.jpg */
+   /* #202020 matches gray.png */
+   background-color:#303030;
+}
+#connectionCanvas {
+   border:gray 0px solid; /* 1px */
+}  
+#twoThumbsCanvas {
+   cursor: default; /*  cursor: none; */
+   border:#008080 5px solid;  /* #008080 #232323 */
+   touch-action: none; /* prevents scrolling on touch screens */
+} 
+
+/* last row of buttons on the client page */
+button.clientLastRow {
+   background-color: lightgray;
+   /*margin-left: 5px;*/
+   border-color: lightgray; /* default is very dark in MS Edge */
+   border-radius: 4px;
+   padding: 4px 0px;
+}
+#FullScreen {
+   width: 6.0em;
+} 
+#twoThumbsButton {
+   width: 9.5em; /* 7.3 */
+} 
+
+input[type=checkbox] {
+            vertical-align: middle;
+            position: relative;
+            bottom: 1px;
+}
+
+/* keep the size of Firefox buttons similar to those in Chrome */
+button::-moz-focus-inner {
+   border:0;
+   padding:0;
+}
+
+button.chat {
+   background-color: lightgray;
+   padding: 3px 4px;
+   border-color: lightgray;
+   border-radius: 4px;
+   /* width: 62px; */
+   text-align: left;
+}
+#ConnectButton {
+   width: 4.8em;
+}
+#ChatButton {
+   width: 4.8em;
+}
+
+input.nickNameField {
+   outline: 0;
+   border-width: 0 0 2px;
+   border-color: black;
+   width: 90px
+}
+input.nickNameField:focus {
+   border-color: green;
+   background-color: lightgreen;
+}
+input.nickNameField:invalid:focus {
+   border-color: gray;
+   background-color: #FCF55F; /* shade of yellow */
+}
+
+input.twoPuckCalculator, input.threePuckCalculator, input.fourPuckCalculator {
+   font-size: 100%;
+   outline: 0;
+   border-width: 0 0 0px;
+   border-color: black;
+   width: 50px;
+   text-align: center;
+   background-color: white;
+}
+input.twoPuckCalculator:focus, input.threePuckCalculator:focus, input.fourPuckCalculator:focus {
+   border-color: green;
+   background-color: lightgreen;
+}
+input.twoPuckCalculator:invalid:focus, input.threePuckCalculator:invalid:focus, input.fourPuckCalculator:invalid:focus {
+   border-color: gray;
+   background-color: #FCF55F; /* shade of yellow */
+}
+table.twoPuckCalculator td, table.threePuckCalculator td, table.fourPuckCalculator td {
+   background-color: #f4f3f1;
+   padding: 3px 3px;
+   text-align: center;
+}
+
+
+button.main {
+   background-color: lightgray;
+   padding: 3px 4px;
+   border-color: lightgray; /* default is very dark in MS Edge */
+   border-radius: 4px;
+   /* width: 62px; */ 
+   text-align: left;   
+}
+
+button.tight {
+   background-color: lightgray;
+   padding: 3px 3px;
+   border-color: lightgray; /* default is very dark in MS Edge */
+   border-radius: 4px;
+   text-align: center;  
+   margin-left: -2px;
+   margin-right: -2px;
+}
+
+
+
+button.fullScreen {
+   /* note: one of the buttons may have a width style specified in the element. */
+   box-sizing: border-box; 
+   padding-top: 1px; /* */
+   height: 37px;
+   text-align: center;      
+   background-color: lightgray;
+   border-color: lightgray; /* default is very dark in MS Edge */
+   border-radius: 4px;   
+}
+
+#stepper {
+   padding:  0px 4px 0px 4px;   
+}
+
+button.demos {
+   background-color: lightgray;  /* this get changed by script on load and use...*/
+   padding: 4px 10px;
+   
+   /* border: 2px solid gray; /* */
+   /* border-style: outset; /* inset solid */
+   /* border-width: 2px; /* */
+   border-color: lightgray; /* default is very dark in MS Edge */
+   border-radius: 4px; /* 4px */
+   
+   margin-left: 0px;
+   margin-right: -4px;
+}
+
+/* All the links that don't have href attributes */
+a:not([href]) {
+   cursor: pointer;
+}
+
+/* Inhibits the drawing of a focus border around buttons. Issue in Chrome. */
+button:focus {
+   outline: 0;
+}
+
+/* These apply only to the <a> elements inside the "main" div class. This is a 
+   similar isolation technique to that used in the sitemap.css file. */
+div.main a         {color:black; text-decoration:underline;}
+div.main a:hover   {color:white;  text-decoration:none; background:#000000}
+
+/*
+div.main a:visited {color:black; text-decoration:underline}
+*/
