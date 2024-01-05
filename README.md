@@ -1,3 +1,3 @@
 ## Springs & Pucks
 
-jterm and then some...
+PET, and more, on an HTML canvas
