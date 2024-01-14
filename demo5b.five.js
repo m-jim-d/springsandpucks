@@ -1,8 +1,8 @@
 demo_capture = {
    "demoIndex": 5,
    "demoVersion": "5.b.five",
-   "date": "12/21/2023, 8:57:52 PM",
-   "capturedAtFrame": 16540,
+   "date": "1/8/2024, 8:32:17 AM",
+   "capturedAtFrame": 17581,
    "canvasDimensions": {
       "width": 600,
       "height": 600
@@ -17,96 +17,11 @@ demo_capture = {
       "reportType": "speed",
       "COM": true,
       "angularAxis_2d_m": {
-         "x": 2.793553587054107,
-         "y": 2.945023075549967
+         "x": 2.5924735037781717,
+         "y": 3.043453645862938
       }
    },
-   "wallMapData": {
-      "wall1": {
-         "name": "wall1",
-         "position_2d_m": {
-            "x": 3,
-            "y": 6
-         },
-         "fence": true,
-         "fenceLeg": null,
-         "sensor": false,
-         "visible": true,
-         "velocity_2d_mps": {
-            "x": 0,
-            "y": 0
-         },
-         "angle_r": 0,
-         "angularSpeed_rps": 0,
-         "half_width_m": 3,
-         "half_height_m": 0.05,
-         "color": "darkgray",
-         "monkeyHunt": false
-      },
-      "wall2": {
-         "name": "wall2",
-         "position_2d_m": {
-            "x": 3,
-            "y": 0
-         },
-         "fence": true,
-         "fenceLeg": null,
-         "sensor": false,
-         "visible": true,
-         "velocity_2d_mps": {
-            "x": 0,
-            "y": 0
-         },
-         "angle_r": 0,
-         "angularSpeed_rps": 0,
-         "half_width_m": 3,
-         "half_height_m": 0.05,
-         "color": "darkgray",
-         "monkeyHunt": false
-      },
-      "wall3": {
-         "name": "wall3",
-         "position_2d_m": {
-            "x": 0,
-            "y": 3
-         },
-         "fence": true,
-         "fenceLeg": null,
-         "sensor": false,
-         "visible": true,
-         "velocity_2d_mps": {
-            "x": 0,
-            "y": 0
-         },
-         "angle_r": 0,
-         "angularSpeed_rps": 0,
-         "half_width_m": 0.05,
-         "half_height_m": 3,
-         "color": "darkgray",
-         "monkeyHunt": false
-      },
-      "wall4": {
-         "name": "wall4",
-         "position_2d_m": {
-            "x": 5.98,
-            "y": 3
-         },
-         "fence": true,
-         "fenceLeg": null,
-         "sensor": false,
-         "visible": true,
-         "velocity_2d_mps": {
-            "x": 0,
-            "y": 0
-         },
-         "angle_r": 0,
-         "angularSpeed_rps": 0,
-         "half_width_m": 0.05,
-         "half_height_m": 3,
-         "color": "darkgray",
-         "monkeyHunt": false
-      }
-   },
+   "wallMapData": {},
    "puckMapData": {
       "puck1": {
          "bullet": false,
@@ -115,12 +30,12 @@ demo_capture = {
          "clientName": null,
          "name": "puck1",
          "position_2d_m": {
-            "x": 2.7624604400921955,
-            "y": 2.4021025347343112
+            "x": -1.282859771698517,
+            "y": 4.11301547533045
          },
          "velocity_2d_mps": {
-            "x": 0.18875816101512555,
-            "y": 0.04973236380024029
+            "x": 0,
+            "y": 0
          },
          "color": "DarkSlateGray",
          "borderColor": "white",
@@ -136,13 +51,13 @@ demo_capture = {
          "groupIndex": 0,
          "categoryBits": 1,
          "maskBits": 65535,
-         "angle_r": 164.63842961798719,
-         "angularSpeed_rps": 0.29432554491271545,
-         "angleLine": true,
-         "borderWidth_px": 3,
+         "angle_r": 30.77467382705875,
+         "angularSpeed_rps": -25,
+         "angleLine": "stripe",
+         "borderWidth_px": 0,
          "restitution": 0,
          "restitution_fixed": true,
-         "friction": 0.7657689375000003,
+         "friction": 2.5,
          "friction_fixed": true,
          "radius_m": 0.3897434200000002,
          "aspectR": 1,
@@ -156,12 +71,12 @@ demo_capture = {
          "clientName": null,
          "name": "puck2",
          "position_2d_m": {
-            "x": 3.2549635093929554,
-            "y": 3.0069324366294383
+            "x": 0.3575732469503988,
+            "y": -0.8639705168504427
          },
          "velocity_2d_mps": {
-            "x": 0.011031191009491532,
-            "y": 0.1948878246473554
+            "x": 0,
+            "y": 0
          },
          "color": "DarkSlateGray",
          "borderColor": "white",
@@ -177,13 +92,13 @@ demo_capture = {
          "groupIndex": 0,
          "categoryBits": 1,
          "maskBits": 65535,
-         "angle_r": 12.026676246521717,
-         "angularSpeed_rps": 0.29506958472215283,
-         "angleLine": true,
-         "borderWidth_px": 3,
+         "angle_r": 35.29481962738761,
+         "angularSpeed_rps": 3,
+         "angleLine": "stripe",
+         "borderWidth_px": 0,
          "restitution": 0,
          "restitution_fixed": true,
-         "friction": 0.7657689375000003,
+         "friction": 2.5,
          "friction_fixed": true,
          "radius_m": 0.3897434200000002,
          "aspectR": 1,
@@ -197,12 +112,12 @@ demo_capture = {
          "clientName": null,
          "name": "puck9",
          "position_2d_m": {
-            "x": 2.0350412024489186,
-            "y": 2.6835980696964357
+            "x": 2.9436135067785125,
+            "y": 7.211133239612182
          },
          "velocity_2d_mps": {
-            "x": 0.10562776819115709,
-            "y": -0.16415153337309954
+            "x": 0,
+            "y": 0
          },
          "color": "DarkSlateGray",
          "borderColor": "white",
@@ -218,13 +133,13 @@ demo_capture = {
          "groupIndex": 0,
          "categoryBits": 1,
          "maskBits": 65535,
-         "angle_r": 12.637464229479908,
-         "angularSpeed_rps": 0.2950966194227226,
-         "angleLine": true,
-         "borderWidth_px": 3,
+         "angle_r": 29.62495457028336,
+         "angularSpeed_rps": 3,
+         "angleLine": "stripe",
+         "borderWidth_px": 0,
          "restitution": 0,
          "restitution_fixed": true,
-         "friction": 0.7657689375000003,
+         "friction": 2.5,
          "friction_fixed": true,
          "radius_m": 0.3897434200000002,
          "aspectR": 1,
@@ -238,12 +153,12 @@ demo_capture = {
          "clientName": null,
          "name": "puck13",
          "position_2d_m": {
-            "x": 2.0779744588155977,
-            "y": 3.462401779879491
+            "x": 7.196150664069426,
+            "y": 4.148889326907242
          },
          "velocity_2d_mps": {
-            "x": -0.12347661007782412,
-            "y": -0.1511835906253955
+            "x": 0,
+            "y": 0
          },
          "color": "DarkSlateGray",
          "borderColor": "white",
@@ -259,13 +174,13 @@ demo_capture = {
          "groupIndex": 0,
          "categoryBits": 1,
          "maskBits": 65535,
-         "angle_r": 12.080491788118344,
-         "angularSpeed_rps": 0.2945928943223713,
-         "angleLine": true,
-         "borderWidth_px": 3,
+         "angle_r": 35.314757313982504,
+         "angularSpeed_rps": 3,
+         "angleLine": "stripe",
+         "borderWidth_px": 0,
          "restitution": 0,
          "restitution_fixed": true,
-         "friction": 0.7657689375000003,
+         "friction": 2.5,
          "friction_fixed": true,
          "radius_m": 0.3897434200000002,
          "aspectR": 1,
@@ -279,12 +194,12 @@ demo_capture = {
          "clientName": null,
          "name": "puck14",
          "position_2d_m": {
-            "x": 2.8319279081411923,
-            "y": 3.6622334083750165
+            "x": 5.597889887220047,
+            "y": -0.8417992572686175
          },
          "velocity_2d_mps": {
-            "x": -0.18194050999548916,
-            "y": 0.07071493593019074
+            "x": 0,
+            "y": 0
          },
          "color": "DarkSlateGray",
          "borderColor": "white",
@@ -300,13 +215,13 @@ demo_capture = {
          "groupIndex": 0,
          "categoryBits": 1,
          "maskBits": 65535,
-         "angle_r": 13.139320656867286,
-         "angularSpeed_rps": 0.2946372057159154,
-         "angleLine": true,
-         "borderWidth_px": 3,
+         "angle_r": 30.094542206203023,
+         "angularSpeed_rps": 3,
+         "angleLine": "stripe",
+         "borderWidth_px": 0,
          "restitution": 0,
          "restitution_fixed": true,
-         "friction": 0.7657689375000003,
+         "friction": 2.5,
          "friction_fixed": true,
          "radius_m": 0.3897434200000002,
          "aspectR": 1,
@@ -314,43 +229,18 @@ demo_capture = {
          "half_width_m": null
       }
    },
-   "pinMapData": {
-      "pin1": {
-         "cursorPin": false,
-         "name": "pin1",
-         "position_2d_m": {
-            "x": 0.13,
-            "y": 0.15
-         },
-         "velocity_2d_mps": {
-            "x": 0,
-            "y": 0
-         },
-         "radius_px": 6,
-         "groupIndex": 0,
-         "categoryBits": 0,
-         "maskBits": 0,
-         "deleted": false,
-         "NPC": false,
-         "nextPinName": null,
-         "previousPinName": null,
-         "visible": true,
-         "color": "blue",
-         "borderColor": "gray",
-         "navLineColor": "white"
-      }
-   },
+   "pinMapData": {},
    "springMapData": {
       "s9": {
          "name": "s9",
-         "color": "blue",
+         "color": "tan",
          "visible": true,
-         "length_m": 0.7549729318046643,
-         "stretch_m": 0.025013275443348193,
+         "length_m": 0.5,
+         "stretch_m": 0.16128318180099654,
          "strength_Npm": 29.366908510884045,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck9",
@@ -369,14 +259,14 @@ demo_capture = {
       },
       "s13": {
          "name": "s13",
-         "color": "blue",
+         "color": "tan",
          "visible": true,
-         "length_m": 0.7549729318046643,
-         "stretch_m": 0.025013275443347416,
+         "length_m": 0.5,
+         "stretch_m": 0.16128318180100365,
          "strength_Npm": 29.366908510884045,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck1",
@@ -395,14 +285,14 @@ demo_capture = {
       },
       "s16": {
          "name": "s16",
-         "color": "blue",
+         "color": "tan",
          "visible": true,
-         "length_m": 0.7549729318046643,
-         "stretch_m": 0.02501327544334575,
+         "length_m": 0.5,
+         "stretch_m": 0.16128318180100454,
          "strength_Npm": 29.366908510884045,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck13",
@@ -423,12 +313,12 @@ demo_capture = {
          "name": "s36",
          "color": "yellow",
          "visible": true,
-         "length_m": 1.2751787257624176,
-         "stretch_m": -0.013134531679015016,
-         "strength_Npm": 29.366908510884045,
+         "length_m": 1.5,
+         "stretch_m": -0.09967848816675229,
+         "strength_Npm": 20.0,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck9",
@@ -449,12 +339,12 @@ demo_capture = {
          "name": "s45",
          "color": "yellow",
          "visible": true,
-         "length_m": 1.2751787257624176,
-         "stretch_m": -0.01313453167901546,
-         "strength_Npm": 29.366908510884045,
+         "length_m": 1.5,
+         "stretch_m": -0.09967848816675051,
+         "strength_Npm": 20.0,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck13",
@@ -475,12 +365,12 @@ demo_capture = {
          "name": "s46",
          "color": "yellow",
          "visible": true,
-         "length_m": 1.2751787257624176,
-         "stretch_m": -0.013134531679014794,
-         "strength_Npm": 29.366908510884045,
+         "length_m": 1.5,
+         "stretch_m": -0.09967848816674696,
+         "strength_Npm": 20.0,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck14",
@@ -499,14 +389,14 @@ demo_capture = {
       },
       "s47": {
          "name": "s47",
-         "color": "blue",
+         "color": "tan",
          "visible": true,
-         "length_m": 0.7549729318046643,
-         "stretch_m": 0.025013275443348304,
+         "length_m": 0.5,
+         "stretch_m": 0.16128318180100365,
          "strength_Npm": 29.366908510884045,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck2",
@@ -525,14 +415,14 @@ demo_capture = {
       },
       "s48": {
          "name": "s48",
-         "color": "blue",
+         "color": "tan",
          "visible": true,
-         "length_m": 0.7549729318046643,
-         "stretch_m": 0.02501327544334775,
+         "length_m": 0.5,
+         "stretch_m": 0.16128318180100187,
          "strength_Npm": 29.366908510884045,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck9",
@@ -553,12 +443,12 @@ demo_capture = {
          "name": "s49",
          "color": "yellow",
          "visible": true,
-         "length_m": 1.2751787257624176,
-         "stretch_m": -0.013134531679014572,
-         "strength_Npm": 29.366908510884045,
+         "length_m": 1.5,
+         "stretch_m": -0.09967848816675051,
+         "strength_Npm": 20.0,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck2",
@@ -579,12 +469,12 @@ demo_capture = {
          "name": "s50",
          "color": "yellow",
          "visible": true,
-         "length_m": 1.2751787257624176,
-         "stretch_m": -0.013134531679015016,
-         "strength_Npm": 29.366908510884045,
+         "length_m": 1.5,
+         "stretch_m": -0.09967848816675229,
+         "strength_Npm": 20.0,
          "unstretched_width_m": 0.03265551661468138,
          "drag_c": 0,
-         "damper_Ns2pm2": 5,
+         "damper_Ns2pm2": 10,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck13",

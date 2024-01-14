@@ -51,7 +51,7 @@
    <script src="Box2D.js?v=45"></script>
 
    <script src="utilities.js?v=45"></script>
-   <script src="pageStuff.js?v=45"></script>
+   <script src="pageStuff.js?v=50"></script>
    <script src="worldScreen.js?v=45"></script>
    
    <script src="drawFunc.js?v=45"></script>
@@ -61,9 +61,9 @@
    
    <script src="tableActs.js?v=45"></script>
    <script src="multiSelect.js?v=45"></script>
-   <script src="gwModule.js?v=45"></script>
+   <script src="gwModule.js?v=50"></script>
    
-   <script src="demoStart.js?v=45"></script>
+   <script src="demoStart.js?v=50"></script>
    <script src="eventsHost.js?v=45"></script>
    <script src="boxStuff.js?v=45"></script>
    
@@ -103,7 +103,7 @@
       
       // After the page loads (and canvas element is defined)....
       $(document).ready( function() { 
-         pS.init({"pageDesc":"SP: Main", "scrollAdjust":-13, "scrollAtLoad":false});
+         pS.init({"pageDesc":"SP: Main", "logPage":true, "scrollAdjust":-13, "scrollAtLoad":false});
          gW.init();
          hC.init_chatFeatures();
       });
@@ -240,7 +240,8 @@
             <li>springs and pins: <a class="scroll-link" href="#" title="" data-scroll-target="d5">&nbsp;5a&nbsp;</a></li>
             <li>orbit from spin: 
                <a class="scroll-link" href="#" title="" data-scroll-target="d5b">&nbsp;5b&nbsp;</a>,
-               <a class="scroll-link" href="#" title="" data-scroll-target="d5btwo">5b.two</a>
+               <a class="scroll-link" href="#" title="" data-scroll-target="d5btwo">two</a>
+               <!-- <a class="scroll-link" href="#" title="" data-scroll-target="d5bfour">four</a> -->
             </li>
             <li><span class="gameBullet">dandelions</span>: <a class="scroll-link" href="#" title="" data-scroll-target="d5d">&nbsp;5d&nbsp;</a></li>
             <li><span class="gameBullet">Bipartisan Hoops</span>: <a class="scroll-link" href="#" title="" data-scroll-target="bphoops">5e.ball</a></li>
@@ -931,11 +932,7 @@
          Try copying and pasting a spring (ctrl-v after selecting).
          Also note, to position something, without the cursor spring, drag with the ctrl key down. Here's what you're
          shooting for: <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.threeAndOne.js'})">5.a.threeAndOne</a>.
-         <br><br>
-         Here are <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.orbitingOnSpring.js'})">two pucks</a> in orbit.
-         There is damping in the springs but no translational drag on the pucks. This is similar to the 5a demo, but simpler, and
-         with a more energetic start. One puck starts with an x component of 28 mps, the other starts with an equal but negative x component.
-         
+                  
          <br><br>
          <span id="d5b"></span>
          <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.js'})">5b</a> shows the transfer of angular momentum from spin (Ls) to orbital (Lo). Total
@@ -1056,13 +1053,21 @@
          <p>\[ \omega_{Af}-\omega_{Ai}=\omega_{Bf}-\omega_{Bi} \]</p>
          
          <p>Yielding the final spin rates for the two pucks:</p>
-         <p>
-         \[ 
+         <!--
          \omega_{Af}=(2\omega_{Ai}-\omega_{Bi})/3
          \;\; \textrm{ and } \;\;
          \omega_{Bf}=(2\omega_{Bi}-\omega_{Ai})/3 
+         -->
+         <p>
+         \[ 
+         \omega_{Af}=\omega_{Ai}-2\Omega_{f}
+         \;\; \textrm{ and } \;\;
+         \omega_{Bf}=\omega_{Bi}-2\Omega_{f}
          \]
          </p>
+         
+         <details class="onIndex">
+         <summary title="click for info on higher numbers of pucks">more: 4, 5, and 6 puck systems...</summary>
          
          <br>
          <span id="d5bfour"></span>
@@ -1091,7 +1096,7 @@
          <td title="puck A final spin rate"     id="a_4p_final"></td>
          <td title="puck B final spin rate"     id="b_4p_final"></td>
          <td title="puck C final spin rate"     id="c_4p_final"></td>
-         <td title="puck B final spin rate"     id="d_4p_final"></td>
+         <td title="puck D final spin rate"     id="d_4p_final"></td>
          <td title="orbit rate after collision" id="orbit_4p"  ></td>
          </tr>
          </table>
@@ -1120,12 +1125,146 @@
          \[ \omega_{Cf}=\omega_{Af} \;\; \textrm{ and } \;\; \omega_{Df}=\omega_{Bf} \]
          
          <p>Combine to give the two spin rates:</p>
+         <!--
          \[ \omega_{ACf} = \Omega_{f} + (\overline{\omega}_{ACi} - \overline{\omega}_{BDi})/2 \]
          \[ \omega_{BDf} = \Omega_{f} - (\overline{\omega}_{ACi} - \overline{\omega}_{BDi})/2 \]
+         -->
+         \[ 
+         \omega_{ACf} = \overline{\omega}_{ACi} - 4\Omega_{f} 
+         \;\; \textrm{ and } \;\;
+         \omega_{BDf} = \overline{\omega}_{BDi} - 4\Omega_{f} 
+         \]
          
+         <span id="d5bfive"></span>
+         <p>As you consider the equations for two, three, and four puck systems, you may have noticed some patterns. 
+         The numbers in the denominator of the \( \Omega_{f} \) equations form a sequence: 6, 11, 20. And if you use
+         the engine to experiment with 
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.five.js'})">five</a> and 
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.six.js'})">six</a> 
+         puck systems, you would see this sequence extends to 6,11,20,34,54.
+         This is similar to the triangular number sequence and can be expressed as follows starting at n=2: </p>
+         
+         \[  S_{n} = (4-n) + \sum_{k=1}^{n} \frac{k(k+1)}{2}  \]
+         
+         <p>For a <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.five.js'})">five-puck</a> system:</p>
+         \[ 
+         S_{5} = 34
+         \;\; \textrm{ and } \;\;
+         \Omega_{f} = \frac{1}{34}\sum_{A}^{E}\omega_{i} 
+         \]
+         
+         <p>and for this particular five-puck case:</p> 
+         \[ \Omega_{f} = (-25+3+3+3+3)/34 = -0.382 \] 
+         
+         <p>For a <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.six.js'})">six-puck</a> system:</p>
+         \[ 
+         S_{6} = 54
+         \;\; \textrm{ and } \;\;
+         \Omega_{f} = \frac{1}{54}\sum_{A}^{F}\omega_{i} 
+         \]
+         
+         <p>(It's up to the reader to show that for the six-puck system, the coefficient on \( \Omega_{f} \) is 8 in the expressions that follow. 
+         What's the pattern?)</p>
+         
+         <p> And the final spin rates for the odd and even groups:</p>
+         \[ 
+         \omega_{ACEf} = \overline{\omega}_{ACEi} - 8\Omega_{f} 
+         \;\; \textrm{ and } \;\;
+         \omega_{BDFf} = \overline{\omega}_{BDFi} - 8\Omega_{f} 
+         \]
+         
+         <p>A calculator for the six-puck system:</p>
+         
+         <table rules="all" class="twoPuckCalculator">
+         <tr>
+         <td><button class="chat" id="runFromSixPuckCalc" onclick="cR.modifyForCalculator('5.b.six');" 
+            title='This runs the 5b.six capture using the initial spin-rate values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
+         <td title="spin rate for puck A">\(\omega_{A}\)</td>
+         <td title="spin rate for puck B">\(\omega_{B}\)</td>
+         <td title="spin rate for puck C">\(\omega_{C}\)</td>
+         <td title="spin rate for puck D">\(\omega_{D}\)</td>
+         <td title="spin rate for puck E">\(\omega_{E}\)</td>
+         <td title="spin rate for puck F">\(\omega_{F}\)</td>
+         <td title="orbit rate">\(\Omega\)</td></tr>
+         <tr>
+         <td style="text-align:right">initial</td>
+         <td><input title="click to edit the initial spin value for puck A" type="number" class="sixPuckCalculator" id="a_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
+         <td><input title="click to edit the initial spin value for puck B" type="number" class="sixPuckCalculator" id="b_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial spin value for puck C" type="number" class="sixPuckCalculator" id="c_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial spin value for puck D" type="number" class="sixPuckCalculator" id="d_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial spin value for puck E" type="number" class="sixPuckCalculator" id="e_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial spin value for puck F" type="number" class="sixPuckCalculator" id="f_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td title="Orbit"> ------ </td>
+         </tr>
+         <tr style="border-bottom: none">
+         <td style="text-align:right">final</td>
+         <td title="puck A final spin rate"     id="a_6p_final"></td>
+         <td title="puck B final spin rate"     id="b_6p_final"></td>
+         <td title="puck C final spin rate"     id="c_6p_final"></td>
+         <td title="puck D final spin rate"     id="d_6p_final"></td>
+         <td title="puck E final spin rate"     id="e_6p_final"></td>
+         <td title="puck F final spin rate"     id="f_6p_final"></td>
+         <td title="orbit rate after collision" id="orbit_6p"  ></td>
+         </tr>
+         </table>
+         
+         </details>   
          
          <br><br>
+         <span id="d5a-orbit"></span>
+         Here are <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.orbitingOnSpring.js'})">two pucks</a> in orbit.
+         There is damping in the spring but no translational drag on the pucks. This is similar to the 5a demo, simpler
+         with a more energetic start. One puck starts with an x component of 20 mps (and \(v_{y}=0\)), the other starts with an equal but opposite velocity.
+                  
+         <p>Conservation of angular momentum (where \( S_{o} \) is the final tangential orbit speed, and \( C_{i} \) is 
+         a constant equal to the intial conditions, \( \vec{r_{i}}\times\vec{v_{i}}\)):</p>
+         \[ 
+         mr_{o}S_{o} = m(\vec{r_{i}}\times\vec{v_{i}}) 
+         \;\; \textrm{ or } \;\;
+         S_{o} = C_{i}/r_{o}
+         \]
          
+         <p>Force balance, centripetal equals spring:</p>
+         \[  \frac{mS_{o}^{2}}{r_{o}} = k(2r_{o} - L)  \]
+         
+         <p>Combining:</p>
+         \[  mC_{i}^2 = k(2r_{o}^{4} - Lr_{o}^{3})  \]
+         
+         <p>Solving this quartic equation iteratively for \( r_{o} \), using the Newton-Raphson method, gives the "final" row in the table (calculator) below.</p>
+                 
+         <table rules="all" class="twoInOrbit">
+            <tr>
+               <td><button class="chat" id="runTwoInOrbit" onclick="cR.modifyForCalculator('5.a.orbitingOnSpring');" 
+                  title='This runs the 5a.orbitingOnSpring capture using the initial conditions in the table.'>Run</button></td>
+               <td title="x component of velocity">\( v_{x} \)</td>
+               <td title="y component of velocity">\( v_{y} \)</td>
+               
+               <td title="orbit speed (mps)">\( S_{o} \)</td>
+               <td title="orbit radius (m)">\( r_{o} \)</td>
+               <td title="orbit rate (radians/s)">\( \Omega \)</td>
+            </tr>
+            <tr>
+               <td title="">initial</td>
+               <td><input title="click to edit the initial vx" type="number" class="twoInOrbit" id="vx_init" max="15" min="-15" autocomplete="off" value="-10"></td>
+               <td><input title="click to edit the initial vy" type="number" class="twoInOrbit" id="vy_init" max="15" min="-15" autocomplete="off" value="0"></td>
+               
+               <td title="" id="">------</td>
+               <td title="" id="">------</td>
+               <td title="" id="">------</td>
+            </tr>
+            <tr>
+               <td title="" id="">final</td>
+               <td title="" id="">------</td>
+               <td title="" id="">------</td>
+               
+               <td title="orbit speed (mps)" id="orbit_speed">------</td>
+               <td title="orbit radius (m)" id="orbit_radius">------</td>
+               <td title="orbit rate (radians/s)" id="orbit_rate">------</td>
+               
+            </tr>
+         </table>
+         
+         <br><br>
          
          <span id="d5brube"></span>
          <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.rube.js'})">5b.rube</a> is a Rube Goldberg type variation 
@@ -1481,6 +1620,7 @@
          The <strong>Speed</strong> report gives puck speeds and spring lengths (ctrl-alt-L):
          <div style="margin-left:10px; margin-top:10px;">
          Speed: translational (meters/sec)<br>
+         Radius: orbit radius (meters)<br>
          Orbit: orbital speed about specified axis, \( \Omega =\vec{r}\times\vec{v}/r^{2} \) (radians/sec) <br>
          Spin: rotational speed about the pucks center of mass (radians/sec)<br>
          Length: un-stretched spring length (meters)<br>

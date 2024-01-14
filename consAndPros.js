@@ -2711,7 +2711,7 @@ window.cP = (function() {
          m_EpL.reportString = totalsString + m_EpL.reportString;
       
       } else if (m_EpL.reportType == "speed") {
-         let orbit_result = "", orbit_title = ""; 
+         let orbit_result = "", orbit_title = "", orbit_radius_m; 
          
          // Before displaying the orbit rate, check to see if the current demo (or a capture there of) is in this list.
          let demoHasOrbits = uT.oneOfThese(['4.b','5.b','5.b.two','5.a.orbitingOnSpring'], gW.getDemoVersion());
@@ -2723,7 +2723,7 @@ window.cP = (function() {
             
             if (demoHasOrbits && stillHasSpring) {
                let orbit_radius_2d_m = puck.position_2d_m.subtract( Puck.findCenterOfMass());
-               let orbit_radius_m = orbit_radius_2d_m.length();
+               orbit_radius_m = orbit_radius_2d_m.length();
                // This cross product is negative if the motion is clockwise.
                let rCrossV = orbit_radius_2d_m.cross( puck.velocity_2d_mps);
                let orbit_tangentialSpeed_mps = rCrossV / orbit_radius_m;
@@ -2733,11 +2733,11 @@ window.cP = (function() {
                orbit_title = "  Orbit";               
             }
             
-            m_EpL.reportString += shortName.padStart(5,' ') + " " + uT.fixed( puckSpeed_mps, 2) + orbit_result + 
+            m_EpL.reportString += shortName.padStart(5,' ') + " " + uT.fixed( puckSpeed_mps, 2) + uT.fixed( orbit_radius_m, 2) + orbit_result + 
                                   ""  + uT.fixed( puck.angularSpeed_rps, 2) + "\\";
          });
          
-         let puckHeader = "\\ \\ \\        Speed" + orbit_title + "   Spin  \\";
+         let puckHeader = "\\ \\ \\        Speed Radius" + orbit_title + "   Spin  \\";
          
          m_EpL.reportString = puckHeader + m_EpL.reportString;
          

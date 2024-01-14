@@ -460,8 +460,51 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="p">}</span>  
    <span class="p">}</span>
   
+   <span class="cm">/* </span>
+<span class="cm">   Iterative functions for finding roots...</span>
+<span class="cm">   The following serve to guess the value which return 0 from the supplied function. </span>
+<span class="cm">   */</span>
+   <span class="kd">function</span> <span class="nx">betterGuess</span><span class="p">(</span> <span class="nx">theFunc</span><span class="p">,</span> <span class="nx">guess</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Use Newtons method to estimate a better guess.</span>
+      <span class="c1">// Find the slope of the Error function at the guess point and use that slope to calculate a new guess.</span>
+      
+      <span class="kd">let</span> <span class="nx">slope</span><span class="p">,</span> <span class="nx">currentError</span><span class="p">,</span> <span class="nx">betterGuess</span><span class="p">;</span>
+      
+      <span class="nx">currentError</span> <span class="o">=</span> <span class="nx">theFunc</span><span class="p">(</span> <span class="nx">guess</span><span class="p">);</span>
+      <span class="nx">slope</span> <span class="o">=</span> <span class="p">(</span><span class="nx">currentError</span> <span class="o">-</span> <span class="nx">theFunc</span><span class="p">(</span> <span class="nx">guess</span> <span class="o">+</span> <span class="mf">0.00005</span><span class="p">))</span> <span class="o">/</span> <span class="mf">0.00005</span><span class="p">;</span>
+      
+      <span class="k">if</span> <span class="p">(</span><span class="nx">slope</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">betterGuess</span> <span class="o">=</span> <span class="s2">&quot;bad&quot;</span><span class="p">;</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+         <span class="c1">// To lose y amount of rise must move delta_x = y/slope from current position.</span>
+         <span class="nx">betterGuess</span> <span class="o">=</span> <span class="nx">guess</span> <span class="o">+</span> <span class="p">(</span><span class="nx">currentError</span> <span class="o">/</span> <span class="nx">slope</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">betterGuess</span><span class="p">;</span>
+   <span class="p">}</span>
+   <span class="kd">function</span> <span class="nx">keepGuessing</span><span class="p">(</span> <span class="nx">theFunction</span><span class="p">,</span> <span class="nx">initialGuess</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">previousEstimate</span><span class="p">,</span> <span class="nx">estimate</span><span class="p">;</span>
 
+      <span class="nx">previousEstimate</span> <span class="o">=</span> <span class="nx">initialGuess</span><span class="p">;</span>
 
+      <span class="c1">// Repeat until error on estimate less than criteria.</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> 
+         <span class="nx">estimate</span> <span class="o">=</span> <span class="nx">betterGuess</span><span class="p">(</span> <span class="nx">theFunction</span><span class="p">,</span> <span class="nx">previousEstimate</span><span class="p">);</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">estimate</span> <span class="o">==</span> <span class="s2">&quot;bad&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;bad from betterGuess&quot;</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">initialGuess</span><span class="p">;</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span> <span class="nx">theFunction</span><span class="p">(</span> <span class="nx">estimate</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">)</span> <span class="p">{</span>
+               <span class="c1">//console.log(&quot;solved in &quot; + i + &quot;, x=&quot; + estimate + &quot;, rootError=&quot; + theFunction( estimate));</span>
+               <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;solved in &quot;</span> <span class="o">+</span> <span class="nx">i</span><span class="p">);</span>
+               <span class="k">return</span> <span class="nx">estimate</span><span class="p">;</span>
+            <span class="p">}</span>
+         <span class="p">}</span>
+         <span class="nx">previousEstimate</span> <span class="o">=</span> <span class="nx">estimate</span><span class="p">;</span>
+      <span class="p">}</span>  
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;out of guesses&quot;</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">initialGuess</span><span class="p">;</span>
+   <span class="p">}</span>
+  
    <span class="c1">// Public references to objects, variables, and methods</span>
    
    <span class="k">return</span> <span class="p">{</span>
@@ -483,6 +526,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="s1">&#39;setElementDisplay&#39;</span><span class="o">:</span> <span class="nx">setElementDisplay</span><span class="p">,</span>
       <span class="s1">&#39;toggleSpanValue&#39;</span><span class="o">:</span> <span class="nx">toggleSpanValue</span><span class="p">,</span>
       <span class="s1">&#39;getSpanValue&#39;</span><span class="o">:</span> <span class="nx">getSpanValue</span><span class="p">,</span>
+      <span class="s1">&#39;keepGuessing&#39;</span><span class="o">:</span> <span class="nx">keepGuessing</span><span class="p">,</span>
       
    <span class="p">};</span>   
    

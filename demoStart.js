@@ -345,6 +345,7 @@ window.dS = (function() {
       var scrollCA = uT.setDefault( pars.scrollCA, true);
       var scrollHelp = uT.setDefault( pars.scrollHelp, true);
       var restartLoop = uT.setDefault( pars.restartLoop, true);
+      var logThis = uT.setDefault( pars.logThis, true);
       
       aT.collisionCount = 0;
       aT.collisionInThisStep = false;
@@ -899,6 +900,10 @@ window.dS = (function() {
             } else if ( c.demoVersion.includes('5.a.soft') || c.demoVersion.includes('5.a.twinkle') ) {
                pS.scroll('d5a_soft');
                
+            // two puck on a spring in orbit, COM constant.
+            } else if ( c.demoVersion.includes('5.a.orbitingOnSpring') ) {
+               pS.scroll('d5a-orbit');          
+               
             // basketball
             } else if ( c.demoVersion.includes('5.e.basketball') ) {
                pS.scroll('bphoops');
@@ -908,6 +913,10 @@ window.dS = (function() {
                pS.scroll('d5btwo');
             } else if ( c.demoVersion.includes('5.b.four') ) { // inelastic collision
                pS.scroll('d5bfour');
+            } else if ( c.demoVersion.includes('5.b.five') ) { // inelastic collision
+               pS.scroll('d5bfive');
+            } else if ( c.demoVersion.includes('5.b.six') ) { // inelastic collision
+               pS.scroll('d5bfive');
             } else if ( c.demoVersion.includes('5.b.rube') ) { // Rube's creation
                pS.scroll('d5brube');
             } else if ( c.demoVersion.includes('5.b') ) {
@@ -1234,7 +1243,7 @@ window.dS = (function() {
       // If any demo uses special canvas dimensions, now is a good time to let the clients know.
       // (note: this canvas resize is different from the chat div resizing that is done for demo 8).
       eV.setClientCanvasToMatchHost();
-      lB.logEntry( c.demoVersion);
+      if (logThis) lB.logEntry( c.demoVersion);
       
       // Sometimes just want to be sure the user gets the fullscreen view.
       if (c.fullScreenDemo) {

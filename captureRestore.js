@@ -468,10 +468,79 @@ window.cR = (function() {
       }
    }
    
-   function modifyForCalculator( demoName) {
+   // This is the default modification function used by modifyForCalculator.
+   let settingsForDemos = function( state_capture, demoName) {
+      // Use the speed version of the EpL report.
+      state_capture['EpL']['reportType'] = 'speed';
+      
+      if (demoName == '5.a.orbitingOnSpring') {
+         let vx_init_mps = Number( $('#vx_init').val());
+         let vy_init_mps = Number( $('#vy_init').val());
+         
+         state_capture['puckMapData']['puck15']['velocity_2d_mps'].x = vx_init_mps;
+         state_capture['puckMapData']['puck15']['velocity_2d_mps'].y = vy_init_mps;
+         state_capture['puckMapData']['puck12']['velocity_2d_mps'].x = -vx_init_mps; 
+         state_capture['puckMapData']['puck12']['velocity_2d_mps'].y = -vy_init_mps; 
+      
+      } else if (demoName == '5.b.two') {
+         let a_init = Number( $('#a_2p_init').val());
+         let b_init = Number( $('#b_2p_init').val());
+         
+         state_capture['puckMapData']['puck1']['angularSpeed_rps'] = a_init;
+         state_capture['puckMapData']['puck2']['angularSpeed_rps'] = b_init; 
+         
+      } else if (demoName == '5.b.four') {
+         let a_init = Number( $('#a_4p_init').val());
+         let b_init = Number( $('#b_4p_init').val());
+         let c_init = Number( $('#c_4p_init').val());
+         let d_init = Number( $('#d_4p_init').val());
+         
+         state_capture['puckMapData']['puck17']['angularSpeed_rps'] = a_init;
+         state_capture['puckMapData']['puck18']['angularSpeed_rps'] = b_init;               
+         state_capture['puckMapData']['puck19']['angularSpeed_rps'] = c_init;               
+         state_capture['puckMapData']['puck20']['angularSpeed_rps'] = d_init;               
+         
+      } else if (demoName == '5.b.six') {
+         let a_init = Number( $('#a_6p_init').val());
+         let b_init = Number( $('#b_6p_init').val());
+         let c_init = Number( $('#c_6p_init').val());
+         let d_init = Number( $('#d_6p_init').val());
+         let e_init = Number( $('#e_6p_init').val());
+         let f_init = Number( $('#f_6p_init').val());
+         
+         // 1,9,14 2,5,13
+         state_capture['puckMapData']['puck1']['angularSpeed_rps'] = a_init;
+         state_capture['puckMapData']['puck2']['angularSpeed_rps'] = b_init;               
+         state_capture['puckMapData']['puck3']['angularSpeed_rps'] = c_init;               
+         state_capture['puckMapData']['puck4']['angularSpeed_rps'] = d_init;               
+         state_capture['puckMapData']['puck5']['angularSpeed_rps'] = e_init;               
+         state_capture['puckMapData']['puck6']['angularSpeed_rps'] = f_init;               
+         
+      } else if (demoName == '5.b') {
+         let a_init = Number( $('#a_init').val());
+         let b_init = Number( $('#b_init').val());
+         let c_init = Number( $('#c_init').val());
+         
+         state_capture['puckMapData']['puck9']['angularSpeed_rps'] = a_init;
+         state_capture['puckMapData']['puck10']['angularSpeed_rps'] = b_init;               
+         state_capture['puckMapData']['puck11']['angularSpeed_rps'] = c_init;               
+      }
+      
+      //state_capture.demoVersion += '.' + Math.floor((Math.random() * 1000) + 1);
+      let table_JSON = JSON.stringify( state_capture, null, 3);
+      gW.dC.json.value = table_JSON;
+   }
+   
+   function modifyForCalculator( demoName, pars={}) {
+      let okToRunCapture = uT.setDefault( pars.okToRunCapture, true);
+      // note: settingsForDemos is the function above.
+      let theFunction = uT.setDefault( pars.theFunction, settingsForDemos);
+      
       let demoFileNames = {
+         '5.a.orbitingOnSpring': 'demo5a.orbitingOnSpring.js',
          '5.b.two': 'demo5b.two.js',
          '5.b.four': 'demo5b.four.js',
+         '5.b.six': 'demo5b.six.js',
          '5.b': 'demo5b.js',
       };
       let demoIndex = demoName.split('.')[0];
@@ -490,42 +559,9 @@ window.cR = (function() {
       window.setTimeout( function() { 
          state_capture = loadJSON( gW.dC.json);
          if (state_capture) {
-            // Use the speed version of the EpL report.
-            state_capture['EpL']['reportType'] = 'speed';
-            
-            if (demoName == '5.b.two') {
-               let a_init = Number( $('#a_2p_init').val());
-               let b_init = Number( $('#b_2p_init').val());
-               
-               state_capture['puckMapData']['puck1']['angularSpeed_rps'] = a_init;
-               state_capture['puckMapData']['puck2']['angularSpeed_rps'] = b_init; 
-               
-            } else if (demoName == '5.b.four') {
-               let a_init = Number( $('#a_4p_init').val());
-               let b_init = Number( $('#b_4p_init').val());
-               let c_init = Number( $('#c_4p_init').val());
-               let d_init = Number( $('#d_4p_init').val());
-               
-               state_capture['puckMapData']['puck17']['angularSpeed_rps'] = a_init;
-               state_capture['puckMapData']['puck18']['angularSpeed_rps'] = b_init;               
-               state_capture['puckMapData']['puck19']['angularSpeed_rps'] = c_init;               
-               state_capture['puckMapData']['puck20']['angularSpeed_rps'] = d_init;               
-               
-            } else if (demoName == '5.b') {
-               let a_init = Number( $('#a_init').val());
-               let b_init = Number( $('#b_init').val());
-               let c_init = Number( $('#c_init').val());
-               
-               state_capture['puckMapData']['puck9']['angularSpeed_rps'] = a_init;
-               state_capture['puckMapData']['puck10']['angularSpeed_rps'] = b_init;               
-               state_capture['puckMapData']['puck11']['angularSpeed_rps'] = c_init;               
-            }
-            
-            //state_capture.demoVersion += '.' + Math.floor((Math.random() * 1000) + 1);
-            let table_JSON = JSON.stringify( state_capture, null, 3);
-            gW.dC.json.value = table_JSON;
-         
-            runCapture();
+            // Ok, now run the modification function that is passed in.
+            theFunction( state_capture, demoName);
+            if (okToRunCapture) runCapture();
          }
       }, loadWait);
    }

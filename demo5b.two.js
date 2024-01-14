@@ -9,7 +9,9 @@ demo_capture = {
    },
    "gravity": false,
    "comSelection": true,
-   "EpL": {"display": true, "reportType": "EpL", "COM": true},
+   "EpL": {
+      "display": true, "reportType": "EpL", "COM": true 
+   },
    "fullScreenDemo": false,
    "lockedAndLoaded": false,
    "globalCompositeOperation": "source-over",

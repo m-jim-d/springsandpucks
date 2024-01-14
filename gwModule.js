@@ -447,7 +447,7 @@ window.gW = (function() {
       new cT.Client({'name':'local', 'color':'tomato'});
 
       // Start the blank demo for frame rate testing.
-      dS.demoStart( 0, {'restartLoop':false});
+      dS.demoStart( 0, {'restartLoop':false, 'logThis':false});
       var fpsTestDelay = 1800;
       var startupDelay =  2000;
       
@@ -472,7 +472,7 @@ window.gW = (function() {
          } else if (( ! demoFromURL.file) && demoFromURL.index) {
             dS.demoStart( demoFromURL.index);
          } else {
-            dS.demoStart( 9, {'scrollHelp':false}); // don't scroll to demo-9 help when the page loads
+            dS.demoStart( 9, {'scrollHelp':false, 'logThis':false}); // don't scroll to demo-9 help when the page loads
             if (scrollTargetAtStart) pS.scroll( scrollTargetAtStart);
          }
       }, startupDelay);

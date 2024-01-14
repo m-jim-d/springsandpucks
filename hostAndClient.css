@@ -405,7 +405,7 @@ input.nickNameField:invalid:focus {
    background-color: #FCF55F; /* shade of yellow */
 }
 
-input.twoPuckCalculator, input.threePuckCalculator, input.fourPuckCalculator {
+input.twoInOrbit, input.twoPuckCalculator, input.threePuckCalculator, input.fourPuckCalculator, input.sixPuckCalculator {
    font-size: 100%;
    outline: 0;
    border-width: 0 0 0px;
@@ -414,15 +414,15 @@ input.twoPuckCalculator, input.threePuckCalculator, input.fourPuckCalculator {
    text-align: center;
    background-color: white;
 }
-input.twoPuckCalculator:focus, input.threePuckCalculator:focus, input.fourPuckCalculator:focus {
+input.twoInOrbit:focus, input.twoPuckCalculator:focus, input.threePuckCalculator:focus, input.fourPuckCalculator:focus, input.sixPuckCalculator:focus {
    border-color: green;
    background-color: lightgreen;
 }
-input.twoPuckCalculator:invalid:focus, input.threePuckCalculator:invalid:focus, input.fourPuckCalculator:invalid:focus {
+input.twoInOrbit:invalid:focus, input.twoPuckCalculator:invalid:focus, input.threePuckCalculator:invalid:focus, input.fourPuckCalculator:invalid:focus, input.sixPuckCalculator:invalid:focus {
    border-color: gray;
    background-color: #FCF55F; /* shade of yellow */
 }
-table.twoPuckCalculator td, table.threePuckCalculator td, table.fourPuckCalculator td {
+table.twoInOrbit td, table.twoPuckCalculator td, table.threePuckCalculator td, table.fourPuckCalculator td, table.sixPuckCalculator td {
    background-color: #f4f3f1;
    padding: 3px 3px;
    text-align: center;

@@ -8,7 +8,12 @@ demo_capture = {
    },
    "gravity": false,
    "comSelection": true,
-   "EpL": {"display": true, "reportType": "EpL", "COM": true},
+   "EpL": {"display": true, "reportType": "EpL", "COM": true,
+      "angularAxis_2d_m": {
+         "x": 7.799999999999992,
+         "y": 4.25
+      }     
+   },
    "fullScreenDemo": false,
    "lockedAndLoaded": false,
    "globalCompositeOperation": "source-over",
@@ -26,7 +31,7 @@ demo_capture = {
             "y": 3.0
          },
          "velocity_2d_mps": {
-            "x": -28,
+            "x": -20,
             "y": 0
          },
          "color": "DarkSlateGray",
@@ -70,7 +75,7 @@ demo_capture = {
             "y": 5.5
          },
          "velocity_2d_mps": {
-            "x": 28,
+            "x": 20,
             "y": 0
          },
          "color": "DarkSlateGray",
@@ -109,7 +114,7 @@ demo_capture = {
          "name": "s14",
          "color": "yellow",
          "visible": true,
-         "length_m": 2.0,
+         "length_m": 2.5,
          "strength_Npm": 5,
          "unstretched_width_m": 0.1569214188360501,
          "drag_c": 0,

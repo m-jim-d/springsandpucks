@@ -1396,9 +1396,62 @@ window.eV = (function() {
          }
       });
       
+      // Calculator for two pucks in orbit.
+      function calcTwoInOrbit( event) {
+         //if (event.data.message) console.log("message=" + event.data.message);
+         
+         let modificationFunction = function( state_capture, demoName) {
+            let vx_init_mps = Number( $('#vx_init').val());
+            let vy_init_mps = Number( $('#vy_init').val());
+            
+            // m*s_t^2/r_o = k(2*r_o - L)  centripetal force = spring force
+            
+            // m(rXv) = m(r_o^2 * Omega)   initial angular momentum = final angular momentum
+            // Omega = s_t / r_o           Angular rate = speed / radius
+            
+            // r_o * s_t = rXv
+            
+            let puck_A = state_capture['puckMapData']['puck15'];
+            let puck_B = state_capture['puckMapData']['puck12'];
+            
+            let position_A_2d_m = wS.Vec2D_from_b2Vec2( puck_A['position_2d_m']);
+            let position_B_2d_m = wS.Vec2D_from_b2Vec2( puck_B['position_2d_m']);
+            let com_2d_m = position_A_2d_m.add( position_B_2d_m).scaleBy(0.5);
+            
+            let velocity_A_2d_mps = new wS.Vec2D( vx_init_mps, vy_init_mps); // wS.Vec2D_from_b2Vec2( puck_A['velocity_2d_mps']);
+            
+            let r_A_2d_m = position_A_2d_m.subtract( com_2d_m);
+            let rXv = r_A_2d_m.cross( velocity_A_2d_mps);
+            let puck_A_mass_kg = puck_A.density * Math.PI * puck_A.radius_m ** 2;
+            let l_total = 2 * puck_A_mass_kg * rXv;
+            
+            let spring = state_capture['springMapData']['s14'];
+            let spring_k = spring['strength_Npm'];
+            let spring_l_m = spring['length_m'];
+            
+            //console.log("rXv = " + rXv);
+            //console.log("l_total = " + l_total);
+            
+            let testFunction = function( r) {
+               return ( spring_k*(2*r - spring_l_m) - (puck_A_mass_kg * rXv**2 / r**3)  );
+            }
+            let orbit_r_m = uT.keepGuessing( testFunction, 50);
+            
+            let orbit_speed_mps = rXv / orbit_r_m;
+            let orbit_rate_rps = orbit_speed_mps / orbit_r_m;
+            
+            $('#orbit_speed').html( Math.abs(orbit_speed_mps).toFixed(2));
+            $('#orbit_radius').html( orbit_r_m.toFixed(2));
+            $('#orbit_rate').html( orbit_rate_rps.toFixed(2));
+        } 
+        cR.modifyForCalculator("5.a.orbitingOnSpring", {"okToRunCapture":false, "theFunction":modificationFunction});
+      }
+      $('input.twoInOrbit').on('change focus', {"message":"fromInputEvent"}, calcTwoInOrbit);
+      $('#runTwoInOrbit').on('click', {"message":"fromRunEvent"}, calcTwoInOrbit);
+      
       // Calculator for inelastic three-puck system.
       function calcThreePucks( event) {
-         if (event.data.message) console.log("test=" + event.data.message);
+         if (event.data.message) console.log("message=" + event.data.message);
          
          let a_init = Number( $('#a_init').val());
          let b_init = Number( $('#b_init').val());
@@ -1411,31 +1464,33 @@ window.eV = (function() {
          $('#c_final').html( final_rps.toFixed(2));
          $('#orbit').html( final_rps.toFixed(2));
       }
-      $('input.threePuckCalculator').on('keyup blur change click', {"message":"fromInputEvent"}, calcThreePucks);
+      $('input.threePuckCalculator').on('change focus', {"message":"fromInputEvent"}, calcThreePucks);
       $('#runFromThreePuckCalc').on('click', {"message":"fromRunEvent"}, calcThreePucks);
       
       // Calculator for inelastic two-puck system.
       function calcTwoPucks( event) {
-         if (event.data.message) console.log("test=" + event.data.message);
+         //if (event.data.message) console.log("message=" + event.data.message);
          
          let a_init = Number( $('#a_2p_init').val());
          let b_init = Number( $('#b_2p_init').val());
          
-         let a_final_rps = ((2 * a_init) - b_init)/3;
-         $('#a_2p_final').html( a_final_rps.toFixed(2));
-         
-         let b_final_rps = ((2 * b_init) - a_init)/3;
-         $('#b_2p_final').html( b_final_rps.toFixed(2));
-         
          let orbit_rps = (a_init + b_init)/6;
          $('#orbit_2p').html( orbit_rps.toFixed(2));
+         
+         //let a_final_rps = ((2 * a_init) - b_init)/3;
+         let a_final_rps = a_init - (2 * orbit_rps);
+         $('#a_2p_final').html( a_final_rps.toFixed(2));
+         
+         //let b_final_rps = ((2 * b_init) - a_init)/3;
+         let b_final_rps = b_init - (2 * orbit_rps);
+         $('#b_2p_final').html( b_final_rps.toFixed(2));
       }
-      $('input.twoPuckCalculator').on('keyup blur change click', {"message":"fromInputEvent"}, calcTwoPucks);
+      $('input.twoPuckCalculator').on('change focus', {"message":"fromInputEvent"}, calcTwoPucks);
       $('#runFromTwoPuckCalc').on('click', {"message":"fromRunEvent"}, calcTwoPucks);
       
       // Calculator for inelastic four-puck system.
       function calcFourPucks( event) {
-         if (event.data.message) console.log("test=" + event.data.message);
+         //if (event.data.message) console.log("message=" + event.data.message);
          
          let a_init = Number( $('#a_4p_init').val());
          let b_init = Number( $('#b_4p_init').val());
@@ -1448,20 +1503,58 @@ window.eV = (function() {
          let orbit_rps = (a_init + b_init + c_init + d_init)/20;
          $('#orbit_4p').html( orbit_rps.toFixed(2));
          
-         let a_final_rps = orbit_rps + (ac_init_avg - bd_init_avg)/2;
+         //let a_final_rps = orbit_rps + (ac_init_avg - bd_init_avg)/2;
+         let a_final_rps = ac_init_avg - (4 * orbit_rps);
          $('#a_4p_final').html( a_final_rps.toFixed(2));
          
-         let b_final_rps = orbit_rps - (ac_init_avg - bd_init_avg)/2;
+         //let b_final_rps = orbit_rps - (ac_init_avg - bd_init_avg)/2;
+         let b_final_rps = bd_init_avg - (4 * orbit_rps) ;
          $('#b_4p_final').html( b_final_rps.toFixed(2));
          
          let c_final_rps = a_final_rps;
          $('#c_4p_final').html( c_final_rps.toFixed(2));
          
          let d_final_rps = b_final_rps;
-         $('#d_4p_final').html( b_final_rps.toFixed(2));
+         $('#d_4p_final').html( d_final_rps.toFixed(2));
       }
-      $('input.fourPuckCalculator').on('keyup blur change click', {"message":"fromInputEvent"}, calcFourPucks);
+      $('input.fourPuckCalculator').on('change focus', {"message":"fromInputEvent"}, calcFourPucks);
       $('#runFromFourPuckCalc').on('click', {"message":"fromRunEvent"}, calcFourPucks);
+      
+      // Calculator for inelastic six-puck system.
+      function calcSixPucks( event) {
+         //if (event.data.message) console.log("message=" + event.data.message);
+         
+         let a_init = Number( $('#a_6p_init').val());
+         let b_init = Number( $('#b_6p_init').val());
+         let c_init = Number( $('#c_6p_init').val());
+         let d_init = Number( $('#d_6p_init').val());
+         let e_init = Number( $('#e_6p_init').val());
+         let f_init = Number( $('#f_6p_init').val());
+         
+         let ace_init_avg = (a_init + c_init + e_init)/3;
+         let bdf_init_avg = (b_init + d_init + f_init)/3;
+         
+         let orbit_rps = (a_init + b_init + c_init + d_init + e_init + f_init)/54;
+         $('#orbit_6p').html( orbit_rps.toFixed(2));
+         
+         let a_final_rps = ace_init_avg - (8 * orbit_rps);
+         $('#a_6p_final').html( a_final_rps.toFixed(2));
+         
+         let b_final_rps = bdf_init_avg - (8 * orbit_rps) ;
+         $('#b_6p_final').html( b_final_rps.toFixed(2));
+         
+         let c_final_rps = a_final_rps;
+         $('#c_6p_final').html( c_final_rps.toFixed(2));         
+         let e_final_rps = a_final_rps;
+         $('#e_6p_final').html( e_final_rps.toFixed(2));
+         
+         let d_final_rps = b_final_rps;
+         $('#d_6p_final').html( d_final_rps.toFixed(2));
+         let f_final_rps = b_final_rps;
+         $('#f_6p_final').html( f_final_rps.toFixed(2));
+      }
+      $('input.sixPuckCalculator').on('change focus', {"message":"fromInputEvent"}, calcSixPucks);
+      $('#runFromSixPuckCalc').on('click', {"message":"fromRunEvent"}, calcSixPucks);
       
       // Fullscreen button (on host)
       dC.fullScreen = document.getElementById('btnFullScreen');
