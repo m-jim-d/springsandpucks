@@ -111,6 +111,15 @@
 
 </head>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-66YFLS79PL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-66YFLS79PL');
+</script>
 <body id="thisBody">
 
 <!-- the puck costumes -->
@@ -1190,9 +1199,9 @@
          <td style="text-align:right">initial</td>
          <td><input title="click to edit the initial spin value for puck A" type="number" class="sixPuckCalculator" id="a_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
          <td><input title="click to edit the initial spin value for puck B" type="number" class="sixPuckCalculator" id="b_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
-         <td><input title="click to edit the initial spin value for puck C" type="number" class="sixPuckCalculator" id="c_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial spin value for puck C" type="number" class="sixPuckCalculator" id="c_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
          <td><input title="click to edit the initial spin value for puck D" type="number" class="sixPuckCalculator" id="d_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
-         <td><input title="click to edit the initial spin value for puck E" type="number" class="sixPuckCalculator" id="e_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial spin value for puck E" type="number" class="sixPuckCalculator" id="e_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
          <td><input title="click to edit the initial spin value for puck F" type="number" class="sixPuckCalculator" id="f_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
          <td title="Orbit"> ------ </td>
          </tr>
@@ -1212,9 +1221,9 @@
          
          <br><br>
          <span id="d5a-orbit"></span>
-         Here are <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.orbitingOnSpring.js'})">two pucks</a> in orbit.
+         Here are <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.orbitingOnSpring.js'})">two pucks</a> in a non-colliding orbit.
          There is damping in the spring but no translational drag on the pucks. This is similar to the 5a demo, simpler
-         with a more energetic start. One puck starts with an x component of 20 mps (and \(v_{y}=0\)), the other starts with an equal but opposite velocity.
+         with a more energetic start. One puck starts with \(v_{x}=20\) and \(v_{y}=0\), the other has an equal but opposite initial velocity.
                   
          <p>Conservation of angular momentum (where \( S_{o} \) is the final tangential orbit speed, and \( C_{i} \) is 
          a constant equal to the intial conditions, \( \vec{r_{i}}\times\vec{v_{i}}\)):</p>

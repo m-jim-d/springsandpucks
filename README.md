@@ -1,3 +1,3 @@
 ## Springs & Pucks
 
-like PET and more, on an HTML canvas
+physics-engine animations of puck and spring systems on an HTML canvas

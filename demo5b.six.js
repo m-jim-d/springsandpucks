@@ -278,7 +278,7 @@ demo_capture = {
          "visible": true,
          "length_m": 0.80,
          "stretch_m": -0.04854277708711896,
-         "strength_Npm": 30.0,
+         "strength_Npm": 40.0,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -304,7 +304,7 @@ demo_capture = {
          "visible": true,
          "length_m": 0.80,
          "stretch_m": -0.04854277708712029,
-         "strength_Npm": 30.0,
+         "strength_Npm": 40.0,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -330,7 +330,7 @@ demo_capture = {
          "visible": true,
          "length_m": 0.80,
          "stretch_m": -0.04854277708711585,
-         "strength_Npm": 30.0,
+         "strength_Npm": 40.0,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -356,7 +356,7 @@ demo_capture = {
          "visible": true,
          "length_m": 0.80,
          "stretch_m": -0.04854277708712207,
-         "strength_Npm": 30.0,
+         "strength_Npm": 40.0,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -382,7 +382,7 @@ demo_capture = {
          "visible": true,
          "length_m": 0.80,
          "stretch_m": -0.04854277708711896,
-         "strength_Npm": 30.0,
+         "strength_Npm": 40.0,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -564,7 +564,7 @@ demo_capture = {
          "visible": true,
          "length_m": 0.80,
          "stretch_m": -0.048542777087116296,
-         "strength_Npm": 30.0,
+         "strength_Npm": 40.0,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -583,8 +583,86 @@ demo_capture = {
          "fixedLength": false,
          "collideConnected": true,
          "softConstraints": false
-      }
-   },
+      },
+      "s48": {
+         "name": "s48",
+         "color": "brown",
+         "visible": true,
+         "length_m": 2.00,
+         "stretch_m": -0.1003072501126574,
+         "strength_Npm": 20,
+         "unstretched_width_m": 0.06,
+         "drag_c": 0,
+         "damper_Ns2pm2": 10,
+         "navigationForNPC": false,
+         "forCursor": false,
+         "p1_name": "puck1",
+         "spo1_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "p2_name": "puck4",
+         "spo2_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "fixedLength": false,
+         "collideConnected": true,
+         "softConstraints": false
+      },
+      "s49": {
+         "name": "s49",
+         "color": "brown",
+         "visible": true,
+         "length_m": 2.00,
+         "stretch_m": -0.10029390621163525,
+         "strength_Npm": 20,
+         "unstretched_width_m": 0.06,
+         "drag_c": 0,
+         "damper_Ns2pm2": 10,
+         "navigationForNPC": false,
+         "forCursor": false,
+         "p1_name": "puck2",
+         "spo1_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "p2_name": "puck5",
+         "spo2_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "fixedLength": false,
+         "collideConnected": true,
+         "softConstraints": false
+      },
+      "s50": {
+         "name": "s50",
+         "color": "brown",
+         "visible": true,
+         "length_m": 2.00,
+         "stretch_m": -0.1002983661767296,
+         "strength_Npm": 20,
+         "unstretched_width_m": 0.06,
+         "drag_c": 0,
+         "damper_Ns2pm2": 10,
+         "navigationForNPC": false,
+         "forCursor": false,
+         "p1_name": "puck3",
+         "spo1_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "p2_name": "puck6",
+         "spo2_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "fixedLength": false,
+         "collideConnected": true,
+         "softConstraints": false
+      }      
+   },   
    "jointMapData": {},
    "startingPosAndVels": [],
    "clients": {
