@@ -39,7 +39,7 @@ window.dS = (function() {
    // The client does not call initializeModule (importing name space from the host) so dC and c are initialized here.
    var m_hostOrClient;
    console.log("pathname="+window.location.pathname);
-   if ( window.location.pathname.includes("client.html") ) {
+   if ( window.location.pathname.includes("client") ) {
       m_hostOrClient = "client";
       
       dC = {};
