@@ -148,6 +148,14 @@ window.gW = (function() {
    dC.stream = null;
    dC.editor = null;
    dC.localCursor = null;
+   
+   // a few needed in demoStart.js
+   dC.nodeServer = null;
+   dC.roomName = null;
+   dC.inputField = null;
+   dC.multiPlayer = null;
+   dC.ttcIntro = null;
+   dC.connectionCanvas = null;
       
    // Key values.
    var keyMap = {'48':'key_0', '49':'key_1', '50':'key_2', '51':'key_3', '52':'key_4', '53':'key_5', '54':'key_6', '55':'key_7', '56':'key_8', '57':'key_9',
