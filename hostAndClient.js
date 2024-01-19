@@ -39,7 +39,7 @@ window.hC = (function() {
    
    // Globals within hC. /////////////////////////////////////////////////
    
-   if ( window.location.pathname.includes("client") ) {
+   if ( window.location.href.includes("client.html") ) {
       var hostOrClient = "client";
       // cl_clientSide is a global reference to the one and only client-like object on the client.html page.
       var cl_clientSide = {'name':null, 'previous_name':null};
