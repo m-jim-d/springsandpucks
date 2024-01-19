@@ -43,15 +43,6 @@ window.dS = (function() {
       m_hostOrClient = "client";
       
       dC = {};
-      /*
-      dC.nodeServer = null;
-      dC.roomName = null;
-      dC.inputField = null;
-      dC.multiPlayer = null;
-      dC.ttcIntro = null;
-      dC.connectionCanvas = null;
-      */
-      
       c = {};
       c.fullScreenState = false;
       
@@ -63,6 +54,7 @@ window.dS = (function() {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
    function initializeModule( gW_canvas, gW_ctx, gW_dC, gW_c, gW_aT, gW_keyMap, gW_clients) {
+      // the client page doesn't use this initialization (see note above)
       canvas = gW_canvas;
       ctx = gW_ctx;
       
