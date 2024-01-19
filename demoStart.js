@@ -38,11 +38,23 @@ window.dS = (function() {
    // Two functions in this module are used by the client page: fullScreenState and adjustSizeOfChatDiv. 
    // The client does not call initializeModule (importing name space from the host) so dC and c are initialized here.
    var m_hostOrClient;
+   console.log("pathname="+window.location.pathname);
    if ( window.location.pathname.includes("client.html") ) {
       m_hostOrClient = "client";
+      
       dC = {};
+      /*
+      dC.nodeServer = null;
+      dC.roomName = null;
+      dC.inputField = null;
+      dC.multiPlayer = null;
+      dC.ttcIntro = null;
+      dC.connectionCanvas = null;
+      */
+      
       c = {};
       c.fullScreenState = false;
+      
    } else {
       m_hostOrClient = "host";
    }
@@ -59,13 +71,6 @@ window.dS = (function() {
       aT = gW_aT;     
       keyMap = gW_keyMap;
       clients = gW_clients;
-      
-      dC.nodeServer = null;
-      dC.roomName = null;
-      dC.inputField = null;
-      dC.multiPlayer = null;
-      dC.ttcIntro = null;
-      dC.connectionCanvas = null;
    }
    
    // Functions in support of the demos ////////////////////////////////////////
