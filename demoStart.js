@@ -59,6 +59,13 @@ window.dS = (function() {
       aT = gW_aT;     
       keyMap = gW_keyMap;
       clients = gW_clients;
+      
+      dC.nodeServer = null;
+      dC.roomName = null;
+      dC.inputField = null;
+      dC.multiPlayer = null;
+      dC.ttcIntro = null;
+      dC.connectionCanvas = null;
    }
    
    // Functions in support of the demos ////////////////////////////////////////
