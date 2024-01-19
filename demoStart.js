@@ -38,7 +38,7 @@ window.dS = (function() {
    // Two functions in this module are used by the client page: fullScreenState and adjustSizeOfChatDiv. 
    // The client does not call initializeModule (importing name space from the host) so dC and c are initialized here.
    var m_hostOrClient;
-   if ( window.location.href.includes("client.html") ) {
+   if ( window.location.href.includes("client") ) {
       m_hostOrClient = "client";
       
       dC = {};
