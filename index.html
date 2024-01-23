@@ -1135,28 +1135,47 @@
          
          <span id="d5bfive"></span>
          <p>As you consider the equations for two, three, and four puck systems, you may have noticed some patterns. 
-         The numbers in the denominator of the \( \Omega_{f} \) equations form a sequence: 6, 11, 20. And if you use
+         The numbers in the denominator of the \( \Omega_{f} \) equations form a sequence: 6,11,20. And if you use
          the engine to experiment with 
          <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.five.js'})">five</a> and 
          <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.six.js'})">six</a> 
          puck systems, you would see this sequence extends to 6,11,20,34,54.
-         This is similar to the triangular number sequence and can be expressed as follows starting at n=2: </p>
          
-         \[  S_{n} = (4-n) + \sum_{k=1}^{n} \frac{k(k+1)}{2}  \]
+         <p>The steps (5,9,14,20) in this sequence are one less than (bold) values in a range of the triangular-number sequence 1,3,<strong>6,10,15,21</strong>,28,36:</p>
          
-         <p>For a <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.five.js'})">five-puck</a> system:</p>
          \[ 
-         S_{5} = 34
+         T_{k} = \sum_{i=1}^{k}i 
+         \;\; \textrm{ or } \;\;
+         T_{k} = \frac{k(k+1)}{2}
+         \]
+         
+         <p>As a result, the second and third values in the sequence can be expressed as follows: </p>
+         
+         \[  S_{2} = S_{1} + (T_{3}-1) \]
+         \[  S_{3} = S_{1} + (T_{3}-1) + (T_{4}-1) \]
+         
+         <p>More generally: </p>
+         
+         \[  S_{n} = S_{1} + \sum_{k=3}^{n+1} (T_{k}-1) \;\; \textrm{where} \;\; n \geq 2 \]
+         
+         <!--
+         \[  S_{n} = (4-n) + \sum_{k=1}^{n} \frac{k(k+1)}{2}  \]
+         -->
+         
+         <p>For a <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.five.js'})">five-puck</a> system, use \( S_{4} \):</p>
+         \[ 
+         S_{4} = 6 + 5+9+14 = 34
          \;\; \textrm{ and } \;\;
          \Omega_{f} = \frac{1}{34}\sum_{A}^{E}\omega_{i} 
          \]
          
-         <p>and for this particular five-puck case:</p> 
-         \[ \Omega_{f} = (-25+3+3+3+3)/34 = -0.382 \] 
+         <p>and for the initial conditions of this five-puck case:</p> 
+         \[ \Omega_{f} = \frac{1}{34}(-25+3+3+3+3) = -0.382 \] 
          
+         <span id="d5bsix"></span>
          <p>For a <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.six.js'})">six-puck</a> system:</p>
          \[ 
-         S_{6} = 54
+         S_{5} = 54
          \;\; \textrm{ and } \;\;
          \Omega_{f} = \frac{1}{54}\sum_{A}^{F}\omega_{i} 
          \]

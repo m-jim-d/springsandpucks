@@ -919,7 +919,7 @@ window.dS = (function() {
             } else if ( c.demoVersion.includes('5.b.five') ) { // inelastic collision
                pS.scroll('d5bfive');
             } else if ( c.demoVersion.includes('5.b.six') ) { // inelastic collision
-               pS.scroll('d5bfive');
+               pS.scroll('d5bsix');
             } else if ( c.demoVersion.includes('5.b.rube') ) { // Rube's creation
                pS.scroll('d5brube');
             } else if ( c.demoVersion.includes('5.b') ) {
