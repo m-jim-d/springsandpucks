@@ -1246,7 +1246,7 @@ window.dS = (function() {
       // If any demo uses special canvas dimensions, now is a good time to let the clients know.
       // (note: this canvas resize is different from the chat div resizing that is done for demo 8).
       eV.setClientCanvasToMatchHost();
-      if (logThis) lB.logEntry( c.demoVersion);
+      if (logThis) pS.logEntry( c.demoVersion);
       
       // Sometimes just want to be sure the user gets the fullscreen view.
       if (c.fullScreenDemo) {

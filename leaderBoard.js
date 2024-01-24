@@ -257,20 +257,6 @@ window.lB = (function() {
       return tableString;
    }
    
-   function logEntry( eventDescription, mode='normal') {
-      // If this page is coming from the production server...
-      var pageURL = window.location.href;
-      if (pageURL.includes("timetocode")) {
-         var sheetURL = 'https://script.google.com/macros/s/AKfycbymaDOxbOAtZAzgxPwm6yIvWG8Euw8jcHM1weyQ_caVSL0BkBI/exec';
-         // AJAX
-         var xhttp = new XMLHttpRequest();
-         xhttp.open('GET', sheetURL + '?mode=' + mode + '&eventDesc=' + eventDescription, true);
-         xhttp.send();
-      } else {
-         console.log("Event = " + eventDescription);
-      }
-   }
-   
    function submitScoresThenReport() {
       var nR = 0;
       var peopleClients = [];
@@ -467,8 +453,7 @@ window.lB = (function() {
       
       // Methods
       'reportGameResults': reportGameResults,
-      'submitScoresThenReport': submitScoresThenReport,
-      'logEntry': logEntry
+      'submitScoresThenReport': submitScoresThenReport
    };
 
 })();
