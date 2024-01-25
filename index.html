@@ -9,10 +9,10 @@
 
    <title>springs & pucks</title>
 
-   <link rel="canonical" href="https://www.timetocode.org/index.html">
+   <link rel="canonical" href="https://www.triquence.org/index.html">
    
    <!-- This Open Graph tag controls how a link is displayed if posted on social media -->
-   <meta property="og:image" content="https://www.timetocode.org/screenshots/colormixer.png">
+   <meta property="og:image" content="https://www.triquence.org/screenshots/colormixer.png">
 
    <link href="hostAndClient.css?v=21" rel="stylesheet" type="text/css">  
 
@@ -28,7 +28,7 @@
    <noscript>
       <br><br><br><br><br>
       <p style="font-family:Helvetica; font-size:150%; color:brown;">
-      timetocode.org requires JavaScript.
+      triquence.org requires JavaScript.
       <br><br> 
       Please enable JavaScript in your browser<br>
       and then reload this page.
@@ -66,9 +66,9 @@
    <script src="demoStart.js?v=51"></script>
    <script src="eventsHost.js?v=45"></script>
    <script src="boxStuff.js?v=45"></script>
-   
+
    <!-- for testing: load client via script element
-   <script src="https://timetocode.herokuapp.com/socket.io/socket.io.js"></script>
+   <script src="https://triquence-ca88d70f0e55.herokuapp.com/socket.io/socket.io.js"></script>
    -->
    <script src="hostAndClient.js?v=45"></script>
    <script src="eventsNonHost.js?v=45"></script>
@@ -142,7 +142,7 @@
       <div class="maintext" id="multiPlayer" style="display:none">
          <div class="scroller">
             <datalist id="nodeServerList"></datalist>         
-            <span id="serverTitle">Server</span><input id="nodeServer" list="nodeServerList" value='timetocode.herokuapp.com' autocomplete="off" title='Use the default unless you have an ip address (and port) for a local node server.'>
+            <span id="serverTitle">Server</span><input id="nodeServer" list="nodeServerList" value='triquence-ca88d70f0e55.herokuapp.com' autocomplete="off" title='Use the default unless you have an ip address (and port) for a local node server.'>
             <div id="roomAndConnect" style="display:inline-block; float:right;">
                <span id="roomTitle">Room</span><input id="roomName" autocomplete="off" maxlength="9"/>
                <button id="ConnectButton" class="chat" onclick="hC.connect_and_listen('normal');" title='Initiate (or reset) the host connection and create the game room.'>Create</button>
@@ -175,8 +175,8 @@
          
          <p>
          Triquence.org is host to these live animations. Nearby, you'll find
-         a Python game-physics  <a href="https://pet.timetocode.org/index.html" title="physics-engine tutorial">tutorial</a> 
-         and a weather <a href="https://waconia.timetocode.org/weather.html?station=RMTN&days=5" title="JSON and XML feed readers, and screen-scraper parsing, and charts...">charting</a> application.
+         a Python game-physics  <a href="https://pet.triquence.org/index.html" title="physics-engine tutorial">tutorial</a> 
+         and a weather <a href="https://waconia.triquence.org/weather.html?station=RMTN&days=5" title="JSON and XML feed readers, and screen-scraper parsing, and charts...">charting</a> application.
          </p>
          
          <p>
@@ -264,7 +264,7 @@
          </p>
          
          <p>
-         The revision <a href="rev-history.html" target="_blank" title="revision history for www.timetocode.org">history</a> 
+         The revision <a href="rev-history.html" target="_blank" title="revision history for www.triquence.org">history</a> 
          gives another perspective on functionality. It always has a note on what's coming next.
          </p>
 
@@ -747,7 +747,7 @@
          <br><br>
          More pi digits can be found in this way at higher mass ratios, where the ratio is 100
          to some power of n. You'll need to use a dedicated 1D physics engine like
-         <a href="https://pet.timetocode.org/?countpi" target="_blank">this one</a> written in Python.
+         <a href="https://pet.triquence.org/?countpi" target="_blank">this one</a> written in Python.
          The 1D algorithm is also implemented here in demos
          <a onclick="cR.demoStart_fromCapture(1, {'fileName':'demo1d.js'})">1d</a> (3 digits of pi, n=2) and 
          <a onclick="cR.demoStart_fromCapture(1, {'fileName':'demo1e.js'})">1e</a> (5 digits, n=4).
@@ -796,7 +796,7 @@
          <br><br>
          <a onclick="cR.clearState();dS.demoStart(3)">3a</a> illustrates the effect of a disorderly influence on a grid of pucks colliding with
          each other and the walls. Try reversing the puck motion shortly after the start of the disorder. You'll see that it doesn't take long before
-         this becomes non-reversible. The Playing Catch video (second) in the <a href="https://pet.timetocode.org?perfect-kiss" target="_black">Perfect Kiss</a> 
+         this becomes non-reversible. The Playing Catch video (second) in the <a href="https://pet.triquence.org?perfect-kiss" target="_black">Perfect Kiss</a> 
          topic, demonstrates a much more reversible puck-puck collision calculation.
          <br><br>
          <a onclick="cR.demoStart_fromCapture(3, {'fileName':'demo3b.js'})">3b</a> and 
@@ -1359,7 +1359,7 @@
          The springs, in the first three rows, have decreasing damping as you work down from the top. The third row has no damping and the difference between
          the traditional spring and distance joint is most apparent there.         
          <br><br>         
-         Most of the springs at timetocode.org, including the cursor spring, 
+         Most of the springs at triquence.org, including the cursor spring, 
          use a default spring-nature setting as they are being instantiated (e.g. when re-animating a capture, pasting a copy of a spring, 
          or adding a spring using the "remove/add items" select control). 
          Use <strong>shift-s</strong> to toggle this default setting between a distance joint (soft-constraints) or a traditional spring (Hooke's law). 
@@ -1402,7 +1402,7 @@
          <hr><br>
          
          <span id="d6"><strong>Demo #6a</strong>, <strong><a onclick="cR.clearState();dS.demoStart(6)">Jello-Madness</a></strong>, 
-         is based on the corresponding <a href="https://pet.timetocode.org/?jello" target="_blank">game</a> from the J-term course. 
+         is based on the corresponding <a href="https://pet.triquence.org/?jello" target="_blank">game</a> from the J-term course. 
          The demo starts with a mildly tangled block 
          of jello, it's spinning, and the tangle-timer is running. Straighten out the block 
          and the tangle timer stops. The idea here is to severely tangle up 

@@ -1824,7 +1824,7 @@ window.cP = (function() {
       if ( ! this.fixedLength) {
          // The frequency and damping ratio expressions are based on the equations on page 45 of this
          // presentation by Erin Catto.
-         // https://www.timetocode.org/GDC2011_Catto_Erin_Soft_Constraints.pdf
+         // https://www.triquence.org/GDC2011_Catto_Erin_Soft_Constraints.pdf
          
          // omega = (k/m)^0.5
          // f = omega / 2Pi = (k/m)^0.5 / 2Pi

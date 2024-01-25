@@ -371,20 +371,20 @@ window.gW = (function() {
       var demoFromURL = {};
       var scrollTargetAtStart = null;
       
-      // e.g. www.timetocode.org/?7
+      // e.g. www.triquence.org/?7
       if (queryStringInURL.length == 2) {
          demoFromURL.index = Number( queryStringInURL.slice(1,2));
       
       } else if (queryStringInURL.length >= 3) {
          // for a special version of the demo, e.g. demo5d or demo5d.fullscreen
-         // e.g. www.timetocode.org/?7b  or  www.timetocode.org/index.html?3d.8ball
+         // e.g. www.triquence.org/?7b  or  www.triquence.org/index.html?3d.8ball
          if ((queryStringInURL.length == 3) || queryStringInURL.includes(".")) {
             // Take everything after the ?
             demoFromURL.file = 'demo' + queryStringInURL.slice(1) + '.js';
             // Take only the first character after the ?
             demoFromURL.index = Number( queryStringInURL.slice(1,2));
             
-         // Open to a particular help topic, e.g. www.timetocode.org/?codeLinks
+         // Open to a particular help topic, e.g. www.triquence.org/?codeLinks
          } else {
             scrollTargetAtStart = queryStringInURL.slice(1);
          }

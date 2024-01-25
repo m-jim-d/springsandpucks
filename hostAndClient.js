@@ -454,7 +454,7 @@ window.hC = (function() {
    }
    
    function init_chatFeatures() {
-      serverArray = ['timetocode.herokuapp.com',
+      serverArray = ['triquence.herokuapp.com',
                          'localhost:3000',
                          '192.168.1.106:3000',  
                          '192.168.1.109:3000',  //David's computer
@@ -598,7 +598,7 @@ window.hC = (function() {
          
          helloMessage = helloMessageA +
          
-         'From here you can be a client in a multiplayer room. The room must be started (hosted) from the main www.timetocode.org page. '+
+         'From here you can be a client in a multiplayer room. The room must be started (hosted) from the main www.triquence.org page. '+
          'Generally, a separate computer is used for hosting. For testing, the host and multiple clients can be run in separate windows on the same computer.</br></br>'+
          
          'To connect as a client, enter the room name (provided to you by the host), into the red box here, then click the "Connect" button. '+ 
