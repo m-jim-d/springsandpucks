@@ -12,6 +12,7 @@ https://pet.triquence.org/raspberrypi.html
 
 https://waconia.triquence.org/
 https://waconia.triquence.org/charts.html
+https://waconia.triquence.org/weather.html
 https://waconia.triquence.org/FAQ.htm
 https://waconia.triquence.org/Install_rosy.htm
 https://waconia.triquence.org/coder/contactinfo.html
