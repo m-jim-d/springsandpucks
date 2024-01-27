@@ -454,7 +454,7 @@ window.hC = (function() {
    }
    
    function init_chatFeatures() {
-      serverArray = ['triquence.herokuapp.com',
+      serverArray = ['connect.triquence.org',
                          'localhost:3000',
                          '192.168.1.106:3000',  
                          '192.168.1.109:3000',  //David's computer
