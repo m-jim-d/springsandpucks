@@ -353,7 +353,7 @@ window.hC = (function() {
          nodeString = serverArray[0];  // [0] or [2]
          $('#nodeServer').val( nodeString);
       }
-      if (nodeString.includes("triquence")) {   // heroku
+      if (nodeString.includes("triquence") || nodeString.includes("herokuapp")) {
          var urlPrefix = "https://"
       } else {
          var urlPrefix = "http://"
