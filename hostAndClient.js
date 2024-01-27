@@ -353,7 +353,7 @@ window.hC = (function() {
          nodeString = serverArray[0];  // [0] or [2]
          $('#nodeServer').val( nodeString);
       }
-      if (nodeString.includes("connect.triquence")) {   // heroku
+      if (nodeString.includes("triquence")) {   // heroku
          var urlPrefix = "https://"
       } else {
          var urlPrefix = "http://"
@@ -455,6 +455,7 @@ window.hC = (function() {
    
    function init_chatFeatures() {
       serverArray = ['connect.triquence.org',
+                         'triquence-ca88d70f0e55.herokuapp.com',
                          'localhost:3000',
                          '192.168.1.106:3000',  
                          '192.168.1.109:3000',  //David's computer
