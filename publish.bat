@@ -7,7 +7,8 @@ SET help=off
 SET copy=on
 
 IF "%1"=="help" (
-	SET help=on   
+	SET help=on 
+   
 ) ELSE IF "%1"=="nocopy" (
    SET copy=off
 )
