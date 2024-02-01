@@ -4,15 +4,3 @@ https://www.triquence.org/multiplayer.html
 https://www.triquence.org/peer2peer.html
 https://www.triquence.org/client.html
 https://www.triquence.org/videos.html
-
-https://pet.triquence.org/index.html
-https://pet.triquence.org/pe_tutorial_revhistory.html
-https://pet.triquence.org/A02.1_sr_walkthrough.html
-https://pet.triquence.org/raspberrypi.html
-
-https://waconia.triquence.org/index.html
-https://waconia.triquence.org/charts.html
-https://waconia.triquence.org/weather.html
-https://waconia.triquence.org/FAQ.htm
-https://waconia.triquence.org/Install_rosy.htm
-https://waconia.triquence.org/coder/contactinfo.html
