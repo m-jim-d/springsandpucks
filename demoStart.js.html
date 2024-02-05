@@ -8,6 +8,7 @@ Licensed under the BSD license, see LICENSE for details.
 <html>
 <head>
   <title>demoStart.js</title>
+  <link rel='canonical' href='https://triquence.org/demoStart.js.html' />
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <style type="text/css">
 /*
@@ -133,11 +134,13 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="c1">// Two functions in this module are used by the client page: fullScreenState and adjustSizeOfChatDiv. </span>
    <span class="c1">// The client does not call initializeModule (importing name space from the host) so dC and c are initialized here.</span>
    <span class="kd">var</span> <span class="nx">m_hostOrClient</span><span class="p">;</span>
-   <span class="k">if</span> <span class="p">(</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">pathname</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;client.html&quot;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;client&quot;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
       <span class="nx">m_hostOrClient</span> <span class="o">=</span> <span class="s2">&quot;client&quot;</span><span class="p">;</span>
+      
       <span class="nx">dC</span> <span class="o">=</span> <span class="p">{};</span>
       <span class="nx">c</span> <span class="o">=</span> <span class="p">{};</span>
       <span class="nx">c</span><span class="p">.</span><span class="nx">fullScreenState</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      
    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="nx">m_hostOrClient</span> <span class="o">=</span> <span class="s2">&quot;host&quot;</span><span class="p">;</span>
    <span class="p">}</span>
@@ -146,6 +149,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="c1">///////////////////////////////////////////////////////////////////////////////////////////////////////////////</span>
    
    <span class="kd">function</span> <span class="nx">initializeModule</span><span class="p">(</span> <span class="nx">gW_canvas</span><span class="p">,</span> <span class="nx">gW_ctx</span><span class="p">,</span> <span class="nx">gW_dC</span><span class="p">,</span> <span class="nx">gW_c</span><span class="p">,</span> <span class="nx">gW_aT</span><span class="p">,</span> <span class="nx">gW_keyMap</span><span class="p">,</span> <span class="nx">gW_clients</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// the client page doesn&#39;t use this initialization (see note above)</span>
       <span class="nx">canvas</span> <span class="o">=</span> <span class="nx">gW_canvas</span><span class="p">;</span>
       <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">gW_ctx</span><span class="p">;</span>
       
@@ -1011,7 +1015,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;5.b.five&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span> <span class="c1">// inelastic collision</span>
                <span class="nx">pS</span><span class="p">.</span><span class="nx">scroll</span><span class="p">(</span><span class="s1">&#39;d5bfive&#39;</span><span class="p">);</span>
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;5.b.six&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span> <span class="c1">// inelastic collision</span>
-               <span class="nx">pS</span><span class="p">.</span><span class="nx">scroll</span><span class="p">(</span><span class="s1">&#39;d5bfive&#39;</span><span class="p">);</span>
+               <span class="nx">pS</span><span class="p">.</span><span class="nx">scroll</span><span class="p">(</span><span class="s1">&#39;d5bsix&#39;</span><span class="p">);</span>
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;5.b.rube&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span> <span class="c1">// Rube&#39;s creation</span>
                <span class="nx">pS</span><span class="p">.</span><span class="nx">scroll</span><span class="p">(</span><span class="s1">&#39;d5brube&#39;</span><span class="p">);</span>
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;5.b&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
@@ -1338,7 +1342,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="c1">// If any demo uses special canvas dimensions, now is a good time to let the clients know.</span>
       <span class="c1">// (note: this canvas resize is different from the chat div resizing that is done for demo 8).</span>
       <span class="nx">eV</span><span class="p">.</span><span class="nx">setClientCanvasToMatchHost</span><span class="p">();</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">logThis</span><span class="p">)</span> <span class="nx">lB</span><span class="p">.</span><span class="nx">logEntry</span><span class="p">(</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">logThis</span><span class="p">)</span> <span class="nx">pS</span><span class="p">.</span><span class="nx">logEntry</span><span class="p">(</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">);</span>
       
       <span class="c1">// Sometimes just want to be sure the user gets the fullscreen view.</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">fullScreenDemo</span><span class="p">)</span> <span class="p">{</span>

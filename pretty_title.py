@@ -4,6 +4,11 @@ import os, shutil
 # Add feature to remove the 'demo_capture = ' from the top of the HTML JSON-capture files.
 # This is used by pretty_html.py
 
+def add_canonical( output_file, file_name):
+    web_path_base = "https://triquence.org/"
+    canonical_element = "  <link rel='canonical' href='" + web_path_base + file_name + "' />\n"
+    output_file.write( canonical_element)
+
 def add_page_title( directory_path, file_name):
     # Open the file
     full_path_input = directory_path + "\\" + file_name
@@ -22,15 +27,18 @@ def add_page_title( directory_path, file_name):
             # Insert the filename into the html title.
             single_line_corrected = single_line.replace('<title>', '<title>' + file_name.replace('.html',''))
             temp_output_file.write( single_line_corrected)
+            add_canonical( temp_output_file, file_name)
         elif "<title>Exported from Notepad++</title>" in single_line:
             single_line_corrected = single_line.replace('<title>Exported from Notepad++</title>', '<title>' + file_name.replace('.html','') + '</title>')
             temp_output_file.write( single_line_corrected)
+            add_canonical( temp_output_file, file_name)
         elif "demo_capture</span>" in single_line:
             # Remove 'demo_capture = ' from this line.
             single_line_corrected = single_line.replace('demo_capture</span> <span class="o">=</span> ', '')
             temp_output_file.write( single_line_corrected)
         else:
             temp_output_file.write( single_line)
+    
     
     # Close and delete the original input file.
     input_file.close()

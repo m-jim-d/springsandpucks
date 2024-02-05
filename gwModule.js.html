@@ -8,6 +8,7 @@ Licensed under the BSD license, see LICENSE for details.
 <html>
 <head>
   <title>gwModule.js</title>
+  <link rel='canonical' href='https://triquence.org/gwModule.js.html' />
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <style type="text/css">
 /*
@@ -466,20 +467,20 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="kd">var</span> <span class="nx">demoFromURL</span> <span class="o">=</span> <span class="p">{};</span>
       <span class="kd">var</span> <span class="nx">scrollTargetAtStart</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
       
-      <span class="c1">// e.g. www.timetocode.org/?7</span>
+      <span class="c1">// e.g. triquence.org/?7</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">queryStringInURL</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">demoFromURL</span><span class="p">.</span><span class="nx">index</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span> <span class="nx">queryStringInURL</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
       
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">queryStringInURL</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
          <span class="c1">// for a special version of the demo, e.g. demo5d or demo5d.fullscreen</span>
-         <span class="c1">// e.g. www.timetocode.org/?7b  or  www.timetocode.org/index.html?3d.8ball</span>
+         <span class="c1">// e.g. triquence.org/?7b  or  triquence.org/index.html?3d.8ball</span>
          <span class="k">if</span> <span class="p">((</span><span class="nx">queryStringInURL</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="o">||</span> <span class="nx">queryStringInURL</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span> <span class="p">{</span>
             <span class="c1">// Take everything after the ?</span>
             <span class="nx">demoFromURL</span><span class="p">.</span><span class="nx">file</span> <span class="o">=</span> <span class="s1">&#39;demo&#39;</span> <span class="o">+</span> <span class="nx">queryStringInURL</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.js&#39;</span><span class="p">;</span>
             <span class="c1">// Take only the first character after the ?</span>
             <span class="nx">demoFromURL</span><span class="p">.</span><span class="nx">index</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span> <span class="nx">queryStringInURL</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
             
-         <span class="c1">// Open to a particular help topic, e.g. www.timetocode.org/?codeLinks</span>
+         <span class="c1">// Open to a particular help topic, e.g. triquence.org/?codeLinks</span>
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
             <span class="nx">scrollTargetAtStart</span> <span class="o">=</span> <span class="nx">queryStringInURL</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
          <span class="p">}</span>

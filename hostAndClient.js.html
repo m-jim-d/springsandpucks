@@ -8,6 +8,7 @@ Licensed under the BSD license, see LICENSE for details.
 <html>
 <head>
   <title>hostAndClient.js</title>
+  <link rel='canonical' href='https://triquence.org/hostAndClient.js.html' />
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <style type="text/css">
 /*
@@ -134,7 +135,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    
    <span class="c1">// Globals within hC. /////////////////////////////////////////////////</span>
    
-   <span class="k">if</span> <span class="p">(</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">pathname</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;client.html&quot;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;client&quot;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">hostOrClient</span> <span class="o">=</span> <span class="s2">&quot;client&quot;</span><span class="p">;</span>
       <span class="c1">// cl_clientSide is a global reference to the one and only client-like object on the client.html page.</span>
       <span class="kd">var</span> <span class="nx">cl_clientSide</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="o">:</span><span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;previous_name&#39;</span><span class="o">:</span><span class="kc">null</span><span class="p">};</span>
@@ -448,7 +449,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="nx">nodeString</span> <span class="o">=</span> <span class="nx">serverArray</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>  <span class="c1">// [0] or [2]</span>
          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#nodeServer&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span> <span class="nx">nodeString</span><span class="p">);</span>
       <span class="p">}</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">nodeString</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;heroku&quot;</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">nodeString</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;triquence&quot;</span><span class="p">)</span> <span class="o">||</span> <span class="nx">nodeString</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;herokuapp&quot;</span><span class="p">))</span> <span class="p">{</span>
          <span class="kd">var</span> <span class="nx">urlPrefix</span> <span class="o">=</span> <span class="s2">&quot;https://&quot;</span>
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
          <span class="kd">var</span> <span class="nx">urlPrefix</span> <span class="o">=</span> <span class="s2">&quot;http://&quot;</span>
@@ -549,7 +550,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">init_chatFeatures</span><span class="p">()</span> <span class="p">{</span>
-      <span class="nx">serverArray</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;timetocode.herokuapp.com&#39;</span><span class="p">,</span>
+      <span class="nx">serverArray</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;connect.triquence.org&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;triquence-ca88d70f0e55.herokuapp.com&#39;</span><span class="p">,</span>
                          <span class="s1">&#39;localhost:3000&#39;</span><span class="p">,</span>
                          <span class="s1">&#39;192.168.1.106:3000&#39;</span><span class="p">,</span>  
                          <span class="s1">&#39;192.168.1.109:3000&#39;</span><span class="p">,</span>  <span class="c1">//David&#39;s computer</span>
@@ -693,7 +695,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          
          <span class="nx">helloMessage</span> <span class="o">=</span> <span class="nx">helloMessageA</span> <span class="o">+</span>
          
-         <span class="s1">&#39;From here you can be a client in a multiplayer room. The room must be started (hosted) from the main www.timetocode.org page. &#39;</span><span class="o">+</span>
+         <span class="s1">&#39;From here you can be a client in a multiplayer room. The room must be started (hosted) from the main triquence.org page. &#39;</span><span class="o">+</span>
          <span class="s1">&#39;Generally, a separate computer is used for hosting. For testing, the host and multiple clients can be run in separate windows on the same computer.&lt;/br&gt;&lt;/br&gt;&#39;</span><span class="o">+</span>
          
          <span class="s1">&#39;To connect as a client, enter the room name (provided to you by the host), into the red box here, then click the &quot;Connect&quot; button. &#39;</span><span class="o">+</span> 
