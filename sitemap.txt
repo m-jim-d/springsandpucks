@@ -1,6 +1,6 @@
-https://www.triquence.org/index.html
-https://www.triquence.org/rev-history.html
-https://www.triquence.org/multiplayer.html
-https://www.triquence.org/peer2peer.html
-https://www.triquence.org/client.html
-https://www.triquence.org/videos.html
+https://triquence.org/index.html
+https://triquence.org/rev-history.html
+https://triquence.org/multiplayer.html
+https://triquence.org/peer2peer.html
+https://triquence.org/client.html
+https://triquence.org/videos.html
