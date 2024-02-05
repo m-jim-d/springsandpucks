@@ -599,7 +599,7 @@ window.hC = (function() {
          
          helloMessage = helloMessageA +
          
-         'From here you can be a client in a multiplayer room. The room must be started (hosted) from the main www.triquence.org page. '+
+         'From here you can be a client in a multiplayer room. The room must be started (hosted) from the main triquence.org page. '+
          'Generally, a separate computer is used for hosting. For testing, the host and multiple clients can be run in separate windows on the same computer.</br></br>'+
          
          'To connect as a client, enter the room name (provided to you by the host), into the red box here, then click the "Connect" button. '+ 
