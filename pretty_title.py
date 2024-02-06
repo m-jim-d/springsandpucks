@@ -23,19 +23,24 @@ def add_page_title( directory_path, file_name):
     temp_output_file = open( full_path_output, 'w')
     
     for single_line in input_file:
-        if "<title></title>" in single_line:
+        if "<head>" in single_line:
+            temp_output_file.write( single_line)
+            add_canonical( temp_output_file, file_name)
+            
+        elif "<title></title>" in single_line:
             # Insert the filename into the html title.
             single_line_corrected = single_line.replace('<title>', '<title>' + file_name.replace('.html',''))
             temp_output_file.write( single_line_corrected)
-            add_canonical( temp_output_file, file_name)
+            
         elif "<title>Exported from Notepad++</title>" in single_line:
             single_line_corrected = single_line.replace('<title>Exported from Notepad++</title>', '<title>' + file_name.replace('.html','') + '</title>')
             temp_output_file.write( single_line_corrected)
-            add_canonical( temp_output_file, file_name)
+            
         elif "demo_capture</span>" in single_line:
             # Remove 'demo_capture = ' from this line.
             single_line_corrected = single_line.replace('demo_capture</span> <span class="o">=</span> ', '')
             temp_output_file.write( single_line_corrected)
+        
         else:
             temp_output_file.write( single_line)
     
