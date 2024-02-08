@@ -1,7 +1,7 @@
 import os, shutil
 
-# This function feeds off the filename and adds that name to a title tag in the html.
-# Add feature to remove the 'demo_capture = ' from the top of the HTML JSON-capture files.
+# add_page_title feeds off the filename and adds that name to a title tag in the html.
+# Added feature to remove the 'demo_capture = ' from the top of the HTML JSON-capture files.
 # This is used by pretty_html.py
 
 def add_canonical( output_file, file_name):
