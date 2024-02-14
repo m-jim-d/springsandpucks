@@ -14,7 +14,7 @@
    <!-- This Open Graph tag controls how a link is displayed if posted on social media -->
    <meta property="og:image" content="https://triquence.org/screenshots/colormixer.png">
 
-   <link href="hostAndClient.css?v=21" rel="stylesheet" type="text/css">  
+   <link href="hostAndClient.css?v=22" rel="stylesheet" type="text/css">  
 
    <!-- Google icon library -->
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -324,19 +324,19 @@
          button again (or use the corresponding number key on the keyboard). 
          The letter links, below the number buttons,
          start variations of the base demo or game. 
-         <details class="onIndex">
+         <details class="coloredText">
          <summary title="click for more on the buttons">details...</summary>
          Clicking one of these letter links populates the capture box and starts the variation. 
          Clicking the corresponding number button restarts the variation. 
          The "a" link acts to clear out the capture box and then restart the base demo. 
          The "0" (zero) key resets the demos, clears the capture, exits from full-screen mode, and scrolls this panel to the top.
          Each number button auto-scrolls this left panel to show corresponding information. 
-         <br>
+         <br><br>
          The scrolling in the left panel is recorded. These panel-scroll positions can be revisited using the left and right
          arrow keys if both the "Ctrl" and "Shift" keys are held down. Similarly, the up-arrow key scrolls this panel to the top. 
          </details>
-         <br>
          
+         <br>
          The "<strong>Freeze</strong>" button momentarily stops all puck translation while 
          allowing rotation to continue. The neighboring "<strong>R</strong>" button stops all 
          rotation (use t and shift-t to change the rotation rate of a selected puck).
@@ -349,7 +349,7 @@
          for dragging objects: left click for the normal spring, center 
          click for the weakest spring, right click for the strongest spring and a firmer connection 
          to the larger pucks.
-         <details class="onIndex">
+         <details class="coloredText">
          <summary title="click for more on the mouse buttons">details...</summary>
          Note that using the right mouse button on the smallest 
          pucks may cause instability in the physics engine; go ahead and try it. If you're only
@@ -364,7 +364,7 @@
          The "<strong>COM</strong>" (Center Of Mass) checkbox controls the position of the selection point (and where the cursor spring attaches). 
          With this on, the selection point will always be at the center of the target object. 
          Turning this off allows you to apply an off-center force (torque) to spin or stop spinning the object. 
-         <details class="onIndex">
+         <details class="coloredText">
          <summary title="click for more on the COM control">details...</summary>
          The "c" key is a keyboard shortcut for the COM checkbox. 
          Use alt-c to center the cursor-spring attachment point along the narrowest dimension of a rectangular puck. 
@@ -374,7 +374,7 @@
          <br>
          
          The "<strong>g</strong>" checkbox (or "g" key) toggles gravity between 0 and 9.8.
-         <details class="onIndex">
+         <details class="coloredText">
          <summary title="click for more on gravity">details...</summary>
          The gravity checkbox also controls several associated parameters in
          <a href="https://github.com/hecht-software/box2dweb" target="_blank">Box2D</a>: restitution, friction, and 
@@ -406,7 +406,7 @@
          
          The combination of the "<strong>alt</strong>" and "<strong>p</strong>" keys toggles the <strong>canvas 
          eraser</strong>. 
-         <details class="onIndex">
+         <details class="coloredText">
          <summary title="click for more on the inhibiting the eraser">details...</summary>
          The eraser normally precedes each frame. When 
          toggled off, some drawing features, such as for springs, are inhibited. 
@@ -558,7 +558,7 @@
          <br><br>
          The "remove/add items" select control has two procedures for modifying an existing capture: "shift capture" and "modify capture."
          For both of these, you'll need to start with a capture in the capture text area.
-         <details class="onIndex">
+         <details class="coloredText">
          <summary title="click for more on modifying captures">details...</summary>
             <ul style="margin-top: 4px; margin-bottom: 0px; margin-left: -10px">
                <li>The "shift capture" procedure moves all the elements in a small-canvas capture to the center of a larger canvas. 
@@ -936,8 +936,8 @@
          Try copying and pasting a spring (ctrl-v after selecting).
          Also note, to position something, without the cursor spring, drag with the ctrl key down. Here's what you're
          shooting for: <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.threeAndOne.js'})">5.a.threeAndOne</a>.
-                  
-         <br><br>
+         <br>         
+         <br><hr><br>
          <span id="d5b"></span>
          <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.js'})">5b</a> shows the transfer of angular momentum from spin (Ls) to orbital (Lo). Total
          angular momentum (L) is conserved in this inelastic collision of three pucks with surface friction.
@@ -1070,8 +1070,8 @@
          \]
          </p>
          
-         <details class="onIndex">
-         <summary title="click for info on higher numbers of pucks">more: 4, 5, and 6 puck systems...</summary>
+         <details>
+         <summary title="click to continue the discussion, systems with higher numbers of pucks">more: 4, 5, and 6 puck systems...</summary>
          
          <br>
          <span id="d5bfour"></span>
@@ -1230,10 +1230,11 @@
          <td title="orbit rate after collision" id="orbit_6p"  ></td>
          </tr>
          </table>
+         </details> 
          
-         </details>   
-         
-         <br><br>
+         <br>
+         <hr>
+         <br>
          <span id="d5a-orbit"></span>
          Here are <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.orbitingOnSpring.js'})">two pucks</a> in a non-colliding orbit.
          There is damping in the spring but no translational drag on the pucks. This is similar to the 5a demo, simpler

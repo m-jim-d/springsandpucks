@@ -126,6 +126,13 @@ br.score {
 #outline1 li {
 }
 
+details.coloredText {
+   color: brown;
+}
+summary {
+   color: black;
+}
+
 span.gameBullet {
    /* 
    font-size: 100%;
