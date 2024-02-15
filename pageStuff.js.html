@@ -289,11 +289,10 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="p">}</span>  
 
    <span class="kd">function</span> <span class="nx">checkForAbsoluteLinks</span><span class="p">()</span> <span class="p">{</span>
-      <span class="kd">let</span> <span class="nx">finalHref</span><span class="p">;</span>
-      
-      <span class="c1">// check for absolute links...  https://triquence.org</span>
+      <span class="c1">// check for absolute links...  https://triquence.org, pet.triquence, waconia.triquence</span>
       <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
          <span class="kd">let</span> <span class="nx">href</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">);</span>
+         <span class="kd">let</span> <span class="nx">finalHref</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
          
          <span class="k">if</span> <span class="p">(</span><span class="nx">href</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">href</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">))</span> <span class="p">{</span>
             
@@ -301,69 +300,57 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;192.168.1.106&quot;</span><span class="p">))</span> <span class="p">{</span>
                <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;https://triquence.org&quot;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;http://192.168.1.106/ttc-root&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;pet.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://pet.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;http://192.168.1.106/pet-dev&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;waconia.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://waconia.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;http://192.168.1.106/waconia-50webs-dev&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                   <span class="c1">// nothing yet...</span>
                <span class="p">}</span>
-                        
-            <span class="c1">// springphysics test site</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;springphysics&quot;</span><span class="p">))</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;https://triquence.org&quot;</span><span class="p">))</span> <span class="p">{</span>
-                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://springphysics.org&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
-               
-               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;pet.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
-                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://pet.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://pet.springphysics.org&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
-                  
-               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;waconia.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
-                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://waconia.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://waconia.springphysics.org&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
-                  
-               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                  <span class="c1">// nothing yet...</span>
-               <span class="p">}</span>
-               
-            <span class="c1">// timetocode test site</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;timetocode&quot;</span><span class="p">))</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;https://triquence.org&quot;</span><span class="p">))</span> <span class="p">{</span>
-                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://timetocode.org&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
-               
-               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;pet.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
-                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://pet.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://pet.timetocode.org&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
-                  
-               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;waconia.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
-                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://waconia.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://waconia.timetocode.org&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
-                  
-               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                  <span class="c1">// nothing yet...</span>
-               <span class="p">}</span>
-               
+                   
             <span class="c1">// github server</span>
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;m-jim-d&quot;</span><span class="p">))</span> <span class="p">{</span>
                <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;https://triquence.org&quot;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://m-jim-d.github.io/springsandpucks&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
                
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;pet.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://pet.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://m-jim-d.github.io/pet&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;waconia.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://waconia.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://m-jim-d.github.io/waconia&quot;</span><span class="p">);</span>
-                  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                  <span class="c1">// nothing yet...</span>
+               <span class="p">}</span>
+               
+            <span class="c1">// firebase server (web.app)</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;web.app&quot;</span><span class="p">))</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;https://triquence.org&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://ttcorg-64150.web.app&quot;</span><span class="p">);</span>
+               
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;pet.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://pet.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://pet-ttc.web.app&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;waconia.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://waconia.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://waconia-ttc.web.app&quot;</span><span class="p">);</span>
+                         
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                  <span class="c1">// nothing yet...</span>
+               <span class="p">}</span>
+               
+            <span class="c1">// firebase server (firebaseapp.com)</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;firebaseapp.com&quot;</span><span class="p">))</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;https://triquence.org&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://ttcorg-64150.firebaseapp.com&quot;</span><span class="p">);</span>
+               
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;pet.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://pet.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://pet-ttc.firebaseapp.com&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;waconia.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://waconia.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://waconia-ttc.firebaseapp.com&quot;</span><span class="p">);</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                   <span class="c1">// nothing yet...</span>
@@ -373,8 +360,10 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                <span class="c1">// nothing yet</span>
             <span class="p">}</span>
+            
+            <span class="c1">// If an absolute link was found, use the edited version, finalHref.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">finalHref</span><span class="p">)</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">,</span> <span class="nx">finalHref</span><span class="p">);</span>
          <span class="p">}</span>
-         
       <span class="p">});</span>      
    <span class="p">}</span>
       
