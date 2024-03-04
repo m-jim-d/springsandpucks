@@ -1,0 +1,629 @@
+<!doctype html>
+
+<html lang="en" id="helpScroller">
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="table of input commands for triquence.org">
+
+   <title>keys and more</title>
+   
+   <link rel="canonical" href="https://triquence.org/mouseandkeyboard.html" />
+
+   <link href="ttc-disc.css" rel="stylesheet" type="text/css">
+   <!-- The navigation menu -->
+   <link href="sitemap.css" rel="stylesheet" type="text/css">   
+
+   <style type="text/css">
+      td {
+         background-color: white;
+         color: black;
+         padding: 3px 5px;
+         text-align: center;   
+      }
+      td.desc {
+         text-align: left;
+      }
+      td.keys {
+         white-space: nowrap;
+      }
+   </style>
+
+   <!-- The navigation menu -->
+   <script src="jquery-3.6.1.min.js?v=3"></script>
+   <link href="sitemap.css?v=10" rel="stylesheet" type="text/css">
+   
+   <script src="utilities.js?v=7"></script>
+   <script src="pageStuff.js?v=60"></script>
+
+   <script>
+      // After the page loads (and canvas element is defined)....
+      $(document).ready( function() { 
+         pS.init({"pageDesc":"SP: P2P"});
+      });
+   </script> 
+
+</head>
+
+<body>
+
+<!-- The navigation menu -->
+<div id="navDiv"></div>
+<span class="menuicon" id="opener" style="font-size:19px; cursor:pointer;">&#9776;</span>
+
+<div class="pageblock">
+	<div class="title_line">
+      <h1>Mice, Keys, and Touch</h1>
+      <span class="float_right">(<a href="javascript:history.go(-1)">return</a>)&nbsp;&nbsp;(<a href="index.html">springs & pucks</a>)</span>
+   </div>
+   <p>
+   This list of mouse, keyboard, and touch-screen actions is a reference for the features of the Springs and Pucks page.
+   The "gui" column here indicates a corresponding button or checkbox.
+   The "client" column indicates availability in the network client.
+   The "r/a" column indicates a corresponding option in the "remove/add items" menu.
+   </p><p>
+   Ideally, try the S&P page (and read the left panel there), watch a few videos, then back here for reinforcement.
+   However, this reference page may also be a good starting point from which to explore and gather.
+   Almost every interface feature is explained, enough for a try.
+   The "virtual game pad" and the "remove/add items" menu are mentioned here (with links).
+   </p><p>
+   Note that the <a href="videos.html?interactions" target="_blank">interactions</a> section of the videos page serves as an introduction to the mouse/keyboard usage,
+   especially those in the "move, rotate, and play" group below. 
+   The videos are annotated to identify the commands.
+   </p>
+   <br>
+   
+   <table rules="all">
+   <tr>
+      <td title="keyboard keys and/or mouse buttons or touch gesture"><strong>action</strong></td>
+      <td title="corresponding button or checkbox"><strong>gui</strong></td>
+      <td title="available to network clients"><strong>client</strong></td>
+      <td title='available in the "remove/add item" menu'><strong>r/a</strong></td>
+      <td title="discussion of what it does"><strong>description</strong></td>
+   </tr>
+   <tr>
+      <td class="keys">click</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      Click directly over a puck to select it and attach a cursor spring. 
+      A click in an open area of the canvas resets any previous engagement.
+      Use middle or right buttons for milder or stronger cursor springs.
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">drag</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      A drag is a click and hold followed by mouse movement. 
+      Drag over a puck to select it (or catch one in motion) and attach a cursor spring 
+      (also see shift-drag, ctrl-shift-drag, and alt-drag).
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">one finger</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      A single-finger touch is equivalent to a mouse drag. 
+      This can be used to select, aim, and shoot in the games. Release the touch to fling or shoot.
+      </td>
+   </tr>
+   
+   <tr>
+      <td class="keys" colspan=5><strong>additional selection methods<strong></td>
+   </tr>
+   
+   <tr>
+      <td class="keys">shift-drag</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">Drag over pucks to select one or more and their connections.</td>
+   </tr>
+   <tr>
+      <td class="keys">shift-rmb-drag</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">Using the right mouse button (rmb), drag over pucks to de-select one or more and their connections.</td>
+   </tr>
+   <tr>
+      <td class="keys">alt-drag</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Using a box, select one or more pucks and their connections.</td>
+   </tr>
+   <tr>
+      <td class="keys">c</td>
+      <td>x</td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">Toggles COM (Center-Of-Mass selection and attachments)</td>
+   </tr>
+   <tr>
+      <td class="keys">alt - c</td>
+      <td>x</td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">Move the attachment point (of a rectangular puck) to be in middle of the shortest dimension. A second alt-c will move the attachment point to the nearest end.</td>
+   </tr>
+   <tr>
+      <td class="keys">e</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Enable (toggle) wall and pin selection and editing.</td>
+   </tr>   
+
+   <tr>
+      <td class="keys" colspan=5><strong>move, rotate, and play<strong></td>
+   </tr>
+   
+   <tr>
+      <td class="keys">ctrl-drag</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">Directly move a puck or group (without a cursor spring).</td>
+   </tr>
+   <tr>
+      <td class="keys">triple touch</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      Three successive touches will toggle ball-in-hand ON/OFF. 
+      When ON, touch drags are like a ctrl-drag with a mouse, direct movement, no cursor spring.
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl-shift-drag</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      Rotate a selected puck (or group) about the center. 
+      For a single puck, this will aim and set the shot speed; release to shoot.
+      Releasing over the puck will cancel the shot.
+      Press the "alt" key before releasing, to shoot in the opposite direction. 
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">alt - b,n</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      With "alt" held down, the "b" and "n" keys step back and forth through the shot history, useful for practicing a shot repeatedly.
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">b</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      Toggle fine-moves cursor positioning. 
+      This is mainly for careful aiming in the games, but can also offer fine control in positioning objects.
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">second finger</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      This uses a momentary second-finger touch after starting a single-finger touch (a drag). 
+      This is only available in three of the games:
+      in <i>Ghost Ball Pool</i> this is equivalent to the "z" key (speed lock),
+      in <i>Monkey Hunt</i> and <i>Bipartisan Hoops</i> this is equivalent to the "b" key (fine-adjust).
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl - shift - l</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      Toggle the ctrl-shift lock so that future puck drags will act as if the "ctrl" and "shift" keys are held down, handy when frequently shooting
+      (this lock is set in the Ghost-Ball pool game).<br>
+      Note that if already locked, a selected group can be aimed and shot (like a single puck) if the "shift" key is held down before releasing the shot. 
+      The <a href="videos.html?assembleSystem" target="_blank">multi-select</a> video shoots a bullet-shaped group of pucks.
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">z</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">Lock the shot speed. After using ctrl-shift-l to lock ctrl-shift, the "z" key can be used to lock the shot speed. 
+      With no puck selected, the "z" key can be used to unlock the shot speed.</td>
+   </tr>
+   <tr>
+      <td class="keys">mouse wheel</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">If the shot speed is locked (see "z" key), the mouse wheel can be used to adjust the shot speed. This can be useful for setting a very low shot speed.</td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl-alt-drag</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">Rotate a selected puck (or each puck in a selection group) about their individual centers.</td>
+   </tr>
+   
+   <tr>
+      <td class="keys" colspan=5><strong>Puck Popper (demos 7 and 8)<strong></td>
+   </tr>
+   
+   <tr>
+      <td class="keys">w, a, s, d</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      The w-a-s-d group of keys controls the puck's jet.  
+      The "w" key fires. 
+      The "a" and "d" keys rotate. 
+      The "s" key turns the jets to oppose the current motion, useful in breaking. 
+      Subsequent "s" presses rotate the jet in 90-degree clockwise steps. Firing the jet, "w", resets this pattern.
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">i, j, k, l</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      The i-j-k-l group of keys controls your gun.
+      The "i" key shoots bullets. 
+      The "j" and "l" keys rotate the gun clockwise and counterclockwise. 
+      The "k" key rotates the gun in 90-degree clockwise steps (shift-k steps counterclockwise).
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">spacebar</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">Turn on a shield for your puck.</td>
+   </tr>
+   <tr>
+      <td class="keys">shift - d - p</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Add a drone on a single navigation pin.</td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl - q</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Put drones to sleep. Ctrl-q again to wake them.</td>
+   </tr>
+   <tr>
+      <td class="keys">?</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">The question-mark key will identify the puck that you control.</td>
+   </tr>
+   <tr>
+      <td class="keys">two thumbs</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      The Two-Thumbs virtual game pad (cell phone touch-screen) is started from the client page.
+      Check out the <a href="videos.html?puckPopper" target="_blank">videos</a> and the corresponding <a href="index.html?twoThumbs" target="_blank">discussion</a> on the S&P page.
+      </td>
+   </tr>
+   
+   <tr>
+      <td class="keys" colspan=5><strong>gobal, affects all pucks<strong></td>
+   </tr>
+   
+   <tr>
+      <td class="keys">f</td>
+      <td>x</td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">Momentarily stop translational motion. Forces on pucks, if present, may cause translations to resume.</td>
+   </tr>
+   <tr>
+      <td class="keys">r</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Momentarily stop rotational motion. Torques on pucks, if present, may cause rotational motion to resume.</td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl-backspace</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Reverses the velocities (rotational and translational) of all pucks.</td>
+   </tr>
+   <tr>
+      <td class="keys">g</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Toggles gravity on/off.</td>
+   </tr>
+   
+   <tr>
+      <td class="keys" colspan=5><strong>engine, canvas, and network<strong></td>
+   </tr>
+   
+   <tr>
+      <td class="keys">p</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Toggles the state of the physics engine between paused and normal-stepping.</td>
+   </tr>
+   <tr>
+      <td class="keys">alt - p</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Toggles screen erasing on/off.</td>
+   </tr>
+   <tr>
+      <td class="keys">o</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Pause the physics engine. Additional "o" keys will single-step the engine. Use the "p" key to resume normal stepping.</td>
+   </tr>
+   <tr>
+      <td class="keys">m</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Toggles multiplayer options and displays the connection and chat area in the left panel.</td>
+   </tr>
+   
+   <tr>
+      <td class="keys" colspan=5><strong>capture and run<strong></td>
+   </tr>
+   
+   <tr>
+      <td class="keys">u</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Take a capture.</td>
+   </tr>
+   <tr>
+      <td class="keys">shift - r</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Run the caputure.</td>
+   </tr>
+      <tr>
+      <td class="keys">1 through 9</td>
+      <td>x</td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">The number keys start (or restart) the corresponding demo or lettered variant.</td>
+   </tr>
+   <tr>
+      <td class="keys">four fingers</td>
+      <td></td>
+      <td>x</td>
+      <td></td>
+      <td class="desc">
+      Four simultaneous touches will restart the current demo or game.
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">The zero key resets the canvas (clears off all pucks). If in full-screen mode, returns to normal view. Network connections are unaffected.</td>
+   </tr>
+   <tr>
+      <td class="keys">v</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Enable full-screen view. Use "esc" to return to normal view.</td>
+   </tr>
+   <tr>
+      <td class="keys">n</td>
+      <td>x</td>
+      <td></td>
+      <td></td>
+      <td class="desc">Place objects on a full-sized canvas, take a capture, then display in full-screen view. Use "esc" key to exit from full-screen view.</td>
+   </tr>
+   
+   <tr>
+      <td class="keys" colspan=5><strong>page navigation<strong></td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl-shift - &#8592; &#8594; &#8593;</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">
+      With ctrl and shift held down, the left/right arrow keys step back/forward through a scroll-position history that is populated as you follow page links to targets on the same page.
+      This is useful for returning to the starting link.
+      The up-arrow key will scroll the page to the top. 
+      </td>
+   </tr>
+   
+   <tr>
+      <td class="keys" colspan=5><strong>copy, delete, create, arrange<strong></td>
+   </tr>
+   
+   <tr>
+      <td>ctrl - x</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Delete selected objects. By default, spring and joint connections are deleted first. A second ctrl-x will delete the pucks. Note that this can be directed at
+      individual connections by first using the "enter" key and then the "tab" key to step through the individual connections. Then, ctrl-x.</td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl - v</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Copy the selected object (or group) and paste at the cursor position.</td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl - c</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Copy the selected spring for use in pasting (ctrl-s) onto a pair of selected objects.</td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl - s</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Paste a copied spring onto a pair of selected objects.</td>
+   </tr>
+   <tr>
+      <td class="keys">alt - r</td>
+      <td></td>
+      <td></td>
+      <td>x</td>
+      <td class="desc">Add a revolute joint at the selection points of the pair of selected objects.</td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl - alt - s</td>
+      <td></td>
+      <td></td>
+      <td>x</td>
+      <td class="desc">Add a spring at the selection points of the pair of selected objects.</td>
+   </tr>
+   <tr>
+      <td class="keys">alt - l</td>
+      <td></td>
+      <td></td>
+      <td>x</td>
+      <td class="desc">Align the selected group between the two most remote objects (outliers) relative to the system center.</td>
+   </tr>
+   <tr>
+      <td class="keys">alt - shift - l</td>
+      <td></td>
+      <td></td>
+      <td>x</td>
+      <td class="desc">Arrange the selected group (of at least 9 objects) into a semi-circle.</td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl - l</td>
+      <td></td>
+      <td></td>
+      <td>x</td>
+      <td class="desc">Toggle the display of the EPL report (energy, momentum, angular momentum)</td>
+   </tr>
+   <tr>
+      <td class="keys">ctrl - alt - l</td>
+      <td></td>
+      <td></td>
+      <td>x</td>
+      <td class="desc">Toggle to the "speed" version of the EPL report.</td>
+   </tr>
+   <tr>
+      <td class="keys">menu items</td>
+      <td></td>
+      <td></td>
+      <td>x</td>
+      <td class="desc">
+      This serves as encouragement to review the additional stuff in the <a href="index.html?removeAdd" target="_blank">remove/add items</a> menu in the right panel of the main S&P page.
+      One of my favorites there is "add springy chain." Here's a short <a href="videos.html?springyChain" target="_empty">video</a>.
+      </td>
+   </tr>
+   
+   <tr>
+      <td class="keys" colspan=5><strong>change characteristics<strong></td>
+   </tr>
+   
+   <tr>
+      <td class="keys">&#8592; &#8594;</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Left/right arrow keys change the width of selected rectangular objects or the radius of selected circular pucks.</td>
+   </tr>
+   <tr>
+      <td class="keys">s - &#8592; &#8594;</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">
+      If the "s" key is held down, the left/right arrow keys change the strength and displayed width of selected springs.
+      Hold down both the "alt" and "s" key for adjusting the width only.
+      </td>
+   </tr>
+   <tr>
+      <td class="keys">&#8593; &#8595;</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Up/down arrow keys change the height of selected rectangular objects or the radius of selected circular pucks.</td>
+   </tr>
+   <tr>
+      <td class="keys">s - &#8593; &#8595;</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">If the "s" key is held down, the up/down arrow keys change the un-stretched length of selected springs.</td>
+   </tr>
+   <tr>
+      <td class="keys">- +</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">The minus and plus keys change the surface friction (tackiness) of selected pucks.</td>
+   </tr>
+   <tr>
+      <td class="keys">[ ]</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">The left and right bracket keys change the restitution (elasticity) of selected pucks.</td>
+   </tr>
+   <tr>
+      <td class="keys">< ></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">The less-than and greater-than keys change the translational drag of selected pucks.</td>
+   </tr>
+   <tr>
+      <td class="keys">alt - < ></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">With the "alt" key held down, the "<" and ">" keys change the rotational drag of selected pucks.</td>
+   </tr>
+   <tr>
+      <td class="keys">s - < ></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">With the "s" key held down, the "<" and ">" keys change the damping (shock absorbers) of selected springs.</td>
+   </tr>
+   </table>
+   
+</div>
+
+</body>
+</html>
