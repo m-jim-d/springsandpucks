@@ -265,8 +265,7 @@ window.lB = (function() {
       function sendScoreToSpreadSheet( mode, userName, userScore, gameVersion, winner, mouse, npcSleep, n_people, n_drones, frameRate_monitor, frameRate_physics, virtualGamePad, noFriendlyFire, index) {
          // The "Deployment ID" in this URL is found via the "Tools/Script editor/Select a project..." interface for the spreadsheet. Pick "Manage deployments" from the "Deploy" select element, upper right.
          // The "Deployment ID" does not give general access to the account. It only allows the web user to submit parameters to the doGet function in the spreadsheet project's script.
-         //var sheetURL = 'https://script.google.com/macros/s/AKfycbz2DWA7VNas0M4ZwIADjPBSxF9SLqX64PxnwpF-bbM0xECDZrhS/exec';
-         var sheetURL = 'https://script.google.com/macros/s/AKfycbzYVIiG2_tMu-6i8e7Pt6XWHGC4UpQopyv5-fb8k1j_HUy5Z2BAcoFB1TffsQ1IJxuwgA/exec';
+         var sheetURL = 'https://script.google.com/macros/s/AKfycbw-MubGpT943K31y6df19zwraGf0GBMuKk9TlOd3yImYO5BSbDxeWTysuYqye0d4mQ_og/exec';
          // AJAX
          var xhttp = new XMLHttpRequest();
          xhttp.open('GET', sheetURL + '?mode=' + mode + 
