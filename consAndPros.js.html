@@ -949,7 +949,12 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          
          <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">shape</span> <span class="o">==</span> <span class="s1">&#39;circle&#39;</span><span class="p">)</span> <span class="p">{</span>
             <span class="c1">// Use either left/right or up/down to change the circle radius.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">width_factor</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">)</span> <span class="nx">width_factor</span> <span class="o">=</span> <span class="nx">height_factor</span><span class="p">;</span>
+            <span class="c1">// Note that adjustAttachments uses x,y factors, even for circular pucks. They must be set to be equal.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">width_factor</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="p">{</span> 
+               <span class="nx">height_factor</span> <span class="o">=</span> <span class="nx">width_factor</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">height_factor</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="p">{</span> 
+               <span class="nx">width_factor</span> <span class="o">=</span> <span class="nx">height_factor</span><span class="p">;</span>
+            <span class="p">}</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">CreateFixture</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">define_fixture</span><span class="p">({</span><span class="s1">&#39;radius_scaling&#39;</span><span class="o">:</span><span class="nx">width_factor</span><span class="p">}));</span>
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">CreateFixture</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">define_fixture</span><span class="p">({</span><span class="s1">&#39;width_scaling&#39;</span><span class="o">:</span><span class="nx">width_factor</span><span class="p">,</span> <span class="s1">&#39;height_scaling&#39;</span><span class="o">:</span><span class="nx">height_factor</span><span class="p">}));</span>
@@ -983,43 +988,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="p">}</span>
       
       <span class="c1">// As the puck is resized, adjust attachment points, and multiselect points.</span>
-      <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inMultiSelect</span><span class="p">())</span> <span class="p">{</span>
-         <span class="k">this</span><span class="p">.</span><span class="nx">selectionPoint_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
-         <span class="k">this</span><span class="p">.</span><span class="nx">selectionPoint_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="nx">Spring</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">spring</span> <span class="p">=&gt;</span> <span class="p">{</span>
-         <span class="k">if</span> <span class="p">((</span><span class="k">this</span> <span class="o">==</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">spo1</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="k">this</span> <span class="o">==</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">spo2</span><span class="p">))</span> <span class="p">{</span>
-            <span class="c1">// Adjust the attachment points similar to the puck size adjustments.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="k">this</span> <span class="o">==</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">spo1</span><span class="p">)</span> <span class="p">{</span>
-               <span class="nx">spring</span><span class="p">.</span><span class="nx">spo1_ap_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
-               <span class="nx">spring</span><span class="p">.</span><span class="nx">spo1_ap_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
-            <span class="p">}</span> 
-            <span class="k">if</span> <span class="p">(</span><span class="k">this</span> <span class="o">==</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">spo2</span><span class="p">)</span> <span class="p">{</span>
-               <span class="nx">spring</span><span class="p">.</span><span class="nx">spo2_ap_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
-               <span class="nx">spring</span><span class="p">.</span><span class="nx">spo2_ap_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
-            <span class="p">}</span> 
-            <span class="c1">// If there&#39;s a spring that has one (or both) of its ends attached to THIS puck, </span>
-            <span class="c1">// and it&#39;s a b2d spring (a distance joint), update that b2d spring because the nature of these b2d springs</span>
-            <span class="c1">// depends on the mass of the pucks they are attached to.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">spring</span><span class="p">.</span><span class="nx">softConstraints</span><span class="p">)</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">updateB2D_spring</span><span class="p">();</span>
-         <span class="p">}</span>
-      <span class="p">});</span>
-      <span class="nx">Joint</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">joint</span> <span class="p">=&gt;</span> <span class="p">{</span>
-         <span class="k">if</span> <span class="p">(</span><span class="k">this</span> <span class="o">==</span> <span class="nx">joint</span><span class="p">.</span><span class="nx">jto1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">joint</span><span class="p">.</span><span class="nx">jto1_ap_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
-            <span class="nx">joint</span><span class="p">.</span><span class="nx">jto1_ap_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
-            
-            <span class="nx">joint</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">m_localAnchor1</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>            
-            <span class="nx">joint</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">m_localAnchor1</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>            
-         <span class="p">}</span> 
-         <span class="k">if</span> <span class="p">(</span><span class="k">this</span> <span class="o">==</span> <span class="nx">joint</span><span class="p">.</span><span class="nx">jto2</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">joint</span><span class="p">.</span><span class="nx">jto2_ap_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
-            <span class="nx">joint</span><span class="p">.</span><span class="nx">jto2_ap_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
-            
-            <span class="nx">joint</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">m_localAnchor2</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>            
-            <span class="nx">joint</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">m_localAnchor2</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>            
-         <span class="p">}</span> 
-      <span class="p">});</span>
+      <span class="nx">adjustAttachments</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="nx">width_factor</span><span class="p">,</span> <span class="nx">height_factor</span><span class="p">);</span>
             
       <span class="c1">// Update the puck tail radius.</span>
       <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">tail</span><span class="p">)</span> <span class="p">{</span>
@@ -2532,6 +2501,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="p">}</span>
    <span class="nx">Wall</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span> <span class="nx">dFM</span><span class="p">.</span><span class="nx">DrawingFunctions</span><span class="p">.</span><span class="nx">prototype</span><span class="p">);</span> <span class="c1">// Inherit methods</span>
    <span class="nx">Wall</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">Wall</span><span class="p">;</span> <span class="c1">// Rename the constructor (after inheriting)</span>
+   <span class="nx">Wall</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">inMultiSelect</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="k">in</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">hostMSelect</span><span class="p">.</span><span class="nx">map</span><span class="p">);</span>
+   <span class="p">}</span>
    <span class="nx">Wall</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">deleteThisOne</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">pars</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">deleteMode</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">deleteMode</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
       
@@ -2655,6 +2627,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="kd">var</span> <span class="nx">dimensionsReport</span> <span class="o">=</span> <span class="s2">&quot;half width, half height = &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">half_width_m</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">half_height_m</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; m&quot;</span><span class="p">;</span>
       <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span> <span class="nx">dimensionsReport</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
       
+      <span class="c1">// As the wall is resized, adjust attachment points, and multiselect points.</span>
+      <span class="nx">adjustAttachments</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="nx">width_factor</span><span class="p">,</span> <span class="nx">height_factor</span><span class="p">);</span>
    <span class="p">}</span>
    <span class="nx">Wall</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">draw_MultiSelectPoint</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">drawingContext</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">selectionPoint_2d_px</span><span class="p">;</span>
@@ -2698,7 +2672,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="p">}</span>
    <span class="p">}</span>
    
-   
+      
    
    <span class="c1">// Energy, Momentum, and Angular Momentum (and Speed) report</span>
    <span class="c1">// Note: no prototypes here.</span>
@@ -2853,6 +2827,51 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="p">}</span>
    
    
+   
+   <span class="c1">///////////////////////////////////////////////////////////////////////////</span>
+   <span class="c1">// Miscellaneous functions</span>
+   <span class="c1">///////////////////////////////////////////////////////////////////////////</span>
+   
+   <span class="kd">function</span> <span class="nx">adjustAttachments</span><span class="p">(</span> <span class="nx">puckOrWall</span><span class="p">,</span> <span class="nx">width_factor</span><span class="p">,</span> <span class="nx">height_factor</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// As the puck (or wall) is resized, adjust attachment points, and multiselect points.</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">puckOrWall</span><span class="p">.</span><span class="nx">inMultiSelect</span><span class="p">())</span> <span class="p">{</span>
+         <span class="nx">puckOrWall</span><span class="p">.</span><span class="nx">selectionPoint_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
+         <span class="nx">puckOrWall</span><span class="p">.</span><span class="nx">selectionPoint_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">Spring</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">spring</span> <span class="p">=&gt;</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">((</span><span class="nx">puckOrWall</span> <span class="o">==</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">spo1</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="nx">puckOrWall</span> <span class="o">==</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">spo2</span><span class="p">))</span> <span class="p">{</span>
+            <span class="c1">// Adjust the attachment points similar to the puck (or wall) size adjustments.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">puckOrWall</span> <span class="o">==</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">spo1</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">spring</span><span class="p">.</span><span class="nx">spo1_ap_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
+               <span class="nx">spring</span><span class="p">.</span><span class="nx">spo1_ap_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
+            <span class="p">}</span> 
+            <span class="k">if</span> <span class="p">(</span><span class="nx">puckOrWall</span> <span class="o">==</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">spo2</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">spring</span><span class="p">.</span><span class="nx">spo2_ap_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
+               <span class="nx">spring</span><span class="p">.</span><span class="nx">spo2_ap_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
+            <span class="p">}</span> 
+            <span class="c1">// If there&#39;s a spring that has one (or both) of its ends attached to this puckOrWall (and the puckOrWall is a puck),</span>
+            <span class="c1">// and it&#39;s a b2d spring (a distance joint), update that b2d spring because the nature of these b2d springs</span>
+            <span class="c1">// depends on the mass of the pucks they are attached to.</span>
+            <span class="k">if</span> <span class="p">((</span><span class="nx">puckOrWall</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="s2">&quot;Puck&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">softConstraints</span><span class="p">)</span> <span class="nx">spring</span><span class="p">.</span><span class="nx">updateB2D_spring</span><span class="p">();</span>
+         <span class="p">}</span>
+      <span class="p">});</span>
+      <span class="nx">Joint</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">joint</span> <span class="p">=&gt;</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">puckOrWall</span> <span class="o">==</span> <span class="nx">joint</span><span class="p">.</span><span class="nx">jto1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">joint</span><span class="p">.</span><span class="nx">jto1_ap_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
+            <span class="nx">joint</span><span class="p">.</span><span class="nx">jto1_ap_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
+            
+            <span class="nx">joint</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">m_localAnchor1</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>            
+            <span class="nx">joint</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">m_localAnchor1</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>            
+         <span class="p">}</span> 
+         <span class="k">if</span> <span class="p">(</span><span class="nx">puckOrWall</span> <span class="o">==</span> <span class="nx">joint</span><span class="p">.</span><span class="nx">jto2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">joint</span><span class="p">.</span><span class="nx">jto2_ap_l_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>
+            <span class="nx">joint</span><span class="p">.</span><span class="nx">jto2_ap_l_2d_m</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>
+            
+            <span class="nx">joint</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">m_localAnchor2</span><span class="p">.</span><span class="nx">x</span> <span class="o">*=</span> <span class="nx">width_factor</span><span class="p">;</span>            
+            <span class="nx">joint</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">m_localAnchor2</span><span class="p">.</span><span class="nx">y</span> <span class="o">*=</span> <span class="nx">height_factor</span><span class="p">;</span>            
+         <span class="p">}</span> 
+      <span class="p">});</span>
+   <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">assignName</span><span class="p">(</span> <span class="nx">candidate</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">baseName</span><span class="p">,</span> <span class="nx">mapName</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">let</span> <span class="nx">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
