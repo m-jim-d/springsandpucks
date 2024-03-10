@@ -853,7 +853,12 @@ window.cP = (function() {
          
          if (this.shape == 'circle') {
             // Use either left/right or up/down to change the circle radius.
-            if (width_factor == 1.0) width_factor = height_factor;
+            // Note that adjustAttachments uses x,y factors, even for circular pucks. They must be set to be equal.
+            if (width_factor != 1.0) { 
+               height_factor = width_factor;
+            } else if (height_factor != 1.0) { 
+               width_factor = height_factor;
+            }
             this.b2d.CreateFixture( this.define_fixture({'radius_scaling':width_factor}));
          } else {
             this.b2d.CreateFixture( this.define_fixture({'width_scaling':width_factor, 'height_scaling':height_factor}));
@@ -887,43 +892,7 @@ window.cP = (function() {
       }
       
       // As the puck is resized, adjust attachment points, and multiselect points.
-      if (this.inMultiSelect()) {
-         this.selectionPoint_l_2d_m.x *= width_factor;
-         this.selectionPoint_l_2d_m.y *= height_factor;
-      }
-      Spring.applyToAll( spring => {
-         if ((this == spring.spo1) || (this == spring.spo2)) {
-            // Adjust the attachment points similar to the puck size adjustments.
-            if (this == spring.spo1) {
-               spring.spo1_ap_l_2d_m.x *= width_factor;
-               spring.spo1_ap_l_2d_m.y *= height_factor;
-            } 
-            if (this == spring.spo2) {
-               spring.spo2_ap_l_2d_m.x *= width_factor;
-               spring.spo2_ap_l_2d_m.y *= height_factor;
-            } 
-            // If there's a spring that has one (or both) of its ends attached to THIS puck, 
-            // and it's a b2d spring (a distance joint), update that b2d spring because the nature of these b2d springs
-            // depends on the mass of the pucks they are attached to.
-            if (spring.softConstraints) spring.updateB2D_spring();
-         }
-      });
-      Joint.applyToAll( joint => {
-         if (this == joint.jto1) {
-            joint.jto1_ap_l_2d_m.x *= width_factor;
-            joint.jto1_ap_l_2d_m.y *= height_factor;
-            
-            joint.b2d.m_localAnchor1.x *= width_factor;            
-            joint.b2d.m_localAnchor1.y *= height_factor;            
-         } 
-         if (this == joint.jto2) {
-            joint.jto2_ap_l_2d_m.x *= width_factor;
-            joint.jto2_ap_l_2d_m.y *= height_factor;
-            
-            joint.b2d.m_localAnchor2.x *= width_factor;            
-            joint.b2d.m_localAnchor2.y *= height_factor;            
-         } 
-      });
+      adjustAttachments( this, width_factor, height_factor);
             
       // Update the puck tail radius.
       if (this.tail) {
@@ -2436,6 +2405,9 @@ window.cP = (function() {
    }
    Wall.prototype = Object.create( dFM.DrawingFunctions.prototype); // Inherit methods
    Wall.prototype.constructor = Wall; // Rename the constructor (after inheriting)
+   Wall.prototype.inMultiSelect = function() {
+      return (this.name in gW.hostMSelect.map);
+   }
    Wall.prototype.deleteThisOne = function( pars) {
       var deleteMode = uT.setDefault( pars.deleteMode, null);
       
@@ -2559,6 +2531,8 @@ window.cP = (function() {
       var dimensionsReport = "half width, half height = " + this.half_width_m.toFixed(3) + ", " + this.half_height_m.toFixed(3) + " m";
       gW.messages['help'].newMessage( dimensionsReport, 1.0);
       
+      // As the wall is resized, adjust attachment points, and multiselect points.
+      adjustAttachments( this, width_factor, height_factor);
    }
    Wall.prototype.draw_MultiSelectPoint = function( drawingContext) {
       var selectionPoint_2d_px;
@@ -2602,7 +2576,7 @@ window.cP = (function() {
       }
    }
    
-   
+      
    
    // Energy, Momentum, and Angular Momentum (and Speed) report
    // Note: no prototypes here.
@@ -2757,6 +2731,51 @@ window.cP = (function() {
    }
    
    
+   
+   ///////////////////////////////////////////////////////////////////////////
+   // Miscellaneous functions
+   ///////////////////////////////////////////////////////////////////////////
+   
+   function adjustAttachments( puckOrWall, width_factor, height_factor) {
+      // As the puck (or wall) is resized, adjust attachment points, and multiselect points.
+      if (puckOrWall.inMultiSelect()) {
+         puckOrWall.selectionPoint_l_2d_m.x *= width_factor;
+         puckOrWall.selectionPoint_l_2d_m.y *= height_factor;
+      }
+      Spring.applyToAll( spring => {
+         if ((puckOrWall == spring.spo1) || (puckOrWall == spring.spo2)) {
+            // Adjust the attachment points similar to the puck (or wall) size adjustments.
+            if (puckOrWall == spring.spo1) {
+               spring.spo1_ap_l_2d_m.x *= width_factor;
+               spring.spo1_ap_l_2d_m.y *= height_factor;
+            } 
+            if (puckOrWall == spring.spo2) {
+               spring.spo2_ap_l_2d_m.x *= width_factor;
+               spring.spo2_ap_l_2d_m.y *= height_factor;
+            } 
+            // If there's a spring that has one (or both) of its ends attached to this puckOrWall (and the puckOrWall is a puck),
+            // and it's a b2d spring (a distance joint), update that b2d spring because the nature of these b2d springs
+            // depends on the mass of the pucks they are attached to.
+            if ((puckOrWall.constructor.name == "Puck") && spring.softConstraints) spring.updateB2D_spring();
+         }
+      });
+      Joint.applyToAll( joint => {
+         if (puckOrWall == joint.jto1) {
+            joint.jto1_ap_l_2d_m.x *= width_factor;
+            joint.jto1_ap_l_2d_m.y *= height_factor;
+            
+            joint.b2d.m_localAnchor1.x *= width_factor;            
+            joint.b2d.m_localAnchor1.y *= height_factor;            
+         } 
+         if (puckOrWall == joint.jto2) {
+            joint.jto2_ap_l_2d_m.x *= width_factor;
+            joint.jto2_ap_l_2d_m.y *= height_factor;
+            
+            joint.b2d.m_localAnchor2.x *= width_factor;            
+            joint.b2d.m_localAnchor2.y *= height_factor;            
+         } 
+      });
+   }
    
    function assignName( candidate, index, baseName, mapName) {
       let name = "";
