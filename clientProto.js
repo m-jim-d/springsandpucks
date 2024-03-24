@@ -76,6 +76,7 @@ window.cT = (function() {
       this.puck = null;
       this.player = uT.setDefault( pars.player, true);
       this.nickName = uT.setDefault( pars.nickName, null);
+      this.teamName = uT.setDefault( pars.teamName, null);
       this.winCount = 0; // use this to suggest a nickname after two game wins
       this.virtualGamePadUsage = false; // usage in a game
       this.twoThumbsEnabled = false; // client in tt fullscreen mode
@@ -235,6 +236,7 @@ window.cT = (function() {
    }
    Client.startingPandV = [];
    Client.scoreSummary = [];
+   Client.teams = {};
    Client.winnerBonusGiven = false;
    Client.resetScores = function() {
       Client.applyToAll( client => {
@@ -250,9 +252,11 @@ window.cT = (function() {
          pP.setNpcSleepUsage( false);
       }
       pP.setPuckPopperTimer_s(0);
+      pP.resetTeams();
       
       Client.winnerBonusGiven = false;
       Client.scoreSummary = [];
+      Client.teams = {};
    }
    // Sometimes it's just better to see 'host' displayed instead of 'local'.
    Client.translateIfLocal = function( clientName) {
@@ -273,7 +277,8 @@ window.cT = (function() {
       
       if (this.nickName) {
          if ( ! nickNameOnly) {
-            finalNameString = this.nickName + ' (' + nameString + ')';
+            let teamString = (this.teamName) ? ("." + this.teamName) : "";
+            finalNameString = this.nickName + teamString + ' (' + nameString + ')';
          } else {
             finalNameString = this.nickName;
          }
@@ -282,8 +287,33 @@ window.cT = (function() {
       }
       return finalNameString;
    }
+   Client.prototype.addToTeamScore = function( winnerTimeString) {
+      let teamMember = false;
+      let teamScore = false;
+      let teamName = null;
+      let needTeamScore = false;
+            
+      if (this.teamName) {
+         // Look for the corresponding team record.
+         for (let summaryRecord of cT.Client.scoreSummary) {
+            let teamName_sR = summaryRecord.name.split(" ")[0];
+            if ((summaryRecord.rawName == "team") && (teamName_sR == this.teamName)) {
+               teamScore = true;
+               summaryRecord.score += this.score;
+               Client.teams[ this.teamName].count += 1;
+               summaryRecord.winner = winnerTimeString;
+               summaryRecord.name = this.teamName + " (cnt:" + Client.teams[ this.teamName].count + ")";
+               if (summaryRecord.virtualGamePad == "") summaryRecord.virtualGamePad = (this.virtualGamePadUsage) ? 'x':'';
+            }
+         }   
+      }
+      if (this.teamName && ( ! teamScore)) {
+         needTeamScore = true;
+      }
+      return {'needTeamScore':needTeamScore, 'teamName':this.teamName};
+   }
    Client.prototype.addScoreToSummary = function( winnerTimeString, demoIndex, npcSleepUsage) {
-      var finalNameString, mouseString, npcSleepString, virtualGamePadString;
+      let finalNameString, mouseString, npcSleepString, virtualGamePadString, teamState;
       
       finalNameString = this.nameString();
             
@@ -296,8 +326,16 @@ window.cT = (function() {
       npcSleepString = (npcSleepUsage) ? 'x':'';
       virtualGamePadString = (this.virtualGamePadUsage) ? 'x':'';
       // The randomIndex provides a way to nearly uniquely associate records in the leaderboard report with the local game summary.
-      Client.scoreSummary.push( {'score':this.score, 'rawName':this.name, 'name':finalNameString, 'virtualGamePad':virtualGamePadString, 
-                                 'winner':winnerTimeString, 'mouse':mouseString, 'npcSleep':npcSleepString, 'randomIndex':Math.floor((Math.random() * 100000))} );
+      teamState = this.addToTeamScore( winnerTimeString);
+      Client.scoreSummary.push( {'score':this.score, 'rawName':this.name, 'nickName':this.nickName, 'name':finalNameString, 'virtualGamePad':virtualGamePadString, 
+                                 'winner':winnerTimeString, 'mouse':mouseString, 'npcSleep':npcSleepString, 'randomIndex':Math.floor((Math.random() * 100000))} );                       
+      if (teamState.needTeamScore) {
+         // initialize the counter key for that team
+         Client.teams[ teamState.teamName] = {'count':1};
+         finalNameString = teamState.teamName + " (cnt:1)";
+         Client.scoreSummary.push( {'score':this.score, 'rawName':'team', 'nickName':teamState.teamName, 'name':finalNameString, 'virtualGamePad':virtualGamePadString, 
+                                    'winner':winnerTimeString, 'mouse':mouseString, 'npcSleep':npcSleepString, 'randomIndex':Math.floor((Math.random() * 100000))} );
+      }                           
    }
    Client.prototype.createBox2dSensor = function( radius_m) {
       var bodyDef = new b2DW.BodyDef;

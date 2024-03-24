@@ -51,35 +51,43 @@ window.lB = (function() {
       // nothing yet...
    }
    
-   function leaderBoardReport( lbResp, gameVersion) {
+   function leaderBoardReport( lbResp, gameVersion, outputMode) {
       m_leaderBoardIndex += 1;
-      var scoreCell_id = 'scoresCell' + m_leaderBoardIndex;
-      var timeCell_id = 'timesCell' + m_leaderBoardIndex;
-      var scoreOrTime_id = 'scoreOrTime' + m_leaderBoardIndex;
+      let scoreCell_id = 'scoresCell' + m_leaderBoardIndex;
+      let timeCell_id = 'timesCell' + m_leaderBoardIndex;
+      let scoreOrTime_id = 'scoreOrTime' + m_leaderBoardIndex;
+      let leaderBoardReportHTML, rankString;
       
       // Simplify the reporting for Jello Madness because there is only the time-based result (no scoring result).
-      if (gW.getDemoIndex() == 6) {
-         var rankString = "";
-         rankString = "On a time basis, " + lbResp.userName + " placed " + lbResp.timeSortedResults.userRank + ' of ' + lbResp.timeSortedResults.scoreCount + 
-                             ", " + lbResp.timeSortedResults.winTime + " seconds.</br><br class='score'>";
-         var leaderBoardReportHTML = "Leader Board Report: " + gameVersion + "</br><br class='score'>" + rankString;
+      if (dS.demoVersionIndex( gameVersion) == 6) {
+         if (outputMode != "reportOnly") {
+            rankString = "On a time basis, " + lbResp.userName + " placed " + lbResp.timeSortedResults.userRank + ' of ' + lbResp.timeSortedResults.scoreCount + 
+                                ", " + lbResp.timeSortedResults.winTime + " seconds.</br><br class='score'></br>";
+         } else {
+            rankString = "";
+         }
+         leaderBoardReportHTML = "Leader Board Report: " + gameVersion + "</br><br class='score'>" + rankString;
          
       } else {
-         if (lbResp.userRank != 'mouse or npcSleep usage') {
-            var rankString = "Highest human scorer, " + lbResp.userName + ', placed ' + lbResp.userRank + ' of ' + lbResp.scoreCount + ' with a score of ' + lbResp.userScore + ". ";
-            if (lbResp.timeSortedResults.winTime != '') {
-               rankString += "On a time basis, placed " + lbResp.timeSortedResults.userRank + ' of ' + lbResp.timeSortedResults.scoreCount + 
-                             ", " + lbResp.timeSortedResults.winTime + " seconds.";
+         if (outputMode != "reportOnly") {
+            if (lbResp.userRank != 'mouse or npcSleep usage') {
+               rankString = "Highest human scorer, " + lbResp.userName + ', placed ' + lbResp.userRank + ' of ' + lbResp.scoreCount + ' with a score of ' + lbResp.userScore + ". ";
+               if (lbResp.timeSortedResults.winTime != '') {
+                  rankString += "On a time basis, placed " + lbResp.timeSortedResults.userRank + ' of ' + lbResp.timeSortedResults.scoreCount + 
+                                ", " + lbResp.timeSortedResults.winTime + " seconds.</br>";
+               }
+            } else {
+               rankString = "Highest human scorer, " + lbResp.userName + ', scored ' + lbResp.userScore + " (mouse or npc-sleep used).</br>";
             }
-         } else {
-            var rankString = "Highest human scorer, " + lbResp.userName + ', scored ' + lbResp.userScore + " (mouse or npc-sleep used).";
+         } else { 
+            rankString = "";
          }
          
-         rankString += "</br><br class='score'>";
+         rankString += "<br class='score'>";
          // Build the toggle link that swaps the time-sorted and score-sorted tables.
          // (Note the use of the escape \ to get three levels of quotations in the following string.) 
-         var scoreOrTime_string = ([3,4,5].includes( gW.getDemoIndex())) ? 'time':'score';
-         var leaderBoardReportHTML = "Leader Board Report: " + gameVersion + "&nbsp;&nbsp;&nbsp;(" + 
+         let scoreOrTime_string = ([3,4,5].includes( gW.getDemoIndex())) ? 'time':'score';
+         leaderBoardReportHTML = "Leader Board Report: " + gameVersion + "&nbsp;&nbsp;&nbsp;(" + 
               "<a title = 'toggle between low-time and high-score based queries' " + 
                  "onclick=\"uT.toggleElementDisplay('" + timeCell_id +  "','block'); " + 
                            "uT.toggleElementDisplay('" + scoreCell_id + "','block'); " +
@@ -89,8 +97,8 @@ window.lB = (function() {
       }
       
       // Add the tables
-      var scoreTable = leaderBoardTable( "score",   lbResp,                   gameVersion);
-      var timeTable  = leaderBoardTable( "winTime", lbResp.timeSortedResults, gameVersion);
+      let scoreTable = leaderBoardTable( "score",   lbResp,                   gameVersion);
+      let timeTable  = leaderBoardTable( "winTime", lbResp.timeSortedResults, gameVersion);
       
       // For ghost-ball pool and the projectile games, make the score-sorted table the default.
       if ([3,4,5].includes( gW.getDemoIndex())) {
@@ -108,7 +116,7 @@ window.lB = (function() {
       }
       
       // Find the most recent game report element (in the chat panel).
-      var gameReportElement = document.getElementById("gR" + hC.gb.gameReportCounter);
+      let gameReportElement = document.getElementById("gR" + hC.gb.gameReportCounter);
       // Append the leader-board report to the game report.
       gameReportElement.innerHTML = gameReportElement.innerHTML + "<br>" + leaderBoardReportHTML;
       
@@ -257,96 +265,119 @@ window.lB = (function() {
       return tableString;
    }
    
-   function submitScoresThenReport() {
-      var nR = 0;
-      var peopleClients = [];
-      // Define the spreadsheet function within this submitScoresThenReport scope so it has access to nR
-      // and peopleClients.
-      function sendScoreToSpreadSheet( mode, userName, userScore, gameVersion, winner, mouse, npcSleep, n_people, n_drones, frameRate_monitor, frameRate_physics, virtualGamePad, noFriendlyFire, index) {
-         // The "Deployment ID" in this URL is found via the "Tools/Script editor/Select a project..." interface for the spreadsheet. Pick "Manage deployments" from the "Deploy" select element, upper right.
-         // The "Deployment ID" does not give general access to the account. It only allows the web user to submit parameters to the doGet function in the spreadsheet project's script.
-         var sheetURL = 'https://script.google.com/macros/s/AKfycbw-MubGpT943K31y6df19zwraGf0GBMuKk9TlOd3yImYO5BSbDxeWTysuYqye0d4mQ_og/exec';
-         // AJAX
-         var xhttp = new XMLHttpRequest();
-         xhttp.open('GET', sheetURL + '?mode=' + mode + 
-                                      '&userName=' + userName + '&score=' + userScore +  '&gameVersion=' + gameVersion + 
-                                      '&winTime=' + winner +    '&mouse=' + mouse +      '&npcSleep=' + npcSleep +
-                                      '&nPeople=' + n_people +  '&nDrones=' + n_drones + '&frMonitor=' + frameRate_monitor + '&hzPhysics=' + frameRate_physics + 
-                                      '&virtualGamePad=' + virtualGamePad + '&noFriendlyFire=' + noFriendlyFire + '&index=' + index, true);
-         xhttp.send();
-         xhttp.onreadystatechange = function () {
-            // If there is a response from the spreadsheet:
-            if (this.readyState == 4 && this.status == 200) {
-               // lbResp is short for leaderBoardResponse
-               var lbResp = JSON.parse( this.responseText);
+   function sendScoreToSpreadSheet( mode, nR, peopleClients, gameVersion, n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire) {
+      var userName = peopleClients[ nR]['name'];
+      var n_soloAndTeam = peopleClients.length;
+      var userScore = peopleClients[ nR]['score'];
+      var winner = peopleClients[ nR]['winner'];
+      var mouse = peopleClients[ nR]['mouse'];
+      var npcSleep = peopleClients[ nR]['npcSleep'];
+      var virtualGamePad = peopleClients[ nR]['virtualGamePad'];
+      var index = peopleClients[ nR]['randomIndex'];
+      
+      let outputMode;
+      if (mode == "reportOnly") {
+         mode = "report";
+         userName = "reportOnly";
+         outputMode = "reportOnly";
+      } else {
+         outputMode = mode;
+      }
+                                       
+      // The "Deployment ID" in this URL is found via the "Tools/Script editor/Select a project..." interface for the spreadsheet. Pick "Manage deployments" from the "Deploy" select element, upper right.
+      // The "Deployment ID" does not give general access to the account. It only allows the web user to submit parameters to the doGet function in the spreadsheet project's script.
+      var sheetURL = 'https://script.google.com/macros/s/AKfycbw-MubGpT943K31y6df19zwraGf0GBMuKk9TlOd3yImYO5BSbDxeWTysuYqye0d4mQ_og/exec';
+      // AJAX
+      var xhttp = new XMLHttpRequest();
+      xhttp.open('GET', sheetURL + '?mode=' + mode + 
+                                   '&userName=' + userName + '&score=' + userScore +  '&gameVersion=' + gameVersion + 
+                                   '&winTime=' + winner +    '&mouse=' + mouse +      '&npcSleep=' + npcSleep +
+                                   '&nPeople=' + n_people +  '&nDrones=' + n_drones + '&frMonitor=' + frameRate_monitor + '&hzPhysics=' + frameRate_physics + 
+                                   '&virtualGamePad=' + virtualGamePad + '&noFriendlyFire=' + noFriendlyFire + '&index=' + index, true);
+      xhttp.send();
+      xhttp.onreadystatechange = function () {
+         // If there is a response from the spreadsheet:
+         if (this.readyState == 4 && this.status == 200) {
+            // lbResp is short for leaderBoardResponse
+            var lbResp = JSON.parse( this.responseText);
+            
+            if (lbResp.result == 'report') {
+               /*
+               // useful for testing:
+               console.log('You, ' + lbResp.userID + ', placed ' + lbResp.userRank + ' of ' + lbResp.scoreCount + ' with a score of ' + lbResp.userScore);
+               for (var i = 0; i < lbResp.users.length; i++) {
+                  // Convert the date so can display it.
+                  var recordDate = new Date(lbResp.users[i].date);
+                  var recordDateString = recordDate.getDate() +'/'+ (recordDate.getMonth() + 1) +'/'+ recordDate.getFullYear() +' '+ recordDate.getHours() +':'+ recordDate.getMinutes();         
+                  console.log(recordDateString + ', ' + lbResp.users[i].id + ', ' + lbResp.users[i].score);
+               } 
+               */
                
-               if (lbResp.result == 'report') {
-                  /*
-                  // useful for testing:
-                  console.log('You, ' + lbResp.userID + ', placed ' + lbResp.userRank + ' of ' + lbResp.scoreCount + ' with a score of ' + lbResp.userScore);
-                  for (var i = 0; i < lbResp.users.length; i++) {
-                     // Convert the date so can display it.
-                     var recordDate = new Date(lbResp.users[i].date);
-                     var recordDateString = recordDate.getDate() +'/'+ (recordDate.getMonth() + 1) +'/'+ recordDate.getFullYear() +' '+ recordDate.getHours() +':'+ recordDate.getMinutes();         
-                     console.log(recordDateString + ', ' + lbResp.users[i].id + ', ' + lbResp.users[i].score);
-                  } 
-                  */
-                  
-                  // Assemble the html needed to display the leaderboard query results in the chat panel.
-                  leaderBoardReport( lbResp, gameVersion);
-                  
-               } else {
-                  console.log( lbResp.result);
-                  if (lbResp.error) console.log( lbResp.error);
-               }
+               // Assemble the html needed to display the leaderboard query results in the chat panel.
+               leaderBoardReport( lbResp, gameVersion, outputMode);
+               console.log("leaderboard app:" + lbResp.version);
                
-               // Keep (recursively) sending data until the last score (highest), ask for a report for that last one. 
+            } else {
+               console.log( lbResp.result);
+               if (lbResp.error) console.log( lbResp.error);
+            }
+            
+            // Keep (recursively) sending data until the last score (highest). Ask for a report in that last send.
+            let reportMode = 'noReport';
+            if ( (nR+1) < n_soloAndTeam ) { // 0 is first row. n_soloAndTeam-1 is last row.
                nR += 1;
                console.log('rC='+nR);
-               
-               if (nR < n_people-1) {
-                  // Make another non-report entry
-                  sendScoreToSpreadSheet( 'noReport', peopleClients[ nR]['name'], peopleClients[ nR]['score'], gW.getDemoVersion(), 
-                                          peopleClients[ nR]['winner'], peopleClients[ nR]['mouse'], peopleClients[ nR]['npcSleep'], 
-                                          n_people, n_drones, frameRate_monitor, frameRate_physics, peopleClients[ nR]['virtualGamePad'], noFriendlyFire, peopleClients[ nR]['randomIndex']);
-                  
-               } else if (nR == n_people-1) {
-                  // Do a final submission, and ask for a report (see first parameter) from the spreadsheet this time.
-                  sendScoreToSpreadSheet( 'report',   peopleClients[ nR]['name'], peopleClients[ nR]['score'], gW.getDemoVersion(),
-                                          peopleClients[ nR]['winner'], peopleClients[ nR]['mouse'], peopleClients[ nR]['npcSleep'], 
-                                          n_people, n_drones, frameRate_monitor, frameRate_physics, peopleClients[ nR]['virtualGamePad'], noFriendlyFire, peopleClients[ nR]['randomIndex']);
-               }
+               if (nR == n_soloAndTeam-1) reportMode = 'report'; // Do a final submission, and ask for a report from the spreadsheet.
+               sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire);
             }
          }
       }
+   }
+   
+   function submitScoresThenReport() {
+      let nR = 0;
+      let peopleClients = [];
       
       // Ascending sort (this way the report gets issued on the highest score, last one.)
       cT.Client.scoreSummary.sort((a, b) => a['score'] - b['score']);
       
       // Make a subset of the scores to only include real people.
+      let n_people = 0;
+      let n_drones = 0;
       for (let score of cT.Client.scoreSummary) {
-         // Filter out the NPC pucks here.
-         if ( ! score['name'].includes('NPC')) {
+         // Filter out the NPC pucks here. And, only report solo and team scores, not team-member scores.
+         if ( ! uT.oneOfThese(["NPC","."], score['name'])) {
             peopleClients.push( score);
          }
+         if (score['name'].includes("NPC")) {
+            n_drones++;
+         } else if (score['rawName'] != 'team') {
+            n_people++;
+         }
       }
-      var n_people = peopleClients.length;
-      var n_drones = cT.Client.scoreSummary.length - n_people;
-      var frameRate_monitor = gW.dC.fps.innerHTML; //current observed refresh rate of the monitor
-      var frameRate_physics = $('#FrameRate').val(); //timestep for engine
-      var noFriendlyFire = (gW.dC.friendlyFire.checked) ? '':'x'; 
+      let n_soloAndTeam = peopleClients.length;
+      
+      let frameRate_monitor = gW.dC.fps.innerHTML; //current observed refresh rate of the monitor
+      let frameRate_physics = $('#FrameRate').val(); //timestep for engine
+      let noFriendlyFire = (gW.dC.friendlyFire.checked) ? '':'x'; 
       
       // Recursively send the scores. If only one player, go right to 'report' mode.
-      if (n_people > 0) {
-         var reportMode = (n_people == 1) ? 'report':'noReport'; 
-         sendScoreToSpreadSheet( reportMode, peopleClients[0]['name'], peopleClients[0]['score'], gW.getDemoVersion(), 
-                                             peopleClients[0]['winner'], peopleClients[0]['mouse'], peopleClients[0]['npcSleep'], 
-                                             n_people, n_drones, frameRate_monitor, frameRate_physics, peopleClients[0]['virtualGamePad'], noFriendlyFire, peopleClients[0]['randomIndex']);
+      if (n_soloAndTeam > 0) {
+         let reportMode = (n_soloAndTeam == 1) ? 'report':'noReport'; 
+         sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire);
       }
    }
    
-   function reportGameResults() {
+   function requestReportOnly( gameName) {
+      hC.displayMessage("Game Summary (do not display)");
       
+      let peopleClients = [];
+      peopleClients.push( {'score':0, 'rawName':'none', 'nickName':'none', 'name':'none', 'virtualGamePad':'none', 'winner':'none', 'mouse':'none', 'npcSleep':'none', 'randomIndex':0} );                       
+      
+      sendScoreToSpreadSheet('reportOnly', 0, peopleClients, gameName, 0, 0, 60, 60, 'x');
+   }
+   
+   function reportGameResults() {
       let gameName;
       let demoBase = gW.getDemoVersion().slice(0,3);
       let demoIndex = gW.getDemoIndex();
@@ -452,7 +483,8 @@ window.lB = (function() {
       
       // Methods
       'reportGameResults': reportGameResults,
-      'submitScoresThenReport': submitScoresThenReport
+      'submitScoresThenReport': submitScoresThenReport,
+      'requestReportOnly':requestReportOnly
    };
 
 })();

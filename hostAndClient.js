@@ -186,7 +186,7 @@ window.hC = (function() {
    
    function checkForNickName( mode) {
       var cl = referenceToClient();
-      var nickName = {'status':'ok', 'value':null};
+      var nickName = {'status':'ok', 'value':null, 'teamName':null};
 
       // Check the chat input field, e.g. jimbo
       var chatString = $('#inputField').val();
@@ -195,6 +195,9 @@ window.hC = (function() {
       if (chatString.includes("{")) {
          nickName.status = "JSON";
          return nickName;
+      // Ignore commands in the chat.
+      } else if (chatString.includes("::")) {
+         return nickName;
       }
 
       // nickname input field in the ghost-ball pool help panel (all the nick-name fields should be in sync, so just snag from any of these fields)
@@ -202,7 +205,15 @@ window.hC = (function() {
       var defaultValue = $('#inputField').prop('defaultValue'); //this is the value attribute in the html
       if (mode =='normal') {
          if ((chatString != "") && (chatString != defaultValue)) { 
-            nickName.value = chatString.replace(/\W/g, ''); // allow alphanumeric and the underscore character
+            let chatString_clean = chatString.replace(/[^a-zA-Z0-9@]/g, ''); // allow alphanumeric and the @ character
+            
+            if (chatString_clean.includes("@")) {
+               let nickNameParts = chatString_clean.split("@");
+               nickName.value = nickNameParts[0];
+               nickName.teamName = nickNameParts[1];
+            } else {
+               nickName.value = chatString_clean;
+            }
             
             if (nickName.value.length > 10) {
                nickName.status = "too long";
@@ -214,18 +225,20 @@ window.hC = (function() {
                
             } else {
                cl.nickName = nickName.value;
+               cl.teamName = nickName.teamName;
                
                // Clear out the input field where the nick name was entered.
                $('#inputField').val('');
                
-               // Set all the inputs in the nickNameField class to this nickname.
+               // Set all the inputs in the nickNameField class (these are only on the host) to the nickname.
                $('input.nickNameField').val( nickName.value);
             }
          
-         // Nothing new, so use the current nick name if it's there.   
+         // Nothing new, so use the current nick name if it's there.
          } else {
             if (hostOrClient == 'client') {
                nickName.value = cl.nickName;
+               nickName.teamName = cl.teamName;
                
             } else if (hostOrClient == 'host') {
                nickName.value = nnFieldValue;
@@ -235,6 +248,7 @@ window.hC = (function() {
       
       } else if ((mode == 're-connect') && cl.nickName) {
          nickName.value = cl.nickName;
+         nickName.teamName = cl.teamName;
       }
       return nickName;
    }
@@ -393,8 +407,10 @@ window.hC = (function() {
             
             // Here is where the socket.io client initiates it's connection to the server. The 'connectOptions' object
             // is passed via the auth attribute of the options. This is how you pass extra parameters to the connection 
-            // handler in server.js.
-            let connectOptions = {'mode':mode, 'currentName':cl.name, 'nickName':nickName.value};
+            // handler in server.js. 
+            // This is where the results from checkForNickName (see above) are passed to the server, which, eventually, 
+            // emits to the new-game-client listener on the host.
+            let connectOptions = {'mode':mode, 'currentName':cl.name, 'nickName':nickName.value, 'teamName':nickName.teamName};
             socket = io( nodeServerURL, {'forceNew':true, 'auth':connectOptions, 'withCredentials':false});
             
             init_socket_listeners( roomName);
@@ -427,6 +443,7 @@ window.hC = (function() {
    
    function displayMessage( msgText) {
       if (msgText.includes("Game Summary")) {
+         if (msgText.includes("do not display")) msgText = "Please wait for query results...<br>";
          gb.gameReportCounter += 1;
          var idString = " id='gR" + gb.gameReportCounter + "'";
       } else {
@@ -506,22 +523,32 @@ window.hC = (function() {
             } else if (chatString == "help") {
                let tab = "&nbsp;&nbsp;&nbsp;&nbsp";
                let helpString = "Commands:<br>" +
-                   tab + "<strong>help</strong>: list of the network commands than can run from the chat field.<br>" +
-                   tab + "<strong>rr</strong>: room report on connections to this room<br>" +
-                   tab + "<strong>dcir</strong>: disconnect the clients in this room<br>" +
-                   tab + "<strong>ping</strong>: ping test to the server<br>" +
-                   tab + "<strong>ping:host</strong>: ping test to the host<br>" +
-                   tab + "<strong>ping:p2p-uN</strong>: ping test to another p2p client, where N is an integer.<br>" +
-                   "";
+                  tab + "<strong>help</strong>: list of the network commands than can run from the chat field.<br>" +
+                  tab + "<strong>rr</strong>: room report on connections to this room<br>" +
+                  tab + "<strong>dcir</strong>: disconnect the clients in this room<br>" +
+                  tab + "<strong>ping</strong>: ping test to the server<br>" +
+                  tab + "<strong>ping:host</strong>: ping test to the host<br>" +
+                  tab + "<strong>ping:p2p-uN</strong>: ping test to another p2p client, where N is an integer.<br>" +
+                  tab + "<strong>cmd</strong>: get more detailed help on the cmd commands.<br>" +
+                  tab + "<strong>lb</strong>: get more detailed help on leaderboard queries.<br>" +
+                  "";
                displayMessage( helpString);
                $('#inputField').val('');
             
+            } else if (chatString == 'cmd') {
+               let tab = "&nbsp;&nbsp;";
+               let helpString = "cmd examples:<br>" +
+                  tab + 'cmd::{"to":"roomNoSender","data":{"displayThis":"exclude sender"}}<br>' +
+                  tab + 'cmd::{"to":"host","data":{"displayThis":"test string to room host"}}<br>' +
+                  tab + 'cmd::{"to":"room","data":{"displayThis":"test string to the whole room"}}<br>' +
+                  tab + 'cmd::{"to":"u20","data":{"displayThis":"test string to specific user"}}<br>' +
+                  "";
+               displayMessage( helpString);
+               // Put the first example into the chat field. This makes it easy to edit and submit.
+               $('#inputField').val('cmd::{"to":"host","data":{"displayThis":"test string to room host"}}');
+            
             // general command string input...
             } else if (chatString.slice(0,5) == 'cmd::') {
-               // cmd::{"to":"roomNoSender","data":{"displayThis":"test string to the room excluding the sender"}}
-               // cmd::{"to":"host","data":{"displayThis":"test string to the room's host"}}
-               // cmd::{"to":"room","data":{"displayThis":"test string to the whole room"}}
-               // cmd::{"to":"u20","data":{"displayThis":"test string to specific user"}}
                try {
                   let string = chatString.split('::')[1];
                   let messageCommand = JSON.parse( string);
@@ -530,6 +557,24 @@ window.hC = (function() {
                   displayMessage('Might be an error in your JSON. Use " not single quotes.<br>' + e);
                   console.log("Error: " + e);
                }
+               
+            } else if (chatString == 'lb') {
+               let tab = "&nbsp;&nbsp;";
+               let helpString = "lb (leaderboard) query examples:<br>" +
+                  tab + 'lb::7.a<br>' +
+                  tab + 'lb::4.e.monkeyhunt<br>' +
+                  tab + 'lb::current<br>' +
+                  "";
+               displayMessage( helpString);
+               // Put the first example into the chat field. This makes it easy to edit and submit.
+               $('#inputField').val('lb::current');
+               
+            } else if (chatString.slice(0,4) == 'lb::') {
+               let gameName = chatString.split("::")[1];
+               if (gameName == "current") {
+                  gameName = gW.getDemoVersion();
+               }
+               lB.requestReportOnly( gameName);
                
             // turn on (off) WebRTC debugging: set the db.rtc boolean   
             } else if (chatString.slice(0,6) == 'dbrtc:') {
@@ -541,7 +586,18 @@ window.hC = (function() {
             // all is well, just a chat message, send it out
             } else {
                if (chatString != defaultValue) {
+                  
                   socket.emit('chat message', chatString);
+                  
+                  // If removing connections on the node server, delete corresponding clients.
+                  if (chatString == "dcir") {
+                     cT.Client.applyToAll( client => {
+                        if ( (client.name != 'local') && ( ! client.name.includes("NPC")) ) {
+                           if (client.puck) client.puck.deleteThisOne({});
+                           delete gW.clients[ client.name];
+                        }
+                     });
+                  }
                } else {
                   displayMessage('Nickname tip has been cleared from the chat field. Ready to chat now.<br><br>' +
                                  'Note: an alternative way for the host to establish a nickname is to put it in the chat field before starting demos 6, 7, or 8.');
@@ -930,9 +986,8 @@ window.hC = (function() {
             var message = JSON.parse( msg);
             
             var name = uT.setDefault( message.name, null);
-            // Note: not (yet) using the nickName that comes back from the socket.io server.
-            // cl_clientSide.nickName gets set for the client on the front end of the connection process.
-            var nickName = uT.setDefault( message.nickName, null);
+            // To see where nickName and teamName are sent to the host, look at the emit to 
+            // new-game-client on the server and the corresponding listener here.
             
             // Put this name in the mouse and keyboard (mK) global that is used to send
             // state data from the client.
@@ -945,7 +1000,7 @@ window.hC = (function() {
             cl_clientSide.previous_name = cl_clientSide.name;
             cl_clientSide.name = newClientName;
             
-            debug( db.rtc,'inside "your name is", names: current='+cl_clientSide.name+ ', previous='+ cl_clientSide.previous_name +', nick='+nickName);
+            debug( db.rtc,'inside "your name is", names: current='+cl_clientSide.name+ ', previous='+ cl_clientSide.previous_name );
             
             // Initialize rtc for the client side of the p2p connection.
             cl_clientSide.rtc = new RTC({'user1':newClientName,'user2':'host'});
@@ -1025,8 +1080,9 @@ window.hC = (function() {
             var clientName = msgParsed.clientName;
             var player     = msgParsed.player;
             var nickName   = msgParsed.nickName;
+            var teamName   = msgParsed.teamName;
             
-            createNetworkClient({'clientName':clientName, 'player':player, 'nickName':nickName});
+            createNetworkClient({'clientName':clientName, 'player':player, 'nickName':nickName, 'teamName':teamName});
             
             // WebRTC. Start the p2p connection here (from the host) when we hear (from the server)
             // that a client is trying to connect to a room.
@@ -1440,6 +1496,7 @@ window.hC = (function() {
       // added to the client instance.
       var player = uT.setDefault( pars.player, true);
       var nickName = uT.setDefault( pars.nickName, null);
+      var teamName = uT.setDefault( pars.teamName, null);
       
       var n = clientName.slice(1);
       // Repeat the color index every 10 users (10 colors in clientColors)
@@ -1448,6 +1505,7 @@ window.hC = (function() {
       var clientPars = {};
       clientPars.player = player;
       clientPars.nickName = nickName;
+      clientPars.teamName = teamName;
       clientPars.color = clientColors[ colorIndex];
       clientPars.nameFromServer = clientName;
       clientPars.name = clientName;

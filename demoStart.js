@@ -71,6 +71,11 @@ window.dS = (function() {
       return parts[0] + "." + parts[1];
    }
    
+   function demoVersionIndex( demoVersion) {
+      var parts = demoVersion.split(".");
+      return parts[0];
+   }
+   
    /*
    // Editor help toggle
    function openDemoHelp() {
@@ -1319,6 +1324,7 @@ window.dS = (function() {
       
       'demoStart': demoStart,
       'demoVersionBase': demoVersionBase,
+      'demoVersionIndex': demoVersionIndex,
       'setGravityRelatedParameters': setGravityRelatedParameters,
       'fullScreenState': fullScreenState,
       'adjustSizeOfChatDiv': adjustSizeOfChatDiv,

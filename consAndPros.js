@@ -150,8 +150,9 @@ window.cP = (function() {
             errorObj.name = 'from Puck constructor';
             throw errorObj;
          }
-         pP.addToPlayerCount( +1);
+         pP.incrementPlayerCount( +1);
          if (this.clientName.includes('NPC')) pP.addToNpcCount( +1);
+         pP.updateTeamInfo( this.clientName, 1);
       }
       
       let result = assignName( pars.name, Puck.nameIndex, "puck", "puckMap");
@@ -513,7 +514,8 @@ window.cP = (function() {
                pP.addToNpcCount( -1);
             }
          }
-         pP.addToPlayerCount( -1);
+         pP.incrementPlayerCount( -1);
+         pP.updateTeamInfo( this.clientName, -1);
       }
       
       // Filter out any reference to this jello puck in the jelloPuck array.
@@ -962,21 +964,32 @@ window.cP = (function() {
       if ((this.nameTip_timer_s < this.nameTip_timerLimit_s) || this.stayOn) {
          this.nameTip_timer_s += deltaT_s;
          
-         var font = uT.setDefault( pars.font, "20px Arial");
-         var color = uT.setDefault( pars.color, 'lightgray');
+         let font = uT.setDefault( pars.font, "20px Arial");
+         let color = uT.setDefault( pars.color, 'lightgray');
          
+         let nickName;
          if (gW.clients[this.clientName].nickName) {
-            var name = gW.clients[this.clientName].nickName;
+            nickName = gW.clients[this.clientName].nickName;
          } else {
-            var name = cT.Client.translateIfLocal(this.clientName); 
+            nickName = cT.Client.translateIfLocal(this.clientName); 
          }
          
          drawingContext.font = font;
          drawingContext.fillStyle = color;
          drawingContext.textAlign = "center";
-         var x_px = this.position_2d_px.x;
-         var y_px = this.position_2d_px.y - (this.radius_px * 1.20);
-         drawingContext.fillText( name, x_px, y_px);
+         let x_px = this.position_2d_px.x;
+         
+         // Draw nick name (over the puck)
+         var y_px = this.position_2d_px.y - this.radius_px - 3;
+         drawingContext.fillText( nickName, x_px, y_px);
+         
+         // Draw team name (inside the puck)
+         let teamName = gW.clients[this.clientName].teamName;
+         if (teamName) {
+            let lineHeight_px = parseInt( font.substring(0,3)) * 1.10;
+            y_px = this.position_2d_px.y - this.radius_px + lineHeight_px;
+            drawingContext.fillText( teamName, x_px, y_px); 
+         }
       }
    }      
    Puck.prototype.drawImage = function( drawingContext, imageID, imageScale, alpha, rotateWithPuck=false) {

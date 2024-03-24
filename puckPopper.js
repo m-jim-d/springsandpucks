@@ -34,6 +34,9 @@ window.pP = (function() {
    
    // Names starting with m_ indicate module-scope globals.
    var m_playerCount = 0;
+   var m_teams = {};
+   var m_teamCount = 0;
+   var m_pucksByTypeAtStart = {'human':0, 'drone':0};
    var m_npcCount = 0;
    var m_territoryMarked = false;
    var m_puckPopperTimer_s = 0;
@@ -59,20 +62,26 @@ window.pP = (function() {
       return activeTTclient;
    }
       
-   function getCountHumanPucks() {
-      // The number of pucks with human drivers at the start of the game.
-      var pucksHumanAtGameStart = 0;
+   function countPucksByType() {
+      // The number of pucks by type.
+      let pucksHuman = 0;
+      let pucksDrone = 0;
       cT.Client.applyToAll( client => {
-         if ( (client.name.slice(0,1) == 'u') || (client.name == 'local') ) {
-            if (client.puck) pucksHumanAtGameStart += 1;
+         if (client.puck) {
+            if ( (client.name.slice(0,1) == 'u') || (client.name == 'local') ) {
+               pucksHuman += 1;
+            } else {
+               pucksDrone += 1;
+            }
          }
       });
-      return pucksHumanAtGameStart;
+      return {'human':pucksHuman, 'drone':pucksDrone};
    }   
       
    function preGameSetUp( index) {
       if ( ! m_npcSleep) {
-         if (getCountHumanPucks() > 0) {
+         m_pucksByTypeAtStart = countPucksByType();
+         if (m_pucksByTypeAtStart.human > 0) {
             // Looks like someone is ready to play. Label this as a game.
             gW.messages['gameTitle'].newMessage("Puck \\Popper", 1.0);
          }
@@ -438,6 +447,32 @@ window.pP = (function() {
       return theyMatch;
    }
    
+   // These team functions keep track of the pucks that the clients are driving. For example,
+   // if a team looses all it's pucks, it won't contribute to the team count here.
+   // This is in contrast to some similar code in clientProto.js where client scores are
+   // tracked at team levels.
+   function updateTeamInfo( clientName, countChange) {
+      let hasTeamName = (gW.clients[ clientName]) && (gW.clients[ clientName].teamName);
+      if (hasTeamName) {
+         let teamName = gW.clients[ clientName].teamName;
+         
+         if (m_teams[ teamName]) {
+            m_teams[ teamName].memberCount += countChange;
+         } else {
+            // initialize the counter key for that team
+            m_teams[ teamName] = {'memberCount':countChange};
+         }
+      }
+      countTeams();
+   }
+   function countTeams() {
+      let teamCount = 0;
+      for (let teamName in m_teams) {
+         if (m_teams[ teamName].memberCount > 0) teamCount += 1;
+      }
+      m_teamCount = teamCount;
+   }
+   
    function deleteOldandUnhealthy( deltaT_s) {
       cP.Puck.applyToAll( puck => {
          if (puck.gunBullet()) {
@@ -465,7 +500,7 @@ window.pP = (function() {
    function checkForPuckPopperWinnerAndReport() {
       // Check for a puck-popper winner. Do this check on the pucks because the human clients
       // are not removed when their pucks are popped.
-      if ( (m_playerCount == 1) || (( ! gW.dC.friendlyFire.checked) && (m_npcCount == 0)) ) {
+      if ( (m_playerCount == 1) || ((m_teamCount == 1) && (m_npcCount == 0)) || (( ! gW.dC.friendlyFire.checked) && (m_npcCount == 0)) ) {
          // Get the name of the client scoring the last hit. The check, to see if the winner (last client to produce a hit)
          // is still there, prevents a failed reference (to nickname) if the host uses the mouse to delete the last NPC. Usually, with
          // mouse deletion of the NPC, they are the last hitter, and so the applyToAll loop will run.
@@ -494,7 +529,7 @@ window.pP = (function() {
          }
          
          // If the winner is still around (hasn't disconnected)
-         if (gW.clients[ winnerClientName] || (winnerClientName == 'Team')) {
+         if (gW.clients[ winnerClientName]) {
             
             if (winnerNickName) {
                var displayName = winnerNickName + ' (' + cT.Client.translateIfLocal( winnerClientName) + ')';
@@ -510,7 +545,7 @@ window.pP = (function() {
                   gW.clients[ winnerClientName].winCount += 1;
                   
                   // Yes, now add the winner(s) to the summary too. The losers got added when their puck was popped.
-                  if (gW.dC.friendlyFire.checked) {
+                  if (gW.dC.friendlyFire.checked && (m_teamCount == 0)) {
                      // Can only be one puck standing in this case.
                      gW.clients[ winnerClientName].score += 200;
                      gW.clients[ winnerClientName].addScoreToSummary( m_puckPopperTimer_s.toFixed(2), gW.getDemoIndex(), m_npcSleepUsage);
@@ -552,14 +587,22 @@ window.pP = (function() {
                                          "\\   score = " + gW.clients[ winnerClientName].score;
                   } else {
                      if (gW.dC.friendlyFire.checked) {
-                        var congratsString = "Only one player remaining...";
-                        var summaryString = "" + displayName + " wins" + 
-                                            "\\   color = " + gW.clients[ winnerClientName].color + 
-                                            "\\   time = " + m_puckPopperTimer_s.toFixed(2) + "s" +
-                                            "\\   score = " + gW.clients[ winnerClientName].score;
+                        var congratsString = "Only one player (or team) remaining...";
+                        
+                        if (m_teamCount == 0) {
+                           var summaryString = "" + displayName + " wins" + 
+                                               "\\   color = " + gW.clients[ winnerClientName].color + 
+                                               "\\   time = " + m_puckPopperTimer_s.toFixed(2) + "s" +
+                                               "\\   score = " + gW.clients[ winnerClientName].score;
+                        } else {
+                           let teamName = gW.clients[ winnerClientName].teamName;
+                           var summaryString = "" + teamName + " team wins" + 
+                                               "\\   time = " + m_puckPopperTimer_s.toFixed(2) + "s";
+                        }          
+                                            
                      } else {
                         var congratsString = "Only good guys remaining...";
-                        var summaryString = "The team wins" + 
+                        var summaryString = "The good guys win" + 
                                             "\\   name of player " + winnerDescString + " = " + displayName + 
                                             "\\   color of player = " + gW.clients[ winnerClientName].color + 
                                             "\\   time to win = " + m_puckPopperTimer_s.toFixed(2) + "s";
@@ -1213,10 +1256,13 @@ window.pP = (function() {
       'Jet': Jet,
       'Gun': Gun,
       
-      
       // Variables
       'setPlayerCount': function( val) { m_playerCount = val; },
-      'addToPlayerCount': function( val) { m_playerCount += val; },
+      'incrementPlayerCount': function( val) { m_playerCount += val; },
+      
+      'getTeamCount': function() { return m_teamCount; },
+      'resetTeams': function() { m_teams = {}; },
+      'getPucksByTypeAtStart': function() { return m_pucksByTypeAtStart; },
       
       'setNpcCount': function( val) { m_npcCount = val; },
       'addToNpcCount': function( val) { m_npcCount += val; },
@@ -1241,7 +1287,9 @@ window.pP = (function() {
       'gunAngleFromHost': gunAngleFromHost,
       'jetAngleFromHost': jetAngleFromHost,
       'deleteOldandUnhealthy': deleteOldandUnhealthy,
-      'checkForPuckPopperWinnerAndReport': checkForPuckPopperWinnerAndReport
+      'checkForPuckPopperWinnerAndReport': checkForPuckPopperWinnerAndReport,
+      'updateTeamInfo': updateTeamInfo,
+      'countTeams': countTeams
    };
 
 })();

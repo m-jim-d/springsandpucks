@@ -1386,7 +1386,7 @@ window.eV = (function() {
          
          } else if (e.type == "blur") {
             let inputString = $(this).val();
-            let cleanString = inputString.replace(/\W/g, ''); // allow only alphanumeric and the underscore character
+            let cleanString = inputString.replace(/[^a-zA-Z0-9@]/g, ''); // allow only alphanumeric and the @ character
             
             // if too short, clean out the field
             if (cleanString.length < 2) cleanString = "";

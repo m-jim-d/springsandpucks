@@ -127,16 +127,23 @@ window.bS = (function() {
             }
             
             if ([7,8].includes( gW.getDemoIndex() )) {
-               // Check for restrictions on friendly fire AND that both target and shooter are human.
-               var friendlyFire = false;
-               if (! gW.dC.friendlyFire.checked) {
-                  if (target.clientName && !target.clientName.includes('NPC') && !bullet.clientNameOfShooter.includes('NPC')) {
-                     friendlyFire = true;
+               // Look for restrictions on friendly fire (unchecked) AND that both target and shooter are human.
+               var ff_restricted = false;
+               if ( target.clientName && ( ! target.clientName.includes('NPC')) && ( ! bullet.clientNameOfShooter.includes('NPC')) ) {
+                  if ( ! gW.dC.friendlyFire.checked) {
+                     ff_restricted = true;
+                  } else {
+                     // Check for members of the same team.
+                     // Note: if both have null teamNames, they will be appear equal, same team; however, that case is not ff restricted.
+                     let atLeastOneIsNotNull = (gW.clients[ target.clientName].teamName || gW.clients[ bullet.clientNameOfShooter].teamName);
+                     if (atLeastOneIsNotNull && (gW.clients[ target.clientName].teamName == gW.clients[ bullet.clientNameOfShooter].teamName)) {
+                        ff_restricted = true;
+                     }
                   }
                }
                
-               // Can't shoot yourself in the foot and can't be friendly fire.
-               if ((bullet.clientNameOfShooter != target.clientName) && !friendlyFire) {
+               // Count it as a hit, if not shooting yourself in the foot, and not friendly-fire restricted.
+               if ( (bullet.clientNameOfShooter != target.clientName) && ( ! ff_restricted) ) {
                   // if the shield is off or weakened...
                   if (!target.shield.ON || (target.shield.ON && !target.shield.STRONG)) {
                      target.hitCount += 1;
@@ -145,14 +152,14 @@ window.bS = (function() {
                      bullet.atLeastOneHit = true;
                      
                      // Give credit to the shooter (owner of the bullet).
-                     if (!cT.Client.winnerBonusGiven && gW.clients[ bullet.clientNameOfShooter]) {
+                     if ( ( ! cT.Client.winnerBonusGiven) && gW.clients[ bullet.clientNameOfShooter] ) {
                         gW.clients[ bullet.clientNameOfShooter].score += 10;
                         // Keep track of the last successful hit to a client. Useful with multiple players and when friendly fire is blocked.
                         if (target.clientName) gW.setLastClientToScoreHit( bullet.clientNameOfShooter);
                      }
                      target.whoShotBullet = bullet.clientNameOfShooter;
                      // Remove credit from the puck that got hit (the not-bullet body).
-                     if (!cT.Client.winnerBonusGiven && target.clientName && gW.clients[ target.clientName]) {
+                     if ( ( ! cT.Client.winnerBonusGiven) && target.clientName && gW.clients[ target.clientName] ) {
                         gW.clients[ target.clientName].score -= 10;
                      }
                   }
