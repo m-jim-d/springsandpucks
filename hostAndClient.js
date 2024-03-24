@@ -531,6 +531,7 @@ window.hC = (function() {
                   tab + "<strong>ping:p2p-uN</strong>: ping test to another p2p client, where N is an integer.<br>" +
                   tab + "<strong>cmd</strong>: get more detailed help on the cmd commands.<br>" +
                   tab + "<strong>lb</strong>: get more detailed help on leaderboard queries.<br>" +
+                  tab + "<strong>dbrtc</strong>: get more detailed help on debugging WebRTC stuff.<br>" +
                   "";
                displayMessage( helpString);
                $('#inputField').val('');
@@ -570,11 +571,25 @@ window.hC = (function() {
                $('#inputField').val('lb::current');
                
             } else if (chatString.slice(0,4) == 'lb::') {
-               let gameName = chatString.split("::")[1];
-               if (gameName == "current") {
-                  gameName = gW.getDemoVersion();
+               if (hostOrClient == 'host') {
+                  let gameName = chatString.split("::")[1];
+                  if (gameName == "current") {
+                     gameName = gW.getDemoVersion();
+                  }
+                  lB.requestReportOnly( gameName);
+               } else {
+                  displayMessage("Leaderboard queries are only available to the host.");
                }
-               lB.requestReportOnly( gameName);
+               
+            } else if (chatString.slice(0,6) == 'dbrtc') {
+               let tab = "&nbsp;&nbsp;";
+               let helpString = "dbrtc (debug webrtc) examples:<br>" +
+                  tab + 'dbrtc:on<br>' +
+                  tab + 'dbrtc:off<br>' +
+                  "";
+               displayMessage( helpString);
+               // Put the first example into the chat field. This makes it easy to edit and submit.
+               $('#inputField').val('dbrtc:on');
                
             // turn on (off) WebRTC debugging: set the db.rtc boolean   
             } else if (chatString.slice(0,6) == 'dbrtc:') {
