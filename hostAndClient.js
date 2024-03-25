@@ -643,7 +643,8 @@ window.hC = (function() {
          
          'To get started, type a short room name into the red box, then click the "Create" button.</br></br>'+
          
-         'Optionally, provide a nickname in the chat field before clicking the "Create" button or starting a game.</br></br>' +
+         'Optionally, provide a nickname in the chat field before clicking the "Create" button or starting a game (e.g. bob). '+
+         'You may indicate team membership using the @ character (e.g. bob@green).</br></br>' +
          
          'Use the "m" key (or click the "Multiplayer" checkbox) to toggle between this chat panel (where leaderboard reports are presented) and the ' + 
          "<a onclick= \" $('#chkMultiplayer').trigger('click'); \">help panel</a>. " + 
@@ -673,8 +674,10 @@ window.hC = (function() {
          'From here you can be a client in a multiplayer room. The room must be started (hosted) from the main triquence.org page. '+
          'Generally, a separate computer is used for hosting. For testing, the host and multiple clients can be run in separate windows on the same computer.</br></br>'+
          
-         'To connect as a client, enter the room name (provided to you by the host), into the red box here, then click the "Connect" button. '+ 
-         'Optionally, provide a nickname in the chat field before clicking the "Connect" button.</br></br>' +
+         'To connect as a client, enter the room name (provided to you by the host), into the red box here, then click the "Connect" button.</br></br>'+ 
+         
+         'Optionally, provide a nickname in the chat field before clicking the "Connect" button (e.g. bob). '+
+         'You may indicate team membership using the @ character (e.g. bob@green).</br></br>' +
          
          'To start over, or disconnect from the server, please reload the page.';
       }
