@@ -48,43 +48,43 @@
      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
    </script>
 
-   <script src="Box2D.js?v=60"></script>
+   <script src="Box2D.js?v=70"></script>
 
-   <script src="utilities.js?v=60"></script>
-   <script src="pageStuff.js?v=60"></script>
-   <script src="worldScreen.js?v=60"></script>
+   <script src="utilities.js?v=70"></script>
+   <script src="pageStuff.js?v=70"></script>
+   <script src="worldScreen.js?v=70"></script>
    
-   <script src="drawFunc.js?v=60"></script>
-   <script src="consAndPros.js?v=60"></script>
-   <script src="clientProto.js?v=60"></script>
-   <script src="piEngine.js?v=60"></script>
+   <script src="drawFunc.js?v=70"></script>
+   <script src="consAndPros.js?v=70"></script>
+   <script src="clientProto.js?v=70"></script>
+   <script src="piEngine.js?v=70"></script>
    
-   <script src="tableActs.js?v=60"></script>
-   <script src="multiSelect.js?v=60"></script>
-   <script src="gwModule.js?v=60"></script>
+   <script src="tableActs.js?v=70"></script>
+   <script src="multiSelect.js?v=70"></script>
+   <script src="gwModule.js?v=70"></script>
    
-   <script src="demoStart.js?v=60"></script>
-   <script src="eventsHost.js?v=60"></script>
-   <script src="boxStuff.js?v=60"></script>
+   <script src="demoStart.js?v=70"></script>
+   <script src="eventsHost.js?v=70"></script>
+   <script src="boxStuff.js?v=70"></script>
 
    <!-- for testing: load client via script element
    <script src="https://triquence-ca88d70f0e55.herokuapp.com/socket.io/socket.io.js"></script>
    -->
-   <script src="hostAndClient.js?v=60"></script>
-   <script src="eventsNonHost.js?v=60"></script>
+   <script src="hostAndClient.js?v=70"></script>
+   <script src="eventsNonHost.js?v=70"></script>
 
-   <script src="captureRestore.js?v=60"></script>
-   <script src="leaderBoard.js?v=60"></script>
-   <script src="ghostBall.js?v=60"></script>
-   <script src="puckPopper.js?v=60"></script>
-   <script src="jelloMadness.js?v=60"></script>
-   <script src="bpHoops.js?v=60"></script>
-   <script src="monkeyHunt.js?v=60"></script>
+   <script src="captureRestore.js?v=70"></script>
+   <script src="leaderBoard.js?v=70"></script>
+   <script src="ghostBall.js?v=70"></script>
+   <script src="puckPopper.js?v=70"></script>
+   <script src="jelloMadness.js?v=70"></script>
+   <script src="bpHoops.js?v=70"></script>
+   <script src="monkeyHunt.js?v=70"></script>
 
    <!-- put a capture into the page level global: demo_6_fromFile -->
-   <script src="demo6.js?v=60"></script>
+   <script src="demo6.js?v=70"></script>
    <!-- put a capture into the page level global: demo_8_fromFile -->
-   <script src="demo8.js?v=60"></script>
+   <script src="demo8.js?v=70"></script>
    <!--
    <script src="demo2b.js"></script>
    -->
@@ -1542,7 +1542,7 @@
          </ul>
          A score summary for each player is reported in the chat panel at the end of the game (one puck left).
          <br><br>
-         A leaderboard report, the top 20 scores, is displayed below the game-score summary 
+         A leaderboard report, the top 25 scores, is displayed below the game-score summary 
          table. The report consists of two query results, one table sorted by 
          time, the other by score (click the link to toggle between the two tables). 
          The backend of the leaderboard, a Google 
@@ -1553,9 +1553,16 @@
          the mouse was used (in the Canvas area) or the drones are "sleeping", 
          are filtered out of the reports.
          <br><br>
+         The leaderboard can be queried independently (without playing a game). 
+         From the multiplayer chat field (after connecting) enter "lb" to display example queries.
+         <br><br>
          From the host page, you can establish a nickname (without connecting to the multiplayer server) by typing
          the nickname into the chat field before starting demos #7 or #8. That nickname will be used
          when reporting to the leaderboard.
+         <br><br>
+         A team name can be added to the nickname using the @ sign, e.g. bob@red, where bob is a member of the red team.
+         Team totals, not member scores, are reported to the leaderboard. 
+         Friendly fire is prevented between team members.
          <br><br><hr><br>
          
          <span id="d8"><strong>Demo #8a</strong> is a larger version of the <strong><a onclick="cR.clearState();dS.demoStart(8)">Puck Popper</a></strong> game. This is similar to #7 in that a controlled puck is created for 

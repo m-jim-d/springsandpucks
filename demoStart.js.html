@@ -167,6 +167,11 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">return</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
    <span class="p">}</span>
    
+   <span class="kd">function</span> <span class="nx">demoVersionIndex</span><span class="p">(</span> <span class="nx">demoVersion</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">parts</span> <span class="o">=</span> <span class="nx">demoVersion</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+   <span class="p">}</span>
+   
    <span class="cm">/*</span>
 <span class="cm">   // Editor help toggle</span>
 <span class="cm">   function openDemoHelp() {</span>
@@ -1415,6 +1420,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       
       <span class="s1">&#39;demoStart&#39;</span><span class="o">:</span> <span class="nx">demoStart</span><span class="p">,</span>
       <span class="s1">&#39;demoVersionBase&#39;</span><span class="o">:</span> <span class="nx">demoVersionBase</span><span class="p">,</span>
+      <span class="s1">&#39;demoVersionIndex&#39;</span><span class="o">:</span> <span class="nx">demoVersionIndex</span><span class="p">,</span>
       <span class="s1">&#39;setGravityRelatedParameters&#39;</span><span class="o">:</span> <span class="nx">setGravityRelatedParameters</span><span class="p">,</span>
       <span class="s1">&#39;fullScreenState&#39;</span><span class="o">:</span> <span class="nx">fullScreenState</span><span class="p">,</span>
       <span class="s1">&#39;adjustSizeOfChatDiv&#39;</span><span class="o">:</span> <span class="nx">adjustSizeOfChatDiv</span><span class="p">,</span>

@@ -282,7 +282,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    
    <span class="kd">function</span> <span class="nx">checkForNickName</span><span class="p">(</span> <span class="nx">mode</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">cl</span> <span class="o">=</span> <span class="nx">referenceToClient</span><span class="p">();</span>
-      <span class="kd">var</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="o">:</span><span class="s1">&#39;ok&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="o">:</span><span class="kc">null</span><span class="p">};</span>
+      <span class="kd">var</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;status&#39;</span><span class="o">:</span><span class="s1">&#39;ok&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="o">:</span><span class="kc">null</span><span class="p">,</span> <span class="s1">&#39;teamName&#39;</span><span class="o">:</span><span class="kc">null</span><span class="p">};</span>
 
       <span class="c1">// Check the chat input field, e.g. jimbo</span>
       <span class="kd">var</span> <span class="nx">chatString</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
@@ -291,6 +291,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;{&quot;</span><span class="p">))</span> <span class="p">{</span>
          <span class="nx">nickName</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="s2">&quot;JSON&quot;</span><span class="p">;</span>
          <span class="k">return</span> <span class="nx">nickName</span><span class="p">;</span>
+      <span class="c1">// Ignore commands in the chat.</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;::&quot;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="k">return</span> <span class="nx">nickName</span><span class="p">;</span>
       <span class="p">}</span>
 
       <span class="c1">// nickname input field in the ghost-ball pool help panel (all the nick-name fields should be in sync, so just snag from any of these fields)</span>
@@ -298,7 +301,15 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="kd">var</span> <span class="nx">defaultValue</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;defaultValue&#39;</span><span class="p">);</span> <span class="c1">//this is the value attribute in the html</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">mode</span> <span class="o">==</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span> <span class="p">{</span>
          <span class="k">if</span> <span class="p">((</span><span class="nx">chatString</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">chatString</span> <span class="o">!=</span> <span class="nx">defaultValue</span><span class="p">))</span> <span class="p">{</span> 
-            <span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">chatString</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\W/g</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span> <span class="c1">// allow alphanumeric and the underscore character</span>
+            <span class="kd">let</span> <span class="nx">chatString_clean</span> <span class="o">=</span> <span class="nx">chatString</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[^a-zA-Z0-9@]/g</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span> <span class="c1">// allow alphanumeric and the @ character</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="nx">chatString_clean</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">))</span> <span class="p">{</span>
+               <span class="kd">let</span> <span class="nx">nickNameParts</span> <span class="o">=</span> <span class="nx">chatString_clean</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">);</span>
+               <span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">nickNameParts</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+               <span class="nx">nickName</span><span class="p">.</span><span class="nx">teamName</span> <span class="o">=</span> <span class="nx">nickNameParts</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">chatString_clean</span><span class="p">;</span>
+            <span class="p">}</span>
             
             <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
                <span class="nx">nickName</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="s2">&quot;too long&quot;</span><span class="p">;</span>
@@ -310,18 +321,20 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                <span class="nx">cl</span><span class="p">.</span><span class="nx">nickName</span> <span class="o">=</span> <span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+               <span class="nx">cl</span><span class="p">.</span><span class="nx">teamName</span> <span class="o">=</span> <span class="nx">nickName</span><span class="p">.</span><span class="nx">teamName</span><span class="p">;</span>
                
                <span class="c1">// Clear out the input field where the nick name was entered.</span>
                <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
                
-               <span class="c1">// Set all the inputs in the nickNameField class to this nickname.</span>
+               <span class="c1">// Set all the inputs in the nickNameField class (these are only on the host) to the nickname.</span>
                <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input.nickNameField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span> <span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
             <span class="p">}</span>
          
-         <span class="c1">// Nothing new, so use the current nick name if it&#39;s there.   </span>
+         <span class="c1">// Nothing new, so use the current nick name if it&#39;s there.</span>
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;client&#39;</span><span class="p">)</span> <span class="p">{</span>
                <span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">cl</span><span class="p">.</span><span class="nx">nickName</span><span class="p">;</span>
+               <span class="nx">nickName</span><span class="p">.</span><span class="nx">teamName</span> <span class="o">=</span> <span class="nx">cl</span><span class="p">.</span><span class="nx">teamName</span><span class="p">;</span>
                
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;host&#39;</span><span class="p">)</span> <span class="p">{</span>
                <span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">nnFieldValue</span><span class="p">;</span>
@@ -331,6 +344,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">((</span><span class="nx">mode</span> <span class="o">==</span> <span class="s1">&#39;re-connect&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">cl</span><span class="p">.</span><span class="nx">nickName</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">cl</span><span class="p">.</span><span class="nx">nickName</span><span class="p">;</span>
+         <span class="nx">nickName</span><span class="p">.</span><span class="nx">teamName</span> <span class="o">=</span> <span class="nx">cl</span><span class="p">.</span><span class="nx">teamName</span><span class="p">;</span>
       <span class="p">}</span>
       <span class="k">return</span> <span class="nx">nickName</span><span class="p">;</span>
    <span class="p">}</span>
@@ -489,8 +503,10 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             
             <span class="c1">// Here is where the socket.io client initiates it&#39;s connection to the server. The &#39;connectOptions&#39; object</span>
             <span class="c1">// is passed via the auth attribute of the options. This is how you pass extra parameters to the connection </span>
-            <span class="c1">// handler in server.js.</span>
-            <span class="kd">let</span> <span class="nx">connectOptions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mode&#39;</span><span class="o">:</span><span class="nx">mode</span><span class="p">,</span> <span class="s1">&#39;currentName&#39;</span><span class="o">:</span><span class="nx">cl</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="s1">&#39;nickName&#39;</span><span class="o">:</span><span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span><span class="p">};</span>
+            <span class="c1">// handler in server.js. </span>
+            <span class="c1">// This is where the results from checkForNickName (see above) are passed to the server, which, eventually, </span>
+            <span class="c1">// emits to the new-game-client listener on the host.</span>
+            <span class="kd">let</span> <span class="nx">connectOptions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mode&#39;</span><span class="o">:</span><span class="nx">mode</span><span class="p">,</span> <span class="s1">&#39;currentName&#39;</span><span class="o">:</span><span class="nx">cl</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="s1">&#39;nickName&#39;</span><span class="o">:</span><span class="nx">nickName</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span> <span class="s1">&#39;teamName&#39;</span><span class="o">:</span><span class="nx">nickName</span><span class="p">.</span><span class="nx">teamName</span><span class="p">};</span>
             <span class="nx">socket</span> <span class="o">=</span> <span class="nx">io</span><span class="p">(</span> <span class="nx">nodeServerURL</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;forceNew&#39;</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span> <span class="s1">&#39;auth&#39;</span><span class="o">:</span><span class="nx">connectOptions</span><span class="p">,</span> <span class="s1">&#39;withCredentials&#39;</span><span class="o">:</span><span class="kc">false</span><span class="p">});</span>
             
             <span class="nx">init_socket_listeners</span><span class="p">(</span> <span class="nx">roomName</span><span class="p">);</span>
@@ -523,6 +539,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    
    <span class="kd">function</span> <span class="nx">displayMessage</span><span class="p">(</span> <span class="nx">msgText</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">msgText</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;Game Summary&quot;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">msgText</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;do not display&quot;</span><span class="p">))</span> <span class="nx">msgText</span> <span class="o">=</span> <span class="s2">&quot;Please wait for query results...&lt;br&gt;&quot;</span><span class="p">;</span>
          <span class="nx">gb</span><span class="p">.</span><span class="nx">gameReportCounter</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
          <span class="kd">var</span> <span class="nx">idString</span> <span class="o">=</span> <span class="s2">&quot; id=&#39;gR&quot;</span> <span class="o">+</span> <span class="nx">gb</span><span class="p">.</span><span class="nx">gameReportCounter</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">;</span>
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -602,22 +619,33 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">)</span> <span class="p">{</span>
                <span class="kd">let</span> <span class="nx">tab</span> <span class="o">=</span> <span class="s2">&quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp&quot;</span><span class="p">;</span>
                <span class="kd">let</span> <span class="nx">helpString</span> <span class="o">=</span> <span class="s2">&quot;Commands:&lt;br&gt;&quot;</span> <span class="o">+</span>
-                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;help&lt;/strong&gt;: list of the network commands than can run from the chat field.&lt;br&gt;&quot;</span> <span class="o">+</span>
-                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;rr&lt;/strong&gt;: room report on connections to this room&lt;br&gt;&quot;</span> <span class="o">+</span>
-                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;dcir&lt;/strong&gt;: disconnect the clients in this room&lt;br&gt;&quot;</span> <span class="o">+</span>
-                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping&lt;/strong&gt;: ping test to the server&lt;br&gt;&quot;</span> <span class="o">+</span>
-                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping:host&lt;/strong&gt;: ping test to the host&lt;br&gt;&quot;</span> <span class="o">+</span>
-                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping:p2p-uN&lt;/strong&gt;: ping test to another p2p client, where N is an integer.&lt;br&gt;&quot;</span> <span class="o">+</span>
-                   <span class="s2">&quot;&quot;</span><span class="p">;</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;help&lt;/strong&gt;: list of the network commands than can run from the chat field.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;rr&lt;/strong&gt;: room report on connections to this room&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;dcir&lt;/strong&gt;: disconnect the clients in this room&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping&lt;/strong&gt;: ping test to the server&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping:host&lt;/strong&gt;: ping test to the host&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping:p2p-uN&lt;/strong&gt;: ping test to another p2p client, where N is an integer.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;cmd&lt;/strong&gt;: get more detailed help on the cmd commands.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;lb&lt;/strong&gt;: get more detailed help on leaderboard queries.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;dbrtc&lt;/strong&gt;: get more detailed help on debugging WebRTC stuff.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="s2">&quot;&quot;</span><span class="p">;</span>
                <span class="nx">displayMessage</span><span class="p">(</span> <span class="nx">helpString</span><span class="p">);</span>
                <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
             
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span> <span class="o">==</span> <span class="s1">&#39;cmd&#39;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="kd">let</span> <span class="nx">tab</span> <span class="o">=</span> <span class="s2">&quot;&amp;nbsp;&amp;nbsp;&quot;</span><span class="p">;</span>
+               <span class="kd">let</span> <span class="nx">helpString</span> <span class="o">=</span> <span class="s2">&quot;cmd examples:&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s1">&#39;cmd::{&quot;to&quot;:&quot;roomNoSender&quot;,&quot;data&quot;:{&quot;displayThis&quot;:&quot;exclude sender&quot;}}&lt;br&gt;&#39;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s1">&#39;cmd::{&quot;to&quot;:&quot;host&quot;,&quot;data&quot;:{&quot;displayThis&quot;:&quot;test string to room host&quot;}}&lt;br&gt;&#39;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s1">&#39;cmd::{&quot;to&quot;:&quot;room&quot;,&quot;data&quot;:{&quot;displayThis&quot;:&quot;test string to the whole room&quot;}}&lt;br&gt;&#39;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s1">&#39;cmd::{&quot;to&quot;:&quot;u20&quot;,&quot;data&quot;:{&quot;displayThis&quot;:&quot;test string to specific user&quot;}}&lt;br&gt;&#39;</span> <span class="o">+</span>
+                  <span class="s2">&quot;&quot;</span><span class="p">;</span>
+               <span class="nx">displayMessage</span><span class="p">(</span> <span class="nx">helpString</span><span class="p">);</span>
+               <span class="c1">// Put the first example into the chat field. This makes it easy to edit and submit.</span>
+               <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;cmd::{&quot;to&quot;:&quot;host&quot;,&quot;data&quot;:{&quot;displayThis&quot;:&quot;test string to room host&quot;}}&#39;</span><span class="p">);</span>
+            
             <span class="c1">// general command string input...</span>
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;cmd::&#39;</span><span class="p">)</span> <span class="p">{</span>
-               <span class="c1">// cmd::{&quot;to&quot;:&quot;roomNoSender&quot;,&quot;data&quot;:{&quot;displayThis&quot;:&quot;test string to the room excluding the sender&quot;}}</span>
-               <span class="c1">// cmd::{&quot;to&quot;:&quot;host&quot;,&quot;data&quot;:{&quot;displayThis&quot;:&quot;test string to the room&#39;s host&quot;}}</span>
-               <span class="c1">// cmd::{&quot;to&quot;:&quot;room&quot;,&quot;data&quot;:{&quot;displayThis&quot;:&quot;test string to the whole room&quot;}}</span>
-               <span class="c1">// cmd::{&quot;to&quot;:&quot;u20&quot;,&quot;data&quot;:{&quot;displayThis&quot;:&quot;test string to specific user&quot;}}</span>
                <span class="k">try</span> <span class="p">{</span>
                   <span class="kd">let</span> <span class="nx">string</span> <span class="o">=</span> <span class="nx">chatString</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;::&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span>
                   <span class="kd">let</span> <span class="nx">messageCommand</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">string</span><span class="p">);</span>
@@ -626,6 +654,38 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                   <span class="nx">displayMessage</span><span class="p">(</span><span class="s1">&#39;Might be an error in your JSON. Use &quot; not single quotes.&lt;br&gt;&#39;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">);</span>
                   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Error: &quot;</span> <span class="o">+</span> <span class="nx">e</span><span class="p">);</span>
                <span class="p">}</span>
+               
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span> <span class="o">==</span> <span class="s1">&#39;lb&#39;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="kd">let</span> <span class="nx">tab</span> <span class="o">=</span> <span class="s2">&quot;&amp;nbsp;&amp;nbsp;&quot;</span><span class="p">;</span>
+               <span class="kd">let</span> <span class="nx">helpString</span> <span class="o">=</span> <span class="s2">&quot;lb (leaderboard) query examples:&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s1">&#39;lb::7.a&lt;br&gt;&#39;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s1">&#39;lb::4.e.monkeyhunt&lt;br&gt;&#39;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s1">&#39;lb::current&lt;br&gt;&#39;</span> <span class="o">+</span>
+                  <span class="s2">&quot;&quot;</span><span class="p">;</span>
+               <span class="nx">displayMessage</span><span class="p">(</span> <span class="nx">helpString</span><span class="p">);</span>
+               <span class="c1">// Put the first example into the chat field. This makes it easy to edit and submit.</span>
+               <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;lb::current&#39;</span><span class="p">);</span>
+               
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;lb::&#39;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;host&#39;</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="kd">let</span> <span class="nx">gameName</span> <span class="o">=</span> <span class="nx">chatString</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;::&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nx">gameName</span> <span class="o">==</span> <span class="s2">&quot;current&quot;</span><span class="p">)</span> <span class="p">{</span>
+                     <span class="nx">gameName</span> <span class="o">=</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoVersion</span><span class="p">();</span>
+                  <span class="p">}</span>
+                  <span class="nx">lB</span><span class="p">.</span><span class="nx">requestReportOnly</span><span class="p">(</span> <span class="nx">gameName</span><span class="p">);</span>
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                  <span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Leaderboard queries are only available to the host.&quot;</span><span class="p">);</span>
+               <span class="p">}</span>
+               
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;dbrtc&#39;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="kd">let</span> <span class="nx">tab</span> <span class="o">=</span> <span class="s2">&quot;&amp;nbsp;&amp;nbsp;&quot;</span><span class="p">;</span>
+               <span class="kd">let</span> <span class="nx">helpString</span> <span class="o">=</span> <span class="s2">&quot;dbrtc (debug webrtc) examples:&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s1">&#39;dbrtc:on&lt;br&gt;&#39;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s1">&#39;dbrtc:off&lt;br&gt;&#39;</span> <span class="o">+</span>
+                  <span class="s2">&quot;&quot;</span><span class="p">;</span>
+               <span class="nx">displayMessage</span><span class="p">(</span> <span class="nx">helpString</span><span class="p">);</span>
+               <span class="c1">// Put the first example into the chat field. This makes it easy to edit and submit.</span>
+               <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;dbrtc:on&#39;</span><span class="p">);</span>
                
             <span class="c1">// turn on (off) WebRTC debugging: set the db.rtc boolean   </span>
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;dbrtc:&#39;</span><span class="p">)</span> <span class="p">{</span>
@@ -637,7 +697,18 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="c1">// all is well, just a chat message, send it out</span>
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span> <span class="o">!=</span> <span class="nx">defaultValue</span><span class="p">)</span> <span class="p">{</span>
+                  
                   <span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;chat message&#39;</span><span class="p">,</span> <span class="nx">chatString</span><span class="p">);</span>
+                  
+                  <span class="c1">// If removing connections on the node server, delete corresponding clients.</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span> <span class="o">==</span> <span class="s2">&quot;dcir&quot;</span><span class="p">)</span> <span class="p">{</span>
+                     <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">client</span> <span class="p">=&gt;</span> <span class="p">{</span>
+                        <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span> <span class="o">!=</span> <span class="s1">&#39;local&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">client</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;NPC&quot;</span><span class="p">))</span> <span class="p">)</span> <span class="p">{</span>
+                           <span class="k">if</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">puck</span><span class="p">)</span> <span class="nx">client</span><span class="p">.</span><span class="nx">puck</span><span class="p">.</span><span class="nx">deleteThisOne</span><span class="p">({});</span>
+                           <span class="k">delete</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">client</span><span class="p">.</span><span class="nx">name</span><span class="p">];</span>
+                        <span class="p">}</span>
+                     <span class="p">});</span>
+                  <span class="p">}</span>
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                   <span class="nx">displayMessage</span><span class="p">(</span><span class="s1">&#39;Nickname tip has been cleared from the chat field. Ready to chat now.&lt;br&gt;&lt;br&gt;&#39;</span> <span class="o">+</span>
                                  <span class="s1">&#39;Note: an alternative way for the host to establish a nickname is to put it in the chat field before starting demos 6, 7, or 8.&#39;</span><span class="p">);</span>
@@ -1026,9 +1097,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">msg</span><span class="p">);</span>
             
             <span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">message</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
-            <span class="c1">// Note: not (yet) using the nickName that comes back from the socket.io server.</span>
-            <span class="c1">// cl_clientSide.nickName gets set for the client on the front end of the connection process.</span>
-            <span class="kd">var</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">message</span><span class="p">.</span><span class="nx">nickName</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+            <span class="c1">// To see where nickName and teamName are sent to the host, look at the emit to </span>
+            <span class="c1">// new-game-client on the server and the corresponding listener here.</span>
             
             <span class="c1">// Put this name in the mouse and keyboard (mK) global that is used to send</span>
             <span class="c1">// state data from the client.</span>
@@ -1041,7 +1111,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="nx">cl_clientSide</span><span class="p">.</span><span class="nx">previous_name</span> <span class="o">=</span> <span class="nx">cl_clientSide</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
             <span class="nx">cl_clientSide</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">newClientName</span><span class="p">;</span>
             
-            <span class="nx">debug</span><span class="p">(</span> <span class="nx">db</span><span class="p">.</span><span class="nx">rtc</span><span class="p">,</span><span class="s1">&#39;inside &quot;your name is&quot;, names: current=&#39;</span><span class="o">+</span><span class="nx">cl_clientSide</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span> <span class="s1">&#39;, previous=&#39;</span><span class="o">+</span> <span class="nx">cl_clientSide</span><span class="p">.</span><span class="nx">previous_name</span> <span class="o">+</span><span class="s1">&#39;, nick=&#39;</span><span class="o">+</span><span class="nx">nickName</span><span class="p">);</span>
+            <span class="nx">debug</span><span class="p">(</span> <span class="nx">db</span><span class="p">.</span><span class="nx">rtc</span><span class="p">,</span><span class="s1">&#39;inside &quot;your name is&quot;, names: current=&#39;</span><span class="o">+</span><span class="nx">cl_clientSide</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span> <span class="s1">&#39;, previous=&#39;</span><span class="o">+</span> <span class="nx">cl_clientSide</span><span class="p">.</span><span class="nx">previous_name</span> <span class="p">);</span>
             
             <span class="c1">// Initialize rtc for the client side of the p2p connection.</span>
             <span class="nx">cl_clientSide</span><span class="p">.</span><span class="nx">rtc</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RTC</span><span class="p">({</span><span class="s1">&#39;user1&#39;</span><span class="o">:</span><span class="nx">newClientName</span><span class="p">,</span><span class="s1">&#39;user2&#39;</span><span class="o">:</span><span class="s1">&#39;host&#39;</span><span class="p">});</span>
@@ -1121,8 +1191,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="kd">var</span> <span class="nx">clientName</span> <span class="o">=</span> <span class="nx">msgParsed</span><span class="p">.</span><span class="nx">clientName</span><span class="p">;</span>
             <span class="kd">var</span> <span class="nx">player</span>     <span class="o">=</span> <span class="nx">msgParsed</span><span class="p">.</span><span class="nx">player</span><span class="p">;</span>
             <span class="kd">var</span> <span class="nx">nickName</span>   <span class="o">=</span> <span class="nx">msgParsed</span><span class="p">.</span><span class="nx">nickName</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">teamName</span>   <span class="o">=</span> <span class="nx">msgParsed</span><span class="p">.</span><span class="nx">teamName</span><span class="p">;</span>
             
-            <span class="nx">createNetworkClient</span><span class="p">({</span><span class="s1">&#39;clientName&#39;</span><span class="o">:</span><span class="nx">clientName</span><span class="p">,</span> <span class="s1">&#39;player&#39;</span><span class="o">:</span><span class="nx">player</span><span class="p">,</span> <span class="s1">&#39;nickName&#39;</span><span class="o">:</span><span class="nx">nickName</span><span class="p">});</span>
+            <span class="nx">createNetworkClient</span><span class="p">({</span><span class="s1">&#39;clientName&#39;</span><span class="o">:</span><span class="nx">clientName</span><span class="p">,</span> <span class="s1">&#39;player&#39;</span><span class="o">:</span><span class="nx">player</span><span class="p">,</span> <span class="s1">&#39;nickName&#39;</span><span class="o">:</span><span class="nx">nickName</span><span class="p">,</span> <span class="s1">&#39;teamName&#39;</span><span class="o">:</span><span class="nx">teamName</span><span class="p">});</span>
             
             <span class="c1">// WebRTC. Start the p2p connection here (from the host) when we hear (from the server)</span>
             <span class="c1">// that a client is trying to connect to a room.</span>
@@ -1536,6 +1607,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="c1">// added to the client instance.</span>
       <span class="kd">var</span> <span class="nx">player</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">player</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
       <span class="kd">var</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">nickName</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">teamName</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">teamName</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
       
       <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nx">clientName</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
       <span class="c1">// Repeat the color index every 10 users (10 colors in clientColors)</span>
@@ -1544,6 +1616,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="kd">var</span> <span class="nx">clientPars</span> <span class="o">=</span> <span class="p">{};</span>
       <span class="nx">clientPars</span><span class="p">.</span><span class="nx">player</span> <span class="o">=</span> <span class="nx">player</span><span class="p">;</span>
       <span class="nx">clientPars</span><span class="p">.</span><span class="nx">nickName</span> <span class="o">=</span> <span class="nx">nickName</span><span class="p">;</span>
+      <span class="nx">clientPars</span><span class="p">.</span><span class="nx">teamName</span> <span class="o">=</span> <span class="nx">teamName</span><span class="p">;</span>
       <span class="nx">clientPars</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">clientColors</span><span class="p">[</span> <span class="nx">colorIndex</span><span class="p">];</span>
       <span class="nx">clientPars</span><span class="p">.</span><span class="nx">nameFromServer</span> <span class="o">=</span> <span class="nx">clientName</span><span class="p">;</span>
       <span class="nx">clientPars</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">clientName</span><span class="p">;</span>

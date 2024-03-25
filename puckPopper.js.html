@@ -130,6 +130,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    
    <span class="c1">// Names starting with m_ indicate module-scope globals.</span>
    <span class="kd">var</span> <span class="nx">m_playerCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="kd">var</span> <span class="nx">m_teams</span> <span class="o">=</span> <span class="p">{};</span>
+   <span class="kd">var</span> <span class="nx">m_teamCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="kd">var</span> <span class="nx">m_pucksByTypeAtStart</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;human&#39;</span><span class="o">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;drone&#39;</span><span class="o">:</span><span class="mi">0</span><span class="p">};</span>
    <span class="kd">var</span> <span class="nx">m_npcCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
    <span class="kd">var</span> <span class="nx">m_territoryMarked</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
    <span class="kd">var</span> <span class="nx">m_puckPopperTimer_s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -155,20 +158,26 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">return</span> <span class="nx">activeTTclient</span><span class="p">;</span>
    <span class="p">}</span>
       
-   <span class="kd">function</span> <span class="nx">getCountHumanPucks</span><span class="p">()</span> <span class="p">{</span>
-      <span class="c1">// The number of pucks with human drivers at the start of the game.</span>
-      <span class="kd">var</span> <span class="nx">pucksHumanAtGameStart</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+   <span class="kd">function</span> <span class="nx">countPucksByType</span><span class="p">()</span> <span class="p">{</span>
+      <span class="c1">// The number of pucks by type.</span>
+      <span class="kd">let</span> <span class="nx">pucksHuman</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="kd">let</span> <span class="nx">pucksDrone</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
       <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">client</span> <span class="p">=&gt;</span> <span class="p">{</span>
-         <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;u&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="s1">&#39;local&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">puck</span><span class="p">)</span> <span class="nx">pucksHumanAtGameStart</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">puck</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;u&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="s1">&#39;local&#39;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+               <span class="nx">pucksHuman</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="nx">pucksDrone</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
          <span class="p">}</span>
       <span class="p">});</span>
-      <span class="k">return</span> <span class="nx">pucksHumanAtGameStart</span><span class="p">;</span>
+      <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;human&#39;</span><span class="o">:</span><span class="nx">pucksHuman</span><span class="p">,</span> <span class="s1">&#39;drone&#39;</span><span class="o">:</span><span class="nx">pucksDrone</span><span class="p">};</span>
    <span class="p">}</span>   
       
    <span class="kd">function</span> <span class="nx">preGameSetUp</span><span class="p">(</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">m_npcSleep</span><span class="p">)</span> <span class="p">{</span>
-         <span class="k">if</span> <span class="p">(</span><span class="nx">getCountHumanPucks</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">m_pucksByTypeAtStart</span> <span class="o">=</span> <span class="nx">countPucksByType</span><span class="p">();</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">m_pucksByTypeAtStart</span><span class="p">.</span><span class="nx">human</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
             <span class="c1">// Looks like someone is ready to play. Label this as a game.</span>
             <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;gameTitle&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;Puck \\Popper&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
          <span class="p">}</span>
@@ -534,6 +543,32 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">return</span> <span class="nx">theyMatch</span><span class="p">;</span>
    <span class="p">}</span>
    
+   <span class="c1">// These team functions keep track of the pucks that the clients are driving. For example,</span>
+   <span class="c1">// if a team looses all it&#39;s pucks, it won&#39;t contribute to the team count here.</span>
+   <span class="c1">// This is in contrast to some similar code in clientProto.js where client scores are</span>
+   <span class="c1">// tracked at team levels.</span>
+   <span class="kd">function</span> <span class="nx">updateTeamInfo</span><span class="p">(</span> <span class="nx">clientName</span><span class="p">,</span> <span class="nx">countChange</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">hasTeamName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">clientName</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">clientName</span><span class="p">].</span><span class="nx">teamName</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">hasTeamName</span><span class="p">)</span> <span class="p">{</span>
+         <span class="kd">let</span> <span class="nx">teamName</span> <span class="o">=</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">clientName</span><span class="p">].</span><span class="nx">teamName</span><span class="p">;</span>
+         
+         <span class="k">if</span> <span class="p">(</span><span class="nx">m_teams</span><span class="p">[</span> <span class="nx">teamName</span><span class="p">])</span> <span class="p">{</span>
+            <span class="nx">m_teams</span><span class="p">[</span> <span class="nx">teamName</span><span class="p">].</span><span class="nx">memberCount</span> <span class="o">+=</span> <span class="nx">countChange</span><span class="p">;</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// initialize the counter key for that team</span>
+            <span class="nx">m_teams</span><span class="p">[</span> <span class="nx">teamName</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;memberCount&#39;</span><span class="o">:</span><span class="nx">countChange</span><span class="p">};</span>
+         <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="nx">countTeams</span><span class="p">();</span>
+   <span class="p">}</span>
+   <span class="kd">function</span> <span class="nx">countTeams</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">teamCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">teamName</span> <span class="k">in</span> <span class="nx">m_teams</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">m_teams</span><span class="p">[</span> <span class="nx">teamName</span><span class="p">].</span><span class="nx">memberCount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="nx">teamCount</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">m_teamCount</span> <span class="o">=</span> <span class="nx">teamCount</span><span class="p">;</span>
+   <span class="p">}</span>
+   
    <span class="kd">function</span> <span class="nx">deleteOldandUnhealthy</span><span class="p">(</span> <span class="nx">deltaT_s</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">cP</span><span class="p">.</span><span class="nx">Puck</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">puck</span> <span class="p">=&gt;</span> <span class="p">{</span>
          <span class="k">if</span> <span class="p">(</span><span class="nx">puck</span><span class="p">.</span><span class="nx">gunBullet</span><span class="p">())</span> <span class="p">{</span>
@@ -561,7 +596,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="kd">function</span> <span class="nx">checkForPuckPopperWinnerAndReport</span><span class="p">()</span> <span class="p">{</span>
       <span class="c1">// Check for a puck-popper winner. Do this check on the pucks because the human clients</span>
       <span class="c1">// are not removed when their pucks are popped.</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">m_playerCount</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">||</span> <span class="p">((</span> <span class="o">!</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">friendlyFire</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">m_npcCount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">m_playerCount</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">||</span> <span class="p">((</span><span class="nx">m_teamCount</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">m_npcCount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="o">||</span> <span class="p">((</span> <span class="o">!</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">friendlyFire</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">m_npcCount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="p">)</span> <span class="p">{</span>
          <span class="c1">// Get the name of the client scoring the last hit. The check, to see if the winner (last client to produce a hit)</span>
          <span class="c1">// is still there, prevents a failed reference (to nickname) if the host uses the mouse to delete the last NPC. Usually, with</span>
          <span class="c1">// mouse deletion of the NPC, they are the last hitter, and so the applyToAll loop will run.</span>
@@ -590,7 +625,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">}</span>
          
          <span class="c1">// If the winner is still around (hasn&#39;t disconnected)</span>
-         <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">]</span> <span class="o">||</span> <span class="p">(</span><span class="nx">winnerClientName</span> <span class="o">==</span> <span class="s1">&#39;Team&#39;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">])</span> <span class="p">{</span>
             
             <span class="k">if</span> <span class="p">(</span><span class="nx">winnerNickName</span><span class="p">)</span> <span class="p">{</span>
                <span class="kd">var</span> <span class="nx">displayName</span> <span class="o">=</span> <span class="nx">winnerNickName</span> <span class="o">+</span> <span class="s1">&#39; (&#39;</span> <span class="o">+</span> <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">translateIfLocal</span><span class="p">(</span> <span class="nx">winnerClientName</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">;</span>
@@ -606,7 +641,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                   <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">winCount</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
                   
                   <span class="c1">// Yes, now add the winner(s) to the summary too. The losers got added when their puck was popped.</span>
-                  <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">friendlyFire</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">friendlyFire</span><span class="p">.</span><span class="nx">checked</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">m_teamCount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
                      <span class="c1">// Can only be one puck standing in this case.</span>
                      <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">score</span> <span class="o">+=</span> <span class="mi">200</span><span class="p">;</span>
                      <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">addScoreToSummary</span><span class="p">(</span> <span class="nx">m_puckPopperTimer_s</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoIndex</span><span class="p">(),</span> <span class="nx">m_npcSleepUsage</span><span class="p">);</span>
@@ -648,14 +683,22 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                                          <span class="s2">&quot;\\   score = &quot;</span> <span class="o">+</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">score</span><span class="p">;</span>
                   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                      <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">friendlyFire</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="p">{</span>
-                        <span class="kd">var</span> <span class="nx">congratsString</span> <span class="o">=</span> <span class="s2">&quot;Only one player remaining...&quot;</span><span class="p">;</span>
-                        <span class="kd">var</span> <span class="nx">summaryString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">+</span> <span class="nx">displayName</span> <span class="o">+</span> <span class="s2">&quot; wins&quot;</span> <span class="o">+</span> 
-                                            <span class="s2">&quot;\\   color = &quot;</span> <span class="o">+</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">color</span> <span class="o">+</span> 
-                                            <span class="s2">&quot;\\   time = &quot;</span> <span class="o">+</span> <span class="nx">m_puckPopperTimer_s</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span> <span class="o">+</span>
-                                            <span class="s2">&quot;\\   score = &quot;</span> <span class="o">+</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">score</span><span class="p">;</span>
+                        <span class="kd">var</span> <span class="nx">congratsString</span> <span class="o">=</span> <span class="s2">&quot;Only one player (or team) remaining...&quot;</span><span class="p">;</span>
+                        
+                        <span class="k">if</span> <span class="p">(</span><span class="nx">m_teamCount</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                           <span class="kd">var</span> <span class="nx">summaryString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">+</span> <span class="nx">displayName</span> <span class="o">+</span> <span class="s2">&quot; wins&quot;</span> <span class="o">+</span> 
+                                               <span class="s2">&quot;\\   color = &quot;</span> <span class="o">+</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">color</span> <span class="o">+</span> 
+                                               <span class="s2">&quot;\\   time = &quot;</span> <span class="o">+</span> <span class="nx">m_puckPopperTimer_s</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span> <span class="o">+</span>
+                                               <span class="s2">&quot;\\   score = &quot;</span> <span class="o">+</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">score</span><span class="p">;</span>
+                        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                           <span class="kd">let</span> <span class="nx">teamName</span> <span class="o">=</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">teamName</span><span class="p">;</span>
+                           <span class="kd">var</span> <span class="nx">summaryString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">+</span> <span class="nx">teamName</span> <span class="o">+</span> <span class="s2">&quot; team wins&quot;</span> <span class="o">+</span> 
+                                               <span class="s2">&quot;\\   time = &quot;</span> <span class="o">+</span> <span class="nx">m_puckPopperTimer_s</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">;</span>
+                        <span class="p">}</span>          
+                                            
                      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                         <span class="kd">var</span> <span class="nx">congratsString</span> <span class="o">=</span> <span class="s2">&quot;Only good guys remaining...&quot;</span><span class="p">;</span>
-                        <span class="kd">var</span> <span class="nx">summaryString</span> <span class="o">=</span> <span class="s2">&quot;The team wins&quot;</span> <span class="o">+</span> 
+                        <span class="kd">var</span> <span class="nx">summaryString</span> <span class="o">=</span> <span class="s2">&quot;The good guys win&quot;</span> <span class="o">+</span> 
                                             <span class="s2">&quot;\\   name of player &quot;</span> <span class="o">+</span> <span class="nx">winnerDescString</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="nx">displayName</span> <span class="o">+</span> 
                                             <span class="s2">&quot;\\   color of player = &quot;</span> <span class="o">+</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span> <span class="nx">winnerClientName</span><span class="p">].</span><span class="nx">color</span> <span class="o">+</span> 
                                             <span class="s2">&quot;\\   time to win = &quot;</span> <span class="o">+</span> <span class="nx">m_puckPopperTimer_s</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">;</span>
@@ -1309,10 +1352,13 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="s1">&#39;Jet&#39;</span><span class="o">:</span> <span class="nx">Jet</span><span class="p">,</span>
       <span class="s1">&#39;Gun&#39;</span><span class="o">:</span> <span class="nx">Gun</span><span class="p">,</span>
       
-      
       <span class="c1">// Variables</span>
       <span class="s1">&#39;setPlayerCount&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span> <span class="nx">m_playerCount</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span> <span class="p">},</span>
-      <span class="s1">&#39;addToPlayerCount&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span> <span class="nx">m_playerCount</span> <span class="o">+=</span> <span class="nx">val</span><span class="p">;</span> <span class="p">},</span>
+      <span class="s1">&#39;incrementPlayerCount&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span> <span class="nx">m_playerCount</span> <span class="o">+=</span> <span class="nx">val</span><span class="p">;</span> <span class="p">},</span>
+      
+      <span class="s1">&#39;getTeamCount&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">m_teamCount</span><span class="p">;</span> <span class="p">},</span>
+      <span class="s1">&#39;resetTeams&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">m_teams</span> <span class="o">=</span> <span class="p">{};</span> <span class="p">},</span>
+      <span class="s1">&#39;getPucksByTypeAtStart&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">m_pucksByTypeAtStart</span><span class="p">;</span> <span class="p">},</span>
       
       <span class="s1">&#39;setNpcCount&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span> <span class="nx">m_npcCount</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span> <span class="p">},</span>
       <span class="s1">&#39;addToNpcCount&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span> <span class="nx">m_npcCount</span> <span class="o">+=</span> <span class="nx">val</span><span class="p">;</span> <span class="p">},</span>
@@ -1337,7 +1383,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="s1">&#39;gunAngleFromHost&#39;</span><span class="o">:</span> <span class="nx">gunAngleFromHost</span><span class="p">,</span>
       <span class="s1">&#39;jetAngleFromHost&#39;</span><span class="o">:</span> <span class="nx">jetAngleFromHost</span><span class="p">,</span>
       <span class="s1">&#39;deleteOldandUnhealthy&#39;</span><span class="o">:</span> <span class="nx">deleteOldandUnhealthy</span><span class="p">,</span>
-      <span class="s1">&#39;checkForPuckPopperWinnerAndReport&#39;</span><span class="o">:</span> <span class="nx">checkForPuckPopperWinnerAndReport</span>
+      <span class="s1">&#39;checkForPuckPopperWinnerAndReport&#39;</span><span class="o">:</span> <span class="nx">checkForPuckPopperWinnerAndReport</span><span class="p">,</span>
+      <span class="s1">&#39;updateTeamInfo&#39;</span><span class="o">:</span> <span class="nx">updateTeamInfo</span><span class="p">,</span>
+      <span class="s1">&#39;countTeams&#39;</span><span class="o">:</span> <span class="nx">countTeams</span>
    <span class="p">};</span>
 
 <span class="p">})();</span>
