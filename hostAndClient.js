@@ -650,8 +650,8 @@ window.hC = (function() {
          "<a onclick= \" $('#chkMultiplayer').trigger('click'); \">help panel</a>. " + 
          'Doing so will not disable connections.</br></br>'+
          
-         'Please notice the links to the <a href="client.html" target="_blank">client page</a>, in the right panel, below the "Friendly fire" checkbox. '+
-         'You can also get to the client page from the menu in the upper-left corner.</br></br>'+
+         'Please note the <a href="client.html" target="_blank">client</a> links in the right panel (below the "Friendly fire" checkbox). '+
+         'You can also get to the client from the site menu in the upper-left corner.</br></br>'+
          
          'When setting up the room as host, you might not get an immediate response from the server. It can take a little while for the Heroku node application to wake up. '+
          'If waking, give it 10 to 20 seconds before expecting a confimation message in this chat area.</br></br>'+

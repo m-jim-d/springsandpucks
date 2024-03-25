@@ -965,6 +965,7 @@ window.cP = (function() {
          this.nameTip_timer_s += deltaT_s;
          
          let font = uT.setDefault( pars.font, "20px Arial");
+         let teamFont = uT.setDefault( pars.teamFont, "18px Arial");
          let color = uT.setDefault( pars.color, 'lightgray');
          
          let nickName;
@@ -980,13 +981,14 @@ window.cP = (function() {
          let x_px = this.position_2d_px.x;
          
          // Draw nick name (over the puck)
-         var y_px = this.position_2d_px.y - this.radius_px - 3;
+         var y_px = this.position_2d_px.y - this.radius_px - 4;
          drawingContext.fillText( nickName, x_px, y_px);
          
          // Draw team name (inside the puck)
          let teamName = gW.clients[this.clientName].teamName;
          if (teamName) {
-            let lineHeight_px = parseInt( font.substring(0,3)) * 1.10;
+            drawingContext.font = teamFont;
+            let lineHeight_px = parseInt( teamFont.substring(0,3)) * 1.30;
             y_px = this.position_2d_px.y - this.radius_px + lineHeight_px;
             drawingContext.fillText( teamName, x_px, y_px); 
          }
