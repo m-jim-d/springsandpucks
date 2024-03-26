@@ -341,7 +341,7 @@ window.hC = (function() {
       // Check to see if there's a nickname in the chat input field.
       var nickName = checkForNickName( mode);
       if (nickName.status == 'too long') {
-         displayMessage('Nicknames must 10 characters or less. Shorten the name and then try connecting again.');
+         displayMessage('Nicknames must have 10 characters or less. Shorten the name and then try connecting again.');
          return;
       }
             
