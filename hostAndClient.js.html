@@ -437,7 +437,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="c1">// Check to see if there&#39;s a nickname in the chat input field.</span>
       <span class="kd">var</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="nx">checkForNickName</span><span class="p">(</span> <span class="nx">mode</span><span class="p">);</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="s1">&#39;too long&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">displayMessage</span><span class="p">(</span><span class="s1">&#39;Nicknames must 10 characters or less. Shorten the name and then try connecting again.&#39;</span><span class="p">);</span>
+         <span class="nx">displayMessage</span><span class="p">(</span><span class="s1">&#39;Nicknames must have 10 characters or less. Shorten the name and then try connecting again.&#39;</span><span class="p">);</span>
          <span class="k">return</span><span class="p">;</span>
       <span class="p">}</span>
             
@@ -739,14 +739,15 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          
          <span class="s1">&#39;To get started, type a short room name into the red box, then click the &quot;Create&quot; button.&lt;/br&gt;&lt;/br&gt;&#39;</span><span class="o">+</span>
          
-         <span class="s1">&#39;Optionally, provide a nickname in the chat field before clicking the &quot;Create&quot; button or starting a game.&lt;/br&gt;&lt;/br&gt;&#39;</span> <span class="o">+</span>
+         <span class="s1">&#39;Optionally, provide a nickname in the chat field before clicking the &quot;Create&quot; button or starting a game (e.g. bob). &#39;</span><span class="o">+</span>
+         <span class="s1">&#39;You may indicate team membership using the @ character (e.g. bob@green).&lt;/br&gt;&lt;/br&gt;&#39;</span> <span class="o">+</span>
          
          <span class="s1">&#39;Use the &quot;m&quot; key (or click the &quot;Multiplayer&quot; checkbox) to toggle between this chat panel (where leaderboard reports are presented) and the &#39;</span> <span class="o">+</span> 
          <span class="s2">&quot;&lt;a onclick= \&quot; $(&#39;#chkMultiplayer&#39;).trigger(&#39;click&#39;); \&quot;&gt;help panel&lt;/a&gt;. &quot;</span> <span class="o">+</span> 
          <span class="s1">&#39;Doing so will not disable connections.&lt;/br&gt;&lt;/br&gt;&#39;</span><span class="o">+</span>
          
-         <span class="s1">&#39;Please notice the links to the &lt;a href=&quot;client.html&quot; target=&quot;_blank&quot;&gt;client page&lt;/a&gt;, in the right panel, below the &quot;Friendly fire&quot; checkbox. &#39;</span><span class="o">+</span>
-         <span class="s1">&#39;You can also get to the client page from the menu in the upper-left corner.&lt;/br&gt;&lt;/br&gt;&#39;</span><span class="o">+</span>
+         <span class="s1">&#39;Please note the &lt;a href=&quot;client.html&quot; target=&quot;_blank&quot;&gt;client&lt;/a&gt; links in the right panel (below the &quot;Friendly fire&quot; checkbox). &#39;</span><span class="o">+</span>
+         <span class="s1">&#39;You can also get to the client from the site menu in the upper-left corner.&lt;/br&gt;&lt;/br&gt;&#39;</span><span class="o">+</span>
          
          <span class="s1">&#39;When setting up the room as host, you might not get an immediate response from the server. It can take a little while for the Heroku node application to wake up. &#39;</span><span class="o">+</span>
          <span class="s1">&#39;If waking, give it 10 to 20 seconds before expecting a confimation message in this chat area.&lt;/br&gt;&lt;/br&gt;&#39;</span><span class="o">+</span>
@@ -769,8 +770,10 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="s1">&#39;From here you can be a client in a multiplayer room. The room must be started (hosted) from the main triquence.org page. &#39;</span><span class="o">+</span>
          <span class="s1">&#39;Generally, a separate computer is used for hosting. For testing, the host and multiple clients can be run in separate windows on the same computer.&lt;/br&gt;&lt;/br&gt;&#39;</span><span class="o">+</span>
          
-         <span class="s1">&#39;To connect as a client, enter the room name (provided to you by the host), into the red box here, then click the &quot;Connect&quot; button. &#39;</span><span class="o">+</span> 
-         <span class="s1">&#39;Optionally, provide a nickname in the chat field before clicking the &quot;Connect&quot; button.&lt;/br&gt;&lt;/br&gt;&#39;</span> <span class="o">+</span>
+         <span class="s1">&#39;To connect as a client, enter the room name (provided to you by the host), into the red box here, then click the &quot;Connect&quot; button.&lt;/br&gt;&lt;/br&gt;&#39;</span><span class="o">+</span> 
+         
+         <span class="s1">&#39;Optionally, provide a nickname in the chat field before clicking the &quot;Connect&quot; button (e.g. bob). &#39;</span><span class="o">+</span>
+         <span class="s1">&#39;You may indicate team membership using the @ character (e.g. bob@green).&lt;/br&gt;&lt;/br&gt;&#39;</span> <span class="o">+</span>
          
          <span class="s1">&#39;To start over, or disconnect from the server, please reload the page.&#39;</span><span class="p">;</span>
       <span class="p">}</span>
