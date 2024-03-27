@@ -261,7 +261,8 @@ window.dS = (function() {
          hC.displayMessage('Nicknames must have more than 1 alphanumeric character.');
          
       } else if (nickNameResult.value) {
-         hC.displayMessage('Your nickname is ' + nickNameResult.value + '.');
+         let teamString = (nickNameResult.teamName) ? " Your team name is " + nickNameResult.teamName + "." : "";
+         hC.displayMessage('Your nickname is ' + nickNameResult.value + '.' + teamString);
       }
 
       // If no nickname yet (unless there's modify-capture JSON in the chat field), put back the nickname reminder tip in the chat input field.

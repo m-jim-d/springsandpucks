@@ -204,6 +204,7 @@ window.hC = (function() {
       var nnFieldValue = $('#nn_pool').val(); 
       var defaultValue = $('#inputField').prop('defaultValue'); //this is the value attribute in the html
       if (mode =='normal') {
+         // Generally, the chat field will be empty (or a command with :: in it and ignored above). If not, it's a nickname.
          if ((chatString != "") && (chatString != defaultValue)) { 
             let chatString_clean = chatString.replace(/[^a-zA-Z0-9@]/g, ''); // allow alphanumeric and the @ character
             
@@ -234,15 +235,18 @@ window.hC = (function() {
                $('input.nickNameField').val( nickName.value);
             }
          
-         // Nothing new, so use the current nick name if it's there.
+         // Nothing new in the chat, so use the current nick name if it's there.
          } else {
             if (hostOrClient == 'client') {
                nickName.value = cl.nickName;
                nickName.teamName = cl.teamName;
                
             } else if (hostOrClient == 'host') {
-               nickName.value = nnFieldValue;
-               cl.nickName    = nnFieldValue;
+               let nickNameParts = nnFieldValue.split("@");
+               // Note that teamName is not changed here. Only allowed to change the teamName via the chat field.
+               nickName.value = nickNameParts[0];
+               cl.nickName    = nickName.value;
+               $('input.nickNameField').val( nickName.value);
             }
          }
       
