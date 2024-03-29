@@ -792,6 +792,9 @@ window.hC = (function() {
             
             } else if (hostOrClient == 'host') {
                cl.nameFromServer = msg_object.userName;
+               // If you have reconnected as host, or if there is another room active, your new nickname may be in use by someone else, and therefore incremented by the server.
+               // Accept that incremented version of your nickname (e.g. bob15).
+               cl.nickName = msg_object.nickName;
             }
          
          // Client might get this warning...
