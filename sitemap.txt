@@ -4,3 +4,4 @@ https://triquence.org/multiplayer.html
 https://triquence.org/peer2peer.html
 https://triquence.org/client.html
 https://triquence.org/videos.html
+https://triquence.org/mouseandkeys.html
