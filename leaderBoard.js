@@ -475,6 +475,7 @@ window.lB = (function() {
       }
    }
    
+   
    // see comments before the "return" section of gwModule.js
    return {
       // Objects

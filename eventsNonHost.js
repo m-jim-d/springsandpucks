@@ -154,7 +154,7 @@ window.eVN = (function() {
       
       // Otherwise use socket.io (WebSocket)
       } else if (hC.get_socket()) {
-         hC.get_socket().emit('client-mK-event', JSON.stringify( mK));
+         hC.get_socket().emit('client-mK-event', mK);
       }
    }
    
@@ -315,7 +315,7 @@ window.eVN = (function() {
                // Use 4-finger touch to toggle fullscreen on the host.
                if ((e.touches.length == 4) && (fromListener != 'touchmove')) {
                   var control_message = {'from':cl.name, 'to':'host', 'data':{'fullScreen':'off'} };
-                  socket.emit('control message', JSON.stringify( control_message));
+                  socket.emit('control message', control_message);
                }
                */
                for (var i = 0, len = e.touches.length; i < len; i++) {
@@ -490,7 +490,7 @@ window.eVN = (function() {
             //$('#FullScreen').prop('disabled', true);
             if (hC.get_socket()) {
                var control_message = {'from':cl.name, 'to':'host', 'data':{'videoStream':'off'} };
-               hC.get_socket().emit('control message', JSON.stringify( control_message));
+               hC.get_socket().emit('control message', control_message);
                
                // Wait a bit for the above message to get to the host. Then clean out the
                // video element.

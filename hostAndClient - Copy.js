@@ -217,6 +217,17 @@ window.hC = (function() {
          let tab = "&nbsp;&nbsp;&nbsp;";
          let nameTypeString = (nameType == "nick") ? "nicknames" : "team names";
          displayString = "On the leaderboard<br>"+tab+"similar " + nameTypeString + ":&nbsp;&nbsp;" + similarList_string + "";
+         /*
+         if (hostOrClient == "client") {
+            displayString += 'Then, click the "Connect" button.';
+         } else if (hostOrClient == "host") {
+            if (socket) {
+               displayString += 'Then, click the "Create" button.';
+            } else {
+               displayString += "Then, restart the game.";
+            }
+         }
+         */
          
          if (similarList_string.indexOf(",") >= 0) displayMessage( displayString, {'color':'yellow'});
       }
@@ -561,7 +572,7 @@ window.hC = (function() {
          $('#nodeServerList').append("<option value='" + val + "'>");
       });
       //$("#nodeServer").attr("value", "192.168.1.106:3000");
-      //$("#nodeServer").attr("value", "localhost:3000");
+      $("#nodeServer").attr("value", "localhost:3000");
    
       var pingTestHelp = "Your ping test has started.<br><br>" +
                          "Please wait a few seconds for the results of the 100-ping test to return. Each time you hit enter or click the chat button " +
@@ -622,7 +633,6 @@ window.hC = (function() {
                   tab + 'cmd::{"to":"host","data":{"displayThis":"test string to room host"}}<br>' +
                   tab + 'cmd::{"to":"room","data":{"displayThis":"test string to the whole room"}}<br>' +
                   tab + 'cmd::{"to":"u20","data":{"displayThis":"test string to specific user"}}<br>' +
-                  tab + 'cmd::{"to":"jack","data":{"displayThis":"test string to specific user"}}<br>' +
                   "";
                displayMessage( helpString);
                // Put the first example into the chat field. This makes it easy to edit and submit.
@@ -633,8 +643,7 @@ window.hC = (function() {
                try {
                   let string = chatString.split('::')[1];
                   let messageCommand = JSON.parse( string);
-                  sendSocketControlMessage( messageCommand);
-                  if (socket.connected) displayMessage("command sent..."); // reassurance
+                  sendSocketControlMessage(  messageCommand);
                } catch(e) {
                   displayMessage('Might be an error in your JSON. Use " not single quotes.<br>' + e);
                   console.log("Error: " + e);
@@ -780,7 +789,7 @@ window.hC = (function() {
       });
       
       // Listen for similar-names report coming back from the server.
-      socket.on('name report', function( msg) {
+      socket.on('name report', function(msg) {
          var cl = referenceToClient();
          let tab = "&nbsp;&nbsp;&nbsp;";
          
@@ -799,8 +808,9 @@ window.hC = (function() {
       
       // Change the border color of the roomName input box depending on the 
       // message from the node server. And add additional info to the message.
-      socket.on('room-joining-message', function( msg_object) {
+      socket.on('room-joining-message', function( msg_string) {
          debug( db.rtc,'inside room-joining-message listener');
+         var msg_object = JSON.parse( msg_string);
          var msg = msg_object.message;
          
          var cl = referenceToClient();
@@ -861,7 +871,7 @@ window.hC = (function() {
                   if (clientDeviceType == 'mobile') {
                      // Let the host know this (pure Two-Thumbs) so the client cursor can be inhibited.
                      var control_message = {'from':cl.name, 'to':'host', 'data':{'clientDeviceType':'mobile'} };
-                     socket.emit('control message', control_message);
+                     socket.emit('control message', JSON.stringify( control_message));
                      
                      msg += ''+
                      "</br></br>"+
@@ -920,12 +930,12 @@ window.hC = (function() {
          debug( db.rtc,'inside connect listener');
          
          if (hostOrClient == 'host') {
-            socket.emit('roomJoin', {'hostOrClient':hostOrClient,'roomName':roomName} );
+            socket.emit('roomJoin', JSON.stringify({'hostOrClient':hostOrClient,'roomName':roomName}));
             
          } else if (hostOrClient == 'client') {
-            socket.emit('roomJoin', {'hostOrClient':hostOrClient,'roomName':roomName,
-                                     'player':dC.chkPlayer.checked,
-                                     'requestStream':dC.chkRequestStream.checked} );
+            socket.emit('roomJoin', JSON.stringify({'hostOrClient':hostOrClient,'roomName':roomName,
+                                                    'player':dC.chkPlayer.checked,
+                                                    'requestStream':dC.chkRequestStream.checked}));
          }
       });
       
@@ -955,35 +965,38 @@ window.hC = (function() {
       
       // WebRTC Signaling.
       // This handles signaling from both sides of the peer-to-peer connection.
-      socket.on('signaling message', function( msg) {         
-         if (msg.from == 'host') {
-            var clientName = msg.to;
+      socket.on('signaling message', function( msg) {
+         // Convert it back to a usable object (parse it).
+         var signal_message = JSON.parse(msg);
+         
+         if (signal_message.from == 'host') {
+            var clientName = signal_message.to;
          } else {
-            var clientName = msg.from;
+            var clientName = signal_message.from;
          }
          var cl = referenceToClient( clientName);
          
          // Note that signalData needs to be in a stringified form when writing to the console.
-         debug( db.rtc,"signal message from " + msg.from + ", to " + msg.to + ": " + JSON.stringify( msg.signalData));
+         debug( db.rtc,"signal message from " + signal_message.from + ", to " + signal_message.to + ": " + JSON.stringify( signal_message.signalData));
          
          // Offers and Answers
-         if (msg.signalData.sdp) {
-            if (msg.signalData.type == 'offer') {
+         if (signal_message.signalData.sdp) {
+            if (signal_message.signalData.type == 'offer') {
                debug( db.rtc,"an offer");
-               handleOffer( clientName, msg.signalData);
+               handleOffer( clientName, signal_message.signalData);
                
-            } else if (msg.signalData.type == 'answer') {
+            } else if (signal_message.signalData.type == 'answer') {
                debug( db.rtc,"an answer");
-               handleAnswer( clientName, msg.signalData);
+               handleAnswer( clientName, signal_message.signalData);
                
             } else {
                console.log("Woooooo-HoHo-Hoooooo, this can't be good.");
             }
          
          // ICE candidates
-         } else if (msg.signalData.candidate) {
+         } else if (signal_message.signalData.candidate) {
             // handle ICE stuff.
-            cl.rtc.pc.addIceCandidate( msg.signalData)
+            cl.rtc.pc.addIceCandidate( signal_message.signalData)
             .then( function() {
                debug( db.rtc,'signaling state after handling ICE candidate = ' + cl.rtc.pc.signalingState);
             })
@@ -1001,19 +1014,22 @@ window.hC = (function() {
       
       socket.on('control message', function( msg) {
          // General receiver of control messages. This can be used by either the host or a client to
-         // receive messages from anyone. Note that the server directs the control messages according to its
-         // msg.to values: 'host', 'room', 'roomNoSender', or a specific user name like 'u15'.
+         // receive messages from anyone. Note that the server directs these messages according to the following
+         // message.to values: 'host', 'room', 'roomNoSender', or a specific user name like 'u15'.
          
          // (Refer to the handler for command-from-host-to-all-clients for a similar but more specific approach to
          // command processing.)
          
+         // Convert the raw msg back to a usable object (parse it).
+         var message = JSON.parse( msg);
+         
          // Control actions allowed on both the host and client pages.
-         if (msg.data['displayThis']) {
-            displayMessage( msg.data['displayThis']);
+         if (message.data['displayThis']) {
+            displayMessage( message.data['displayThis']);
             
-         } else if (msg.data['dbrtc']) {
-            displayMessage( "RTC debug setting = " + msg.data['dbrtc']);
-            if (msg.data['dbrtc'] == "on") {
+         } else if (message.data['dbrtc']) {
+            displayMessage( "RTC debug setting = " + message.data['dbrtc']);
+            if (message.data['dbrtc'] == "on") {
                db.rtc = true;
             } else {
                db.rtc = false;
@@ -1023,70 +1039,70 @@ window.hC = (function() {
          // Control actions allowed only on the host's page.
          // Note the use of gW.clients here. This is only available on the host device.
          if (hostOrClient == 'host') {
-            if (msg.data['videoStream'] == 'off') {
-               gW.clients[ msg.from].rtc.turnVideoStreamOff();
+            if (message.data['videoStream'] == 'off') {
+               gW.clients[ message.from].rtc.turnVideoStreamOff();
                
-            } else if (msg.data['fullScreen'] == 'off') {
+            } else if (message.data['fullScreen'] == 'off') {
                console.log('full screen requested off by client');
                // I played around with trying to do something here, but the browsers fullscreen API requires that
                // a change starts with a gesture. The error: '...API can only be initiated by a user gesture.'
                
-            } else if (msg.data['clientDeviceType'] == 'mobile') {
+            } else if (message.data['clientDeviceType'] == 'mobile') {
                // Attribute to inhibit client cursor.
-               gW.clients[ msg.from].deviceType = 'mobile';
-               console.log('client ' + msg.from + ' is in mobile mode');
+               gW.clients[ message.from].deviceType = 'mobile';
+               console.log('client ' + message.from + ' is in mobile mode');
                
-            } else if (msg.data['puckPopped']) {
-               if (msg.data['puckPopped'].value == 'probeAtHost') {
+            } else if (message.data['puckPopped']) {
+               if (message.data['puckPopped'].value == 'probeAtHost') {
                   // Check to see if the requesting client is still in the clients object and still has a puck.
-                  if ((msg.from in gW.clients) && (gW.clients[ msg.from].puck)) {
+                  if ((message.from in gW.clients) && (gW.clients[ message.from].puck)) {
                      var puckPopped = false;
                   } else {
                      var puckPopped = true;
                   }
                   // Send reply message back to the client.
-                  var control_message = {'from':'host', 'to':msg.from, 'data':{'puckPopped':{'value':puckPopped}} };
+                  var control_message = {'from':'host', 'to':message.from, 'data':{'puckPopped':{'value':puckPopped}} };
                   sendSocketControlMessage( control_message);
                   
                   // Sync the gun and jet angles, i.e. send angles out to the clients.
-                  if (gW.clients[ msg.from]) pP.gunAngleFromHost( gW.clients[ msg.from], 0, true);
-                  if (gW.clients[ msg.from]) pP.jetAngleFromHost( gW.clients[ msg.from]);
+                  if (gW.clients[ message.from]) pP.gunAngleFromHost( gW.clients[ message.from], 0, true);
+                  if (gW.clients[ message.from]) pP.jetAngleFromHost( gW.clients[ message.from]);
                }
                
-            } else if (msg.data['twoThumbsEnabled']) {
-               if (gW.clients[ msg.from]) gW.clients[ msg.from].twoThumbsEnabled = msg.data['twoThumbsEnabled'].value;
+            } else if (message.data['twoThumbsEnabled']) {
+               if (gW.clients[ message.from]) gW.clients[ message.from].twoThumbsEnabled = message.data['twoThumbsEnabled'].value;
                
-            } else if (msg.data['androidDebug']) {
-               gW.messages['lowHelp'].newMessage( msg.data['androidDebug'].debugString, 10.0);
+            } else if (message.data['androidDebug']) {
+               gW.messages['lowHelp'].newMessage( message.data['androidDebug'].debugString, 10.0);
             }
             
          // Control actions allowed only the client page.
          } else if (hostOrClient == 'client') {
-            if (msg.data['canvasResize']) {
-               console.log("command to resize canvas: " + msg.data['canvasResize'].width + ", " + msg.data['canvasResize'].height);
-               videoMirror.width = msg.data.canvasResize.width; 
-               videoMirror.height = msg.data.canvasResize.height;
+            if (message.data['canvasResize']) {
+               console.log("command to resize canvas: " + message.data['canvasResize'].width + ", " + message.data['canvasResize'].height);
+               videoMirror.width = message.data.canvasResize.width; 
+               videoMirror.height = message.data.canvasResize.height;
                
-               demoRunningOnHost = msg.data['demoVersion'];
+               demoRunningOnHost = message.data['demoVersion'];
                
-            } else if (msg.data['gunAngle']) {
-               twoThumbs.processGunAngleFromHost( msg.data);
+            } else if (message.data['gunAngle']) {
+               twoThumbs.processGunAngleFromHost( message.data);
                
-            } else if (msg.data['jetAngle']) {
-               twoThumbs.processJetAngleFromHost( msg.data);
+            } else if (message.data['jetAngle']) {
+               twoThumbs.processJetAngleFromHost( message.data);
                
-            } else if (msg.data['drawSync']) {
-               if (msg.data['drawSync'].value) {
+            } else if (message.data['drawSync']) {
+               if (message.data['drawSync'].value) {
                   refresh_P2P_indicator({'mode':'sync'});
                } else {
                   refresh_P2P_indicator({'mode':'p2p'});
                }
                
-            } else if (msg.data['puckPopped']) {
-               twoThumbs.setPuckPopped( msg.data['puckPopped'].value);
+            } else if (message.data['puckPopped']) {
+               twoThumbs.setPuckPopped( message.data['puckPopped'].value);
                
-            } else if (msg.data['controlKey']) {
-               mK['ct'] = msg.data['controlKey'].value;
+            } else if (message.data['controlKey']) {
+               mK['ct'] = message.data['controlKey'].value;
                eVN.handle_sending_mK_data( mK);
             }
          }
@@ -1096,7 +1112,9 @@ window.hC = (function() {
 
       if (hostOrClient == 'client') {  
          socket.on('your name is', function( msg) {
-            var name = uT.setDefault( msg.name, null);
+            var message = JSON.parse( msg);
+            
+            var name = uT.setDefault( message.name, null);
             // To see where nickName and teamName are sent to the host, look at the emit to 
             // new-game-client on the server and the corresponding listener here.
             
@@ -1119,10 +1137,12 @@ window.hC = (function() {
          });
          
          socket.on('disconnectByServer', function( msg) {
-            debug( db.rtc,'in client disconnectByServer, msg=' + msg.name + ',' + msg.originator);
+            var message = JSON.parse( msg);
             
-            var clientName = msg.name;
-            displayMessage("This client (" + clientName + ") is being disconnected by the " + msg.originator + ".");
+            debug( db.rtc,'in client disconnectByServer, msg=' + message.name + ',' + message.originator);
+            
+            var clientName = message.name;
+            displayMessage("This client (" + clientName + ") is being disconnected by the " + message.originator + ".");
             document.getElementById("roomName").style.borderColor = "red";
             
             // When the server gets this one, it will remove the socket.
@@ -1147,8 +1167,9 @@ window.hC = (function() {
          // specific host-to-all-clients approach.
          socket.on('command-from-host-to-all-clients', function( msg) {
             // Clients (only) do something based on the message from the host.
-            var type = msg.type;
-            var command = msg.command;
+            var command_message = JSON.parse( msg);
+            var type = command_message.type;
+            var command = command_message.command;
             
             if (type == 'resize') {
                if (clientDeviceType == 'mobile') command = 'mobile';
@@ -1173,20 +1194,22 @@ window.hC = (function() {
          
          // Listen for client mouse and keyboard (mk) events broadcast from the server.
          // StH: Server to Host
-         socket.on('client-mK-StH-event', function( msg) {
-            let mk_data = msg;
+         socket.on('client-mK-StH-event', function(msg) {
+            var mk_data = JSON.parse( msg);
             // On the host, update the mouse-and-keyboard state for the specified client.
             cT.updateClientState( mk_data.name, mk_data);
          });
          
          // As host, create a new client in gW framework.
-         socket.on('new-game-client', function( msg) {
-            var streamRequested = msg.requestStream;
+         socket.on('new-game-client', function(msg) {
+            var msgParsed = JSON.parse(msg);
             
-            var clientName = msg.clientName;
-            var player     = msg.player;
-            var nickName   = msg.nickName;
-            var teamName   = msg.teamName;
+            var streamRequested = msgParsed.requestStream;
+            
+            var clientName = msgParsed.clientName;
+            var player     = msgParsed.player;
+            var nickName   = msgParsed.nickName;
+            var teamName   = msgParsed.teamName;
             
             createNetworkClient({'clientName':clientName, 'player':player, 'nickName':nickName, 'teamName':teamName});
             
@@ -1257,14 +1280,14 @@ window.hC = (function() {
    }
    function resizeClients( command) {
       if (socket) {
-         socket.emit('command-from-host-to-all-clients', {'type':'resize', 'command':command} );
+         socket.emit('command-from-host-to-all-clients', JSON.stringify({'type':'resize', 'command':command}));
       }
    }
    function sendSocketControlMessage( message) {
-      // This emit is received and distributed at the server in its 'control message' handler. Then
+      // This is received and distributed at the server in its 'control message' handler. Then
       // received and processed at the host or client in their 'control message' handler.
       if (socket) {
-         socket.emit('control message', message);
+         socket.emit('control message', JSON.stringify( message));
       }
    }
 
@@ -1286,7 +1309,7 @@ window.hC = (function() {
          if (evt.candidate) {
             // send any ice candidates to the other peer
             var signal_message = {'from':cl.rtc.user1, 'to':cl.rtc.user2, 'signalData':evt.candidate};
-            socket.emit('signaling message', signal_message);
+            socket.emit('signaling message', JSON.stringify( signal_message));
          }
       };
       
@@ -1424,7 +1447,7 @@ window.hC = (function() {
       })
       .then( function() {
          var signal_message = {'from':cl.rtc.user1, 'to':cl.rtc.user2, 'signalData':cl.rtc.pc.localDescription};
-         socket.emit('signaling message', signal_message);
+         socket.emit('signaling message', JSON.stringify( signal_message));
          debug( db.rtc,'signaling state after createOffer = ' + cl.rtc.pc.signalingState);
       })
       .catch( function(reason) {
@@ -1445,7 +1468,7 @@ window.hC = (function() {
       .then( function() {
          // Send the answer (localDescription) to the remote peer
          var signal_message = {'from':cl.rtc.user1, 'to':cl.rtc.user2, 'signalData':cl.rtc.pc.localDescription};
-         socket.emit('signaling message', signal_message);
+         socket.emit('signaling message', JSON.stringify( signal_message));
          debug( db.rtc,'signaling state after handleOffer = ' + cl.rtc.pc.signalingState);
       })
       .catch( function( reason) {

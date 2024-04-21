@@ -296,7 +296,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          
          <span class="k">if</span> <span class="p">(</span><span class="nx">href</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">href</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">))</span> <span class="p">{</span>
             
-            <span class="c1">// local server</span>
+            <span class="c1">// IP address on local network</span>
             <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;192.168.1.106&quot;</span><span class="p">))</span> <span class="p">{</span>
                <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;https://triquence.org&quot;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;http://192.168.1.106/ttc-root&quot;</span><span class="p">);</span>
@@ -306,6 +306,36 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                   
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;waconia.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://waconia.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;http://192.168.1.106/waconia-50webs-dev&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                  <span class="c1">// nothing yet...</span>
+               <span class="p">}</span>
+                   
+            <span class="c1">// nuc on local network</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;nuc/&quot;</span><span class="p">))</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;https://triquence.org&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;http://nuc/ttc-root&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;pet.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://pet.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;http://nuc/pet-dev&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;waconia.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://waconia.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;http://nuc/waconia-50webs-dev&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                  <span class="c1">// nothing yet...</span>
+               <span class="p">}</span>
+                   
+            <span class="c1">// secure localhost only on local server</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;localhost&quot;</span><span class="p">))</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;https://triquence.org&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://localhost/ttc-root&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;pet.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://pet.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://localhost/pet-dev&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">href</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;waconia.triquence&quot;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">finalHref</span> <span class="o">=</span> <span class="nx">href</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span> <span class="s2">&quot;https://waconia.triquence.org&quot;</span><span class="p">,</span> <span class="s2">&quot;https://localhost/waconia-50webs-dev&quot;</span><span class="p">);</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                   <span class="c1">// nothing yet...</span>
