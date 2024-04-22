@@ -358,6 +358,8 @@ window.eV = (function() {
       var finalPosOnCanvas_2d_px = wS.fineMoves('local', posOnCanvas_2d_px);
       if (clients['local'].fineMovesState != 'inTransition') {
          clients['local'].mouse_async_2d_px = finalPosOnCanvas_2d_px;
+         // You might think this circle would render more frequently than the cursor in the animation loop. However the browser forces
+         // the mouse events to coalesces with requestAnimationFrame (see discussion at the beginning of the animation loop in gwModule.js).          
          if (c.lagTesting) dF.drawCircle( ctx, finalPosOnCanvas_2d_px, {'borderWidth_px':0, 'fillColor':'cyan', 'radius_px':3});
       }
    }

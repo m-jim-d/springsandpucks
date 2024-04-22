@@ -784,6 +784,8 @@ window.cT = (function() {
          var posOnCanvas_2d_px = new wS.Vec2D( state.mX, state.mY);
          // facilitate high-resolution cursor movements
          var finalPosOnCanvas_2d_px = wS.fineMoves( clientName, posOnCanvas_2d_px);
+         // If the client mouse moves quickly, this white circle will render more frequently than the client cursor. The webRTC datachannel
+         // events are not forced to coalesce with requestAnimationFrame timing.
          if (gW.getLagTesting()) dF.drawCircle( x_ctx, finalPosOnCanvas_2d_px, {'borderWidth_px':0, 'fillColor':'white', 'radius_px':3});
          if (client.fineMovesState != 'inTransition') {
             client.mouse_async_2d_px = finalPosOnCanvas_2d_px;

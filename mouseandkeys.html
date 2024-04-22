@@ -329,7 +329,7 @@
    </tr>
    
    <tr>
-      <td class="keys" colspan=5><strong>gobal, affects all pucks<strong></td>
+      <td class="keys" colspan=5><strong>global, affects all pucks<strong></td>
    </tr>
    
    <tr>
@@ -377,7 +377,8 @@
       <td></td>
       <td></td>
       <td></td>
-      <td class="desc">Toggles between WebRTC (P2P) and Socket.io.</td>
+      <td class="desc">Toggles between WebRTC (P2P) and Socket.io. This changes the path the client events travel to get to the host. P2P is the shortest.
+      Socket.io involves the node server, which is usually the scenic route.</td>
    </tr>
    <tr>
       <td class="keys">alt - p</td>
@@ -399,6 +400,20 @@
       <td></td>
       <td></td>
       <td class="desc">Toggles multiplayer options and displays the connection and chat area in the left panel.</td>
+   </tr>
+   <tr>
+      <td class="keys">lagtest</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">
+      <details>
+      <summary title="click for details">cursor-lag testing</summary>
+      If "lagtest" is in the chat before checking "Local cursor" ("Multiplayer"), a circle is drawn to visualize the difference between the rendered cursor and system cursor. 
+      Cursor speed is used to calculate the radius at 2-frames out from the rendered cursor. 
+      Search for "lagtest", "lagTesting", and "getLagTesting" in the code for more discussion.
+      </details>
+      </td>
    </tr>
    
    <tr>
@@ -627,6 +642,13 @@
       <td></td>
       <td></td>
       <td class="desc">With the "s" key held down, the "<" and ">" keys change the damping (shock absorbers) of selected springs.</td>
+   </tr>
+   <tr>
+      <td class="keys">shift - s</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="desc">Toggles the spring type for new springs, and displays a corresponding report on existing springs.</td>
    </tr>
    
    <tr>
