@@ -250,6 +250,13 @@ window.hC = (function() {
       // Ignore commands in the chat.
       } else if (chatString.includes("::")) {
          return nickName;
+      // Go back to being anonymous.
+      } else if (chatString == "noname") {
+         cl.nickName = null;
+         cl.teamName = null;
+         $('#inputField').val('');
+         $('input.nickNameField').val('');
+         return nickName;
       }
 
       // nickname input field in the ghost-ball pool help panel (all the nick-name fields should be in sync, so just snag from any of these fields)
@@ -404,6 +411,7 @@ window.hC = (function() {
             
       // Check to see if there's a nickname in the chat input field.
       var nickName = checkForNickName( mode);
+      
       if (nickName.status == 'too long') {
          displayMessage('Nicknames must have 10 characters or less. Shorten the name and then try connecting again.');
          return;
@@ -599,18 +607,23 @@ window.hC = (function() {
                   $('#inputField').val('');
                }
             
+            } else if (chatString == "noname") {
+               connect_and_listen('normal');
+               $('#inputField').val('');
+            
             } else if (chatString == "help") {
                let tab = "&nbsp;&nbsp;&nbsp;&nbsp";
                let helpString = "Commands:<br>" +
-                  tab + "<strong>help</strong>: list of the network commands than can run from the chat field.<br>" +
+                  tab + "<strong>help</strong>: list of the network commands than can run from the chat field<br>" +
                   tab + "<strong>rr</strong>: room report on connections to this room<br>" +
                   tab + "<strong>dcir</strong>: disconnect the clients in this room<br>" +
                   tab + "<strong>ping</strong>: ping test to the server<br>" +
                   tab + "<strong>ping:host</strong>: ping test to the host<br>" +
-                  tab + "<strong>ping:p2p-uN</strong>: ping test to another p2p client, where N is an integer.<br>" +
-                  tab + "<strong>cmd</strong>: get more detailed help on the cmd commands.<br>" +
-                  tab + "<strong>lb</strong>: get more detailed help on leaderboard queries.<br>" +
-                  tab + "<strong>dbrtc</strong>: get more detailed help on debugging WebRTC stuff.<br>" +
+                  tab + "<strong>ping:p2p-uN</strong>: ping test to another p2p client, where N is an integer<br>" +
+                  tab + "<strong>cmd</strong>: get more detailed help on the cmd commands<br>" +
+                  tab + "<strong>lb</strong>: get more detailed help on leaderboard queries<br>" +
+                  tab + "<strong>dbrtc</strong>: get more detailed help on debugging WebRTC stuff<br>" +
+                  tab + "<strong>noname</strong>: reconnect as anonymous<br>" +
                   "";
                displayMessage( helpString);
                $('#inputField').val('');
@@ -889,6 +902,8 @@ window.hC = (function() {
                // If you have reconnected as host, or if there is another room active, your new nickname may be in use by someone else, and therefore incremented by the server.
                // Accept that incremented version of your nickname (e.g. bob15).
                cl.nickName = msg_object.nickName;
+               // Also reset all the nickname fields near each game.
+               $('input.nickNameField').val( cl.nickName);
             }
          
          // Client might get this warning...

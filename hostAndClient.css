@@ -397,17 +397,17 @@ button.chat {
    width: 4.8em;
 }
 
-input.nickNameField {
+input.nickNameField, input.bphPassword {
    outline: 0;
    border-width: 0 0 2px;
    border-color: black;
    width: 90px
 }
-input.nickNameField:focus {
+input.nickNameField:focus, input.bphPassword:focus {
    border-color: green;
    background-color: lightgreen;
 }
-input.nickNameField:invalid:focus {
+input.nickNameField:invalid:focus, input.bphPassword:invalid:focus {
    border-color: gray;
    background-color: #FCF55F; /* shade of yellow */
 }

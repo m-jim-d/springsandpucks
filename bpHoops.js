@@ -41,6 +41,11 @@ window.bpH = (function() {
    
    var m_wallMap = {'wall5':'leftHoop', 'wall12':'rightHoop', 'wall21':'backboard', 'wall23':'bottomSensor', 'wall24':'topSensor'};
    
+   
+   let monkeyText = '\\[30px Arial]"Independent voters tend to be more pragmatic in their political views, weighing the specifics of ' + 
+                    '\\[30px Arial]each issue rather than aligning strictly with one party' +"'"+ 's platform across the board." ' + 
+                    '\\ \\[20px Arial](Source: "The Rise of Independent Voters" by Rhodes Cook in a 2012 Bipartisan Policy Center report)' +
+                    '\\ \\[30px Arial](Hmm, you look vaguely familiar. Didn' +"'"+ 't we see you in Monkey Hunt?)'
    var m_nameMap = {
       'trump2':   {'name':'Donald', 'title':'   (former President of the United States, Donald Trump)'}, 
       'biden2':   {'name':'Joe',    'title':'   (President of the United States, Joe Biden)'}, 
@@ -49,13 +54,37 @@ window.bpH = (function() {
       'pelosi':   {'name':'Nancy',  'title':'   (Speaker of the United States House of Representatives, Nancy Pelosi)'}, 
       'schumer':  {'name':'Chuck',  'title':'   (Majority Leader of the United States Senate, Chuck Schumer)'}, 
       'mcconnell':{'name':'Mitch',  'title':'   (Minority Leader of the United States Senate, Mitch McConnell)'}, 
-      'mccarthy': {'name':'Kevin',  'title':'   (Minority Leader of the United States House of Representatives, Kevin McCarthy)'}
+      'mccarthy': {'name':'Kevin',  'title':'   (Minority Leader of the United States House of Representatives, Kevin McCarthy)'},
+      
+      'elephant-1': {'name':'Republican',  
+         'title':'\\[30px Arial]"The Republican Party was founded in 1854 by former members of the Whig Party\\[30px Arial]who opposed the expansion of slavery into the western territories."\\ \\[20px Arial](Source: "History of the Republican Party" at www.gop.com)'},
+      'elephant-2': {'name':'Republican',  
+         'title':'\\[30px Arial]"Abraham Lincoln, the 16th President of the United States, was the first Republican president,\\[30px Arial]leading the nation during the American Civil War."\\ \\[20px Arial](Source: Biography.com' +"'s"+ ' "Abraham Lincoln" page)'},
+      'elephant-3': {'name':'Republican',  
+         'title':'\\[30px Arial]"The Republican Party' +"'"+ 's pro-business philosophy rejects the notion that the economy is a fixed pie, \\[30px Arial]in which one person' +"'"+ 's gain is another' +"'"+ 's loss." \\ \\[20px Arial](Source: "The Republican Way" by Michael Barone in The Wall Street Journal, August 11, 2016)'},
+      'elephant-4': {'name':'Republican',  
+         'title':'\\[30px Arial]"The Republican Party has been a champion of limiting the size and scope \\[30px Arial]of the federal government, advocating for lower taxes and deregulation." \\ \\[20px Arial](Source: "Basic Republican Principles" by Ed Feulner in The Heritage Foundation, February 25, 2013)'},
+      
+      'donkey-1':   {'name':'Democrat',    
+         'title':'\\[30px Arial]"The Democratic Party championed the cause of small farmers, urban laborers, \\[30px Arial]and immigrant groups in the late 19th century under President Grover Cleveland' +"'"+ 's leadership." \\ \\[20px Arial](Source: "The Democratic Party" by Nelson W. Polsby in Handbook of Political Science, Addison-Wesley, 1975)'},
+      'donkey-2':   {'name':'Democrat',    
+         'title':'\\[30px Arial]"Democrats have positioned themselves as supporters of workers' +"'"+ ' rights, \\[30px Arial]fighting for issues like a higher minimum wage, paid family leave, and labor union protections." \\ \\[20px Arial](Source: "The Democrats and American Labor" by Michael Kazin in Dissent Magazine, Summer 2019)'},
+      'donkey-3':   {'name':'Democrat',    
+         'title':'\\[30px Arial]"The Democratic Party was the party of the ' +"'"+ 'common man' +"'"+ ' and favored westward expansion, \\[30px Arial]territorial acquisition, and cheap land for settlers in the 19th century." \\ \\[20px Arial](Source: "The Rise of the Democratic Party" by Sean Wilentz in The New York Times, April 26, 2005)'},
+      'donkey-4':   {'name':'Democrat',    
+         'title':'\\[30px Arial]The Democratic Party has been a champion of civil rights, from President Harry Truman' +"'"+ 's \\[30px Arial]integration of the armed forces to Lyndon B. Johnson signing the Civil Rights Act of 1964. \\ \\[20px Arial](Source: "The Democrats' +"'"+ ' Civil Rights History" by John Hendrickson in The Atlantic, July 22, 2020)'},
+      
+      'monkey':     {'name':'Independent', 
+         'title': monkeyText},
    };
 
-   var m_democratNames = ['biden2','harris','schumer','pelosi'];
-   var m_republicanNames = ['trump2','pence','mcconnell','mccarthy'];
+   var m_democratNames = ['biden2','harris','schumer','pelosi','donkey-1','donkey-2','donkey-3','donkey-4'];
+   var m_republicanNames = ['trump2','pence','mcconnell','mccarthy','elephant-1','elephant-2','elephant-3','elephant-4'];
+   var m_independentNames = ['monkey'];
    
-   var m_numberNames = {0:'Zero',1:'One',2:'Two',3:'Three',4:'Four',5:'Five',6:'Six',7:'Seven',8:'Eight'};
+   var m_numberNames = {0:'Zero',1:'One',2:'Two',3:'Three',4:'Four',5:'Five',6:'Six',7:'Seven',8:'Eight',9:'Nine'};
+   
+   var m_version = "v2";
    
    // module globals for objects brought in by initializeModule
    // (none)
@@ -98,9 +127,10 @@ window.bpH = (function() {
       gW.messages['help2'].resetMessage();
    }
    
-   function initializeGame() {
+   function initializeGame( version="v2") {
       stopAllTimers();
       
+      m_version = version;
       m_reportedWin = false;
       m_humanUseOfBasketBall = false;
       m_timeOfStart = new Date().getTime();
@@ -114,6 +144,7 @@ window.bpH = (function() {
       // Make a roster based on the politician faces in the capture.
       let someDemocrats = false;
       let someRepublicans = false;
+      let someIndependents = false;
       m_millerAvailable = false
       m_playList = [];
       for (let puckName in gW.aT.puckMap) {
@@ -125,15 +156,21 @@ window.bpH = (function() {
             someDemocrats = true;
          } else if (m_republicanNames.includes( imageID)) {
             someRepublicans = true;
+         } else if (m_independentNames.includes( imageID)) {
+            someIndependents = true;
          } else if (imageID == 'miller') {
             m_millerAvailable = true;
          }
       }
       //m_playList = ['biden2','harris'];  // for quick testing...
       //m_playList = ['biden2'];  // for even quicker testing...
+      //m_playList = ['donkey-1','elephant-1'];  // v2 testing...
+      
       m_initialTeamSize = m_playList.length;
       
-      if (someDemocrats && someRepublicans) {
+      if (someDemocrats && someRepublicans && someIndependents) {
+         m_partisanNature = 'from all three political perspective.';
+      } else if (someDemocrats && someRepublicans) {
          m_partisanNature = 'from both sides of the aisle';
       } else if (someDemocrats && !someRepublicans) {
          m_partisanNature = 'from the democratic side of the aisle';
@@ -141,16 +178,25 @@ window.bpH = (function() {
          m_partisanNature = 'from the republican side of the aisle';
       } else if (!someDemocrats && !someRepublicans) {
          m_partisanNature = 'from either side of the aisle';
+      } else {
+         m_partisanNature = 'from a variety of political perspective.';
       }
       
       gW.messages['gameTitle'].loc_px = {'x':450,'y':350};
       
       gW.messages['gameTitle'].setFont('50px Arial');
       gW.messages['gameTitle'].popAtEnd = false;
-      gW.messages['gameTitle'].newMessage("Bipartisan Hoops " + "[50px Arial, #CD5A00](" + String.fromCharCode(8217) + "21-" + String.fromCharCode(8217) + "22)[base]" +
-              "\\  [30px Arial, lightgray]a game for the weary U.S. citizen[base]", 5.0); 
+      if (version == "v2") {
+         gW.messages['gameTitle'].newMessage("Bipartisan Hoops[base]" +
+                 "\\  [30px Arial, lightgray]a game for the curious U.S. citizen[base]", 5.0); 
+      } else {
+         gW.messages['gameTitle'].newMessage("Bipartisan Hoops " + "[50px Arial, #CD5A00](" + String.fromCharCode(8217) + "21-" + String.fromCharCode(8217) + "22)[base]" +
+                 "\\  [30px Arial, lightgray]a game for the weary U.S. citizen[base]", 5.0); 
+      }
       
       gW.messages['help'].loc_px = {'x':75,'y':95};
+      let politicianPhrase = (m_version == "v2") ? "mascots" : "politicians (or me)";
+      let facePhrase = (m_version == "v2") ? "mascot" : "face";
       gW.messages['help'].newMessageSeries({
          1:{'tL_s':8.0, 'message':"The view:" + 
                                 "\\    use the \"[base,yellow]esc[base]\" key to exit back to normal view" +
@@ -159,7 +205,7 @@ window.bpH = (function() {
                                 "\\    \"[base,yellow]0[base]\" key to exit and reset (nuke) everything"},
          2:{'tL_s':8.0, 'message':'Position the ball before the shot:' + 
                                 '\\    hold the "[base,yellow]ctrl[base]" key down while dragging the basketball' + 
-                                '\\    in a similar way, encourage one of the politicians (or me) to get into the game'},
+                                '\\    in a similar way, encourage one of the ' + politicianPhrase + ' to get into the game'},
          3:{'tL_s':8.0, 'message':"Aim your shot:" + 
                                 "\\    [base,yellow]drag[base] the cursor, over, and then off the basketball, to change shot speed and direction" +
                                 "\\    (you'll see the predicted path of the ball)"},
@@ -175,8 +221,8 @@ window.bpH = (function() {
                                 '\\    [base,yellow]300[base]: bank shot that rattles in' + 
                                 '\\    [base,yellow]400[base]: clean bank shot'},
          7:{'tL_s':12.0, 'message':'Aim for a bank shot:' + 
-                                '\\    Bank shots with a face are easier if it hits the backboard with a [base,yellow]vertical[base] orientation.' + 
-                                "\\    Click on a face while it's resting on the ground," + 
+                                '\\    Bank shots with a ' + facePhrase + ' are easier if it hits the backboard with a [base,yellow]vertical[base] orientation.' + 
+                                "\\    Click on a " + facePhrase + " while it's resting on the ground," + 
                                 '\\    then use the [base,yellow]"c"[base] key to attach to the center (and avoid rotation).' + 
                                 '\\    This will keep the orientation vertical while aiming the shot.'},
          8:{'tL_s':8.0, 'message':"Try unlocked shooting (flinging can be fun):" + 
@@ -185,7 +231,7 @@ window.bpH = (function() {
       });
    }
    
-   // This gets called in gwModule for any puck collisions with walls during demo 5.e.basketball.
+   // This gets called in boxStuff.js for any puck collisions with walls during demo 5.e.basketball-par.
    function processBasketBallCollisions( wall, puck) {
       // Exit if shooting a puck with no image OR not one of the sensor walls near the hoop.
       if ((puck.imageID === null) || ( ! (wall.name in m_wallMap))) return;
@@ -208,7 +254,13 @@ window.bpH = (function() {
       // Run final check on bottom sensor to see if the puck went through the hoop from the top.
       if ( (m_wallMap[ wall.name] == "bottomSensor") && ( ! m_hitBottomSensorFirst) && (m_hitTopSensor) ) { 
          let messageString = "";
-         let messageDuration = 4.0;
+         
+         let messageDuration;
+         if (m_version == "v2") {
+            messageDuration = 7.0;
+         } else {
+            messageDuration = 4.0;
+         }
                   
          let shotTypeString = "";
          let scoreChange = 0;
@@ -253,26 +305,36 @@ window.bpH = (function() {
             if ( ! m_humanUseOfBasketBall) messageString = messageString + adderString;
                                                  
          } else {
-            messageString = "good one, [base,yellow]" + m_nameMap[ puck.imageID]['name'] + "[base]" + shotTypeString + "\\[25px Arial]" + m_nameMap[ puck.imageID]['title'];
+            // Remove the "good one" for version 2 projectiles.
+            let leadPhrase = ( uT.oneOfThese(['elephant','donkey','monkey'], puck.imageID) ) ? "" : "good one, ";
+            messageString = leadPhrase + "[base,yellow]" + m_nameMap[ puck.imageID]['name'] + "[base]" + shotTypeString + "\\[25px Arial]" + m_nameMap[ puck.imageID]['title'];
          }
          
          if ( ! m_firstExampleShot) gW.messages['gameTitle'].newMessage( messageString, messageDuration);
          
-         // Auto feeder (push a new face into the game)...
+         // Auto feeder (push a new face or mascot into the game)...
          if (m_playList.includes( puck.imageID) || m_firstExampleShot) {
-            // Keep wall (a block) speed consistent, independent of user selected time-step.
-            let blockSpeed_mps = 1.00 * ( gW.aT.dt_RA_ms.result / (gW.getDeltaT_s()*1000) );
+            /* 
+            Keep the positioning of the object consistent, independent of user 
+            selected time-step or monitor frame-rate. (Slower physics requires 
+            longer system-wait times for the feeder to move.) Alternatively, you can 
+            apply this same correction to blockSpeed, instead of the wait times. 
+            In that case the feeder will always render at the same speed. 
+            But that will position the object poorly in some situations. 
+            */
+            let blockSpeed_mps = 1.00;
+            let waitCorrection = ( gW.aT.dt_RA_ms.result / (gW.getDeltaT_s()*1000) );
             // Use a wall to push the next puck out for shooting
             gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( -blockSpeed_mps,0));
             // 2.5 seconds later, reverse the motion.
             m_reverseFeeder = window.setTimeout( function() {
                gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( blockSpeed_mps,0));
-            }, 2500);
+            }, 2500 * waitCorrection);
             // Stop the wall and make sure it is all the way back, out of the way.         
             m_stopFeeder = window.setTimeout( function() {
                gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( 0.0, 0.0));
                gW.aT.wallMap['wall25'].setPosition( new wS.Vec2D(20.7, 0.58));
-            }, 5000);
+            }, 5000 * waitCorrection);
          }
          
          m_firstExampleShot = false;
@@ -280,6 +342,7 @@ window.bpH = (function() {
          // After playing someone, remove from the play list.
          m_playList = m_playList.filter( name => (name != puck.imageID) );
          
+         //console.log("m_playList.length=" + m_playList.length);
          if ((m_playList.length == 0) && ( ! m_reportedWin)) {
             let playTime_s = (new Date().getTime() - m_timeOfStart)/1000;
             cT.Client.applyToAll( client => { 
@@ -296,22 +359,42 @@ window.bpH = (function() {
             }
             
             // This series effectively waits until the message in gameTitle finishes (waits messageDuration seconds).
-            let politicianString = (m_initialTeamSize == 1) ? 'politician' : 'politicians';
-            let playingString = (m_initialTeamSize == 1) ? '' : ' together';
-            let theSeries = {
-               1:{'tL_s':messageDuration, 'message':"[1px Arial]."},
-               2:{'tL_s':2.0, 'message':"[35px Arial]That's pretty good coaching!"},
-               3:{'tL_s':2.0, 'message':"[35px Arial]" + m_numberNames[ m_initialTeamSize] + " " + politicianString + ","},
-               4:{'tL_s':2.0, 'message':"[35px Arial]" + m_partisanNature + ","},
-               5:{'tL_s':2.0, 'message':"[35px Arial]playing" + playingString + "."},
-               6:{'tL_s':0.5, 'message':"[50px Arial]      ."},
-               7:{'tL_s':0.5, 'message':"[50px Arial]     ..."},   
-               8:{'tL_s':0.5, 'message':"[50px Arial]    ....."},
-               9:{'tL_s':0.5, 'message':"[50px Arial]   ......."},
-              10:{'tL_s':0.5, 'message':"[50px Arial]    ....."},
-              11:{'tL_s':0.5, 'message':"[50px Arial]     ..."},
-              12:{'tL_s':0.5, 'message':"[50px Arial]      ."},
-              13:{'tL_s':3.0, 'message':"[30px Arial]press the 5 key to start again..."}
+            let theSeries;
+            if (m_version == "v2") {
+               let quoteString = (m_initialTeamSize == 1) ? 'quote' : 'quotes';
+               theSeries = {
+                  1:{'tL_s':messageDuration, 'message':"[1px Arial]."},
+                  2:{'tL_s':2.0, 'message':"[35px Arial]That's a pretty good civics lesson!"},
+                  3:{'tL_s':2.0, 'message':"[35px Arial]" + m_numberNames[ m_initialTeamSize] + " " + quoteString + ","},
+                  4:{'tL_s':2.0, 'message':"[35px Arial]" + m_partisanNature + "."},
+                  5:{'tL_s':2.0, 'message':"[35px Arial]Thanks for playing along."},
+                  6:{'tL_s':0.5, 'message':"[50px Arial]      ."},
+                  7:{'tL_s':0.5, 'message':"[50px Arial]     ..."},   
+                  8:{'tL_s':0.5, 'message':"[50px Arial]    ....."},
+                  9:{'tL_s':0.5, 'message':"[50px Arial]   ......."},
+                 10:{'tL_s':0.5, 'message':"[50px Arial]    ....."},
+                 11:{'tL_s':0.5, 'message':"[50px Arial]     ..."},
+                 12:{'tL_s':0.5, 'message':"[50px Arial]      ."},
+                 13:{'tL_s':3.0, 'message':"[30px Arial]press the 5 key to start again..."}
+               }
+            } else {
+               let politicianString = (m_initialTeamSize == 1) ? 'politician' : 'politicians';
+               let playingString = (m_initialTeamSize == 1) ? '' : ' together';
+               theSeries = {
+                  1:{'tL_s':messageDuration, 'message':"[1px Arial]."},
+                  2:{'tL_s':2.0, 'message':"[35px Arial]That's pretty good coaching!"},
+                  3:{'tL_s':2.0, 'message':"[35px Arial]" + m_numberNames[ m_initialTeamSize] + " " + politicianString + ","},
+                  4:{'tL_s':2.0, 'message':"[35px Arial]" + m_partisanNature + ","},
+                  5:{'tL_s':2.0, 'message':"[35px Arial]playing" + playingString + "."},
+                  6:{'tL_s':0.5, 'message':"[50px Arial]      ."},
+                  7:{'tL_s':0.5, 'message':"[50px Arial]     ..."},   
+                  8:{'tL_s':0.5, 'message':"[50px Arial]    ....."},
+                  9:{'tL_s':0.5, 'message':"[50px Arial]   ......."},
+                 10:{'tL_s':0.5, 'message':"[50px Arial]    ....."},
+                 11:{'tL_s':0.5, 'message':"[50px Arial]     ..."},
+                 12:{'tL_s':0.5, 'message':"[50px Arial]      ."},
+                 13:{'tL_s':3.0, 'message':"[30px Arial]press the 5 key to start again..."}
+               }
             }
             gW.messages['help2'].loc_px = {'x':325,'y':230};  //     gametitle{'x':450,'y':350};   old{'x':200,'y':110}
             gW.messages['help2'].newMessageSeries( theSeries);

@@ -293,6 +293,7 @@ window.cP = (function() {
          if (this.imageID) {
             var img = document.getElementById( this.imageID);
             let image_aspectRatio = img.width / img.height;
+            // Use the image shape and puck height to establish the puck width.
             this.half_width_m = this.half_height_m * image_aspectRatio;
             this.half_width_px = wS.px_from_meters( this.half_width_m);
          }

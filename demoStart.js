@@ -818,10 +818,14 @@ window.dS = (function() {
          if ((state_capture) && (state_capture.demoIndex == 5)) {
             cR.restoreFromState( state_capture);
             
-            if (c.demoVersion.includes('basketball')) {
+            if (c.demoVersion.includes('basketball-par')) {
                c.canvasColor = '#262626';  // gray 262626 333333 (lighter)
                gW.messages['score'].loc_px = {'x':30, 'y':40};
-               bpH.initializeGame();
+               bpH.initializeGame("v2");
+            } else if (c.demoVersion.includes('basketball-pol')) {
+               c.canvasColor = '#262626';  // gray 262626 333333 (lighter)
+               gW.messages['score'].loc_px = {'x':30, 'y':40};
+               bpH.initializeGame("v1");
             }        
             
          } else {

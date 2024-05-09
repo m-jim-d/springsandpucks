@@ -1,7 +1,7 @@
 demo_capture = {
    "demoIndex": 5,
-   "demoVersion": "5.e.basketball",
-   "date": "2/8/2022, 8:06:41 PM",
+   "demoVersion": "5.e.basketball-par",
+   "date": "1:30 PM Thursday, May 2, 2024",
    "canvasDimensions": {
       "width": 1915,
       "height": 1077
@@ -835,7 +835,7 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "biden2",
+         "imageID": "donkey-1",
          "imageScale": 1.15,
          "colorSource": false,
          "drawDuringPE": true,
@@ -858,8 +858,8 @@ demo_capture = {
          "friction_fixed": true,
          "radius_m": 1,
          "aspectR": 1,
-         "half_height_m": 0.625,
-         "half_width_m": 0.4332669322709164
+         "half_height_m": 0.55,
+         "half_width_m": 0.0
       },
       "puck57": {
          "bullet": false,
@@ -879,7 +879,7 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "trump2",
+         "imageID": "donkey-3",
          "imageScale": 1.1,
          "colorSource": false,
          "drawDuringPE": true,
@@ -902,8 +902,8 @@ demo_capture = {
          "friction_fixed": true,
          "radius_m": 1,
          "aspectR": 1,
-         "half_height_m": 0.625,
-         "half_width_m": 0.48353040540540543
+         "half_height_m": 0.55,
+         "half_width_m": 0.0
       },
       "puck58": {
          "bullet": false,
@@ -913,7 +913,7 @@ demo_capture = {
          "clientName": null,
          "name": "puck58",
          "position_2d_m": {
-            "x": 18.47656900384973,
+            "x": 18.63,
             "y": 6.7149994925614
          },
          "velocity_2d_mps": {
@@ -923,8 +923,8 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "pence",
-         "imageScale": 1.1,
+         "imageID": "elephant-3",
+         "imageScale": 1.25,
          "colorSource": false,
          "drawDuringPE": true,
          "density": 1.5,
@@ -946,8 +946,8 @@ demo_capture = {
          "friction_fixed": true,
          "radius_m": 1,
          "aspectR": 1,
-         "half_height_m": 0.625,
-         "half_width_m": 0.465561224489796
+         "half_height_m": 0.55,
+         "half_width_m": 0.0
       },
       "puck59": {
          "bullet": false,
@@ -957,7 +957,7 @@ demo_capture = {
          "clientName": null,
          "name": "puck59",
          "position_2d_m": {
-            "x": 18.54461328557671,
+            "x": 18.63,
             "y": 1.8599998599114884
          },
          "velocity_2d_mps": {
@@ -967,8 +967,8 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "harris",
-         "imageScale": 1.1,
+         "imageID": "elephant-1",
+         "imageScale": 1.25,
          "colorSource": false,
          "drawDuringPE": true,
          "density": 1.5,
@@ -991,7 +991,7 @@ demo_capture = {
          "radius_m": 1,
          "aspectR": 1,
          "half_height_m": 0.55,
-         "half_width_m": 0.5321621621621622
+         "half_width_m": 0.0
       },
       "puck60": {
          "bullet": false,
@@ -1001,7 +1001,7 @@ demo_capture = {
          "clientName": null,
          "name": "puck60",
          "position_2d_m": {
-            "x": 18.511823012852293,
+            "x": 18.63,
             "y": 4.2049996562805925
          },
          "velocity_2d_mps": {
@@ -1011,8 +1011,8 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "schumer",
-         "imageScale": 1.1,
+         "imageID": "elephant-2",
+         "imageScale": 1.25,
          "colorSource": false,
          "drawDuringPE": true,
          "density": 1.5,
@@ -1034,8 +1034,8 @@ demo_capture = {
          "friction_fixed": true,
          "radius_m": 1,
          "aspectR": 1,
-         "half_height_m": 0.625,
-         "half_width_m": 0.4105392156862745
+         "half_height_m": 0.55,
+         "half_width_m": 0.0
       },
       "puck61": {
          "bullet": false,
@@ -1055,7 +1055,7 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "pelosi",
+         "imageID": "donkey-2",
          "imageScale": 1.1,
          "colorSource": false,
          "drawDuringPE": true,
@@ -1078,8 +1078,8 @@ demo_capture = {
          "friction_fixed": true,
          "radius_m": 1,
          "aspectR": 1,
-         "half_height_m": 0.58,
-         "half_width_m": 0.5327687296416938
+         "half_height_m": 0.55,
+         "half_width_m": 0.0
       },
       "puck62": {
          "bullet": false,
@@ -1089,7 +1089,7 @@ demo_capture = {
          "clientName": null,
          "name": "puck62",
          "position_2d_m": {
-            "x": 18.465286095069292,
+            "x": 18.63,
             "y": 9.22499939620667
          },
          "velocity_2d_mps": {
@@ -1099,8 +1099,8 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "mcconnell",
-         "imageScale": 1.1,
+         "imageID": "elephant-4",
+         "imageScale": 1.25,
          "colorSource": false,
          "drawDuringPE": true,
          "density": 1.5,
@@ -1122,8 +1122,8 @@ demo_capture = {
          "friction_fixed": true,
          "radius_m": 1,
          "aspectR": 1,
-         "half_height_m": 0.625,
-         "half_width_m": 0.4756433823529411
+         "half_height_m": 0.55,
+         "half_width_m": 0.0
       },
       "puck63": {
          "bullet": false,
@@ -1143,7 +1143,7 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "mccarthy",
+         "imageID": "donkey-4",
          "imageScale": 1.1,
          "colorSource": false,
          "drawDuringPE": true,
@@ -1166,8 +1166,8 @@ demo_capture = {
          "friction_fixed": true,
          "radius_m": 1,
          "aspectR": 1,
-         "half_height_m": 0.625,
-         "half_width_m": 0.4436528497409326
+         "half_height_m": 0.55,
+         "half_width_m": 0.00
       },
       "puck64": {
          "bullet": false,
@@ -1177,7 +1177,7 @@ demo_capture = {
          "clientName": null,
          "name": "puck64",
          "position_2d_m": {
-            "x": 18.45878758798333,
+            "x": 18.55,
             "y": 10.479999370319014
          },
          "velocity_2d_mps": {
@@ -1187,12 +1187,12 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "miller",
-         "imageScale": 1.1,
+         "imageID": "monkey",
+         "imageScale": 1.15,
          "colorSource": false,
          "drawDuringPE": true,
          "density": 1.5,
-         "linDamp": 2.0,
+         "linDamp": 0,
          "angDamp": 0,
          "hitLimit": 10,
          "createTail": false,
@@ -1210,8 +1210,8 @@ demo_capture = {
          "friction_fixed": true,
          "radius_m": 1,
          "aspectR": 1,
-         "half_height_m": 0.625,
-         "half_width_m": 0.4515481651376147
+         "half_height_m": 0.65,
+         "half_width_m": 0.00
       }
    },
    "pinMapData": {},

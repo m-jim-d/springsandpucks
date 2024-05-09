@@ -420,6 +420,9 @@ window.gW = (function() {
       canvasDiv = document.getElementById('hostCanvasDiv');
       canvas = document.getElementById('hostCanvas');
       ctx = canvas.getContext('2d');
+
+      // Add a local user to the clients dictionary.
+      new cT.Client({'name':'local', 'color':'tomato'});
       
       // share some of the globals in gwModule.js with other modules
       
@@ -441,10 +444,6 @@ window.gW = (function() {
       
       dC.extraDemos = document.getElementById("extraDemos");
       dC.indexInPlusRow = document.getElementById("indexInPlusRow");
-
-      
-      // Add a local user to the clients dictionary.
-      new cT.Client({'name':'local', 'color':'tomato'});
 
       // Start the blank demo for frame rate testing.
       dS.demoStart( 0, {'restartLoop':false, 'logThis':false});

@@ -14,7 +14,7 @@
    <!-- This Open Graph tag controls how a link is displayed if posted on social media -->
    <meta property="og:image" content="https://triquence.org/screenshots/colormixer.png">
 
-   <link href="hostAndClient.css?v=25" rel="stylesheet" type="text/css">  
+   <link href="hostAndClient.css?v=26" rel="stylesheet" type="text/css">  
 
    <!-- Google icon library -->
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -51,43 +51,43 @@
      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
    </script>
 
-   <script src="Box2D.js?v=71"></script>
+   <script src="Box2D.js?v=72"></script>
 
-   <script src="utilities.js?v=71"></script>
-   <script src="pageStuff.js?v=71"></script>
-   <script src="worldScreen.js?v=71"></script>
+   <script src="utilities.js?v=72"></script>
+   <script src="pageStuff.js?v=72"></script>
+   <script src="worldScreen.js?v=72"></script>
    
-   <script src="drawFunc.js?v=71"></script>
-   <script src="consAndPros.js?v=71"></script>
-   <script src="clientProto.js?v=71"></script>
-   <script src="piEngine.js?v=71"></script>
+   <script src="drawFunc.js?v=72"></script>
+   <script src="consAndPros.js?v=72"></script>
+   <script src="clientProto.js?v=72"></script>
+   <script src="piEngine.js?v=72"></script>
    
-   <script src="tableActs.js?v=71"></script>
-   <script src="multiSelect.js?v=71"></script>
-   <script src="gwModule.js?v=71"></script>
+   <script src="tableActs.js?v=72"></script>
+   <script src="multiSelect.js?v=72"></script>
+   <script src="gwModule.js?v=72"></script>
    
-   <script src="demoStart.js?v=71"></script>
-   <script src="eventsHost.js?v=71"></script>
-   <script src="boxStuff.js?v=71"></script>
+   <script src="demoStart.js?v=72"></script>
+   <script src="eventsHost.js?v=72"></script>
+   <script src="boxStuff.js?v=72"></script>
 
    <!-- for testing: load client via script element
    <script src="https://triquence-ca88d70f0e55.herokuapp.com/socket.io/socket.io.js"></script>
    -->
-   <script src="hostAndClient.js?v=71"></script>
-   <script src="eventsNonHost.js?v=71"></script>
+   <script src="hostAndClient.js?v=72"></script>
+   <script src="eventsNonHost.js?v=72"></script>
 
-   <script src="captureRestore.js?v=71"></script>
-   <script src="leaderBoard.js?v=71"></script>
-   <script src="ghostBall.js?v=71"></script>
-   <script src="puckPopper.js?v=71"></script>
-   <script src="jelloMadness.js?v=71"></script>
-   <script src="bpHoops.js?v=71"></script>
-   <script src="monkeyHunt.js?v=71"></script>
+   <script src="captureRestore.js?v=72"></script>
+   <script src="leaderBoard.js?v=72"></script>
+   <script src="ghostBall.js?v=72"></script>
+   <script src="puckPopper.js?v=72"></script>
+   <script src="jelloMadness.js?v=72"></script>
+   <script src="bpHoops.js?v=72"></script>
+   <script src="monkeyHunt.js?v=72"></script>
 
    <!-- put a capture into the page level global: demo_6_fromFile -->
-   <script src="demo6.js?v=71"></script>
+   <script src="demo6.js?v=72"></script>
    <!-- put a capture into the page level global: demo_8_fromFile -->
-   <script src="demo8.js?v=71"></script>
+   <script src="demo8.js?v=72"></script>
    <!--
    <script src="demo2b.js"></script>
    -->
@@ -131,8 +131,17 @@
   <img id="schumer"    src="images/schumer.png"    width="603" height="918" title="Schumer">
   <img id="mcconnell"  src="images/mcconnell.png"  width="207" height="272" title="McConnell">
   <img id="mccarthy"   src="images/mccarthy.png"   width="137" height="193" title="McCarthy">
-  
   <img id="miller"     src="images/miller.png"     width="315" height="436" title="Miller">
+  
+  <img id="elephant-1" src="images/elephant.png"   width="853" height="1049" title="Republican #1">
+  <img id="elephant-2" src="images/elephant.png"   width="853" height="1049" title="Republican #2">
+  <img id="elephant-3" src="images/elephant.png"   width="853" height="1049" title="Republican #3">
+  <img id="elephant-4" src="images/elephant.png"   width="853" height="1049" title="Republican #4">
+  <img id="donkey-1"   src="images/donkey.png"     width="603" height="655"  title="Democrat #1">
+  <img id="donkey-2"   src="images/donkey.png"     width="603" height="655"  title="Democrat #2">
+  <img id="donkey-3"   src="images/donkey.png"     width="603" height="655"  title="Democrat #3">
+  <img id="donkey-4"   src="images/donkey.png"     width="603" height="655"  title="Democrat #4">
+                                                                                             >
 </div>
 
 <!-- The navigation menu -->
@@ -824,7 +833,7 @@
          Instructions are displayed at the start and in the outline below. 
          Press the "v" key or <a class="fullScreenLink">click here</a> to go <strong>full-screen</strong> (you'll see the cue ball on the right). The "esc" key returns you to normal view.
          <br><br>
-         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" class="nickNameField" id="nn_pool" maxlength="10" minlength="2" autocomplete="off">
+         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" enterkeyhint="enter" class="nickNameField" id="nn_pool" maxlength="10" minlength="2" autocomplete="off">
          <br>
          <ul>
             <li>To <strong>aim a shot</strong>, select the cue ball with the mouse, then drag the ghost ball so as to touch it to an object ball or cushion.
@@ -915,7 +924,7 @@
          <br><br>
          You may be wondering why this game is in the #4 group of demos on rectangles. Well, mainly there is a rectangular puck, behind the monkey image, which provides a more realistic bounce.
          <br><br>
-         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" class="nickNameField" id="nn_monkeyHunt" maxlength="10" minlength="2" autocomplete="off">
+         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" enterkeyhint="enter" class="nickNameField" id="nn_monkeyHunt" maxlength="10" minlength="2" autocomplete="off">
          <br><br><hr><br>
          
          <span id="d5"><strong>Demo #5</strong> introduces springs, pins (<a onclick="cR.clearState();dS.demoStart(5)">5a</a>), 
@@ -1336,16 +1345,22 @@
          <br><br>
          Note the wall-mounted pulley was created by "add pin", then enabling "edit walls & pins", then selecting the pin and a puck (with "COM" on), and finally "add revolute" joint to mount the puck on the pin.
          <br><br>
-         <span id="bphoops"></span><a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball.js'})" title='a game for the weary'>5e.basketball</a> (<strong>Bipartisan Hoops</strong>) has the 
-         chain-link loop <a class="scroll-link" href="#" title="" data-scroll-target="d5e">5e</a> repurposed as a hoop net (horizontal lines are springs). This is a full-screen link; "esc" to return to normal view. 
+         <span id="bphoops"></span><a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-par.js'})" title='a game for the curious'>5e.basketball</a> (<strong>Bipartisan Hoops</strong>)
+         has the chain-link loop <a class="scroll-link" href="#" title="" data-scroll-target="d5e">5e</a> repurposed as a hoop net (horizontal lines are springs). 
+         This is a full-screen link; "esc" to return to normal view. 
          Drag and release to shoot. Use the "b" key to toggle high-resolution aiming on/off (a second-finger touch on a touch screen). 
-         Hold the "ctrl" key down while dragging to position the ball, dandelion, politician, or me (triple tapping, with one finger, toggles this ball-in-hand feature on a touch screen).
+         Hold the "ctrl" key down while dragging to position the ball, dandelion, mascot, politician, or me (triple tapping, with one finger, toggles this ball-in-hand feature on a touch screen).
          <br><br>
-         Or, watch a <a href="https://triquence.org/videos.html?basketball" target="_blank" title="Bipartisan Hoops">game</a>. 
+         <!--Or, watch a <a href="https://triquence.org/videos.html?basketball" target="_blank" title="Bipartisan Hoops">game</a>. -->
          The trick for a good score is to develop a good bank shot. 
          To do so, master the use of the "c" and "b" keys when aiming.
          <br><br>
-         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" class="nickNameField" id="nn_basketball" maxlength="10" minlength="2" autocomplete="off">
+         The '21-'22 version of the game has been retired. You can still play it if you can guess the
+         <input required placeholder="password" title="password for the original BH" type="text" class="bphPassword" id="pw_basketball" maxlength="10" minlength="4" autocomplete="off">.
+         Then start the game from the nickname field below: click in it, then use your "Enter" key.
+         <!-- Here is the <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-pol.js'})" title='a game for the weary'>'21-'22</a> version of the game.  -->
+         <br><br>
+         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" enterkeyhint="enter" class="nickNameField" id="nn_basketball" maxlength="10" minlength="2" autocomplete="off">
          <br><br>
          <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5f.js'})">5f</a> applies the revolute joint in producing the chaotic motion of a double-compound pendulum. Try pressing alt-p to visualize the
          position history of the outer puck.
@@ -1456,7 +1471,7 @@
          network clients should first connect, then the host should click the #7 
          button.</span> 
          <p style="margin: 10px 0px 10px 0px;">
-         Your nickname: <input required placeholder="host" title="your nickname during games and on the leaderboard" type="text" class="nickNameField" id="nn_popper7" maxlength="10" minlength="2" autocomplete="off">
+         Your nickname: <input required placeholder="host" title="your nickname during games and on the leaderboard" type="text" enterkeyhint="enter" class="nickNameField" id="nn_popper7" maxlength="10" minlength="2" autocomplete="off">
          </p>
          Variations:
          <ul style="list-style-type:none; margin: 0px 0px 15px 0px;">
@@ -1577,7 +1592,7 @@
          host should click the #8 button.</span>
          
          <p style="margin: 10px 0px 10px 0px;">
-         Your nickname: <input required placeholder="host" title="your nickname during games and on the leaderboard" type="text" class="nickNameField" id="nn_popper8" maxlength="10" minlength="2" autocomplete="off">
+         Your nickname: <input required placeholder="host" title="your nickname during games and on the leaderboard" type="text" enterkeyhint="enter" class="nickNameField" id="nn_popper8" maxlength="10" minlength="2" autocomplete="off">
          </p>
          
          To play without drones, use ctrl-q to stop the drone navigation. Use the editor features to select and delete them. Then capture

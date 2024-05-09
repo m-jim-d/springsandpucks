@@ -1344,7 +1344,7 @@ window.eV = (function() {
          }
       }, {capture: false});   
       
-      // NickName fields in help panel for Ghost Ball, Monkey Hunt, Bipartisan Hoops.
+      // NickName fields in help panel for Puck Popper, Ghost Ball, Monkey Hunt, and Bipartisan Hoops.
       $('input.nickNameField').on('keyup blur', function(e) {
          if (e.key == "Enter") {
             $(this).blur();
@@ -1368,10 +1368,19 @@ window.eV = (function() {
                   }
                
                } else if (this.id == 'nn_basketball') {
-                  if (c.demoVersion.includes("5.e.basketball")) {
-                     dS.demoStart(5);
-                  } else {
-                     cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball.js'});
+                  let secretPW = $('#pw_basketball').val(); 
+                  // Always run the base of the politician version, no modified captures allowed here.
+                  if (secretPW == "2122") {
+                     cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-pol.js'});
+                     
+                  } else { 
+                     // Allow modified versions (altered captures) of the party version.
+                     if (c.demoVersion.includes("5.e.basketball-par")) {
+                        dS.demoStart(5);
+                        
+                     } else {
+                        cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-par.js'});
+                     }
                   }
                   
                } else if (this.id == 'nn_popper7') {
@@ -1393,9 +1402,36 @@ window.eV = (function() {
             // if too short, clean out the field
             if (cleanString.length < 2) cleanString = "";
             
+            let localNickName = clients['local'].nickName;
+            
+            let nameString = (localNickName) ? '"'+localNickName+'"' : 'an anonymous host';
+            
+            if (hC.get_socket() && (cleanString != "") && (cleanString != localNickName)) {
+               let message = '\nYou are connected to the server and identified as '+nameString+'.\n\n' +
+                     'Please make any changes to your name via the chat field. Then click the "Create" button.\n\n' +
+                     'To get to the chat field, you may need to toggle the left panel using the "m" key.'
+               alert( message);
+               cleanString = localNickName;
+            } else if (hC.get_socket() && (cleanString == "") && localNickName) {
+               let message = '\nYou are connected to the server and identified as '+nameString+'.\n\n' + 
+                     'If you prefer to go back to being anonymous, type "noname" into the chat field. Then click the "Create" button.\n\n' +
+                     'To get to the chat field, you may need to toggle the left panel using the "m" key.'
+               alert( message);
+               cleanString = localNickName;
+            }
+            
             // sync all the nickname fields to this value
             $('input.nickNameField').val( cleanString);
          }
+      });
+      
+      // password checker for old version of bipartisan hoops
+      $('#pw_basketball').on('keyup', function(e) {
+         if ( $(this).val() == "2122") {
+            this.style.backgroundColor = "lightgreen";
+         } else {
+            this.style.backgroundColor = "#FCF55F";
+         };
       });
       
       // Calculator for two pucks in orbit.
