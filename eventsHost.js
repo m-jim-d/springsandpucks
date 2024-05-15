@@ -1374,7 +1374,7 @@ window.eV = (function() {
                } else if (this.id == 'nn_basketball') {
                   let secretPW = $('#pw_basketball').val(); 
                   // Always run the base of the politician version, no modified captures allowed here.
-                  if (secretPW == "2122") {
+                  if (secretPW == "2122pw") {
                      cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-pol.js'});
                      
                   } else { 
@@ -1431,7 +1431,7 @@ window.eV = (function() {
       
       // password checker for old version of bipartisan hoops
       $('#pw_basketball').on('keyup', function(e) {
-         if ( $(this).val() == "2122") {
+         if ( $(this).val() == "2122pw") {
             this.style.backgroundColor = "lightgreen";
          } else {
             this.style.backgroundColor = "#FCF55F";
