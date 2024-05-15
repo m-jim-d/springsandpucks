@@ -37,15 +37,15 @@ window.bpH = (function() {
    var m_backBoardShot, m_hoopContact, m_hitTopSensor, m_hitBottomSensorFirst, m_firstExampleShot, 
        m_humanUseOfBasketBall, m_callCount, m_playList, m_initialTeamSize, m_reportedWin, 
        m_clientName, m_timeOfStart, m_millerShot, m_millerAvailable, m_partisanNature,
-       m_closingRemark, m_reverseFeeder, m_stopFeeder;
+       m_closingRemark, m_reverseFeeder, m_stopFeeder, m_priorShotIndex, m_puck_pos_2d_m, m_puck_v_2d_mps, 
+       m_shotReportIssued, m_hitRightWall;
    
-   var m_wallMap = {'wall5':'leftHoop', 'wall12':'rightHoop', 'wall21':'backboard', 'wall23':'bottomSensor', 'wall24':'topSensor'};
-   
+   var m_wallMap = {'wall5':'leftHoop', 'wall12':'rightHoop', 'wall21':'backboard', 'wall23':'bottomSensor', 'wall24':'topSensor', 'wall26':'rightWallSensor'};
    
    let monkeyText = '\\[30px Arial]"Independent voters tend to be more pragmatic in their political views, weighing the specifics of ' + 
                     '\\[30px Arial]each issue rather than aligning strictly with one party' +"'"+ 's platform across the board." ' + 
                     '\\ \\[20px Arial](Source: "The Rise of Independent Voters" by Rhodes Cook in a 2012 Bipartisan Policy Center report)' +
-                    '\\ \\[30px Arial](Hmm, you look vaguely familiar. Didn' +"'"+ 't we see you in Monkey Hunt?)'
+                    '\\ \\[30px Arial]Hmm, vaguely familiar, Monkey Hunt?'
    var m_nameMap = {
       'trump2':   {'name':'Donald', 'title':'   (former President of the United States, Donald Trump)'}, 
       'biden2':   {'name':'Joe',    'title':'   (President of the United States, Joe Biden)'}, 
@@ -74,13 +74,13 @@ window.bpH = (function() {
       'donkey-4':   {'name':'Democrat',    
          'title':'\\[30px Arial]The Democratic Party has been a champion of civil rights, from President Harry Truman' +"'"+ 's \\[30px Arial]integration of the armed forces to Lyndon B. Johnson signing the Civil Rights Act of 1964. \\ \\[20px Arial](Source: "The Democrats' +"'"+ ' Civil Rights History" by John Hendrickson in The Atlantic, July 22, 2020)'},
       
-      'monkey':     {'name':'Independent', 
+      'monkey-1':   {'name':'Independent', 
          'title': monkeyText},
    };
 
    var m_democratNames = ['biden2','harris','schumer','pelosi','donkey-1','donkey-2','donkey-3','donkey-4'];
    var m_republicanNames = ['trump2','pence','mcconnell','mccarthy','elephant-1','elephant-2','elephant-3','elephant-4'];
-   var m_independentNames = ['monkey'];
+   var m_independentNames = ['monkey-1'];
    
    var m_numberNames = {0:'Zero',1:'One',2:'Two',3:'Three',4:'Four',5:'Five',6:'Six',7:'Seven',8:'Eight',9:'Nine'};
    
@@ -95,24 +95,32 @@ window.bpH = (function() {
    function initializeModule() {
    }
    
-   // This prepares for the collision detection by the sensors when the user launches a shot (see ghostBall.js). 
+   // This prepares for analysis of the collision events from the game sensors. This is called when the user releases 
+   // the mouse button and either launches a cursor-spring shot (see gB.poolShot) or drops a puck (see mouseUp_handler in eventsHost).
    function resetShotState( pars = {}) {
       m_clientName = uT.setDefault( pars.clientName, "local");
       let puckName = uT.setDefault( pars.puckName, "puck4");
       let initializing = uT.setDefault( pars.initializing, false);
       
+      m_puck_v_2d_mps = uT.setDefault( pars.puck_v_2d_mps, new wS.Vec2D(0.0,0.0));
+      m_puck_pos_2d_m = uT.setDefault( pars.puck_pos_2d_m, new wS.Vec2D(0.0,0.0));
+      
       m_backBoardShot = false;
       m_hoopContact = false;
       m_hitTopSensor = false;
       m_hitBottomSensorFirst = false;
+      m_hitRightWall = false;
       m_callCount = 0;
+      m_shotReportIssued = false;
       
       if (initializing) {
          m_firstExampleShot = true;
          m_millerShot = "no attempt yet";
       } else {
          m_firstExampleShot = false;
-         if (gW.aT.puckMap[ puckName].imageID == "miller") m_millerShot = "attempted";
+         if (gW.aT.puckMap[ puckName].imageID == "miller") { 
+            m_millerShot = "attempted";
+         }
       }
    }
    
@@ -134,6 +142,7 @@ window.bpH = (function() {
       m_reportedWin = false;
       m_humanUseOfBasketBall = false;
       m_timeOfStart = new Date().getTime();
+      m_priorShotIndex = -1;
       
       resetShotState({'initializing':true});
       
@@ -164,12 +173,12 @@ window.bpH = (function() {
       }
       //m_playList = ['biden2','harris'];  // for quick testing...
       //m_playList = ['biden2'];  // for even quicker testing...
-      //m_playList = ['donkey-1','elephant-1'];  // v2 testing...
+      //m_playList = ['donkey-1','elephant-1','monkey-1'];  // v2 testing...
       
       m_initialTeamSize = m_playList.length;
       
       if (someDemocrats && someRepublicans && someIndependents) {
-         m_partisanNature = 'from all three political perspective.';
+         m_partisanNature = 'from multiple perspectives';
       } else if (someDemocrats && someRepublicans) {
          m_partisanNature = 'from both sides of the aisle';
       } else if (someDemocrats && !someRepublicans) {
@@ -179,7 +188,7 @@ window.bpH = (function() {
       } else if (!someDemocrats && !someRepublicans) {
          m_partisanNature = 'from either side of the aisle';
       } else {
-         m_partisanNature = 'from a variety of political perspective.';
+         m_partisanNature = 'from a variety of perspectives';
       }
       
       gW.messages['gameTitle'].loc_px = {'x':450,'y':350};
@@ -219,7 +228,8 @@ window.bpH = (function() {
                                 '\\    [base,yellow]100[base]: shot rattles in' + 
                                 '\\    [base,yellow]200[base]: swish shot' + 
                                 '\\    [base,yellow]300[base]: bank shot that rattles in' + 
-                                '\\    [base,yellow]400[base]: clean bank shot'},
+                                '\\    [base,yellow]400[base]: clean bank shot' +
+                                '\\    [base,yellow]500[base]: trick shot'},
          7:{'tL_s':12.0, 'message':'Aim for a bank shot:' + 
                                 '\\    Bank shots with a ' + facePhrase + ' are easier if it hits the backboard with a [base,yellow]vertical[base] orientation.' + 
                                 "\\    Click on a " + facePhrase + " while it's resting on the ground," + 
@@ -233,38 +243,81 @@ window.bpH = (function() {
    
    // This gets called in boxStuff.js for any puck collisions with walls during demo 5.e.basketball-par.
    function processBasketBallCollisions( wall, puck) {
-      // Exit if shooting a puck with no image OR not one of the sensor walls near the hoop.
+      // Exit if shooting a puck with no image OR not one of the walls in the map.
       if ((puck.imageID === null) || ( ! (wall.name in m_wallMap))) return;
       
       m_callCount++;
       
       if (m_wallMap[ wall.name] == "backboard") {
          m_backBoardShot = true;
-      }
-      if ((m_wallMap[ wall.name] == "leftHoop") || (m_wallMap[ wall.name] == "rightHoop")) {
+         
+      } else if ((m_wallMap[ wall.name] == "leftHoop") || (m_wallMap[ wall.name] == "rightHoop")) {
          m_hoopContact = true;
-      }
-      if (m_wallMap[ wall.name] == "topSensor") {
+         
+      } else if (m_wallMap[ wall.name] == "topSensor") {
          m_hitTopSensor = true;
-      }
-      if ((m_wallMap[ wall.name] == "bottomSensor") && ( ! m_hitTopSensor)) {
+         
+      } else if ((m_wallMap[ wall.name] == "bottomSensor") && ( ! m_hitTopSensor)) {
          m_hitBottomSensorFirst = true;
+         console.log("hit bottom sensor first");
+         
+      } else if (m_wallMap[ wall.name] == "rightWallSensor") {
+         m_hitRightWall = true;
+         console.log("hit right wall");
       }
       
       // Run final check on bottom sensor to see if the puck went through the hoop from the top.
-      if ( (m_wallMap[ wall.name] == "bottomSensor") && ( ! m_hitBottomSensorFirst) && (m_hitTopSensor) ) { 
+      if ( (m_wallMap[ wall.name] == "bottomSensor") && (m_hitTopSensor) ) {  // && ( ! m_hitBottomSensorFirst)
+      
+         // final checks for prohibited, easy, and trick shots
+         let prohibited = false;
+         let tooEasy = false;
+         let trickShot = false;
+                  
+         if (m_puck_v_2d_mps.zeroLength() || m_hitBottomSensorFirst) { 
+            prohibited = true;
+         } else if ((m_puck_v_2d_mps.x > 0.0) && (m_puck_pos_2d_m.y < 4.0)) { 
+            trickShot = true;
+         } else if ((m_puck_pos_2d_m.x > 1.0) && (m_puck_pos_2d_m.x < 10.0) || (m_puck_pos_2d_m.y >= 4.0)) { 
+            tooEasy = true;
+         }
+         
          let messageString = "";
          
          let messageDuration;
          if (m_version == "v2") {
-            messageDuration = 7.0;
+            if (prohibited) {
+               messageDuration = 2.5;
+            } else if (tooEasy) {
+               messageDuration = 5.5;
+            } else {
+               messageDuration = 7.0;
+            }
          } else {
             messageDuration = 4.0;
          }
                   
          let shotTypeString = "";
          let scoreChange = 0;
-         if ((m_backBoardShot) && (m_hoopContact)) {
+         if (prohibited) {
+            shotTypeString = "goal tending\\[25px Arial]   Try a normal shot.";
+            scoreChange = 0;
+         } else if (tooEasy) {
+            shotTypeString = "too easy \\[30px Arial,yellow]try a harder shot" +
+                             "\\[25px Arial]   move farther away (x > 10)" + 
+                             "\\[25px Arial]   shoot from behind the backboard (x < 1)" +
+                             "\\[25px Arial]   start lower (y < 4)" +
+                             "\\[25px Arial]   be tricky (shoot to the right)";
+            scoreChange = 0;
+         } else if (trickShot) {
+            if (m_hitRightWall) {
+               shotTypeString = " --- wow, super tricky shot";
+               scoreChange = 900;
+            } else {
+               shotTypeString = " --- wow, trick shot";
+               scoreChange = 500;
+            }
+         } else if ((m_backBoardShot) && (m_hoopContact)) {
             shotTypeString = " --- bank shot rattles in";
             scoreChange = 300;
          } else if ((m_backBoardShot) && ( ! m_hoopContact)) {
@@ -287,7 +340,10 @@ window.bpH = (function() {
          });
          if ( ! m_reportedWin) gW.messages['score'].newMessage( scoreString, 10.0);
          
-         if (puck.imageID == "miller") {
+         if (prohibited || tooEasy) {
+            messageString = shotTypeString;
+            
+         } else if (puck.imageID == "miller") {
             m_millerShot = "made it";
             messageString = "a bit sluggish there, [base,yellow]Jim[base]" + shotTypeString +
                     "\\   [30px Arial] but it counts; maybe grab some coffee";
@@ -310,39 +366,42 @@ window.bpH = (function() {
             messageString = leadPhrase + "[base,yellow]" + m_nameMap[ puck.imageID]['name'] + "[base]" + shotTypeString + "\\[25px Arial]" + m_nameMap[ puck.imageID]['title'];
          }
          
-         if ( ! m_firstExampleShot) gW.messages['gameTitle'].newMessage( messageString, messageDuration);
-         
-         // Auto feeder (push a new face or mascot into the game)...
-         if (m_playList.includes( puck.imageID) || m_firstExampleShot) {
-            /* 
-            Keep the positioning of the object consistent, independent of user 
-            selected time-step or monitor frame-rate. (Slower physics requires 
-            longer system-wait times for the feeder to move.) Alternatively, you can 
-            apply this same correction to blockSpeed, instead of the wait times. 
-            In that case the feeder will always render at the same speed. 
-            But that will position the object poorly in some situations. 
-            */
-            let blockSpeed_mps = 1.00;
-            let waitCorrection = ( gW.aT.dt_RA_ms.result / (gW.getDeltaT_s()*1000) );
-            // Use a wall to push the next puck out for shooting
-            gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( -blockSpeed_mps,0));
-            // 2.5 seconds later, reverse the motion.
-            m_reverseFeeder = window.setTimeout( function() {
-               gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( blockSpeed_mps,0));
-            }, 2500 * waitCorrection);
-            // Stop the wall and make sure it is all the way back, out of the way.         
-            m_stopFeeder = window.setTimeout( function() {
-               gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( 0.0, 0.0));
-               gW.aT.wallMap['wall25'].setPosition( new wS.Vec2D(20.7, 0.58));
-            }, 5000 * waitCorrection);
+         if ( ! m_shotReportIssued) {
+            if ( ! m_firstExampleShot) gW.messages['gameTitle'].newMessage( messageString, messageDuration);
+    
+            // Auto feeder (push a new face or mascot into the game)...
+            if ((m_playList.includes( puck.imageID) || m_firstExampleShot) && (m_playList.length > 1)) {
+               /* 
+               Keep the positioning of the object consistent, independent of user 
+               selected time-step or monitor frame-rate. (Slower physics requires 
+               longer system-wait times for the feeder to move.) Alternatively, you can 
+               apply this same correction to blockSpeed, instead of the wait times. 
+               In that case the feeder will always render at the same speed. 
+               But that will position the object poorly in some situations. 
+               */
+               let blockSpeed_mps = 1.00;
+               let waitCorrection = ( gW.aT.dt_RA_ms.result / (gW.getDeltaT_s()*1000) );
+               // Use a wall to push the next puck out for shooting
+               gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( -blockSpeed_mps,0));
+               // 2.5 seconds later, reverse the motion.
+               m_reverseFeeder = window.setTimeout( function() {
+                  gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( blockSpeed_mps,0));
+               }, 2500 * waitCorrection);
+               // Stop the wall and make sure it is all the way back, out of the way.         
+               m_stopFeeder = window.setTimeout( function() {
+                  gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( 0.0, 0.0));
+                  gW.aT.wallMap['wall25'].setPosition( new wS.Vec2D(20.7, 0.58));
+               }, 5000 * waitCorrection);
+            }
+            
+            if ( ! m_firstExampleShot) m_shotReportIssued = true;
+            
+            // After playing someone, remove from the play list.
+            m_playList = m_playList.filter( name => (name != puck.imageID) );
          }
-         
+            
          m_firstExampleShot = false;
          
-         // After playing someone, remove from the play list.
-         m_playList = m_playList.filter( name => (name != puck.imageID) );
-         
-         //console.log("m_playList.length=" + m_playList.length);
          if ((m_playList.length == 0) && ( ! m_reportedWin)) {
             let playTime_s = (new Date().getTime() - m_timeOfStart)/1000;
             cT.Client.applyToAll( client => { 
@@ -396,7 +455,7 @@ window.bpH = (function() {
                  13:{'tL_s':3.0, 'message':"[30px Arial]press the 5 key to start again..."}
                }
             }
-            gW.messages['help2'].loc_px = {'x':325,'y':230};  //     gametitle{'x':450,'y':350};   old{'x':200,'y':110}
+            gW.messages['help2'].loc_px = {'x':325,'y':230};
             gW.messages['help2'].newMessageSeries( theSeries);
             
             // If no successful miller basket, delay a check until after the main closing message. 
@@ -419,7 +478,7 @@ window.bpH = (function() {
             m_reportedWin = true;   
          }
          
-         //console.log("collisions, list = " + m_callCount + ', ' +  m_playList.length);
+         console.log("collisions, list = " + m_callCount + ', ' +  m_playList.length);
          m_callCount = 0;
       }
    }

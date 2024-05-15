@@ -97,7 +97,7 @@ window.bS = (function() {
             }
          } else {
             // Reset the wall color to it's default.
-            body_Wall.color = cP.Wall.color_default;               
+            if ( ! body_Wall.sensor) body_Wall.color = cP.Wall.color_default;               
          }
          
          // Ghost-ball pool

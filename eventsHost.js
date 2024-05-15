@@ -272,6 +272,10 @@ window.eV = (function() {
          if ((client.name == client.selectedBody.firstClientDirectMove) && (client.selectedBody.constructor.name == "Puck")) {
             selectedPuckName = client.selectedBody.name;
          }
+         // This used to discriminate against dropping the puck over the hoop.
+         if (gW.getDemoVersion().includes('basketball') && (client.selectedBody.constructor.name == "Puck")) {
+            bpH.resetShotState({'clientName':client.name, 'puckName':client.selectedBody.name, 'puck_pos_2d_m':client.selectedBody.position_2d_m});
+         }
       }
       
       if (client.cursorSpring) {

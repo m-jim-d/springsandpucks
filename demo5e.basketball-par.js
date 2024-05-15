@@ -142,21 +142,21 @@ demo_capture = {
          "name": "wall23",
          "position_2d_m": {
             "x": 2.92,
-            "y": 3.90
+            "y": 4.875
          },
          "fence": false,
          "fenceLeg": null,
          "sensor": true,
-         "visible": false,
+         "visible": true,
          "velocity_2d_mps": {
             "x": 0,
             "y": 0
          },
          "angle_r": 0,
          "angularSpeed_rps": 0,
-         "half_width_m": 1.0,
+         "half_width_m": 0.9,
          "half_height_m": 0.02,
-         "color": "darkgray"
+         "color": "#202020"
       },
       "wall24": {
          "name": "wall24",
@@ -176,7 +176,7 @@ demo_capture = {
          "angularSpeed_rps": 0,
          "half_width_m": 0.5,
          "half_height_m": 0.02,
-         "color": "darkgray"
+         "color": "#202020"
       },
       "wall25": {
          "name": "wall25",
@@ -186,7 +186,6 @@ demo_capture = {
          },
          "fence": false,
          "fenceLeg": null,
-         "sensor": false,
          "visible": true,
          "velocity_2d_mps": {
             "x": 0,
@@ -198,7 +197,27 @@ demo_capture = {
          "half_height_m": 0.38388684991550187,
          "color": "darkgray",
          "monkeyHunt": false
-      }
+      },
+      "wall26": {
+         "name": "wall26",
+         "position_2d_m": {
+            "x": 17.85,
+            "y": 5.409198994818922
+         },
+         "fence": false,
+         "fenceLeg": null,
+         "sensor": true,
+         "visible": false,
+         "velocity_2d_mps": {
+            "x": 0,
+            "y": 0
+         },
+         "angle_r": 0,
+         "angularSpeed_rps": 0,
+         "half_width_m": 0.02581670281681262,
+         "half_height_m": 3.9554539933218815,
+         "color": "#202020"
+      },
    },
    "puckMapData": {
       "puck4": {
@@ -1187,7 +1206,7 @@ demo_capture = {
          "color": "DarkSlateGray",
          "borderColor": "white",
          "shape": "rect",
-         "imageID": "monkey",
+         "imageID": "monkey-1",
          "imageScale": 1.15,
          "colorSource": false,
          "drawDuringPE": true,

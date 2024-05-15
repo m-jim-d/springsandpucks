@@ -819,9 +819,10 @@ window.gB = (function() {
             m_nonCueBallPocketed = false;
             m_cushionCollisionPenaltyGiven = false;
             
-            if (gW.getDemoVersion().slice(0,3) == '5.e') {
+            if (gW.getDemoVersion().includes('basketball')) {
                // basketball shots
-               bpH.resetShotState({'clientName':client.name, 'puckName':client.selectedBody.name});
+               bpH.resetShotState({'clientName':client.name, 'puckName':client.selectedBody.name, 
+                                   'puck_v_2d_mps':client.selectedBody.velocity_2d_mps, 'puck_pos_2d_m':client.selectedBody.position_2d_m});
             } else if (gW.getDemoVersion().slice(0,3) == '4.e') {
                // Monkey Hunt
                mH.resetShotState({'clientName':client.name, 'puckName':client.selectedBody.name});

@@ -51,43 +51,43 @@
      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
    </script>
 
-   <script src="Box2D.js?v=72"></script>
+   <script src="Box2D.js?v=73"></script>
 
-   <script src="utilities.js?v=72"></script>
-   <script src="pageStuff.js?v=72"></script>
-   <script src="worldScreen.js?v=72"></script>
+   <script src="utilities.js?v=73"></script>
+   <script src="pageStuff.js?v=73"></script>
+   <script src="worldScreen.js?v=73"></script>
    
-   <script src="drawFunc.js?v=72"></script>
-   <script src="consAndPros.js?v=72"></script>
-   <script src="clientProto.js?v=72"></script>
-   <script src="piEngine.js?v=72"></script>
+   <script src="drawFunc.js?v=73"></script>
+   <script src="consAndPros.js?v=73"></script>
+   <script src="clientProto.js?v=73"></script>
+   <script src="piEngine.js?v=73"></script>
    
-   <script src="tableActs.js?v=72"></script>
-   <script src="multiSelect.js?v=72"></script>
-   <script src="gwModule.js?v=72"></script>
+   <script src="tableActs.js?v=73"></script>
+   <script src="multiSelect.js?v=73"></script>
+   <script src="gwModule.js?v=73"></script>
    
-   <script src="demoStart.js?v=72"></script>
-   <script src="eventsHost.js?v=72"></script>
-   <script src="boxStuff.js?v=72"></script>
+   <script src="demoStart.js?v=73"></script>
+   <script src="eventsHost.js?v=73"></script>
+   <script src="boxStuff.js?v=73"></script>
 
    <!-- for testing: load client via script element
    <script src="https://triquence-ca88d70f0e55.herokuapp.com/socket.io/socket.io.js"></script>
    -->
-   <script src="hostAndClient.js?v=72"></script>
-   <script src="eventsNonHost.js?v=72"></script>
+   <script src="hostAndClient.js?v=73"></script>
+   <script src="eventsNonHost.js?v=73"></script>
 
-   <script src="captureRestore.js?v=72"></script>
-   <script src="leaderBoard.js?v=72"></script>
-   <script src="ghostBall.js?v=72"></script>
-   <script src="puckPopper.js?v=72"></script>
-   <script src="jelloMadness.js?v=72"></script>
-   <script src="bpHoops.js?v=72"></script>
-   <script src="monkeyHunt.js?v=72"></script>
+   <script src="captureRestore.js?v=73"></script>
+   <script src="leaderBoard.js?v=73"></script>
+   <script src="ghostBall.js?v=73"></script>
+   <script src="puckPopper.js?v=73"></script>
+   <script src="jelloMadness.js?v=73"></script>
+   <script src="bpHoops.js?v=73"></script>
+   <script src="monkeyHunt.js?v=73"></script>
 
    <!-- put a capture into the page level global: demo_6_fromFile -->
-   <script src="demo6.js?v=72"></script>
+   <script src="demo6.js?v=73"></script>
    <!-- put a capture into the page level global: demo_8_fromFile -->
-   <script src="demo8.js?v=72"></script>
+   <script src="demo8.js?v=73"></script>
    <!--
    <script src="demo2b.js"></script>
    -->
@@ -141,7 +141,7 @@
   <img id="donkey-2"   src="images/donkey.png"     width="603" height="655"  title="Democrat #2">
   <img id="donkey-3"   src="images/donkey.png"     width="603" height="655"  title="Democrat #3">
   <img id="donkey-4"   src="images/donkey.png"     width="603" height="655"  title="Democrat #4">
-                                                                                             >
+  <img id="monkey-1"   src="images/monkey.png"     width="335" height="481"  title="Independent #1">
 </div>
 
 <!-- The navigation menu -->
@@ -1344,23 +1344,7 @@
          Reconnect the two links by selecting their ends (turn "COM" off first) and then using the "add revolute joint" option from the "remove/add items" select control.
          <br><br>
          Note the wall-mounted pulley was created by "add pin", then enabling "edit walls & pins", then selecting the pin and a puck (with "COM" on), and finally "add revolute" joint to mount the puck on the pin.
-         <br><br>
-         <span id="bphoops"></span><a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-par.js'})" title='a game for the curious'>5e.basketball</a> (<strong>Bipartisan Hoops</strong>)
-         has the chain-link loop <a class="scroll-link" href="#" title="" data-scroll-target="d5e">5e</a> repurposed as a hoop net (horizontal lines are springs). 
-         This is a full-screen link; "esc" to return to normal view. 
-         Drag and release to shoot. Use the "b" key to toggle high-resolution aiming on/off (a second-finger touch on a touch screen). 
-         Hold the "ctrl" key down while dragging to position the ball, dandelion, mascot, politician, or me (triple tapping, with one finger, toggles this ball-in-hand feature on a touch screen).
-         <br><br>
-         <!--Or, watch a <a href="https://triquence.org/videos.html?basketball" target="_blank" title="Bipartisan Hoops">game</a>. -->
-         The key for a good score is to develop a good bank shot. 
-         To do so, try using the "c" key to center your attachment point, and then fine tune your aim with the "b" key.
-         <br><br>
-         The '21-'22 version of the game has been retired. You can still play it if you can guess the
-         <input required placeholder="password" title="password for the original BH" type="text" class="bphPassword" id="pw_basketball" maxlength="10" minlength="4" autocomplete="off">.
-         Then start the game from the nickname field below: click in it, then use your "Enter" key.
-         <!-- Here is the <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-pol.js'})" title='a game for the weary'>'21-'22</a> version of the game.  -->
-         <br><br>
-         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" enterkeyhint="enter" class="nickNameField" id="nn_basketball" maxlength="10" minlength="2" autocomplete="off">
+         
          <br><br>
          <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5f.js'})">5f</a> applies the revolute joint in producing the chaotic motion of a double-compound pendulum. Try pressing alt-p to visualize the
          position history of the outer puck.
@@ -1371,6 +1355,26 @@
          operates on the joints in the multi-select and sets +/- 20 degree limits for joints that are wide open (joint angles near -360, 0, and +360). The connected pucks should
          be prepared first: (1) lay the chain flat (with gravity on), or (2) push a loop into a circular pattern (use a helper puck, in the center, and increase
          its radius until the loop is circular).
+         
+         <br><br>
+         <hr><br>
+         
+         <span id="bphoops"></span><a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-par.js'})" title='a game for the curious'>5e.basketball</a> (<strong>Bipartisan Hoops</strong>)
+         has the chain-link loop <a class="scroll-link" href="#" title="" data-scroll-target="d5e">5e</a> repurposed as a hoop net (horizontal lines are springs). 
+         This is a full-screen link; "esc" to return to normal view. 
+         Drag and release to shoot. Use the "b" key to toggle high-resolution aiming on/off (a second-finger touch on a touch screen). 
+         Hold the "ctrl" key down while dragging to position the ball, dandelion, or mascot (triple tapping, with one finger, toggles this ball-in-hand feature on a touch screen).
+         <br><br>
+         <!--Or, watch a <a href="https://triquence.org/videos.html?basketball" target="_blank" title="Bipartisan Hoops">game</a>. -->
+         The key for a good score is to develop a good bank shot. 
+         To do so, try using the "c" key to center your attachment point (inhibiting rotation), and then fine tune your aim with the "b" key.
+         <br><br>
+         You can still play the '21-'22 version if you can guess the
+         <input required placeholder="password" title="password for the original BH" type="text" class="bphPassword" id="pw_basketball" maxlength="10" minlength="4" autocomplete="off">.
+         Then, from the nickname field below, start it with the "Enter" key.
+         <!-- Here is the <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-pol.js'})" title='a game for the weary'>'21-'22</a> version of the game.  -->
+         <br><br>
+         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" enterkeyhint="enter" class="nickNameField" id="nn_basketball" maxlength="10" minlength="2" autocomplete="off">
          <br><br>
          
          <hr><br>
