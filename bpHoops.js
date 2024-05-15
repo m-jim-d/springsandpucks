@@ -99,6 +99,7 @@ window.bpH = (function() {
    // the mouse button and either launches a cursor-spring shot (see gB.poolShot) or drops a puck (see mouseUp_handler in eventsHost).
    function resetShotState( pars = {}) {
       m_clientName = uT.setDefault( pars.clientName, "local");
+      // puck4 is in flight at the beginning.
       let puckName = uT.setDefault( pars.puckName, "puck4");
       let initializing = uT.setDefault( pars.initializing, false);
       
@@ -118,6 +119,7 @@ window.bpH = (function() {
          m_millerShot = "no attempt yet";
       } else {
          m_firstExampleShot = false;
+         // check the puck in flight at start (puck4, normally the basketball).
          if (gW.aT.puckMap[ puckName].imageID == "miller") { 
             m_millerShot = "attempted";
          }
@@ -300,7 +302,7 @@ window.bpH = (function() {
          let shotTypeString = "";
          let scoreChange = 0;
          if (prohibited) {
-            shotTypeString = "goal tending\\[25px Arial]   Try a normal shot.";
+            shotTypeString = "goal tending\\[25px Arial]   Try shooting.";
             scoreChange = 0;
          } else if (tooEasy) {
             shotTypeString = "too easy \\[30px Arial,yellow]try a harder shot" +
@@ -391,7 +393,12 @@ window.bpH = (function() {
                m_stopFeeder = window.setTimeout( function() {
                   gW.aT.wallMap['wall25'].setVelocity( new wS.Vec2D( 0.0, 0.0));
                   gW.aT.wallMap['wall25'].setPosition( new wS.Vec2D(20.7, 0.58));
+                  //m_firstExampleShot = false;
                }, 5000 * waitCorrection);
+               
+               // Now, after the first time through, the basketball shot, issue a reset as would 
+               // normally happen with real shots. This will set m_firstExampleShot to false.
+               if (m_firstExampleShot) resetShotState();
             }
             
             if ( ! m_firstExampleShot) m_shotReportIssued = true;
@@ -400,8 +407,6 @@ window.bpH = (function() {
             m_playList = m_playList.filter( name => (name != puck.imageID) );
          }
             
-         m_firstExampleShot = false;
-         
          if ((m_playList.length == 0) && ( ! m_reportedWin)) {
             let playTime_s = (new Date().getTime() - m_timeOfStart)/1000;
             cT.Client.applyToAll( client => { 
