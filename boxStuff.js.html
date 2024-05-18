@@ -193,7 +193,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">}</span>
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
             <span class="c1">// Reset the wall color to it&#39;s default.</span>
-            <span class="nx">body_Wall</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">cP</span><span class="p">.</span><span class="nx">Wall</span><span class="p">.</span><span class="nx">color_default</span><span class="p">;</span>               
+            <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">body_Wall</span><span class="p">.</span><span class="nx">sensor</span><span class="p">)</span> <span class="nx">body_Wall</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="nx">cP</span><span class="p">.</span><span class="nx">Wall</span><span class="p">.</span><span class="nx">color_default</span><span class="p">;</span>               
          <span class="p">}</span>
          
          <span class="c1">// Ghost-ball pool</span>

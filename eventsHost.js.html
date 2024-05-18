@@ -368,6 +368,11 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="k">if</span> <span class="p">((</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">firstClientDirectMove</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="s2">&quot;Puck&quot;</span><span class="p">))</span> <span class="p">{</span>
             <span class="nx">selectedPuckName</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
          <span class="p">}</span>
+         <span class="c1">// This used to discriminate against dropping the puck over the hoop.</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoVersion</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;basketball&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="s2">&quot;Puck&quot;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">bpH</span><span class="p">.</span><span class="nx">resetShotState</span><span class="p">({</span><span class="s1">&#39;clientName&#39;</span><span class="o">:</span><span class="nx">client</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="s1">&#39;puckName&#39;</span><span class="o">:</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> 
+                                <span class="s1">&#39;puck_pos_2d_m&#39;</span><span class="o">:</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">position_2d_m</span><span class="p">,</span>  <span class="s1">&#39;puck_v_2d_mps&#39;</span><span class="o">:</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">velocity_2d_mps</span><span class="p">});</span>
+         <span class="p">}</span>
       <span class="p">}</span>
       
       <span class="k">if</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">cursorSpring</span><span class="p">)</span> <span class="p">{</span>
@@ -1440,7 +1445,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">}</span>
       <span class="p">},</span> <span class="p">{</span><span class="nx">capture</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>   
       
-      <span class="c1">// NickName fields in help panel for Ghost Ball, Monkey Hunt, Bipartisan Hoops.</span>
+      <span class="c1">// NickName fields in help panel for Puck Popper, Ghost Ball, Monkey Hunt, and Bipartisan Hoops.</span>
       <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input.nickNameField&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;keyup blur&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
          <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span> <span class="o">==</span> <span class="s2">&quot;Enter&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">blur</span><span class="p">();</span>
@@ -1464,10 +1469,19 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                   <span class="p">}</span>
                
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s1">&#39;nn_basketball&#39;</span><span class="p">)</span> <span class="p">{</span>
-                  <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;5.e.basketball&quot;</span><span class="p">))</span> <span class="p">{</span>
-                     <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-                  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                     <span class="nx">cR</span><span class="p">.</span><span class="nx">demoStart_fromCapture</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;fileName&#39;</span><span class="o">:</span><span class="s1">&#39;demo5e.basketball.js&#39;</span><span class="p">});</span>
+                  <span class="kd">let</span> <span class="nx">secretPW</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#pw_basketball&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span> 
+                  <span class="c1">// Always run the base of the politician version, no modified captures allowed here.</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nx">secretPW</span> <span class="o">==</span> <span class="s2">&quot;2122pw&quot;</span><span class="p">)</span> <span class="p">{</span>
+                     <span class="nx">cR</span><span class="p">.</span><span class="nx">demoStart_fromCapture</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;fileName&#39;</span><span class="o">:</span><span class="s1">&#39;demo5e.basketball-pol.js&#39;</span><span class="p">});</span>
+                     
+                  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> 
+                     <span class="c1">// Allow modified versions (altered captures) of the party version.</span>
+                     <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;5.e.basketball-par&quot;</span><span class="p">))</span> <span class="p">{</span>
+                        <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+                        
+                     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="nx">cR</span><span class="p">.</span><span class="nx">demoStart_fromCapture</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;fileName&#39;</span><span class="o">:</span><span class="s1">&#39;demo5e.basketball-par.js&#39;</span><span class="p">});</span>
+                     <span class="p">}</span>
                   <span class="p">}</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s1">&#39;nn_popper7&#39;</span><span class="p">)</span> <span class="p">{</span>
@@ -1489,9 +1503,38 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="c1">// if too short, clean out the field</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">cleanString</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="nx">cleanString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
             
+            <span class="kd">let</span> <span class="nx">localNickName</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">nickName</span><span class="p">;</span>
+            
+            <span class="kd">let</span> <span class="nx">nameString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">localNickName</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;&quot;&#39;</span><span class="o">+</span><span class="nx">localNickName</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span> <span class="o">:</span> <span class="s1">&#39;an anonymous host&#39;</span><span class="p">;</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="nx">hC</span><span class="p">.</span><span class="nx">get_socket</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">cleanString</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">cleanString</span> <span class="o">!=</span> <span class="nx">localNickName</span><span class="p">))</span> <span class="p">{</span>
+               <span class="kd">let</span> <span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;\nYou are connected to the server and identified as &#39;</span><span class="o">+</span><span class="nx">nameString</span><span class="o">+</span><span class="s1">&#39;.\n\n&#39;</span> <span class="o">+</span>
+                     <span class="s1">&#39;Please make any changes to your name via the chat field. Then click the &quot;Create&quot; button.\n\n&#39;</span> <span class="o">+</span>
+                     <span class="s1">&#39;To get to the chat field, you may need to toggle the left panel using the &quot;m&quot; key.&#39;</span>
+               <span class="nx">alert</span><span class="p">(</span> <span class="nx">message</span><span class="p">);</span>
+               <span class="nx">cleanString</span> <span class="o">=</span> <span class="nx">localNickName</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hC</span><span class="p">.</span><span class="nx">get_socket</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">cleanString</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nx">localNickName</span><span class="p">)</span> <span class="p">{</span>
+               <span class="kd">let</span> <span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;\nYou are connected to the server and identified as &#39;</span><span class="o">+</span><span class="nx">nameString</span><span class="o">+</span><span class="s1">&#39;.\n\n&#39;</span> <span class="o">+</span> 
+                     <span class="s1">&#39;If you prefer to go back to being anonymous, type &quot;noname&quot; into the chat field. Then click the &quot;Create&quot; button.\n\n&#39;</span> <span class="o">+</span>
+                     <span class="s1">&#39;To get to the chat field, you may need to toggle the left panel using the &quot;m&quot; key.&#39;</span>
+               <span class="nx">alert</span><span class="p">(</span> <span class="nx">message</span><span class="p">);</span>
+               <span class="nx">cleanString</span> <span class="o">=</span> <span class="nx">localNickName</span><span class="p">;</span>
+            <span class="p">}</span>
+            
             <span class="c1">// sync all the nickname fields to this value</span>
             <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input.nickNameField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span> <span class="nx">cleanString</span><span class="p">);</span>
          <span class="p">}</span>
+      <span class="p">});</span>
+      
+      <span class="c1">// password checker for old version of bipartisan hoops</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#pw_basketball&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;keyup&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;2122pw&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">;</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">val</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;quiet&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="s2">&quot;cyan&quot;</span><span class="p">;</span> <span class="c1">// lightgray</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">backgroundColor</span> <span class="o">=</span> <span class="s2">&quot;#FCF55F&quot;</span><span class="p">;</span>
+         <span class="p">};</span>
       <span class="p">});</span>
       
       <span class="c1">// Calculator for two pucks in orbit.</span>

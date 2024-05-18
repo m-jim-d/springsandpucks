@@ -516,6 +516,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="nx">canvasDiv</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hostCanvasDiv&#39;</span><span class="p">);</span>
       <span class="nx">canvas</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;hostCanvas&#39;</span><span class="p">);</span>
       <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
+
+      <span class="c1">// Add a local user to the clients dictionary.</span>
+      <span class="k">new</span> <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="o">:</span><span class="s1">&#39;local&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="o">:</span><span class="s1">&#39;tomato&#39;</span><span class="p">});</span>
       
       <span class="c1">// share some of the globals in gwModule.js with other modules</span>
       
@@ -537,10 +540,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       
       <span class="nx">dC</span><span class="p">.</span><span class="nx">extraDemos</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;extraDemos&quot;</span><span class="p">);</span>
       <span class="nx">dC</span><span class="p">.</span><span class="nx">indexInPlusRow</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;indexInPlusRow&quot;</span><span class="p">);</span>
-
-      
-      <span class="c1">// Add a local user to the clients dictionary.</span>
-      <span class="k">new</span> <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="o">:</span><span class="s1">&#39;local&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="o">:</span><span class="s1">&#39;tomato&#39;</span><span class="p">});</span>
 
       <span class="c1">// Start the blank demo for frame rate testing.</span>
       <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;restartLoop&#39;</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span> <span class="s1">&#39;logThis&#39;</span><span class="o">:</span><span class="kc">false</span><span class="p">});</span>

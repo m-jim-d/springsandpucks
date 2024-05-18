@@ -174,12 +174,12 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">oneOfThese</span><span class="p">(</span> <span class="nx">demoList</span><span class="p">,</span> <span class="nx">captureName</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// &quot;demoList&quot; is an array of strings, usually a list of demos.</span>
+      <span class="c1">// &quot;demoList&quot; is an array of substrings, usually a list of demos.</span>
       <span class="c1">// &quot;captureName&quot; is a demo name or corresponding capture name with an extension in the name.</span>
       <span class="c1">// The map array method applies the includes string method to see if any of the strings in the array is a </span>
       <span class="c1">// substring of the capture name. Map returns an array (of boolean results) which is then</span>
       <span class="c1">// checked for any True values.</span>
-      <span class="c1">// This can be used to check if a capture name has a match against a list of demos.  </span>
+      <span class="c1">// This can be used to check if a capture name has a match against a list of demos.</span>
       <span class="k">return</span> <span class="nx">demoList</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span> <span class="p">(</span><span class="nx">nameInList</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">captureName</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">nameInList</span><span class="p">)</span> <span class="p">).</span><span class="nx">includes</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
    <span class="p">}</span>
    

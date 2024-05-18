@@ -346,6 +346,13 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="c1">// Ignore commands in the chat.</span>
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;::&quot;</span><span class="p">))</span> <span class="p">{</span>
          <span class="k">return</span> <span class="nx">nickName</span><span class="p">;</span>
+      <span class="c1">// Go back to being anonymous.</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span> <span class="o">==</span> <span class="s2">&quot;noname&quot;</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">cl</span><span class="p">.</span><span class="nx">nickName</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+         <span class="nx">cl</span><span class="p">.</span><span class="nx">teamName</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+         <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+         <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input.nickNameField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+         <span class="k">return</span> <span class="nx">nickName</span><span class="p">;</span>
       <span class="p">}</span>
 
       <span class="c1">// nickname input field in the ghost-ball pool help panel (all the nick-name fields should be in sync, so just snag from any of these fields)</span>
@@ -500,6 +507,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             
       <span class="c1">// Check to see if there&#39;s a nickname in the chat input field.</span>
       <span class="kd">var</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="nx">checkForNickName</span><span class="p">(</span> <span class="nx">mode</span><span class="p">);</span>
+      
       <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="s1">&#39;too long&#39;</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">displayMessage</span><span class="p">(</span><span class="s1">&#39;Nicknames must have 10 characters or less. Shorten the name and then try connecting again.&#39;</span><span class="p">);</span>
          <span class="k">return</span><span class="p">;</span>
@@ -695,18 +703,23 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                   <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
                <span class="p">}</span>
             
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span> <span class="o">==</span> <span class="s2">&quot;noname&quot;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">connect_and_listen</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">);</span>
+               <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+            
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">chatString</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">)</span> <span class="p">{</span>
                <span class="kd">let</span> <span class="nx">tab</span> <span class="o">=</span> <span class="s2">&quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp&quot;</span><span class="p">;</span>
                <span class="kd">let</span> <span class="nx">helpString</span> <span class="o">=</span> <span class="s2">&quot;Commands:&lt;br&gt;&quot;</span> <span class="o">+</span>
-                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;help&lt;/strong&gt;: list of the network commands than can run from the chat field.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;help&lt;/strong&gt;: list of the network commands than can run from the chat field&lt;br&gt;&quot;</span> <span class="o">+</span>
                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;rr&lt;/strong&gt;: room report on connections to this room&lt;br&gt;&quot;</span> <span class="o">+</span>
                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;dcir&lt;/strong&gt;: disconnect the clients in this room&lt;br&gt;&quot;</span> <span class="o">+</span>
                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping&lt;/strong&gt;: ping test to the server&lt;br&gt;&quot;</span> <span class="o">+</span>
                   <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping:host&lt;/strong&gt;: ping test to the host&lt;br&gt;&quot;</span> <span class="o">+</span>
-                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping:p2p-uN&lt;/strong&gt;: ping test to another p2p client, where N is an integer.&lt;br&gt;&quot;</span> <span class="o">+</span>
-                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;cmd&lt;/strong&gt;: get more detailed help on the cmd commands.&lt;br&gt;&quot;</span> <span class="o">+</span>
-                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;lb&lt;/strong&gt;: get more detailed help on leaderboard queries.&lt;br&gt;&quot;</span> <span class="o">+</span>
-                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;dbrtc&lt;/strong&gt;: get more detailed help on debugging WebRTC stuff.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;ping:p2p-uN&lt;/strong&gt;: ping test to another p2p client, where N is an integer&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;cmd&lt;/strong&gt;: get more detailed help on the cmd commands&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;lb&lt;/strong&gt;: get more detailed help on leaderboard queries&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;dbrtc&lt;/strong&gt;: get more detailed help on debugging WebRTC stuff&lt;br&gt;&quot;</span> <span class="o">+</span>
+                  <span class="nx">tab</span> <span class="o">+</span> <span class="s2">&quot;&lt;strong&gt;noname&lt;/strong&gt;: reconnect as anonymous&lt;br&gt;&quot;</span> <span class="o">+</span>
                   <span class="s2">&quot;&quot;</span><span class="p">;</span>
                <span class="nx">displayMessage</span><span class="p">(</span> <span class="nx">helpString</span><span class="p">);</span>
                <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
@@ -985,6 +998,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                <span class="c1">// If you have reconnected as host, or if there is another room active, your new nickname may be in use by someone else, and therefore incremented by the server.</span>
                <span class="c1">// Accept that incremented version of your nickname (e.g. bob15).</span>
                <span class="nx">cl</span><span class="p">.</span><span class="nx">nickName</span> <span class="o">=</span> <span class="nx">msg_object</span><span class="p">.</span><span class="nx">nickName</span><span class="p">;</span>
+               <span class="c1">// Also reset all the nickname fields near each game.</span>
+               <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input.nickNameField&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span> <span class="nx">cl</span><span class="p">.</span><span class="nx">nickName</span><span class="p">);</span>
             <span class="p">}</span>
          
          <span class="c1">// Client might get this warning...</span>
