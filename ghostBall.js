@@ -1486,9 +1486,33 @@ window.gB = (function() {
                }   
             }
          
-         // Third touch: do nothing
-         } else if (touchIndex == 3) {
-                        
+         // Third touch: useful mainly for Bipartisan Hoops, so you can do a ball-in-hand maneuver to get vertical orientation for a bank shot.
+         // Works best if 2nd and 3rd touch are done together, toggling between COM and non-COM ball-in-hand.
+         } else if ((touchIndex == 3) && (fromListener != 'touchmove')) {
+            if (hostOrClient == 'client') {
+               if (['4.e','5.e'].includes( demoBase)) {
+                  // Reverse the "b" toggle issued in touchIndex 2, on the way to this touchIndex 3.
+                  mK['b'] = 'U';
+                  eVN.handle_sending_mK_data( mK);
+                  mK['b'] = 'D';
+                  eVN.handle_sending_mK_data( mK);
+                  
+                  mK['c'] = 'D';
+                  mK['ct'] = 'D';
+                  console.log("inside touches 3");
+               } 
+               
+            } else if (hostOrClient == 'host') {
+               if (['4.e','5.e'].includes( demoBase)) {
+                  // Reverse the "b" toggle...
+                  eV.key_b_handler('local');
+                  
+                  eV.key_c_handler('local');
+                  cl.key_ctrl = 'D';
+                  eV.key_ctrl_handler('keydown', 'local');
+               }
+            }  
+            
          // Forth touch: restart the pool game (e.g. demoIndexOnHost would be the 3 key if playing Ghost Ball)
          } else if (touchIndex == 4) {
             if (hostOrClient == 'client') {
@@ -1552,12 +1576,19 @@ window.gB = (function() {
                } 
             }
             
-         // do nothing
          } else if (touchIndex == 3) {
             if (hostOrClient == 'client') {
-               mK.MD = 'T'; // don't shoot
+               if (['4.e','5.e'].includes( demoBase)) {
+                  mK.MD = 'T'; // T for touch, keep the mouse button down, don't shoot
+                 
+                  mK['c'] = 'U';
+                  mK['ct'] = 'U';
+               }
             } else if (hostOrClient == 'host') {
-               // nothing yet...
+               if (['4.e','5.e'].includes( demoBase)) {
+                  cl.key_ctrl = 'U';
+                  eV.key_ctrl_handler('keyup', 'local');
+               }
             }
             
          // reset the number key (demoIndexOnHost) so, for example, ready to restart the pool game

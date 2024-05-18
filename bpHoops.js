@@ -38,7 +38,7 @@ window.bpH = (function() {
        m_humanUseOfBasketBall, m_callCount, m_playList, m_initialTeamSize, m_reportedWin, 
        m_clientName, m_timeOfStart, m_millerShot, m_millerAvailable, m_partisanNature,
        m_closingRemark, m_reverseFeeder, m_stopFeeder, m_priorShotIndex, m_puck_pos_2d_m, m_puck_v_2d_mps, 
-       m_shotReportIssued, m_hitRightWall;
+       m_shotReportIssued, m_hitRightWall, m_chokeShotReports;
    
    var m_wallMap = {'wall5':'leftHoop', 'wall12':'rightHoop', 'wall21':'backboard', 'wall23':'bottomSensor', 'wall24':'topSensor', 'wall26':'rightWallSensor'};
    
@@ -120,10 +120,12 @@ window.bpH = (function() {
       } else {
          m_firstExampleShot = false;
          // check the puck in flight at start (puck4, normally the basketball).
-         if (gW.aT.puckMap[ puckName].imageID == "miller") { 
+         if ((gW.aT.puckMap[ puckName]) && (gW.aT.puckMap[ puckName].imageID == "miller")) { 
             m_millerShot = "attempted";
          }
       }
+      
+      m_chokeShotReports = ( $('#pw_basketball').val() == "quiet" ) ? true : false; // inhibit long shot reports
    }
    
    function stopAllTimers() {
@@ -293,16 +295,16 @@ window.bpH = (function() {
             } else if (tooEasy) {
                messageDuration = 5.5;
             } else {
-               messageDuration = 7.0;
+               messageDuration = (m_chokeShotReports) ? 3.0 : 7.0;
             }
          } else {
-            messageDuration = 4.0;
+            messageDuration = (m_chokeShotReports) ? 3.0 : 4.0;
          }
                   
          let shotTypeString = "";
          let scoreChange = 0;
          if (prohibited) {
-            shotTypeString = "goal tending\\[25px Arial]   Try shooting.";
+            shotTypeString = "goal tending\\[25px Arial]   nice try";
             scoreChange = 0;
          } else if (tooEasy) {
             shotTypeString = "too easy \\[30px Arial,yellow]try a harder shot" +
@@ -316,7 +318,7 @@ window.bpH = (function() {
                shotTypeString = " --- wow, super tricky shot";
                scoreChange = 900;
             } else {
-               shotTypeString = " --- wow, trick shot";
+               shotTypeString = " --- pretty good, trick shot";
                scoreChange = 500;
             }
          } else if ((m_backBoardShot) && (m_hoopContact)) {
@@ -332,6 +334,13 @@ window.bpH = (function() {
             shotTypeString = " --- swish shot";
             scoreChange = 200;
          }
+         
+         // If no aiming guide, just flinging it, give a bonus.
+         if (( ! gW.clients[ m_clientName].ctrlShiftLock) && (scoreChange > 0)) {
+            scoreChange += 200;
+            shotTypeString += " (fling bonus)";
+         }
+         
          if (m_firstExampleShot) scoreChange = 0; 
          gW.clients[ m_clientName].score += scoreChange;
          
@@ -367,6 +376,8 @@ window.bpH = (function() {
             let leadPhrase = ( uT.oneOfThese(['elephant','donkey','monkey'], puck.imageID) ) ? "" : "good one, ";
             messageString = leadPhrase + "[base,yellow]" + m_nameMap[ puck.imageID]['name'] + "[base]" + shotTypeString + "\\[25px Arial]" + m_nameMap[ puck.imageID]['title'];
          }
+         
+         if (m_chokeShotReports) messageString = shotTypeString.replace(" --- ","");
          
          if ( ! m_shotReportIssued) {
             if ( ! m_firstExampleShot) gW.messages['gameTitle'].newMessage( messageString, messageDuration);

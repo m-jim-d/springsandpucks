@@ -274,7 +274,8 @@ window.eV = (function() {
          }
          // This used to discriminate against dropping the puck over the hoop.
          if (gW.getDemoVersion().includes('basketball') && (client.selectedBody.constructor.name == "Puck")) {
-            bpH.resetShotState({'clientName':client.name, 'puckName':client.selectedBody.name, 'puck_pos_2d_m':client.selectedBody.position_2d_m});
+            bpH.resetShotState({'clientName':client.name, 'puckName':client.selectedBody.name, 
+                                'puck_pos_2d_m':client.selectedBody.position_2d_m,  'puck_v_2d_mps':client.selectedBody.velocity_2d_mps});
          }
       }
       
@@ -1433,6 +1434,8 @@ window.eV = (function() {
       $('#pw_basketball').on('keyup', function(e) {
          if ( $(this).val() == "2122pw") {
             this.style.backgroundColor = "lightgreen";
+         } else if ( $(this).val() == "quiet") {
+            this.style.backgroundColor = "cyan"; // lightgray
          } else {
             this.style.backgroundColor = "#FCF55F";
          };

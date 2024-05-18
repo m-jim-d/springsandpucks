@@ -225,7 +225,7 @@ demo_capture = {
          "drawDuringPE": true,
          "density": 1.5,
          "linDamp": 0,
-         "angDamp": 0,
+         "angDamp": 0.8,
          "hitLimit": 10,
          "createTail": false,
          "tailPars": null,
