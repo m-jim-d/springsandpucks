@@ -1585,8 +1585,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="c1">// Third touch: useful mainly for Bipartisan Hoops, so you can do a ball-in-hand maneuver to get vertical orientation for a bank shot.</span>
          <span class="c1">// Works best if 2nd and 3rd touch are done together, toggling between COM and non-COM ball-in-hand.</span>
          <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">((</span><span class="nx">touchIndex</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">fromListener</span> <span class="o">!=</span> <span class="s1">&#39;touchmove&#39;</span><span class="p">))</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;client&#39;</span><span class="p">)</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">([</span><span class="s1">&#39;4.e&#39;</span><span class="p">,</span><span class="s1">&#39;5.e&#39;</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">demoBase</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">demoVersionOnHost</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;basketball&#39;</span><span class="p">))</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;client&#39;</span><span class="p">)</span> <span class="p">{</span>
                   <span class="c1">// Reverse the &quot;b&quot; toggle issued in touchIndex 2, on the way to this touchIndex 3.</span>
                   <span class="nx">mK</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;U&#39;</span><span class="p">;</span>
                   <span class="nx">eVN</span><span class="p">.</span><span class="nx">handle_sending_mK_data</span><span class="p">(</span> <span class="nx">mK</span><span class="p">);</span>
@@ -1596,18 +1596,16 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                   <span class="nx">mK</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;D&#39;</span><span class="p">;</span>
                   <span class="nx">mK</span><span class="p">[</span><span class="s1">&#39;ct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;D&#39;</span><span class="p">;</span>
                   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inside touches 3&quot;</span><span class="p">);</span>
-               <span class="p">}</span> 
-               
-            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;host&#39;</span><span class="p">)</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">([</span><span class="s1">&#39;4.e&#39;</span><span class="p">,</span><span class="s1">&#39;5.e&#39;</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">demoBase</span><span class="p">))</span> <span class="p">{</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;host&#39;</span><span class="p">)</span> <span class="p">{</span>
                   <span class="c1">// Reverse the &quot;b&quot; toggle...</span>
                   <span class="nx">eV</span><span class="p">.</span><span class="nx">key_b_handler</span><span class="p">(</span><span class="s1">&#39;local&#39;</span><span class="p">);</span>
                   
                   <span class="nx">eV</span><span class="p">.</span><span class="nx">key_c_handler</span><span class="p">(</span><span class="s1">&#39;local&#39;</span><span class="p">);</span>
                   <span class="nx">cl</span><span class="p">.</span><span class="nx">key_ctrl</span> <span class="o">=</span> <span class="s1">&#39;D&#39;</span><span class="p">;</span>
                   <span class="nx">eV</span><span class="p">.</span><span class="nx">key_ctrl_handler</span><span class="p">(</span><span class="s1">&#39;keydown&#39;</span><span class="p">,</span> <span class="s1">&#39;local&#39;</span><span class="p">);</span>
-               <span class="p">}</span>
-            <span class="p">}</span>  
+               <span class="p">}</span>  
+            <span class="p">}</span>
             
          <span class="c1">// Forth touch: restart the pool game (e.g. demoIndexOnHost would be the 3 key if playing Ghost Ball)</span>
          <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">touchIndex</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
@@ -1673,15 +1671,13 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">}</span>
             
          <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">touchIndex</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;client&#39;</span><span class="p">)</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">([</span><span class="s1">&#39;4.e&#39;</span><span class="p">,</span><span class="s1">&#39;5.e&#39;</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">demoBase</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">demoVersionOnHost</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;basketball&#39;</span><span class="p">))</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;client&#39;</span><span class="p">)</span> <span class="p">{</span>
                   <span class="nx">mK</span><span class="p">.</span><span class="nx">MD</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span><span class="p">;</span> <span class="c1">// T for touch, keep the mouse button down, don&#39;t shoot</span>
                  
                   <span class="nx">mK</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;U&#39;</span><span class="p">;</span>
                   <span class="nx">mK</span><span class="p">[</span><span class="s1">&#39;ct&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;U&#39;</span><span class="p">;</span>
-               <span class="p">}</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;host&#39;</span><span class="p">)</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">([</span><span class="s1">&#39;4.e&#39;</span><span class="p">,</span><span class="s1">&#39;5.e&#39;</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">demoBase</span><span class="p">))</span> <span class="p">{</span>
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">hostOrClient</span> <span class="o">==</span> <span class="s1">&#39;host&#39;</span><span class="p">)</span> <span class="p">{</span>
                   <span class="nx">cl</span><span class="p">.</span><span class="nx">key_ctrl</span> <span class="o">=</span> <span class="s1">&#39;U&#39;</span><span class="p">;</span>
                   <span class="nx">eV</span><span class="p">.</span><span class="nx">key_ctrl_handler</span><span class="p">(</span><span class="s1">&#39;keyup&#39;</span><span class="p">,</span> <span class="s1">&#39;local&#39;</span><span class="p">);</span>
                <span class="p">}</span>
