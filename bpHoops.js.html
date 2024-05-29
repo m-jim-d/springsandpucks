@@ -324,7 +324,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                                 <span class="s2">&quot;\\    \&quot;[base,yellow]0[base]\&quot; key to exit and reset (nuke) everything&quot;</span><span class="p">},</span>
          <span class="mi">2</span><span class="o">:</span><span class="p">{</span><span class="s1">&#39;tL_s&#39;</span><span class="o">:</span><span class="mf">6.0</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="o">:</span><span class="s1">&#39;Please note:&#39;</span> <span class="o">+</span> 
                                 <span class="s1">&#39;\\    Any shooting will stop this help series.&#39;</span> <span class="o">+</span>
-                                <span class="s1">&#39;\\    Games are limited to [base,yellow]100[base] seconds.&#39;</span><span class="p">},</span>
+                                <span class="s1">&#39;\\    Games are limited to [base,yellow]120[base] seconds.&#39;</span><span class="p">},</span>
          <span class="mi">3</span><span class="o">:</span><span class="p">{</span><span class="s1">&#39;tL_s&#39;</span><span class="o">:</span><span class="mf">8.0</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="o">:</span><span class="s1">&#39;Position the ball before the shot:&#39;</span> <span class="o">+</span> 
                                 <span class="s1">&#39;\\    hold the &quot;[base,yellow]ctrl[base]&quot; key down while dragging the basketball&#39;</span> <span class="o">+</span> 
                                 <span class="s1">&#39;\\    in a similar way, encourage one of the &#39;</span> <span class="o">+</span> <span class="nx">politicianPhrase</span> <span class="o">+</span> <span class="s1">&#39; to get into the game&#39;</span><span class="p">},</span>
@@ -355,7 +355,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">checkTimeLimit</span><span class="p">()</span> <span class="p">{</span>
-      <span class="kd">let</span> <span class="nx">countdownStart_s</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span> <span class="c1">// reference point calculating countdown, zero after this much time</span>
+      <span class="kd">let</span> <span class="nx">countdownStart_s</span> <span class="o">=</span> <span class="mi">120</span><span class="p">;</span> <span class="c1">// reference point calculating countdown, zero after this much time</span>
       <span class="kd">let</span> <span class="nx">startShowingTimer_s</span> <span class="o">=</span> <span class="mi">60</span><span class="p">;</span>
       <span class="kd">let</span> <span class="nx">shutdownTime_s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
       
@@ -412,7 +412,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="p">}</span>
       
       <span class="c1">// Run final check on bottom sensor to see if the puck went through the hoop from the top.</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">m_wallMap</span><span class="p">[</span> <span class="nx">wall</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;bottomSensor&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">m_hitTopSensor</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>  <span class="c1">// &amp;&amp; ( ! m_hitBottomSensorFirst)</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">m_wallMap</span><span class="p">[</span> <span class="nx">wall</span><span class="p">.</span><span class="nx">name</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;bottomSensor&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">m_hitTopSensor</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
       
          <span class="c1">// final checks for prohibited, easy, and trick shots</span>
          <span class="kd">let</span> <span class="nx">prohibited</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>

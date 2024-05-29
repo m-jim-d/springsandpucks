@@ -228,7 +228,7 @@ window.bpH = (function() {
                                 "\\    \"[base,yellow]0[base]\" key to exit and reset (nuke) everything"},
          2:{'tL_s':6.0, 'message':'Please note:' + 
                                 '\\    Any shooting will stop this help series.' +
-                                '\\    Games are limited to [base,yellow]100[base] seconds.'},
+                                '\\    Games are limited to [base,yellow]120[base] seconds.'},
          3:{'tL_s':8.0, 'message':'Position the ball before the shot:' + 
                                 '\\    hold the "[base,yellow]ctrl[base]" key down while dragging the basketball' + 
                                 '\\    in a similar way, encourage one of the ' + politicianPhrase + ' to get into the game'},
@@ -259,7 +259,7 @@ window.bpH = (function() {
    }
    
    function checkTimeLimit() {
-      let countdownStart_s = 100; // reference point calculating countdown, zero after this much time
+      let countdownStart_s = 120; // reference point calculating countdown, zero after this much time
       let startShowingTimer_s = 60;
       let shutdownTime_s = 0;
       
@@ -316,7 +316,7 @@ window.bpH = (function() {
       }
       
       // Run final check on bottom sensor to see if the puck went through the hoop from the top.
-      if ( (m_wallMap[ wall.name] == "bottomSensor") && (m_hitTopSensor) ) {  // && ( ! m_hitBottomSensorFirst)
+      if ( (m_wallMap[ wall.name] == "bottomSensor") && (m_hitTopSensor) ) {
       
          // final checks for prohibited, easy, and trick shots
          let prohibited = false;
