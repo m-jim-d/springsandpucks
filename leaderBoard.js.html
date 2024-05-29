@@ -130,13 +130,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    
    <span class="c1">// Names starting with m_ indicate module-scope globals.</span>
    <span class="kd">var</span> <span class="nx">m_leaderBoardIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-   
-   <span class="kd">var</span> <span class="nx">m_timeTipPool</span> <span class="o">=</span> <span class="s1">&#39;time (seconds) to finish the pool game&#39;</span><span class="p">;</span>
-   <span class="kd">var</span> <span class="nx">m_scoreTip</span> <span class="o">=</span> <span class="s1">&#39;+200: win,\n+100: pop client or drone \n+50: pop regular puck \n+10: hit a puck with your bullet \n-10: get hit by somebody else&amp;#39;s bullet \n-1: bad shot&#39;</span><span class="p">;</span>
-   <span class="kd">var</span> <span class="nx">m_scoreTipPool_9ball</span>    <span class="o">=</span> <span class="s1">&#39;+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not low ball \n-20: scratch the cue ball&#39;</span><span class="p">;</span>
-   <span class="kd">var</span> <span class="nx">m_scoreTipPool_rotation</span> <span class="o">=</span> <span class="s1">&#39;+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not low ball \n-20: scratch the cue ball&#39;</span><span class="p">;</span>
-   <span class="kd">var</span> <span class="nx">m_scoreTipPool_8ball</span>    <span class="o">=</span> <span class="s1">&#39;+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not in group \n-20: scratch the cue ball&#39;</span><span class="p">;</span>
-   
+      
    <span class="c1">// module globals for objects brought in by initializeModule</span>
    <span class="c1">// (none)</span>
    
@@ -232,14 +226,35 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">return</span> <span class="nx">inTable</span><span class="p">;</span>
    <span class="p">}</span>
    
-   <span class="kd">function</span> <span class="nx">scoreTipPool</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoVersion</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;8ball&#39;</span><span class="p">))</span> <span class="p">{</span>
-         <span class="k">return</span> <span class="nx">m_scoreTipPool_8ball</span><span class="p">;</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoVersion</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;9ball&#39;</span><span class="p">))</span> <span class="p">{</span>
-         <span class="k">return</span> <span class="nx">m_scoreTipPool_9ball</span><span class="p">;</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoVersion</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;rotation&#39;</span><span class="p">))</span> <span class="p">{</span>
-         <span class="k">return</span> <span class="nx">m_scoreTipPool_rotation</span><span class="p">;</span>
+   <span class="kd">function</span> <span class="nx">timeTip</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">tip</span> <span class="o">=</span> <span class="s1">&#39;time (seconds) to finish the game&#39;</span><span class="p">;</span>
+      <span class="k">return</span> <span class="nx">tip</span><span class="p">;</span>
+   <span class="p">}</span>
+   
+   <span class="kd">function</span> <span class="nx">scoreTip</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">gameName</span> <span class="o">=</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoVersion</span><span class="p">();</span>
+      <span class="kd">let</span> <span class="nx">tip</span><span class="p">;</span>
+      
+      <span class="k">if</span> <span class="p">(</span><span class="nx">gameName</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;8ball&#39;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="nx">tip</span> <span class="o">=</span> <span class="s1">&#39;+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not in group \n-20: scratch the cue ball&#39;</span><span class="p">;</span>
+         
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">gameName</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;9ball&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="nx">gameName</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;rotation&#39;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="nx">tip</span> <span class="o">=</span> <span class="s1">&#39;+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not low ball \n-20: scratch the cue ball&#39;</span><span class="p">;</span>
+         
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">gameName</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;monkeyhunt&#39;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="nx">tip</span> <span class="o">=</span> <span class="s1">&#39;+25: hit monkey \n+100: push monkey outside&#39;</span><span class="p">;</span>
+         
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">gameName</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;basketball&#39;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="nx">tip</span> <span class="o">=</span> <span class="s1">&#39;+100: shot rattles in \n+200: swish shot \n+300: bank shot that rattles in \n+400: clean bank shot \n+500: trick shot \n+900: super tricky shot \n+200: fling bonus&#39;</span><span class="p">;</span>
+         
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoIndex</span><span class="p">()))</span> <span class="p">{</span>  
+         <span class="nx">tip</span> <span class="o">=</span> <span class="s1">&#39;+200: win \n+100: pop client or drone \n+50: pop regular puck \n+10: hit a puck with your bullet \n-10: get hit by somebody else&amp;#39;s bullet \n-1: bad shot&#39;</span><span class="p">;</span>
+         
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+         <span class="nx">tip</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
       <span class="p">}</span>
+      
+      <span class="k">return</span> <span class="nx">tip</span><span class="p">;</span>
    <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">leaderBoardTable</span><span class="p">(</span> <span class="nx">mode</span><span class="p">,</span> <span class="nx">lbResp</span><span class="p">,</span> <span class="nx">gameVersion</span><span class="p">)</span> <span class="p">{</span>
@@ -265,8 +280,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="kd">var</span> <span class="nx">tableString</span> <span class="o">=</span> <span class="s2">&quot;&lt;table class=&#39;&quot;</span> <span class="o">+</span> <span class="nx">tableClass</span> <span class="o">+</span> <span class="s2">&quot;&#39;&gt;&lt;tr align=&#39;right&#39;&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39;&gt;&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;client name \n or \nnickname (client name)&#39;&gt;name&lt;/td&gt;&quot;</span> <span class="o">+</span>
-            <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">m_timeTipPool</span><span class="o">+</span> <span class="s2">&quot;&#39; &quot;</span> <span class="o">+</span><span class="nx">style_winTime</span><span class="o">+</span> <span class="s2">&quot;&gt;time&lt;/td&gt;&quot;</span> <span class="o">+</span>
-            <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">scoreTipPool</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;&#39; &quot;</span> <span class="o">+</span><span class="nx">style_score</span><span class="o">+</span> <span class="s2">&quot;&gt;score&lt;/td&gt;&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">timeTip</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;&#39; &quot;</span> <span class="o">+</span><span class="nx">style_winTime</span><span class="o">+</span> <span class="s2">&quot;&gt;time&lt;/td&gt;&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">scoreTip</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;&#39; &quot;</span> <span class="o">+</span><span class="nx">style_score</span><span class="o">+</span> <span class="s2">&quot;&gt;score&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;monitor frames per second&#39;&gt;fps&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;inverse of the physics timestep&#39;&gt;ipt&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;virtual gamepad was used during game&#39;&gt;vgp&lt;/td&gt;&quot;</span> <span class="o">+</span>
@@ -282,12 +297,12 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;inverse of the physics timestep&#39;&gt;ipt&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;/tr&gt;&quot;</span><span class="p">;</span>
       <span class="c1">// Puck Popper      </span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">([</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoIndex</span><span class="p">()))</span> <span class="p">{</span>
          <span class="kd">var</span> <span class="nx">tableString</span> <span class="o">=</span> <span class="s2">&quot;&lt;table class=&#39;&quot;</span> <span class="o">+</span> <span class="nx">tableClass</span> <span class="o">+</span> <span class="s2">&quot;&#39;&gt;&lt;tr align=&#39;right&#39;&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39;&gt;&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;client name \n or \nnickname (client name)&#39;&gt;name&lt;/td&gt;&quot;</span> <span class="o">+</span>
-            <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;time (seconds) to win game (last puck standing)&#39; &quot;</span> <span class="o">+</span><span class="nx">style_winTime</span><span class="o">+</span> <span class="s2">&quot;&gt;time&lt;/td&gt;&quot;</span> <span class="o">+</span>
-            <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">m_scoreTip</span><span class="o">+</span> <span class="s2">&quot;&#39; &quot;</span> <span class="o">+</span><span class="nx">style_score</span><span class="o">+</span> <span class="s2">&quot;&gt;score&lt;/td&gt;&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;seconds to win game (last puck standing)&#39; &quot;</span> <span class="o">+</span><span class="nx">style_winTime</span><span class="o">+</span> <span class="s2">&quot;&gt;time&lt;/td&gt;&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">scoreTip</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;&#39; &quot;</span> <span class="o">+</span><span class="nx">style_score</span><span class="o">+</span> <span class="s2">&quot;&gt;score&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;human players&#39;&gt;p&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;drones&#39;&gt;d&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;leaderboardHeader&#39; title=&#39;monitor frames per second&#39;&gt;fps&lt;/td&gt;&quot;</span> <span class="o">+</span>
@@ -513,8 +528,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="kd">var</span> <span class="nx">summaryString</span> <span class="o">=</span> <span class="nx">firstLine</span> <span class="o">+</span> 
             <span class="s2">&quot;&lt;table class=&#39;score&#39;&gt;&lt;tr align=&#39;right&#39;&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;client name \n or \nnickname (client name)&#39;&gt;name&lt;/td&gt;&quot;</span> <span class="o">+</span>
-            <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">m_timeTipPool</span><span class="o">+</span> <span class="s2">&quot;&#39;&gt;time&lt;/td&gt;&quot;</span> <span class="o">+</span>
-            <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">scoreTipPool</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;&#39;&gt;score&lt;/td&gt;&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">timeTip</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;&#39;&gt;time&lt;/td&gt;&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">scoreTip</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;&#39;&gt;score&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;virtual gamepad used during game&#39;&gt;vgp&lt;/td&gt;&quot;</span> <span class="o">+</span> 
             <span class="s2">&quot;&lt;/tr&gt;&quot;</span><span class="p">;</span>
          <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">score</span> <span class="k">of</span> <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">scoreSummary</span><span class="p">)</span> <span class="p">{</span>
@@ -531,8 +546,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="kd">var</span> <span class="nx">summaryString</span> <span class="o">=</span> <span class="nx">firstLine</span> <span class="o">+</span> 
             <span class="s2">&quot;&lt;table class=&#39;score&#39;&gt;&lt;tr align=&#39;right&#39;&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;client name \n or \nnickname (client name)&#39;&gt;name&lt;/td&gt;&quot;</span> <span class="o">+</span>
-            <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;time (seconds) to win game (last puck standing)&#39;&gt;time&lt;/td&gt;&quot;</span> <span class="o">+</span>
-            <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">m_scoreTip</span><span class="o">+</span> <span class="s2">&quot;&#39;&gt;score&lt;/td&gt;&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;seconds to win game (last puck standing)&#39;&gt;time&lt;/td&gt;&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;&quot;</span> <span class="o">+</span><span class="nx">scoreTip</span><span class="p">()</span><span class="o">+</span> <span class="s2">&quot;&#39;&gt;score&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;mouse usage in the canvas area&#39;&gt;m&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;NPCs have been sleeping (ctrl-q)&#39;&gt;s&lt;/td&gt;&quot;</span> <span class="o">+</span>
             <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;virtual gamepad used during game&#39;&gt;vgp&lt;/td&gt;&quot;</span> <span class="o">+</span> 
