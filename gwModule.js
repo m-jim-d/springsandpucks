@@ -402,6 +402,7 @@ window.gW = (function() {
 
       messages['ppTimer'] =    new uT.HelpMessage({'font':'14px Arial', 'color':'lightgray'});
       messages['jelloTimer'] = new uT.HelpMessage({'font':'25px Arial', 'color':'lightgray'});
+      messages['hoopsTimer'] = new uT.HelpMessage({'font':'18px Arial', 'color':'lightgray'});
       messages['score'] =      new uT.HelpMessage({'font':'18px Arial', 'color':'lightgray'});
       messages['help'] =       new uT.HelpMessage({'font':'20px Arial', 'color':'lightgray'});   
       messages['help2'] =      new uT.HelpMessage({'font':'20px Arial', 'color':'lightgray'});
@@ -645,8 +646,11 @@ window.gW = (function() {
          // A timer limits how often checks are run on pool-game state. Check once for every c.poolTimer_stateCheckLimit_s timer period.
          gB.checkPoolGameState( ctx);
       
-      } else if ((c.demoIndex == 6) && (jM.puckCount() > 0)) {
+      } else if (uT.oneOfThese(['6.a','6.d'], c.demoVersion) && (jM.puckCount() > 0)) {
          jM.checkForJelloTangle();
+      
+      } else if (uT.oneOfThese(['basketball'], c.demoVersion)) {
+         bpH.checkTimeLimit();
       
       } else if (((c.demoIndex == 7 || c.demoIndex == 8)) && ( ! pP.getNpcSleep())) {
          pP.checkForPuckPopperWinnerAndReport();
@@ -822,7 +826,8 @@ window.gW = (function() {
       
       if ( (['3.d','4.e','5.e'].includes( c.demoVersion.slice(0,3))) || [7,8].includes( c.demoIndex) ) {
          messages['score'].displayIt( c.deltaT_s, ctx);
-         if (c.demoVersion.slice(0,3) == '3.d') messages['ppTimer'].displayIt( c.deltaT_s, ctx);
+         if (c.demoVersion.includes('5.e.basketball') && bpH.gameState.showTimer) messages['hoopsTimer'].displayIt( c.deltaT_s, ctx);
+         
       } else if ((c.demoVersion.slice(0,3) == "6.a") || (c.demoVersion.slice(0,3) == "6.d")) { 
          messages['jelloTimer'].displayIt( c.deltaT_s, ctx);
       }

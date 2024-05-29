@@ -156,7 +156,7 @@ demo_capture = {
          "angularSpeed_rps": 0,
          "half_width_m": 0.9,
          "half_height_m": 0.02,
-         "color": "#202020"
+         "color": "#242424"
       },
       "wall24": {
          "name": "wall24",

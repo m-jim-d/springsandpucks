@@ -34,13 +34,7 @@ window.lB = (function() {
    
    // Names starting with m_ indicate module-scope globals.
    var m_leaderBoardIndex = 0;
-   
-   var m_timeTipPool = 'time (seconds) to finish the pool game';
-   var m_scoreTip = '+200: win,\n+100: pop client or drone \n+50: pop regular puck \n+10: hit a puck with your bullet \n-10: get hit by somebody else&#39;s bullet \n-1: bad shot';
-   var m_scoreTipPool_9ball    = '+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not low ball \n-20: scratch the cue ball';
-   var m_scoreTipPool_rotation = '+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not low ball \n-20: scratch the cue ball';
-   var m_scoreTipPool_8ball    = '+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not in group \n-20: scratch the cue ball';
-   
+      
    // module globals for objects brought in by initializeModule
    // (none)
    
@@ -136,14 +130,35 @@ window.lB = (function() {
       return inTable;
    }
    
-   function scoreTipPool() {
-      if (gW.getDemoVersion().includes('8ball')) {
-         return m_scoreTipPool_8ball;
-      } else if (gW.getDemoVersion().includes('9ball')) {
-         return m_scoreTipPool_9ball;
-      } else if (gW.getDemoVersion().includes('rotation')) {
-         return m_scoreTipPool_rotation;
+   function timeTip() {
+      let tip = 'time (seconds) to finish the game';
+      return tip;
+   }
+   
+   function scoreTip() {
+      let gameName = gW.getDemoVersion();
+      let tip;
+      
+      if (gameName.includes('8ball')) {
+         tip = '+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not in group \n-20: scratch the cue ball';
+         
+      } else if (gameName.includes('9ball') || gameName.includes('rotation')) {
+         tip = '+50: win \n+15: pocket a ball \n-5: take a shot \n-10: object ball not low ball \n-20: scratch the cue ball';
+         
+      } else if (gameName.includes('monkeyhunt')) {
+         tip = '+25: hit monkey \n+100: push monkey outside';
+         
+      } else if (gameName.includes('basketball')) {
+         tip = '+100: shot rattles in \n+200: swish shot \n+300: bank shot that rattles in \n+400: clean bank shot \n+500: trick shot \n+900: super tricky shot \n+200: fling bonus';
+         
+      } else if ([7,8].includes( gW.getDemoIndex())) {  
+         tip = '+200: win \n+100: pop client or drone \n+50: pop regular puck \n+10: hit a puck with your bullet \n-10: get hit by somebody else&#39;s bullet \n-1: bad shot';
+         
+      } else {
+         tip = '';
       }
+      
+      return tip;
    }
    
    function leaderBoardTable( mode, lbResp, gameVersion) {
@@ -169,8 +184,8 @@ window.lB = (function() {
          var tableString = "<table class='" + tableClass + "'><tr align='right'>" +
             "<td class='leaderboardHeader'></td>" +
             "<td class='leaderboardHeader' title='client name \n or \nnickname (client name)'>name</td>" +
-            "<td class='leaderboardHeader' title='" +m_timeTipPool+ "' " +style_winTime+ ">time</td>" +
-            "<td class='leaderboardHeader' title='" +scoreTipPool()+ "' " +style_score+ ">score</td>" +
+            "<td class='leaderboardHeader' title='" +timeTip()+ "' " +style_winTime+ ">time</td>" +
+            "<td class='leaderboardHeader' title='" +scoreTip()+ "' " +style_score+ ">score</td>" +
             "<td class='leaderboardHeader' title='monitor frames per second'>fps</td>" +
             "<td class='leaderboardHeader' title='inverse of the physics timestep'>ipt</td>" +
             "<td class='leaderboardHeader' title='virtual gamepad was used during game'>vgp</td>" +
@@ -186,12 +201,12 @@ window.lB = (function() {
             "<td class='leaderboardHeader' title='inverse of the physics timestep'>ipt</td>" +
             "</tr>";
       // Puck Popper      
-      } else {
+      } else if ([7,8].includes( gW.getDemoIndex())) {
          var tableString = "<table class='" + tableClass + "'><tr align='right'>" +
             "<td class='leaderboardHeader'></td>" +
             "<td class='leaderboardHeader' title='client name \n or \nnickname (client name)'>name</td>" +
-            "<td class='leaderboardHeader' title='time (seconds) to win game (last puck standing)' " +style_winTime+ ">time</td>" +
-            "<td class='leaderboardHeader' title='" +m_scoreTip+ "' " +style_score+ ">score</td>" +
+            "<td class='leaderboardHeader' title='seconds to win game (last puck standing)' " +style_winTime+ ">time</td>" +
+            "<td class='leaderboardHeader' title='" +scoreTip()+ "' " +style_score+ ">score</td>" +
             "<td class='leaderboardHeader' title='human players'>p</td>" +
             "<td class='leaderboardHeader' title='drones'>d</td>" +
             "<td class='leaderboardHeader' title='monitor frames per second'>fps</td>" +
@@ -417,8 +432,8 @@ window.lB = (function() {
          var summaryString = firstLine + 
             "<table class='score'><tr align='right'>" +
             "<td class='scoreHeader' title='client name \n or \nnickname (client name)'>name</td>" +
-            "<td class='scoreHeader' title='" +m_timeTipPool+ "'>time</td>" +
-            "<td class='scoreHeader' title='" +scoreTipPool()+ "'>score</td>" +
+            "<td class='scoreHeader' title='" +timeTip()+ "'>time</td>" +
+            "<td class='scoreHeader' title='" +scoreTip()+ "'>score</td>" +
             "<td class='scoreHeader' title='virtual gamepad used during game'>vgp</td>" + 
             "</tr>";
          for (let score of cT.Client.scoreSummary) {
@@ -435,8 +450,8 @@ window.lB = (function() {
          var summaryString = firstLine + 
             "<table class='score'><tr align='right'>" +
             "<td class='scoreHeader' title='client name \n or \nnickname (client name)'>name</td>" +
-            "<td class='scoreHeader' title='time (seconds) to win game (last puck standing)'>time</td>" +
-            "<td class='scoreHeader' title='" +m_scoreTip+ "'>score</td>" +
+            "<td class='scoreHeader' title='seconds to win game (last puck standing)'>time</td>" +
+            "<td class='scoreHeader' title='" +scoreTip()+ "'>score</td>" +
             "<td class='scoreHeader' title='mouse usage in the canvas area'>m</td>" +
             "<td class='scoreHeader' title='NPCs have been sleeping (ctrl-q)'>s</td>" +
             "<td class='scoreHeader' title='virtual gamepad used during game'>vgp</td>" + 
