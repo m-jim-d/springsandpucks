@@ -1111,7 +1111,7 @@ window.cR = (function() {
       
       console.log('fetching ' + fileName + ' from server');
       $.getScript( fileName, function() {
-         // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading file.
+         // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.
          // Put the capture into the capture input box on the page.
          gW.dC.json.value = JSON.stringify( demo_capture, null, 3);
          window.setTimeout( function() { scrollCaptureArea();}, 500);

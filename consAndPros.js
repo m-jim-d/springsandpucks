@@ -816,6 +816,8 @@ window.cP = (function() {
       var drag_factor = 1.0;
       var angDrag_factor = 1.0;
       
+      gW.aT.hack['pwsEdits'] = true;
+      
       if (command == 'wider') {
          width_factor = (sf) ? sf : 1.1;
       } else if (command == 'thinner') {
@@ -1899,6 +1901,8 @@ window.cP = (function() {
       var length_factor = 1.0;
       var damping_factor = 1.0;
       
+      gW.aT.hack['pwsEdits'] = true;
+      
       if ((command == 'wider') || (command == 'widerAppearance')) {
          width_factor = 1.1;
       } else if ((command == 'thinner') || (command == 'thinnerAppearance')) {
@@ -2526,6 +2530,8 @@ window.cP = (function() {
       
       var width_factor = 1.0;
       var height_factor = 1.0;
+      
+      gW.aT.hack['pwsEdits'] = true;
       
       if (command == 'wider') {
          width_factor = 1.1;

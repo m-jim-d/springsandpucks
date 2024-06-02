@@ -1323,6 +1323,7 @@ window.eV = (function() {
          if (dC.editor.checked) {
             gW.messages['help'].newMessage('Wall and Pin editing: [base,yellow]ON[base]', 1.0);
             if (cP.EpL.displayReport) cP.EpL.createEditPin();
+            gW.aT.hack['editor'] = true;
          } else {
             gW.messages['help'].newMessage('Wall and Pin editing: [base,yellow]OFF[base]', 1.0);
             if (cP.EpL.displayReport && cP.EpL.pinName) cP.EpL.deleteEditPin();

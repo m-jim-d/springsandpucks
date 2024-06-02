@@ -75,6 +75,8 @@ window.gW = (function() {
    aT.collisionCount = 0;
    aT.collisionInThisStep = false;
    
+   aT.hack = {}; // a place to keep track of edits made to the base version of the game
+   
    // Make a separate container for constants (c) and control flags used by aT objects. This avoids
    // circular references (and associated problems) with JSON capturing.
    var c = {};
@@ -146,8 +148,10 @@ window.gW = (function() {
    dC.comSelection = null;
    dC.multiplayer = null;
    dC.stream = null;
-   dC.editor = null;
    dC.localCursor = null;
+   dC.player = null;
+   dC.friendlyFire = null;
+   dC.editor = null;
       
    // Key values.
    var keyMap = {'48':'key_0', '49':'key_1', '50':'key_2', '51':'key_3', '52':'key_4', '53':'key_5', '54':'key_6', '55':'key_7', '56':'key_8', '57':'key_9',
@@ -216,6 +220,31 @@ window.gW = (function() {
             wall.draw( ctx);
          }
       });
+   }
+   
+   function hackerCheck( action='noReset') {
+      
+      // The only place the editor attribute can be set back to false is in this reset block.
+      // hackerCheck is called in reset mode in demoStart.js.
+      if (action == 'reset') {
+         aT.hack['editor'] = false; // enabling wall/pin edits
+         aT.hack['pwsEdits'] = false; // changing characteristics of pucks, walls, and springs
+         aT.hack['wpDirectMove'] = false; // direct movement of walls and pins
+      }
+      
+      // If the wall edits have been set on before the start of the game...
+      if (dC.editor.checked) aT.hack['editor'] = true;
+      
+      // If wall edits are turned on and then off during a game, aT.hack['editor'] will have been
+      // set true in eventsHosts and still be true here unless a reset is called for.
+      
+      // Set a level string for display in the report tables.
+      let levelString = "";
+      if (aT.hack['editor']) levelString = "e";
+      if (aT.hack['pwsEdits']) levelString += "c";
+      if (aT.hack['wpDirectMove']) levelString += "m";
+         
+      return levelString;
    }
    
    function setPauseState( e) {
@@ -705,6 +734,9 @@ window.gW = (function() {
                      client.rotateEachAboutItself();
                   }               
                }
+               
+               if (['Wall','Pin'].includes( client.selectedBody.constructor.name)) aT.hack['wpDirectMove'] = true;
+               
             }
          }
          
@@ -989,7 +1021,7 @@ window.gW = (function() {
       
       'clearCanvas': clearCanvas,
       'resetFenceColor': resetFenceColor,
-      
+      'hackerCheck': hackerCheck,
    };
    
 })();

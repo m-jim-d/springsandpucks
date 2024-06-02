@@ -189,6 +189,7 @@ window.lB = (function() {
             "<td class='leaderboardHeader' title='monitor frames per second'>fps</td>" +
             "<td class='leaderboardHeader' title='inverse of the physics timestep'>ipt</td>" +
             "<td class='leaderboardHeader' title='virtual gamepad was used during game'>vgp</td>" +
+            "<td class='leaderboardHeader' title='editor usage \ne: editor enabled \nc: changed characteristics \nd: movement of wall or pin'>edit</td>" +
             "</tr>";
       // Jello Madness      
       } else if (gW.getDemoIndex() == 6) {
@@ -213,6 +214,7 @@ window.lB = (function() {
             "<td class='leaderboardHeader' title='inverse of the physics timestep'>ipt</td>" +
             "<td class='leaderboardHeader' title='virtual gamepad was used during game'>vgp</td>" +
             "<td class='leaderboardHeader' title='friendly fire was prevented during game'>nff</td>" +
+            "<td class='leaderboardHeader' title='editor usage \ne: editor enabled \nc: changed characteristics \nd: movement of wall or pin'>edit</td>" +
             "</tr>";
       }
       
@@ -248,6 +250,7 @@ window.lB = (function() {
                "<td class='leaderboardScore'                       >" + score['frMonitor'] + "</td>" +
                "<td class='leaderboardScore'                       >" + score['hzPhysics'] + "</td>" +
                "<td class='leaderboardScore'                       >" + score['virtualGamePad'] + "</td>" +
+               "<td class='leaderboardScore'                       >" + score['editorUsage'] + "</td>" +
                "</tr>";
          // Jello Madness
          } else if (gW.getDemoIndex() == 6) {
@@ -272,6 +275,7 @@ window.lB = (function() {
                "<td class='leaderboardScore'                       >" + score['hzPhysics'] + "</td>" +
                "<td class='leaderboardScore'                       >" + score['virtualGamePad'] + "</td>" +
                "<td class='leaderboardScore'                       >" + score['noFriendlyFire'] + "</td>" +
+               "<td class='leaderboardScore'                       >" + score['editorUsage'] + "</td>" +
                "</tr>";
          }
          rowIndex += 1;
@@ -280,7 +284,7 @@ window.lB = (function() {
       return tableString;
    }
    
-   function sendScoreToSpreadSheet( mode, nR, peopleClients, gameVersion, n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire) {
+   function sendScoreToSpreadSheet( mode, nR, peopleClients, gameVersion, n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage) {
       var userName = peopleClients[ nR]['name'];
       var n_soloAndTeam = peopleClients.length;
       var userScore = peopleClients[ nR]['score'];
@@ -308,7 +312,8 @@ window.lB = (function() {
                                    '&userName=' + userName + '&score=' + userScore +  '&gameVersion=' + gameVersion + 
                                    '&winTime=' + winner +    '&mouse=' + mouse +      '&npcSleep=' + npcSleep +
                                    '&nPeople=' + n_people +  '&nDrones=' + n_drones + '&frMonitor=' + frameRate_monitor + '&hzPhysics=' + frameRate_physics + 
-                                   '&virtualGamePad=' + virtualGamePad + '&noFriendlyFire=' + noFriendlyFire + '&index=' + index, true);
+                                   '&virtualGamePad=' + virtualGamePad + '&noFriendlyFire=' + noFriendlyFire + '&editorUsage=' + editorUsage +
+                                   '&index=' + index, true);
       xhttp.send();
       xhttp.onreadystatechange = function () {
          // If there is a response from the spreadsheet:
@@ -343,7 +348,7 @@ window.lB = (function() {
                nR += 1;
                console.log('rC='+nR);
                if (nR == n_soloAndTeam-1) reportMode = 'report'; // Do a final submission, and ask for a report from the spreadsheet.
-               sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire);
+               sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage);
             }
          }
       }
@@ -375,11 +380,12 @@ window.lB = (function() {
       let frameRate_monitor = gW.dC.fps.innerHTML; //current observed refresh rate of the monitor
       let frameRate_physics = $('#FrameRate').val(); //timestep for engine
       let noFriendlyFire = (gW.dC.friendlyFire.checked) ? '':'x'; 
+      let editorUsage = gW.hackerCheck();
       
       // Recursively send the scores. If only one player, go right to 'report' mode.
       if (n_soloAndTeam > 0) {
          let reportMode = (n_soloAndTeam == 1) ? 'report':'noReport'; 
-         sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire);
+         sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage);
       }
    }
    

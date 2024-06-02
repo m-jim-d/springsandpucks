@@ -454,6 +454,7 @@ window.dS = (function() {
       
       setNickNameWithoutConnecting();
       cT.Client.resetScores();
+      gW.hackerCheck('reset');
       
       // De-select anything still selected.
       clients['local'].selectedBody = null;
