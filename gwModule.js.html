@@ -171,6 +171,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="nx">aT</span><span class="p">.</span><span class="nx">collisionCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
    <span class="nx">aT</span><span class="p">.</span><span class="nx">collisionInThisStep</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
    
+   <span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// a place to keep track of edits made to the base version of the game</span>
+   
    <span class="c1">// Make a separate container for constants (c) and control flags used by aT objects. This avoids</span>
    <span class="c1">// circular references (and associated problems) with JSON capturing.</span>
    <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="p">{};</span>
@@ -242,8 +244,10 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="nx">dC</span><span class="p">.</span><span class="nx">comSelection</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
    <span class="nx">dC</span><span class="p">.</span><span class="nx">multiplayer</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
    <span class="nx">dC</span><span class="p">.</span><span class="nx">stream</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-   <span class="nx">dC</span><span class="p">.</span><span class="nx">editor</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
    <span class="nx">dC</span><span class="p">.</span><span class="nx">localCursor</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+   <span class="nx">dC</span><span class="p">.</span><span class="nx">player</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+   <span class="nx">dC</span><span class="p">.</span><span class="nx">friendlyFire</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+   <span class="nx">dC</span><span class="p">.</span><span class="nx">editor</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
       
    <span class="c1">// Key values.</span>
    <span class="kd">var</span> <span class="nx">keyMap</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;48&#39;</span><span class="o">:</span><span class="s1">&#39;key_0&#39;</span><span class="p">,</span> <span class="s1">&#39;49&#39;</span><span class="o">:</span><span class="s1">&#39;key_1&#39;</span><span class="p">,</span> <span class="s1">&#39;50&#39;</span><span class="o">:</span><span class="s1">&#39;key_2&#39;</span><span class="p">,</span> <span class="s1">&#39;51&#39;</span><span class="o">:</span><span class="s1">&#39;key_3&#39;</span><span class="p">,</span> <span class="s1">&#39;52&#39;</span><span class="o">:</span><span class="s1">&#39;key_4&#39;</span><span class="p">,</span> <span class="s1">&#39;53&#39;</span><span class="o">:</span><span class="s1">&#39;key_5&#39;</span><span class="p">,</span> <span class="s1">&#39;54&#39;</span><span class="o">:</span><span class="s1">&#39;key_6&#39;</span><span class="p">,</span> <span class="s1">&#39;55&#39;</span><span class="o">:</span><span class="s1">&#39;key_7&#39;</span><span class="p">,</span> <span class="s1">&#39;56&#39;</span><span class="o">:</span><span class="s1">&#39;key_8&#39;</span><span class="p">,</span> <span class="s1">&#39;57&#39;</span><span class="o">:</span><span class="s1">&#39;key_9&#39;</span><span class="p">,</span>
@@ -312,6 +316,31 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="nx">wall</span><span class="p">.</span><span class="nx">draw</span><span class="p">(</span> <span class="nx">ctx</span><span class="p">);</span>
          <span class="p">}</span>
       <span class="p">});</span>
+   <span class="p">}</span>
+   
+   <span class="kd">function</span> <span class="nx">hackerCheck</span><span class="p">(</span> <span class="nx">action</span><span class="o">=</span><span class="s1">&#39;noReset&#39;</span><span class="p">)</span> <span class="p">{</span>
+      
+      <span class="c1">// The only place the editor attribute can be set back to false is in this reset block.</span>
+      <span class="c1">// hackerCheck is called in reset mode in demoStart.js.</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">==</span> <span class="s1">&#39;reset&#39;</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;editor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// enabling wall/pin edits</span>
+         <span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;pwsEdits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// changing characteristics of pucks, walls, and springs</span>
+         <span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;wpDirectMove&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// direct movement of walls and pins</span>
+      <span class="p">}</span>
+      
+      <span class="c1">// If the wall edits have been set on before the start of the game...</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">dC</span><span class="p">.</span><span class="nx">editor</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;editor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      
+      <span class="c1">// If wall edits are turned on and then off during a game, aT.hack[&#39;editor&#39;] will have been</span>
+      <span class="c1">// set true in eventsHosts and still be true here unless a reset is called for.</span>
+      
+      <span class="c1">// Set a level string for display in the report tables.</span>
+      <span class="kd">let</span> <span class="nx">levelString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;editor&#39;</span><span class="p">])</span> <span class="nx">levelString</span> <span class="o">=</span> <span class="s2">&quot;e&quot;</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;pwsEdits&#39;</span><span class="p">])</span> <span class="nx">levelString</span> <span class="o">+=</span> <span class="s2">&quot;c&quot;</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;wpDirectMove&#39;</span><span class="p">])</span> <span class="nx">levelString</span> <span class="o">+=</span> <span class="s2">&quot;m&quot;</span><span class="p">;</span>
+         
+      <span class="k">return</span> <span class="nx">levelString</span><span class="p">;</span>
    <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">setPauseState</span><span class="p">(</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
@@ -801,6 +830,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                      <span class="nx">client</span><span class="p">.</span><span class="nx">rotateEachAboutItself</span><span class="p">();</span>
                   <span class="p">}</span>               
                <span class="p">}</span>
+               
+               <span class="k">if</span> <span class="p">([</span><span class="s1">&#39;Wall&#39;</span><span class="p">,</span><span class="s1">&#39;Pin&#39;</span><span class="p">].</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">name</span><span class="p">))</span> <span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;wpDirectMove&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+               
             <span class="p">}</span>
          <span class="p">}</span>
          
@@ -1085,7 +1117,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       
       <span class="s1">&#39;clearCanvas&#39;</span><span class="o">:</span> <span class="nx">clearCanvas</span><span class="p">,</span>
       <span class="s1">&#39;resetFenceColor&#39;</span><span class="o">:</span> <span class="nx">resetFenceColor</span><span class="p">,</span>
-      
+      <span class="s1">&#39;hackerCheck&#39;</span><span class="o">:</span> <span class="nx">hackerCheck</span><span class="p">,</span>
    <span class="p">};</span>
    
 <span class="p">})();</span>
