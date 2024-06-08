@@ -223,27 +223,79 @@ window.gW = (function() {
    }
    
    function hackerCheck( action='noReset') {
+      let levelString = "";
       
       // The only place the editor attribute can be set back to false is in this reset block.
-      // hackerCheck is called in reset mode in demoStart.js.
+      // hackerCheck is called in reset mode in early in demoStart() in the demoStart.js module.
       if (action == 'reset') {
          aT.hack['editor'] = false; // enabling wall/pin edits
          aT.hack['pwsEdits'] = false; // changing characteristics of pucks, walls, and springs
-         aT.hack['wpDirectMove'] = false; // direct movement of walls and pins
+         aT.hack['wallpinDirectMove'] = false; // direct movement of walls and pins
+         aT.hack['puckDirectMove'] = false; // direct movement of pucks (ball in hand)
+         aT.hack['captureEdit'] = false; // edits to the capture textarea
+         aT.hack['deletedSomething'] = false; // deleted something
+         
+         if (c.demoVersion == "3.d.9ball") {
+            cR.compareCaptureToFile({'fileName':'demo3d.js'});
+         } else if (c.demoVersion == "3.d.8ball") {
+            cR.compareCaptureToFile({'fileName':'demo3d.8ball.js'});
+         } else if (c.demoVersion == "3.d.rotation") {
+            cR.compareCaptureToFile({'fileName':'demo3d.rotation.js'});
+
+         } else if (c.demoVersion == "4.e.monkeyhunt") {
+            cR.compareCaptureToFile({'fileName':'demo4e.monkeyhunt.js'});
+            
+         } else if (c.demoVersion == "5.e.basketball-par") {
+            cR.compareCaptureToFile({'fileName':'demo5e.basketball-par.js'});
+            
+         } else if (c.demoVersion == "6.d") {
+            cR.compareCaptureToFile({'fileName':'demo6d.js'});
+            
+         } else if (c.demoVersion == "7.b") {
+            cR.compareCaptureToFile({'fileName':'demo7b.js'});
+         } else if (c.demoVersion == "7.c") {
+            cR.compareCaptureToFile({'fileName':'demo7c.js'});
+         } else if (c.demoVersion == "7.d") {
+            cR.compareCaptureToFile({'fileName':'demo7d.js'});
+
+         } else if (c.demoVersion == "8.b") {
+            cR.compareCaptureToFile({'fileName':'demo8b.js'});
+         } else if (c.demoVersion == "8.c") {
+            cR.compareCaptureToFile({'fileName':'demo8c.js'});
+         } else if (c.demoVersion == "8.d") {
+            cR.compareCaptureToFile({'fileName':'demo8d.js'});
+         } else if (c.demoVersion == "8.e") {
+            cR.compareCaptureToFile({'fileName':'demo8e.js'});
+         }
+         
+      } else if (action == 'noReset') {
+         // All "a" versions of the games run (as default) without a capture.
+         if (c.demoVersion.split(".")[1] == 'a') {
+            // If there is a capture, check to see if it has the same demo version. 
+            // If so, that's considered an edit. Otherwise, that's just a lingering capture from another demo.
+            if (dC.json.value != "") {
+               let capture_data = JSON.parse( dC.json.value);
+               if (capture_data.demoVersion == c.demoVersion) {
+                  aT.hack['captureEdit'] = true;
+               }
+            }
+         }  
+
+         // If wall edits are turned on and then off during a game, aT.hack['editor'] will have been
+         // set true in eventsHosts and still be true here.
+         
+         // Set a level string for display in the report tables.
+         if (aT.hack['editor']) levelString = "e";
+         if (aT.hack['pwsEdits']) levelString += "a"; // a for attributes
+         if (aT.hack['wallpinDirectMove']) levelString += "w";
+         if (aT.hack['puckDirectMove']) levelString += "h"; // h for ball-in-hand
+         if (aT.hack['captureEdit']) levelString += "c"; // c for capture
+         if (aT.hack['deletedSomething']) levelString += "d"; // d for deleted something
       }
       
-      // If the wall edits have been set on before the start of the game...
+      // The following checks are made at BOTH the start and end of games (reset and noReset).
       if (dC.editor.checked) aT.hack['editor'] = true;
-      
-      // If wall edits are turned on and then off during a game, aT.hack['editor'] will have been
-      // set true in eventsHosts and still be true here unless a reset is called for.
-      
-      // Set a level string for display in the report tables.
-      let levelString = "";
-      if (aT.hack['editor']) levelString = "e";
-      if (aT.hack['pwsEdits']) levelString += "c";
-      if (aT.hack['wpDirectMove']) levelString += "m";
-         
+        
       return levelString;
    }
    
@@ -727,6 +779,13 @@ window.gW = (function() {
                   // translation
                   if ((client.key_ctrl == 'D') && (client.key_shift == 'U') && (client.key_alt == 'U')) {
                      client.moveToCursorPosition();
+                     
+                     if (['Wall','Pin'].includes( client.selectedBody.constructor.name)) {
+                        aT.hack['wallpinDirectMove'] = true;
+                     } else if (['Puck'].includes( client.selectedBody.constructor.name)) {
+                        aT.hack['puckDirectMove'] = true;
+                     }
+                     
                   // rotation
                   } else if ( ((client.key_ctrl == 'D') && (client.key_shift == 'D')) || ((client.ctrlShiftLock) && (client.selectedBody.constructor.name == 'Puck')) ) {
                      client.rotateToCursorPosition();
@@ -734,9 +793,6 @@ window.gW = (function() {
                      client.rotateEachAboutItself();
                   }               
                }
-               
-               if (['Wall','Pin'].includes( client.selectedBody.constructor.name)) aT.hack['wpDirectMove'] = true;
-               
             }
          }
          

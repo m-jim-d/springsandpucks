@@ -38,7 +38,7 @@ window.bpH = (function() {
        m_humanUseOfBasketBall, m_callCount, m_playList, m_initialTeamSize, m_reportedWin, 
        m_clientName, m_timeOfStart, m_millerShot, m_millerAvailable, m_partisanNature,
        m_closingRemark, m_reverseFeeder, m_stopFeeder, m_priorShotIndex, m_puck_pos_2d_m, m_puck_v_2d_mps, 
-       m_shotReportIssued, m_hitRightWall, m_chokeShotReports, m_timer_s, m_gameState;
+       m_shotReportIssued, m_hitRightWall, m_chokeShotReports, m_timer_s, m_countdownStart_s, m_gameState;
    
    var m_wallMap = {'wall5':'leftHoop', 'wall12':'rightHoop', 'wall21':'backboard', 'wall23':'bottomSensor', 'wall24':'topSensor', 'wall26':'rightWallSensor'};
    
@@ -151,6 +151,12 @@ window.bpH = (function() {
        
       m_timer_s = 0;
       gW.messages['hoopsTimer'].loc_px = {'x':30,'y':60};
+      // seconds in the countdown timer, zero after this much time (e.g. timer=20)
+      if ( $('#pw_basketball').val().includes("timer") ) {
+         m_countdownStart_s = $('#pw_basketball').val().split("=")[1];
+      } else {
+         m_countdownStart_s = 120; // two minute default 
+      }
       
       m_version = version;
       m_reportedWin = false;
@@ -259,14 +265,13 @@ window.bpH = (function() {
    }
    
    function checkTimeLimit() {
-      let countdownStart_s = 120; // reference point calculating countdown, zero after this much time
-      let startShowingTimer_s = 60;
+      let startShowingTimer_s = m_countdownStart_s/2.0;
       let shutdownTime_s = 0;
       
       gW.messages['help2'].loc_px = {'x':325,'y':230};
       
       m_timer_s += gW.getDeltaT_s();
-      let countdownTimer_s = countdownStart_s - m_timer_s;
+      let countdownTimer_s = m_countdownStart_s - m_timer_s;
       let timeRemaining_s = countdownTimer_s - shutdownTime_s;
       
       if ( ! m_reportedWin) {

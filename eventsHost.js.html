@@ -1219,6 +1219,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                         <span class="c1">// reset back to normal mode.</span>
                         <span class="nx">gW</span><span class="p">.</span><span class="nx">hostMSelect</span><span class="p">.</span><span class="nx">selectModeIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
                      <span class="p">}</span>
+                     <span class="nx">gW</span><span class="p">.</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;deletedSomething&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
                      
                   <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">selectedBody</span><span class="p">)</span> <span class="p">{</span>
                      <span class="c1">// A single-object selection.</span>
@@ -1227,6 +1228,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                      <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">selectedBody</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
                      <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">cursorSpring</span><span class="p">.</span><span class="nx">deleteThisOne</span><span class="p">({});</span>
                      <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">cursorSpring</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+                     <span class="nx">gW</span><span class="p">.</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;deletedSomething&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
                   <span class="p">}</span>
                   
                <span class="c1">// Identify a spring for copying.</span>

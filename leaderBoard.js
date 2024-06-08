@@ -178,7 +178,10 @@ window.lB = (function() {
          var style_score = "";
          var tableClass = "score";
       }
-            
+
+      let editColumnTitle = "editor usage \ne: wall-and-pin edits enabled \na: changed attributes \nw: movement of wall or pin " + 
+                                         "\nh: direct movement of puck (ball in hand) \nc: edits to the capture \nd: host deleted something";
+          
       // Ghost-ball pool and projectile games
       if ([3,4,5].includes( gW.getDemoIndex())) {
          var tableString = "<table class='" + tableClass + "'><tr align='right'>" +
@@ -188,8 +191,8 @@ window.lB = (function() {
             "<td class='leaderboardHeader' title='" +scoreTip()+ "' " +style_score+ ">score</td>" +
             "<td class='leaderboardHeader' title='monitor frames per second'>fps</td>" +
             "<td class='leaderboardHeader' title='inverse of the physics timestep'>ipt</td>" +
-            "<td class='leaderboardHeader' title='virtual gamepad was used during game'>vgp</td>" +
-            "<td class='leaderboardHeader' title='editor usage \ne: editor enabled \nc: changed characteristics \nd: movement of wall or pin'>edit</td>" +
+            "<td class='leaderboardHeader' title='virtual gamepad was used during game'>vp</td>" +
+            "<td class='leaderboardHeader' title='" +editColumnTitle+ "'>edit</td>" +
             "</tr>";
       // Jello Madness      
       } else if (gW.getDemoIndex() == 6) {
@@ -200,6 +203,7 @@ window.lB = (function() {
             "<td class='leaderboardHeader' title='human players'>p</td>" +
             "<td class='leaderboardHeader' title='monitor frames per second'>fps</td>" +
             "<td class='leaderboardHeader' title='inverse of the physics timestep'>ipt</td>" +
+            "<td class='leaderboardHeader' title='" +editColumnTitle+ "'>edit</td>" +
             "</tr>";
       // Puck Popper      
       } else if ([7,8].includes( gW.getDemoIndex())) {
@@ -212,9 +216,11 @@ window.lB = (function() {
             "<td class='leaderboardHeader' title='drones'>d</td>" +
             "<td class='leaderboardHeader' title='monitor frames per second'>fps</td>" +
             "<td class='leaderboardHeader' title='inverse of the physics timestep'>ipt</td>" +
-            "<td class='leaderboardHeader' title='virtual gamepad was used during game'>vgp</td>" +
-            "<td class='leaderboardHeader' title='friendly fire was prevented during game'>nff</td>" +
-            "<td class='leaderboardHeader' title='editor usage \ne: editor enabled \nc: changed characteristics \nd: movement of wall or pin'>edit</td>" +
+            "<td class='leaderboardHeader' title='virtual gamepad was used during game'>vp</td>" +
+            "<td class='leaderboardHeader' title='friendly fire was prevented during game'>nf</td>" +
+            "<td class='leaderboardHeader' title='mouse usage'>m</td>" +
+            "<td class='leaderboardHeader' title='sleeping drones'>sl</td>" +
+            "<td class='leaderboardHeader' title='" +editColumnTitle+ "'>edit</td>" +
             "</tr>";
       }
       
@@ -249,8 +255,8 @@ window.lB = (function() {
                "<td class='leaderboardScore' " +style_score_td+   ">" + score['score'] +                            "</td>" +
                "<td class='leaderboardScore'                       >" + score['frMonitor'] + "</td>" +
                "<td class='leaderboardScore'                       >" + score['hzPhysics'] + "</td>" +
-               "<td class='leaderboardScore'                       >" + score['virtualGamePad'] + "</td>" +
-               "<td class='leaderboardScore'                       >" + score['editorUsage'] + "</td>" +
+               "<td class='leaderboardScore xmarks'                >" + score['virtualGamePad'] + "</td>" +
+               "<td class='leaderboardScore edits'                 >" + score['editorUsage'] + "</td>" +
                "</tr>";
          // Jello Madness
          } else if (gW.getDemoIndex() == 6) {
@@ -261,6 +267,7 @@ window.lB = (function() {
                "<td class='leaderboardScore'                       >" + score['nPeople'] + "</td>" +
                "<td class='leaderboardScore'                       >" + score['frMonitor'] + "</td>" +
                "<td class='leaderboardScore'                       >" + score['hzPhysics'] + "</td>" +
+               "<td class='leaderboardScore edits'                 >" + score['editorUsage'] + "</td>" +
                "</tr>";
          // Puck Popper
          } else {
@@ -273,9 +280,13 @@ window.lB = (function() {
                "<td class='leaderboardScore'                       >" + score['nDrones'] + "</td>" +
                "<td class='leaderboardScore'                       >" + score['frMonitor'] + "</td>" +
                "<td class='leaderboardScore'                       >" + score['hzPhysics'] + "</td>" +
-               "<td class='leaderboardScore'                       >" + score['virtualGamePad'] + "</td>" +
-               "<td class='leaderboardScore'                       >" + score['noFriendlyFire'] + "</td>" +
-               "<td class='leaderboardScore'                       >" + score['editorUsage'] + "</td>" +
+               "<td class='leaderboardScore xmarks'                >" + score['virtualGamePad'] + "</td>" +
+               "<td class='leaderboardScore xmarks'                >" + score['noFriendlyFire'] + "</td>" +
+               
+               "<td class='leaderboardScore xmarks'                >" + score['mouse'] + "</td>" +
+               "<td class='leaderboardScore xmarks'                >" + score['npcSleep'] + "</td>" +
+               
+               "<td class='leaderboardScore edits'                 >" + score['editorUsage'] + "</td>" +
                "</tr>";
          }
          rowIndex += 1;

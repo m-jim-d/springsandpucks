@@ -101,6 +101,12 @@ td.leaderboardScore {
    padding: 1px 2px;
    border: 1px solid brown;
 }
+td.xmarks {
+   text-align: center;
+}
+td.edits {
+   text-align: left;
+}
 td.leaderboardIndex {
    font-size: 70%;
    padding: 1px 2px;

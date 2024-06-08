@@ -1104,6 +1104,32 @@ window.cR = (function() {
       });
    }
       
+   // This checks to see if the capture has been edited to be different from the original file.
+   // It requires taking time to load files. So, this is called at the start of a game. The results
+   // of this (in aT.hack) are used later when reports are issued to the leaderboard.
+   function compareCaptureToFile( pars) {
+      let fileName = uT.setDefault( pars.fileName, 'null');
+      gW.aT.hack['captureEdit'] = false;
+      
+      console.log('fetching ' + fileName + ' from server');
+      $.getScript( fileName, function() {
+         // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.
+         if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
+         console.log("after comparison 1, cE=" + gW.aT.hack['captureEdit']);
+         
+      }).fail( function() {
+         // Try again...
+         $.getScript( fileName, function() {
+            if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
+            console.log("after comparison 2, cE=" + gW.aT.hack['captureEdit']);
+            
+         }).fail( function() {
+            console.log('capture file not found on server');
+         });
+      });
+   }
+      
+      
    // For loading and running a capture from a web page link.
    function demoStart_fromCapture( index, pars) {
       let fileName = uT.setDefault( pars.fileName, 'null');
@@ -1159,6 +1185,7 @@ window.cR = (function() {
       'runCapture': runCapture,
       'cleanCapture': cleanCapture,
       'restoreFromState': restoreFromState,
+      'compareCaptureToFile': compareCaptureToFile,
       'demoStart_fromCapture': demoStart_fromCapture,
       'clearState': clearState,
       'filePicker': filePicker,

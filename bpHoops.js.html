@@ -134,7 +134,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
        <span class="nx">m_humanUseOfBasketBall</span><span class="p">,</span> <span class="nx">m_callCount</span><span class="p">,</span> <span class="nx">m_playList</span><span class="p">,</span> <span class="nx">m_initialTeamSize</span><span class="p">,</span> <span class="nx">m_reportedWin</span><span class="p">,</span> 
        <span class="nx">m_clientName</span><span class="p">,</span> <span class="nx">m_timeOfStart</span><span class="p">,</span> <span class="nx">m_millerShot</span><span class="p">,</span> <span class="nx">m_millerAvailable</span><span class="p">,</span> <span class="nx">m_partisanNature</span><span class="p">,</span>
        <span class="nx">m_closingRemark</span><span class="p">,</span> <span class="nx">m_reverseFeeder</span><span class="p">,</span> <span class="nx">m_stopFeeder</span><span class="p">,</span> <span class="nx">m_priorShotIndex</span><span class="p">,</span> <span class="nx">m_puck_pos_2d_m</span><span class="p">,</span> <span class="nx">m_puck_v_2d_mps</span><span class="p">,</span> 
-       <span class="nx">m_shotReportIssued</span><span class="p">,</span> <span class="nx">m_hitRightWall</span><span class="p">,</span> <span class="nx">m_chokeShotReports</span><span class="p">,</span> <span class="nx">m_timer_s</span><span class="p">,</span> <span class="nx">m_gameState</span><span class="p">;</span>
+       <span class="nx">m_shotReportIssued</span><span class="p">,</span> <span class="nx">m_hitRightWall</span><span class="p">,</span> <span class="nx">m_chokeShotReports</span><span class="p">,</span> <span class="nx">m_timer_s</span><span class="p">,</span> <span class="nx">m_countdownStart_s</span><span class="p">,</span> <span class="nx">m_gameState</span><span class="p">;</span>
    
    <span class="kd">var</span> <span class="nx">m_wallMap</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;wall5&#39;</span><span class="o">:</span><span class="s1">&#39;leftHoop&#39;</span><span class="p">,</span> <span class="s1">&#39;wall12&#39;</span><span class="o">:</span><span class="s1">&#39;rightHoop&#39;</span><span class="p">,</span> <span class="s1">&#39;wall21&#39;</span><span class="o">:</span><span class="s1">&#39;backboard&#39;</span><span class="p">,</span> <span class="s1">&#39;wall23&#39;</span><span class="o">:</span><span class="s1">&#39;bottomSensor&#39;</span><span class="p">,</span> <span class="s1">&#39;wall24&#39;</span><span class="o">:</span><span class="s1">&#39;topSensor&#39;</span><span class="p">,</span> <span class="s1">&#39;wall26&#39;</span><span class="o">:</span><span class="s1">&#39;rightWallSensor&#39;</span><span class="p">};</span>
    
@@ -247,6 +247,12 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
        
       <span class="nx">m_timer_s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
       <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;hoopsTimer&#39;</span><span class="p">].</span><span class="nx">loc_px</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="o">:</span><span class="mi">30</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="o">:</span><span class="mi">60</span><span class="p">};</span>
+      <span class="c1">// seconds in the countdown timer, zero after this much time (e.g. timer=20)</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#pw_basketball&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">().</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;timer&quot;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+         <span class="nx">m_countdownStart_s</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#pw_basketball&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">().</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">];</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+         <span class="nx">m_countdownStart_s</span> <span class="o">=</span> <span class="mi">120</span><span class="p">;</span> <span class="c1">// two minute default </span>
+      <span class="p">}</span>
       
       <span class="nx">m_version</span> <span class="o">=</span> <span class="nx">version</span><span class="p">;</span>
       <span class="nx">m_reportedWin</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
@@ -355,14 +361,13 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">checkTimeLimit</span><span class="p">()</span> <span class="p">{</span>
-      <span class="kd">let</span> <span class="nx">countdownStart_s</span> <span class="o">=</span> <span class="mi">120</span><span class="p">;</span> <span class="c1">// reference point calculating countdown, zero after this much time</span>
-      <span class="kd">let</span> <span class="nx">startShowingTimer_s</span> <span class="o">=</span> <span class="mi">60</span><span class="p">;</span>
+      <span class="kd">let</span> <span class="nx">startShowingTimer_s</span> <span class="o">=</span> <span class="nx">m_countdownStart_s</span><span class="o">/</span><span class="mf">2.0</span><span class="p">;</span>
       <span class="kd">let</span> <span class="nx">shutdownTime_s</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
       
       <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help2&#39;</span><span class="p">].</span><span class="nx">loc_px</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="o">:</span><span class="mi">325</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="o">:</span><span class="mi">230</span><span class="p">};</span>
       
       <span class="nx">m_timer_s</span> <span class="o">+=</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDeltaT_s</span><span class="p">();</span>
-      <span class="kd">let</span> <span class="nx">countdownTimer_s</span> <span class="o">=</span> <span class="nx">countdownStart_s</span> <span class="o">-</span> <span class="nx">m_timer_s</span><span class="p">;</span>
+      <span class="kd">let</span> <span class="nx">countdownTimer_s</span> <span class="o">=</span> <span class="nx">m_countdownStart_s</span> <span class="o">-</span> <span class="nx">m_timer_s</span><span class="p">;</span>
       <span class="kd">let</span> <span class="nx">timeRemaining_s</span> <span class="o">=</span> <span class="nx">countdownTimer_s</span> <span class="o">-</span> <span class="nx">shutdownTime_s</span><span class="p">;</span>
       
       <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">m_reportedWin</span><span class="p">)</span> <span class="p">{</span>

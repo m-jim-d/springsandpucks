@@ -1123,6 +1123,7 @@ window.eV = (function() {
                         // reset back to normal mode.
                         gW.hostMSelect.selectModeIndex = 0;
                      }
+                     gW.aT.hack['deletedSomething'] = true;
                      
                   } else if (clients['local'].selectedBody) {
                      // A single-object selection.
@@ -1131,6 +1132,7 @@ window.eV = (function() {
                      clients['local'].selectedBody = null;
                      clients['local'].cursorSpring.deleteThisOne({});
                      clients['local'].cursorSpring = null;
+                     gW.aT.hack['deletedSomething'] = true;
                   }
                   
                // Identify a spring for copying.
