@@ -230,7 +230,7 @@ window.hC = (function() {
    }
    function similarName( name, handleQueryResponse) {
       let nameWithoutNumbersAtEnd = name.replace(/\d+$/, "");
-      let sqlString = "select A where (A like '" + nameWithoutNumbersAtEnd + "%')";
+      let sqlString = "select A where (A like '" + nameWithoutNumbersAtEnd + "%') order by A";
       let sheetURL = "https://docs.google.com/spreadsheets/d/1TLMLXsfnmsUU24aQxq0CqcfXvAtW0uAKrOwXL2kc2OE/edit?usp=sharing&sheet=games&headers=1"; 
       let query = new google.visualization.Query( sheetURL);
       query.setQuery( sqlString);
