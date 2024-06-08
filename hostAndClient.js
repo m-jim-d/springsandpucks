@@ -218,7 +218,8 @@ window.hC = (function() {
          let nameTypeString = (nameType == "nick") ? "nicknames" : "team names";
          displayString = "On the leaderboard<br>"+tab+"similar " + nameTypeString + ":&nbsp;&nbsp;" + similarList_string + "";
          
-         if (similarList_string.indexOf(",") >= 0) displayMessage( displayString, {'color':'yellow'});
+         //console.log("name report (lb) = " + similarList_string);
+         displayMessage( displayString, {'color':'yellow'}); // if (similarList_string.indexOf(",") >= 0)
       }
    }
    function handleNickNameQueryResponse( response) {
@@ -414,6 +415,9 @@ window.hC = (function() {
       
       if (nickName.status == 'too long') {
          displayMessage('Nicknames must have 10 characters or less. Shorten the name and then try connecting again.');
+         return;
+      } else if (nickName.status == 'too short') {
+         displayMessage('Nicknames must have at least 2 characters. Lengthen the name and then try connecting again.');
          return;
       }
             
@@ -796,6 +800,8 @@ window.hC = (function() {
       socket.on('name report', function( msg) {
          var cl = referenceToClient();
          let tab = "&nbsp;&nbsp;&nbsp;";
+         
+         //console.log("name report (sv) = " + msg.nickName);
          
          let nickNameString = (msg.nickName.indexOf(",") >= 0) ? "<br>"+tab+"similar nicknames:&nbsp;&nbsp;" + msg.nickName : "";
          let teamNameString = (msg.teamName.indexOf(",") >= 0) ? "<br>"+tab+"similar team names:&nbsp;&nbsp;" + msg.teamName : "";
