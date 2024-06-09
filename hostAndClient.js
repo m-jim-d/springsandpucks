@@ -216,10 +216,11 @@ window.hC = (function() {
          
          let tab = "&nbsp;&nbsp;&nbsp;";
          let nameTypeString = (nameType == "nick") ? "nicknames" : "team names";
-         displayString = "On the leaderboard<br>"+tab+"similar " + nameTypeString + ":&nbsp;&nbsp;" + similarList_string + "";
+         let similarString = (uT.allOfThese(['007','zz'], similarList_string)) ? "all" : "similar";
+         displayString = "On the leaderboard<br>" + tab + similarString + " " + nameTypeString + ":&nbsp;&nbsp;" + similarList_string + "";
          
          //console.log("name report (lb) = " + similarList_string);
-         displayMessage( displayString, {'color':'yellow'}); // if (similarList_string.indexOf(",") >= 0)
+         displayMessage( displayString, {'color':'yellow'});
       }
    }
    function handleNickNameQueryResponse( response) {
@@ -230,6 +231,12 @@ window.hC = (function() {
    }
    function similarName( name, handleQueryResponse) {
       let nameWithoutNumbersAtEnd = name.replace(/\d+$/, "");
+      // If user entered a pure numeric name, query for similar names using the first digit.
+      if (nameWithoutNumbersAtEnd.length == 0) {
+         if (name != "235711") {  
+            nameWithoutNumbersAtEnd = name.slice(0,1);
+         }
+      }
       let sqlString = "select A where (A like '" + nameWithoutNumbersAtEnd + "%') order by A";
       let sheetURL = "https://docs.google.com/spreadsheets/d/1TLMLXsfnmsUU24aQxq0CqcfXvAtW0uAKrOwXL2kc2OE/edit?usp=sharing&sheet=games&headers=1"; 
       let query = new google.visualization.Query( sheetURL);
