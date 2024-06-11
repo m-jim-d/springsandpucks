@@ -2112,10 +2112,10 @@ solo players.'>Friendly fire<br>
          </div>
 
          <button class="main" onclick="cR.saveState();" style="margin-left: 2px; margin-right: -2px;"
-                 title="capture the state and store in text area and paste buffer ('u' key)">Capt<u>u</u>re</button>
+                 title="Capture the state and store in text area and paste buffer ('u' key)"><u>U</u></button>
          <button class="tight" onclick="cR.clearState();" 
                  title="Clear out the capture text area">C</button>
-         <button class="main" onclick="cR.runCapture();"  style="margin-left: -2px; margin-right: 4px;"
+         <button class="main" onclick="cR.runCapture();"  style="margin-left: 4px; margin-right: 4px;"
                  title=
 "To run a capture: 
    Use this button (or shift-r).
@@ -2128,6 +2128,9 @@ To run and immediately take a capture (a refresh):
 
          <button class="tight" onclick="cR.fileWriter();" title="Save the capture out to a local file">S</button>
          <button class="tight" onclick="cR.filePicker();" title="Load a local file to the capture text area">L</button>
+         
+         <button class="tight" onclick="cR.postCaptureToCF();" style="margin-left: 4px;"
+                 title="Post a capture to cloud storage">P</button>
          <br>
          
          <textarea id="jsonCapture" autocomplete="off" title=
