@@ -1105,7 +1105,7 @@ window.cR = (function() {
    }
    
    async function postCaptureToCF() {
-      console.log("inside poster v9");
+      console.log("inside poster v10");
       
       let workerURL = "https://captures-up-down.jim-miller-gac.workers.dev/submit/";
 
@@ -1116,6 +1116,7 @@ window.cR = (function() {
             'Content-Type': 'application/json'
          },
          'body': 'test string from client',
+         'mode': 'cors'
       }); 
 
       if (response.ok) {
