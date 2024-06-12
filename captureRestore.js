@@ -1185,6 +1185,7 @@ async function sendRequestWithCORS(url, options) {
 } 
 
 function wrapper_postCaptureToCF() {
+   // hope this helps...
    postCaptureToCF();
 }
       
