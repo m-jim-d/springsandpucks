@@ -1132,7 +1132,7 @@ window.cR = (function() {
    */
 
 async function postCaptureToCF() {
-  console.log("inside poster 100");
+  console.log("inside poster 200");
 
   let workerURL = "https://captures.triquence.org/submit";
   const response = await sendRequestWithCORS(workerURL, {
@@ -1183,6 +1183,9 @@ async function sendRequestWithCORS(url, options) {
     }
   }
 } 
+function wrapper-postCaptureToCF() {
+   postCaptureToCF();
+}
       
    // This checks to see if the capture has been edited to be different from the original file.
    // It requires taking time to load files. So, this is called at the start of a game. The results
@@ -1270,7 +1273,7 @@ async function sendRequestWithCORS(url, options) {
       'clearState': clearState,
       'filePicker': filePicker,
       'fileWriter': fileWriter,
-      'postCaptureToCF': postCaptureToCF,
+      'postCaptureToCF': wrapper-postCaptureToCF,
       'scrollCaptureArea': scrollCaptureArea
       
    };
