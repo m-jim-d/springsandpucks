@@ -1132,7 +1132,7 @@ window.cR = (function() {
    */
 
 async function postCaptureToCF() {
-  console.log("inside poster 202");
+  console.log("inside poster 1");
 
   let workerURL = "https://triquence.org/captures/submit";
   const response = await sendRequestWithCORS(workerURL, {
