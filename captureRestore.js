@@ -1105,7 +1105,7 @@ window.cR = (function() {
    }
    
    async function postCaptureToCF() {
-      console.log("inside poster v12");
+      console.log("inside poster v13");
       
       let workerURL = "https://captures.triquence.org/submit/";
 
@@ -1115,7 +1115,8 @@ window.cR = (function() {
          'headers': {
             'Content-Type': 'application/json'
          },
-         'body': 'test string from client'
+         'body': 'test string from client',
+         'mode': 'no-cors'
       }); 
 
       if (response.ok) {
