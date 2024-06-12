@@ -1104,11 +1104,10 @@ window.cR = (function() {
       });
    }
    
-   /*
    async function postCaptureToCF() {
-      console.log("inside poster v15");
+      console.log("inside poster v5");
       
-      let workerURL = "https://captures.triquence.org/submit/";
+      let workerURL = "https://triquence.org/captures/submit";
 
       // 'mode': 'no-cors'
       const response = await fetch( workerURL, {
@@ -1129,65 +1128,7 @@ window.cR = (function() {
          console.log("response NOT ok");  
       }  
    }
-   */
 
-async function postCaptureToCF() {
-  console.log("inside poster 3");
-
-  let workerURL = "https://triquence.org/captures/submit";
-  const response = await sendRequestWithCORS(workerURL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: gW.dC.json.value
-  });
-
-  let textInResponse = await response.text();
-  console.log("response text=" + textInResponse);
-
-  if (response.ok) {
-    console.log("response text=" + await response.text());
-  } else {
-    console.log("response not ok");
-  }
-}
-
-async function sendRequestWithCORS(url, options) {
-  try {
-    const response = await fetch(url, options);
-    return response;
-  } catch (error) {
-    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-      // Handle CORS preflight request
-      const preflightResponse = await fetch(url, {
-        method: 'OPTIONS',
-        headers: {
-          'Origin': 'https://triquence.org', // Set the Origin header
-          'Access-Control-Request-Method': options.method,
-          'Access-Control-Request-Headers': options.headers ? Object.keys(options.headers).join(',') : ''
-        }
-      });
-
-      if (preflightResponse.ok) {
-        // CORS preflight request was successful, send the actual request
-        const response = await fetch(url, options);
-        return response;
-      } else {
-        // CORS preflight request failed
-        throw new Error('CORS preflight request failed');
-      }
-    } else {
-      // Other fetch errors
-      throw error;
-    }
-  }
-} 
-
-function wrapper_postCaptureToCF() {
-   // hope this helps.....
-   postCaptureToCF();
-}
       
    // This checks to see if the capture has been edited to be different from the original file.
    // It requires taking time to load files. So, this is called at the start of a game. The results
@@ -1275,7 +1216,7 @@ function wrapper_postCaptureToCF() {
       'clearState': clearState,
       'filePicker': filePicker,
       'fileWriter': fileWriter,
-      'postCaptureToCF': wrapper_postCaptureToCF,
+      'postCaptureToCF': postCaptureToCF,
       'scrollCaptureArea': scrollCaptureArea
       
    };
