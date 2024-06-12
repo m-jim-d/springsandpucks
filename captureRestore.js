@@ -1183,7 +1183,8 @@ async function sendRequestWithCORS(url, options) {
     }
   }
 } 
-function wrapper-postCaptureToCF() {
+
+function wrapper_postCaptureToCF() {
    postCaptureToCF();
 }
       
@@ -1273,7 +1274,7 @@ function wrapper-postCaptureToCF() {
       'clearState': clearState,
       'filePicker': filePicker,
       'fileWriter': fileWriter,
-      'postCaptureToCF': wrapper-postCaptureToCF,
+      'postCaptureToCF': wrapper_postCaptureToCF,
       'scrollCaptureArea': scrollCaptureArea
       
    };
