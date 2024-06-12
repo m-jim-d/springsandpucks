@@ -1105,9 +1105,9 @@ window.cR = (function() {
    }
    
    async function postCaptureToCF() {
-      console.log("inside poster v11");
+      console.log("inside poster v12");
       
-      let workerURL = "https://captures-up-down.jim-miller-gac.workers.dev/submit/";
+      let workerURL = "https://captures.triquence.org/submit/";
 
       // 'mode': 'no-cors'
       const response = await fetch( workerURL, {
