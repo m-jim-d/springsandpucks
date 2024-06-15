@@ -406,7 +406,7 @@ window.cR = (function() {
       let emptyMessage, errorMessage, emptyMessageDuration;
       
       if (element.id == "jsonCapture") {
-         errorMessage = "There's a formatting error in the state capture. Try clicking the 'Clear' button.";
+         errorMessage = "There's a formatting error in the state capture. Try clicking the 'C' button (clear it).";
          emptyMessage = "The capture text area is empty.";
          emptyMessageDuration = 2.0;
          
@@ -1104,29 +1104,149 @@ window.cR = (function() {
       });
    }
    
-   async function postCaptureToCF() {
-      console.log("inside poster v5");
+   function switchToTheChatPanel() {
+      if ( ! gW.dC.multiplayer.checked) {  
+         $("#chkMultiplayer").trigger("click");
+      }      
+   }
+   async function postCaptureToCF( pars={}) {
+      let action = uT.setDefault( pars.action, "list");
+      let downLoadKey = uT.setDefault( pars.downLoadKey, null);
+      
+      console.log("inside poster v8");
       
       let workerURL = "https://triquence.org/captures/submit";
-
-      // 'mode': 'no-cors'
-      const response = await fetch( workerURL, {
-         'method': 'POST',
-         'headers': {
-            'Content-Type': 'application/json'
-         },
-         'body': 'test string from client'
-      }); 
-
-      if (response.ok) {
-         console.log("response ok");   
-
-         let textInResponse = await response.text();
-         console.log("response text=" + textInResponse);
+               
+      if (action == "postOne") {
          
-      } else {
-         console.log("response NOT ok");  
-      }  
+         // Check for valid JSON in textarea.
+         let captureObject = null;
+         captureObject = loadJSON( gW.dC.json);
+         if ( ! captureObject) return;
+         
+         switchToTheChatPanel();
+         
+         console.log("demo version = " + captureObject.demoVersion);
+
+         let nickName = (gW.clients["local"].nickName) ? gW.clients["local"].nickName : "host";
+
+         let postObject = {"name":nickName, "action":action, "capture":captureObject};
+
+         const response = await fetch( workerURL, {
+            'method': 'POST',
+            'headers': {
+               'Content-Type': 'application/json'
+            },
+            'body': JSON.stringify( postObject)
+         }); 
+
+         if (response.ok) {
+            console.log("response ok");   
+            
+            let jsonInResponse = await response.json();
+            console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
+            
+            if (jsonInResponse.foundOne) {
+               hC.displayMessage("Capture found, already out there.");
+            } else {
+               hC.displayMessage("Capture posted.");
+            }
+            
+         } else {
+            hC.displayMessage("Looks like there's a problem connecting to CloudFlare.");
+            console.log("response NOT ok");  
+         } 
+         
+      } else if (action == "downLoadOne") {
+         
+         let postObject = {"action":action, "key":downLoadKey};
+
+         const response = await fetch( workerURL, {
+            'method': 'POST',
+            'headers': {
+               'Content-Type': 'application/json'
+            },
+            'body': JSON.stringify( postObject)
+         }); 
+
+         switchToTheChatPanel();
+
+         if (response.ok) {
+            console.log("response ok");   
+            
+            let jsonInResponse = await response.json();
+            console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
+            
+            // Write to the textarea element.
+            if (jsonInResponse.foundIt) {
+               gW.dC.json.value = JSON.stringify( jsonInResponse.capture, null, 3);
+               runCapture();
+               gW.messages['help'].newMessage("Capture found, downloaded, and run.", 1.0);
+               
+            } else {
+               hC.displayMessage("Capture not found.");
+            }
+            
+         } else {
+            hC.displayMessage("Looks like there's a problem connecting to CloudFlare.");
+            console.log("response NOT ok");  
+         } 
+         
+      } else if (action == "list") {
+         console.log("inside list block");
+                  
+         switchToTheChatPanel();
+         
+         let searchString = gW.getDemoIndex();
+         let postObject = {"action":action, "searchString":searchString};
+
+         const response = await fetch( workerURL, {
+            'method': 'POST',
+            'headers': {
+               'Content-Type': 'application/json'
+            },
+            'body': JSON.stringify( postObject)
+         }); 
+
+         if (response.ok) {
+            console.log("response ok");   
+            
+            let jsonInResponse = await response.json();
+            console.log("response json = " + JSON.stringify( jsonInResponse.sender));
+            /*
+            structure of the KW list
+              "keys": [
+                {
+                  "name": "foo",
+                  "expiration": 1234,
+                  "metadata": { "someMetadataKey": "someMetadataValue" }
+                }
+              ],
+              "list_complete": false,
+              "cursor": "6Ck1la0VxJ0djhidm1MdX2FyD"
+            */            
+            let tableString = "" + 
+               "<table class='score'><tr align='right'>" +
+               "<td class='scoreHeader' title='capture name'>capture</td>" +
+               "<td class='scoreHeader' title='user name'>user</td>" +
+               "</tr>";
+            for (let index in jsonInResponse.captureList.keys) {
+               let keyObject = jsonInResponse.captureList.keys[ index];
+               let clickCommandString = "cR.postCaptureToCF({'action':'downLoadOne','downLoadKey':'" + keyObject.name + "'})";
+               let linkString = "<a onclick=" + clickCommandString + ">" + keyObject.name + "</a>";
+               tableString += "<tr align='right'>" + 
+               "<td class='score'>" + linkString + "</td>" + 
+               "<td class='score'>" + "host" + "</td>" + 
+               "</tr>";
+            }
+            tableString += "</table>"
+            hC.displayMessage( tableString);
+                        
+         } else {
+            hC.displayMessage("Looks like there's a problem connecting to CloudFlare.");
+            console.log("response NOT ok");  
+         } 
+      }
    }
 
       

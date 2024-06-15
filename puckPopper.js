@@ -571,7 +571,7 @@ window.pP = (function() {
                      //gW.dC.multiplayer.checked = !gW.dC.multiplayer.checked;
                      //toggleMultiplayerStuff();
                      // Another approach is to get at the function via the module-level, gW.dC.multiplayer. The following
-                     // are alternate ways to do what the two statements above do. These approaches to not
+                     // are alternate ways to do what the two statements above do. These approaches do not
                      // require toggleMultiplayerStuff to be in the module-level scope.
                      //gW.dC.multiplayer.click();
                      $("#chkMultiplayer").trigger("click");

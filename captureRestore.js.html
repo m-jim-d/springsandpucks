@@ -502,7 +502,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="kd">let</span> <span class="nx">emptyMessage</span><span class="p">,</span> <span class="nx">errorMessage</span><span class="p">,</span> <span class="nx">emptyMessageDuration</span><span class="p">;</span>
       
       <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s2">&quot;jsonCapture&quot;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">errorMessage</span> <span class="o">=</span> <span class="s2">&quot;There&#39;s a formatting error in the state capture. Try clicking the &#39;Clear&#39; button.&quot;</span><span class="p">;</span>
+         <span class="nx">errorMessage</span> <span class="o">=</span> <span class="s2">&quot;There&#39;s a formatting error in the state capture. Try clicking the &#39;C&#39; button (clear it).&quot;</span><span class="p">;</span>
          <span class="nx">emptyMessage</span> <span class="o">=</span> <span class="s2">&quot;The capture text area is empty.&quot;</span><span class="p">;</span>
          <span class="nx">emptyMessageDuration</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
          
@@ -1177,7 +1177,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="c1">// open handle to the destination folder </span>
          <span class="nx">m_fileHandle</span> <span class="o">=</span> <span class="nx">await</span> <span class="nb">window</span><span class="p">.</span><span class="nx">showSaveFilePicker</span><span class="p">(</span> <span class="nx">options</span><span class="p">);</span>
          <span class="kr">const</span> <span class="nx">writable</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">m_fileHandle</span><span class="p">.</span><span class="nx">createWritable</span><span class="p">();</span>
-         <span class="nx">await</span> <span class="nx">writable</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span> <span class="s2">&quot;demo_capture = &quot;</span> <span class="o">+</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+         <span class="nx">await</span> <span class="nx">writable</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">&quot;demo_capture = &quot;</span> <span class="o">+</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
          <span class="nx">await</span> <span class="nx">writable</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
       <span class="p">}</span>                                        
       <span class="nx">writeFile</span><span class="p">()</span>
@@ -1199,6 +1199,152 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">}</span>
       <span class="p">});</span>
    <span class="p">}</span>
+   
+   <span class="kd">function</span> <span class="nx">switchToTheChatPanel</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">multiplayer</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="p">{</span>  
+         <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#chkMultiplayer&quot;</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">);</span>
+      <span class="p">}</span>      
+   <span class="p">}</span>
+   <span class="nx">async</span> <span class="kd">function</span> <span class="nx">postCaptureToCF</span><span class="p">(</span> <span class="nx">pars</span><span class="o">=</span><span class="p">{})</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">action</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">);</span>
+      <span class="kd">let</span> <span class="nx">downLoadKey</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">downLoadKey</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+      
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inside poster v8&quot;</span><span class="p">);</span>
+      
+      <span class="kd">let</span> <span class="nx">workerURL</span> <span class="o">=</span> <span class="s2">&quot;https://triquence.org/captures/submit&quot;</span><span class="p">;</span>
+               
+      <span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;postOne&quot;</span><span class="p">)</span> <span class="p">{</span>
+         
+         <span class="c1">// Check for valid JSON in textarea.</span>
+         <span class="kd">let</span> <span class="nx">captureObject</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+         <span class="nx">captureObject</span> <span class="o">=</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">);</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">captureObject</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+         
+         <span class="nx">switchToTheChatPanel</span><span class="p">();</span>
+         
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;demo version = &quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">);</span>
+
+         <span class="kd">let</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span><span class="p">)</span> <span class="o">?</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span> <span class="o">:</span> <span class="s2">&quot;host&quot;</span><span class="p">;</span>
+
+         <span class="kd">let</span> <span class="nx">postObject</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="nx">nickName</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="o">:</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;capture&quot;</span><span class="o">:</span><span class="nx">captureObject</span><span class="p">};</span>
+
+         <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">fetch</span><span class="p">(</span> <span class="nx">workerURL</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s1">&#39;method&#39;</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;headers&#39;</span><span class="o">:</span> <span class="p">{</span>
+               <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;body&#39;</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">postObject</span><span class="p">)</span>
+         <span class="p">});</span> 
+
+         <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response ok&quot;</span><span class="p">);</span>   
+            
+            <span class="kd">let</span> <span class="nx">jsonInResponse</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response sender = &quot;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">sender</span><span class="p">));</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundOne</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Capture found, already out there.&quot;</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Capture posted.&quot;</span><span class="p">);</span>
+            <span class="p">}</span>
+            
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Looks like there&#39;s a problem connecting to CloudFlare.&quot;</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response NOT ok&quot;</span><span class="p">);</span>  
+         <span class="p">}</span> 
+         
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;downLoadOne&quot;</span><span class="p">)</span> <span class="p">{</span>
+         
+         <span class="kd">let</span> <span class="nx">postObject</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="o">:</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;key&quot;</span><span class="o">:</span><span class="nx">downLoadKey</span><span class="p">};</span>
+
+         <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">fetch</span><span class="p">(</span> <span class="nx">workerURL</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s1">&#39;method&#39;</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;headers&#39;</span><span class="o">:</span> <span class="p">{</span>
+               <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;body&#39;</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">postObject</span><span class="p">)</span>
+         <span class="p">});</span> 
+
+         <span class="nx">switchToTheChatPanel</span><span class="p">();</span>
+
+         <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response ok&quot;</span><span class="p">);</span>   
+            
+            <span class="kd">let</span> <span class="nx">jsonInResponse</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response sender = &quot;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">sender</span><span class="p">));</span>
+            
+            <span class="c1">// Write to the textarea element.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundIt</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">capture</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+               <span class="nx">runCapture</span><span class="p">();</span>
+               <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;Capture found, downloaded, and run.&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+               
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Capture not found.&quot;</span><span class="p">);</span>
+            <span class="p">}</span>
+            
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Looks like there&#39;s a problem connecting to CloudFlare.&quot;</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response NOT ok&quot;</span><span class="p">);</span>  
+         <span class="p">}</span> 
+         
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inside list block&quot;</span><span class="p">);</span>
+                  
+         <span class="nx">switchToTheChatPanel</span><span class="p">();</span>
+         
+         <span class="kd">let</span> <span class="nx">searchString</span> <span class="o">=</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoIndex</span><span class="p">();</span>
+         <span class="kd">let</span> <span class="nx">postObject</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="o">:</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;searchString&quot;</span><span class="o">:</span><span class="nx">searchString</span><span class="p">};</span>
+
+         <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">fetch</span><span class="p">(</span> <span class="nx">workerURL</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s1">&#39;method&#39;</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;headers&#39;</span><span class="o">:</span> <span class="p">{</span>
+               <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;body&#39;</span><span class="o">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">postObject</span><span class="p">)</span>
+         <span class="p">});</span> 
+
+         <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response ok&quot;</span><span class="p">);</span>   
+            
+            <span class="kd">let</span> <span class="nx">jsonInResponse</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response json = &quot;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">sender</span><span class="p">));</span>
+            <span class="cm">/*</span>
+<span class="cm">            structure of the KW list</span>
+<span class="cm">              &quot;keys&quot;: [</span>
+<span class="cm">                {</span>
+<span class="cm">                  &quot;name&quot;: &quot;foo&quot;,</span>
+<span class="cm">                  &quot;expiration&quot;: 1234,</span>
+<span class="cm">                  &quot;metadata&quot;: { &quot;someMetadataKey&quot;: &quot;someMetadataValue&quot; }</span>
+<span class="cm">                }</span>
+<span class="cm">              ],</span>
+<span class="cm">              &quot;list_complete&quot;: false,</span>
+<span class="cm">              &quot;cursor&quot;: &quot;6Ck1la0VxJ0djhidm1MdX2FyD&quot;</span>
+<span class="cm">            */</span>            
+            <span class="kd">let</span> <span class="nx">tableString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">+</span> 
+               <span class="s2">&quot;&lt;table class=&#39;score&#39;&gt;&lt;tr align=&#39;right&#39;&gt;&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;capture name&#39;&gt;capture&lt;/td&gt;&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;user name&#39;&gt;user&lt;/td&gt;&quot;</span> <span class="o">+</span>
+               <span class="s2">&quot;&lt;/tr&gt;&quot;</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">index</span> <span class="k">in</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">captureList</span><span class="p">.</span><span class="nx">keys</span><span class="p">)</span> <span class="p">{</span>
+               <span class="kd">let</span> <span class="nx">keyObject</span> <span class="o">=</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">captureList</span><span class="p">.</span><span class="nx">keys</span><span class="p">[</span> <span class="nx">index</span><span class="p">];</span>
+               <span class="kd">let</span> <span class="nx">clickCommandString</span> <span class="o">=</span> <span class="s2">&quot;cR.postCaptureToCF({&#39;action&#39;:&#39;downLoadOne&#39;,&#39;downLoadKey&#39;:&#39;&quot;</span> <span class="o">+</span> <span class="nx">keyObject</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;&#39;})&quot;</span><span class="p">;</span>
+               <span class="kd">let</span> <span class="nx">linkString</span> <span class="o">=</span> <span class="s2">&quot;&lt;a onclick=&quot;</span> <span class="o">+</span> <span class="nx">clickCommandString</span> <span class="o">+</span> <span class="s2">&quot;&gt;&quot;</span> <span class="o">+</span> <span class="nx">keyObject</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span><span class="p">;</span>
+               <span class="nx">tableString</span> <span class="o">+=</span> <span class="s2">&quot;&lt;tr align=&#39;right&#39;&gt;&quot;</span> <span class="o">+</span> 
+               <span class="s2">&quot;&lt;td class=&#39;score&#39;&gt;&quot;</span> <span class="o">+</span> <span class="nx">linkString</span> <span class="o">+</span> <span class="s2">&quot;&lt;/td&gt;&quot;</span> <span class="o">+</span> 
+               <span class="s2">&quot;&lt;td class=&#39;score&#39;&gt;&quot;</span> <span class="o">+</span> <span class="s2">&quot;host&quot;</span> <span class="o">+</span> <span class="s2">&quot;&lt;/td&gt;&quot;</span> <span class="o">+</span> 
+               <span class="s2">&quot;&lt;/tr&gt;&quot;</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="nx">tableString</span> <span class="o">+=</span> <span class="s2">&quot;&lt;/table&gt;&quot;</span>
+            <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span> <span class="nx">tableString</span><span class="p">);</span>
+                        
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Looks like there&#39;s a problem connecting to CloudFlare.&quot;</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response NOT ok&quot;</span><span class="p">);</span>  
+         <span class="p">}</span> 
+      <span class="p">}</span>
+   <span class="p">}</span>
+
       
    <span class="c1">// This checks to see if the capture has been edited to be different from the original file.</span>
    <span class="c1">// It requires taking time to load files. So, this is called at the start of a game. The results</span>
@@ -1286,6 +1432,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="s1">&#39;clearState&#39;</span><span class="o">:</span> <span class="nx">clearState</span><span class="p">,</span>
       <span class="s1">&#39;filePicker&#39;</span><span class="o">:</span> <span class="nx">filePicker</span><span class="p">,</span>
       <span class="s1">&#39;fileWriter&#39;</span><span class="o">:</span> <span class="nx">fileWriter</span><span class="p">,</span>
+      <span class="s1">&#39;postCaptureToCF&#39;</span><span class="o">:</span> <span class="nx">postCaptureToCF</span><span class="p">,</span>
       <span class="s1">&#39;scrollCaptureArea&#39;</span><span class="o">:</span> <span class="nx">scrollCaptureArea</span>
       
    <span class="p">};</span>

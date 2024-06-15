@@ -319,7 +319,7 @@
             <li>Try an editor feature: select a puck, then resize it with the arrow keys.
             <br><br></li>
             
-            <li>Then save your edits by clicking the capture button. Replay the capture by clicking the corresponding number key or the "run" button.
+            <li>Then save your edits, capture them, by clicking the "U" button. Replay the capture by clicking the corresponding number key or the "Run" button.
             <br><br></li>
             
             <li>Take a look at the list of keyboard <a href="mouseandkeys.html" target="_blank" title="mice, keyboards, and touchscreens">shortcuts</a>.
@@ -542,7 +542,7 @@
          <br>&nbsp;
          
          <br><hr><br>
-         <span id="capture">The "<strong>Capture</strong>" button (or "u" key) records the current state of 
+         <span id="capture">The capture, "<strong>U</strong>" button (or "u" key), records the current state of 
          a demo. The result is written to the neighboring text cell and also to 
          the paste buffer. The capture can be started with the "<strong>Run</strong>" button (or shift-r from keyboard) or the corresponding
          number button (highlighted yellow). Restart with "Run" or the yellow demo button.</span>
@@ -1473,8 +1473,8 @@
          <a onclick="cR.demoStart_fromCapture(6, {'fileName':'demo6b.js'})">6b</a> (<a href="demo6b.js.html" target="_blank">view</a> the capture), and 
          <a onclick="cR.demoStart_fromCapture(6, {'fileName':'demo6c.js'})">6c</a> (<a href="demo6c.js.html" target="_blank">view</a>).
          To get some practice with pasting and running a capture, open a 
-         view-it link here, copy everything, then paste into the text area under the "Capture" button. Then 
-         click the #6 button to run the capture.
+         view-it link here, copy everything, then paste into the text area under the "U" button (capture). Then 
+         click the #6 button (or "Run" button) to run the capture.
          <br><br><hr><br>
          
          <span id="d7"><strong>Demo #7a</strong> is a small version of <strong><a onclick="cR.clearState();dS.demoStart(7)">Puck 
@@ -2115,7 +2115,7 @@ solo players.'>Friendly fire<br>
                  title="Capture the state and store in text area and paste buffer ('u' key)"><u>U</u></button>
          <button class="tight" onclick="cR.clearState();" 
                  title="Clear out the capture text area">C</button>
-         <button class="main" onclick="cR.runCapture();"  style="margin-left: 4px; margin-right: 4px;"
+         <button class="main" onclick="cR.runCapture();"  style="margin-left: 1px; margin-right: 1px;"
                  title=
 "To run a capture: 
    Use this button (or shift-r).
@@ -2129,8 +2129,8 @@ To run and immediately take a capture (a refresh):
          <button class="tight" onclick="cR.fileWriter();" title="Save the capture out to a local file">S</button>
          <button class="tight" onclick="cR.filePicker();" title="Load a local file to the capture text area">L</button>
          
-         <button class="tight" onclick="cR.postCaptureToCF();" style="margin-left: 4px;"
-                 title="Post a capture to cloud storage">P</button>
+         <button class="tight" onclick="cR.postCaptureToCF({'action':'postOne'});" style="margin-left: 1px;" title="Post a capture to cloud storage">P</button>
+         <button class="tight" onclick="cR.postCaptureToCF({'action':'list'});" style="margin-left: -3px; margin-right: -5px;" title="Get list of similar captures">?</button>
          <br>
          
          <textarea id="jsonCapture" autocomplete="off" title=
