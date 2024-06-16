@@ -262,7 +262,7 @@ window.dS = (function() {
          
       } else if (nickNameResult.value) {
          let teamString = (nickNameResult.teamName) ? " Your team name is " + nickNameResult.teamName + "." : "";
-         hC.displayMessage('Your nickname is ' + nickNameResult.value + '.' + teamString);
+         hC.displayMessage('YYour nickname is ' + nickNameResult.value + '.' + teamString);
       }
 
       // If no nickname yet (unless there's modify-capture JSON in the chat field), put back the nickname reminder tip in the chat input field.

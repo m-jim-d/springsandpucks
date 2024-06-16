@@ -1129,8 +1129,9 @@ window.cR = (function() {
          console.log("demo version = " + captureObject.demoVersion);
 
          let nickName = (gW.clients["local"].nickName) ? gW.clients["local"].nickName : "host";
+         let keyName = captureObject.demoVersion + "--" + nickName;
 
-         let postObject = {"name":nickName, "action":action, "capture":captureObject};
+         let postObject = {"keyName":keyName, "action":action, "capture":captureObject};
 
          const response = await fetch( workerURL, {
             'method': 'POST',
@@ -1227,16 +1228,20 @@ window.cR = (function() {
             */            
             let tableString = "" + 
                "<table class='score'><tr align='right'>" +
-               "<td class='scoreHeader' title='capture name'>capture</td>" +
+               "<td class='scoreHeader' title='capture name, click to download and run'>capture</td>" +
                "<td class='scoreHeader' title='user name'>user</td>" +
                "</tr>";
             for (let index in jsonInResponse.captureList.keys) {
                let keyObject = jsonInResponse.captureList.keys[ index];
                let clickCommandString = "cR.postCaptureToCF({'action':'downLoadOne','downLoadKey':'" + keyObject.name + "'})";
-               let linkString = "<a onclick=" + clickCommandString + ">" + keyObject.name + "</a>";
+               let demoName = keyObject.name.split("--")[0];
+               let userName = keyObject.name.split("--")[1];
+               userName = (userName) ? userName : "---";
+               
+               let linkString = "<a onclick=" + clickCommandString + ">" + demoName + "</a>";
                tableString += "<tr align='right'>" + 
                "<td class='score'>" + linkString + "</td>" + 
-               "<td class='score'>" + "host" + "</td>" + 
+               "<td class='score'>" + userName + "</td>" + 
                "</tr>";
             }
             tableString += "</table>"
