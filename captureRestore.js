@@ -1113,7 +1113,7 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v8");
+      console.log("inside poster v9");
       
       let workerURL = "https://triquence.org/captures/submit";
                
