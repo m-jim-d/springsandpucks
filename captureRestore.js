@@ -1182,7 +1182,7 @@ window.cR = (function() {
             if (jsonInResponse.foundIt) {
                gW.dC.json.value = JSON.stringify( jsonInResponse.capture, null, 3);
                runCapture();
-               gW.messages['help'].newMessage("Capture found, downloaded, and run.", 1.0);
+               gW.messages['help'].newMessage("Capture downloaded and run.", 1.0);
                
             } else {
                hC.displayMessage("Capture not found.");
@@ -1225,27 +1225,32 @@ window.cR = (function() {
               ],
               "list_complete": false,
               "cursor": "6Ck1la0VxJ0djhidm1MdX2FyD"
-            */            
-            let tableString = "" + 
-               "<table class='score'><tr align='right'>" +
-               "<td class='scoreHeader' title='capture name, click to download and run'>capture</td>" +
-               "<td class='scoreHeader' title='user name'>user</td>" +
-               "</tr>";
-            for (let index in jsonInResponse.captureList.keys) {
-               let keyObject = jsonInResponse.captureList.keys[ index];
-               let clickCommandString = "cR.postCaptureToCF({'action':'downLoadOne','downLoadKey':'" + keyObject.name + "'})";
-               let demoName = keyObject.name.split("--")[0];
-               let userName = keyObject.name.split("--")[1];
-               userName = (userName) ? userName : "---";
+            */     
+            if (jsonInResponse.captureList.keys.length > 0) {
+               let tableString = "" + 
+                  "<table class='score'><tr align='right'>" +
+                  "<td class='scoreHeader' title='capture name, click to download and run'>capture</td>" +
+                  "<td class='scoreHeader' title='user name'>user</td>" +
+                  "</tr>";
+               for (let index in jsonInResponse.captureList.keys) {
+                  let keyObject = jsonInResponse.captureList.keys[ index];
+                  let clickCommandString = "cR.postCaptureToCF({'action':'downLoadOne','downLoadKey':'" + keyObject.name + "'})";
+                  let demoName = keyObject.name.split("--")[0];
+                  let userName = keyObject.name.split("--")[1];
+                  userName = (userName) ? userName : "---";
+                  
+                  let linkString = "<a onclick=" + clickCommandString + ">" + demoName + "</a>";
+                  tableString += "<tr align='right'>" + 
+                  "<td class='score'>" + linkString + "</td>" + 
+                  "<td class='score'>" + userName + "</td>" + 
+                  "</tr>";
+               }
+               tableString += "</table>"
+               hC.displayMessage( tableString);
                
-               let linkString = "<a onclick=" + clickCommandString + ">" + demoName + "</a>";
-               tableString += "<tr align='right'>" + 
-               "<td class='score'>" + linkString + "</td>" + 
-               "<td class='score'>" + userName + "</td>" + 
-               "</tr>";
+            } else {
+               hC.displayMessage("No demos found for search on '" + searchString + "'.");
             }
-            tableString += "</table>"
-            hC.displayMessage( tableString);
                         
          } else {
             hC.displayMessage("Looks like there's a problem connecting to CloudFlare.");

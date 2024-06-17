@@ -216,7 +216,7 @@ window.hC = (function() {
          
          let tab = "&nbsp;&nbsp;&nbsp;";
          let nameTypeString = (nameType == "nick") ? "nicknames" : "team names";
-         let similarString = (uT.allOfThese(['007','zz'], similarList_string)) ? "all" : "similar";
+         let similarString = (uT.allOfThese(['007','whitefang'], similarList_string)) ? "all" : "similar";
          displayString = "On the leaderboard<br>" + tab + similarString + " " + nameTypeString + ":&nbsp;&nbsp;" + similarList_string + "";
          
          //console.log("name report (lb) = " + similarList_string);
@@ -232,6 +232,9 @@ window.hC = (function() {
    function similarName( name, handleQueryResponse) {
       let nameWithoutNumbersAtEnd = name.replace(/\d+$/, "");
       // If user entered a pure numeric name, query for similar names using the first digit.
+      // A special case, the prime numbers series, will produce a pure wild card query, returning all the nicknames on the leaderboard.
+      // A single letter followed by a number will pass the filter for two characters, then lose its number, 
+      // yielding a single-letter-with-a-wild-card query (e.g. a5 will return a list of all the nicknames starting with the letter "a")
       if (nameWithoutNumbersAtEnd.length == 0) {
          if (name != "235711") {  
             nameWithoutNumbersAtEnd = name.slice(0,1);

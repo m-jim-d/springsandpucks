@@ -183,9 +183,18 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">return</span> <span class="nx">demoList</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span> <span class="p">(</span><span class="nx">nameInList</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">captureName</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">nameInList</span><span class="p">)</span> <span class="p">).</span><span class="nx">includes</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
    <span class="p">}</span>
    
+   <span class="kd">function</span> <span class="nx">oneOfTheseV2</span><span class="p">(</span> <span class="nx">listOfSubstrings</span><span class="p">,</span> <span class="nx">theString</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// This is similar to oneOfThese, except, uses a for loop and startsWith.</span>
+      <span class="kd">let</span> <span class="nx">oneInThere</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">substring</span> <span class="k">of</span> <span class="nx">listOfSubstrings</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">theString</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span> <span class="nx">substring</span><span class="p">))</span> <span class="nx">oneInThere</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">oneInThere</span><span class="p">;</span>
+   <span class="p">}</span>
+   
    <span class="kd">function</span> <span class="nx">allOfThese</span><span class="p">(</span> <span class="nx">listOfSubstrings</span><span class="p">,</span> <span class="nx">theString</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">let</span> <span class="nx">allInThere</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">substring</span> <span class="k">in</span> <span class="nx">listOfSubstrings</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">substring</span> <span class="k">of</span> <span class="nx">listOfSubstrings</span><span class="p">)</span> <span class="p">{</span>
          <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">theString</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span> <span class="nx">substring</span><span class="p">))</span> <span class="nx">allInThere</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
       <span class="p">}</span>
       <span class="k">return</span> <span class="nx">allInThere</span><span class="p">;</span>
@@ -530,6 +539,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="s1">&#39;setDefaultVector&#39;</span><span class="o">:</span> <span class="nx">setDefaultVector</span><span class="p">,</span>
       <span class="s1">&#39;isPrimitive&#39;</span><span class="o">:</span> <span class="nx">isPrimitive</span><span class="p">,</span>
       <span class="s1">&#39;oneOfThese&#39;</span><span class="o">:</span> <span class="nx">oneOfThese</span><span class="p">,</span>
+      <span class="s1">&#39;oneOfTheseV2&#39;</span><span class="o">:</span> <span class="nx">oneOfTheseV2</span><span class="p">,</span>
       <span class="s1">&#39;allOfThese&#39;</span><span class="o">:</span> <span class="nx">allOfThese</span><span class="p">,</span>
       <span class="s1">&#39;fixed&#39;</span><span class="o">:</span> <span class="nx">fixed</span><span class="p">,</span>
       <span class="s1">&#39;toggleElementDisplay&#39;</span><span class="o">:</span> <span class="nx">toggleElementDisplay</span><span class="p">,</span>

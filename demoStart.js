@@ -260,9 +260,19 @@ window.dS = (function() {
       } else if (nickNameResult.status == 'too short') {
          hC.displayMessage('Nicknames must have more than 1 alphanumeric character.');
          
-      } else if (nickNameResult.value) {
-         let teamString = (nickNameResult.teamName) ? " Your team name is " + nickNameResult.teamName + "." : "";
-         hC.displayMessage('YYour nickname is ' + nickNameResult.value + '.' + teamString);
+      } else if (m_hostOrClient == "host") {
+         if (clients['local'].nickName) {
+            // Wait for the capture file to load, the demoVersion gets set as it loads.
+            window.setTimeout( function() {
+               let teamString = (clients['local'].teamName) ? " Your team name is " + clients['local'].teamName + "." : "";
+               
+               let itsAGame = uT.oneOfTheseV2(['3.d','4.e','5.e.basketball','6.a','6.d','7','8'], gW.getDemoVersion());
+               if (itsAGame) hC.displayMessage('Your nickname is ' + clients['local'].nickName + '.' + teamString);
+            }, 500);
+         }
+         
+      } else if (m_hostOrClient == "client") {
+         console.log("Should never see this. This function only runs on the host.");
       }
 
       // If no nickname yet (unless there's modify-capture JSON in the chat field), put back the nickname reminder tip in the chat input field.
