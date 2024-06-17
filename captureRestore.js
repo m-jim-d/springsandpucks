@@ -1124,7 +1124,23 @@ window.cR = (function() {
          captureObject = loadJSON( gW.dC.json);
          if ( ! captureObject) return;
          
+         let demoName = captureObject.demoVersion;
+         let parts = demoName.split(".");
+         let demoFileName = null;
+         console.log('demoName = ' + demoName + ", n=" + parts.length);
+         if (parts.length <= 2) {
+            demoFileName = "demo" + parts[0] + parts[1] + ".js";
+         } else {
+            demoFileName = "demo" + parts[0] + parts[1] + "." + parts[2] + ".js";
+         }
+         
          switchToTheChatPanel();
+         
+         let changedFromBaseVersion = await compareCaptureToFile({'fileName':demoFileName});  
+         if ( ! changedFromBaseVersion) {
+            hC.displayMessage("Capture must be different from the base version.");
+            return;
+         }
          
          console.log("demo version = " + captureObject.demoVersion);
 
@@ -1263,26 +1279,40 @@ window.cR = (function() {
    // This checks to see if the capture has been edited to be different from the original file.
    // It requires taking time to load files. So, this is called at the start of a game. The results
    // of this (in aT.hack) are used later when reports are issued to the leaderboard.
-   function compareCaptureToFile( pars) {
+   async function compareCaptureToFile( pars) {
       let fileName = uT.setDefault( pars.fileName, 'null');
       gW.aT.hack['captureEdit'] = false;
       
       console.log('fetching ' + fileName + ' from server');
-      $.getScript( fileName, function() {
-         // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.
-         if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
-         console.log("after comparison 1, cE=" + gW.aT.hack['captureEdit']);
+      
+      try {     
+         await $.when( 
          
-      }).fail( function() {
-         // Try again...
-         $.getScript( fileName, function() {
-            if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
-            console.log("after comparison 2, cE=" + gW.aT.hack['captureEdit']);
+            $.getScript( fileName, function() {
+               // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.
+               if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
+               
+            }).fail( function() {
+               // Try again...
+               $.getScript( fileName, function() {
+                  if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
+                  
+               }).fail( function() {
+                  console.log('capture file not found on server');
+               });
+            })
             
-         }).fail( function() {
-            console.log('capture file not found on server');
-         });
-      });
+         );
+         
+         return gW.aT.hack['captureEdit'];
+
+      } catch (error) {
+         console.log("---caught error---");
+         console.error( error);
+         gW.aT.hack['captureEdit'] = true;
+         return gW.aT.hack['captureEdit'];
+      }
+      
    }
       
       
