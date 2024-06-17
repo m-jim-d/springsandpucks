@@ -1136,6 +1136,20 @@ window.cR = (function() {
          
          switchToTheChatPanel();
          
+         // A fetch check on the file.
+         try {
+            const responseA = await fetch( demoFileName, {method: 'HEAD'}); 
+            if (responseA.ok) {
+               console.log("webserver fetch ok");
+            } else {
+               console.log("webserver fetch NOT ok");
+            }
+         } catch (error) {
+            console.error(`Error checking file existence: ${error}`);
+            return false;
+         } 
+         
+         // Check to see if a corresponding capture file is on the webserver AND if it's content is different from the capture.
          let changedFromBaseVersion = await compareCaptureToFile({'fileName':demoFileName});  
          if ( ! changedFromBaseVersion) {
             hC.displayMessage("Capture must be different from the base version.");
