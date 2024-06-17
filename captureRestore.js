@@ -1113,7 +1113,7 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v9");
+      console.log("inside poster v10");
       
       let workerURL = "https://triquence.org/captures/submit";
                
@@ -1124,6 +1124,7 @@ window.cR = (function() {
          captureObject = loadJSON( gW.dC.json);
          if ( ! captureObject) return;
          
+         // Determine the filename from the demoVersion string.
          let demoName = captureObject.demoVersion;
          let parts = demoName.split(".");
          let demoFileName = null;
@@ -1136,20 +1137,22 @@ window.cR = (function() {
          
          switchToTheChatPanel();
          
-         // A fetch check on the file.
+         // A fetch check to see if the file is on the webserver.
          try {
             const responseA = await fetch( demoFileName, {method: 'HEAD'}); 
             if (responseA.ok) {
                console.log("webserver fetch ok");
+               hC.displayMessage("This file exists on the webserver.");
+               return;
             } else {
                console.log("webserver fetch NOT ok");
             }
          } catch (error) {
-            console.error(`Error checking file existence: ${error}`);
-            return false;
+            console.log("---Error caught in Fetch file check.---");
+            console.error( error);
          } 
          
-         // Check to see if a corresponding capture file is on the webserver AND if it's content is different from the capture.
+         // Check to see if this capture is different from the corresponding content of the file is on the webserver.
          let changedFromBaseVersion = await compareCaptureToFile({'fileName':demoFileName});  
          if ( ! changedFromBaseVersion) {
             hC.displayMessage("Capture must be different from the base version.");
