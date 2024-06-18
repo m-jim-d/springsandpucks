@@ -1113,7 +1113,7 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v16");
+      console.log("inside poster v17");
       
       let workerURL = "https://triquence.org/captures/submit";
                
@@ -1142,8 +1142,10 @@ window.cR = (function() {
          // A fetch check to see if the file is here, on this webserver.
          try {
             const responseA = await fetch( demoFileName); // , {method: 'HEAD'}
+            const content = await responseA.text();
             console.log("responseA.status = " + responseA.status);
-            if (responseA.status === 404) {
+            console.log("content = " + content);
+            if (responseA.status == 404) {
                // This is good, don't return here. Proceed.
                console.log("webserver fetch, good, file not found (404)");
                
