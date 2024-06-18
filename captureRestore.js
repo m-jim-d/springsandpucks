@@ -1113,7 +1113,7 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v11");
+      console.log("inside poster v12");
       
       let workerURL = "https://triquence.org/captures/submit";
                
@@ -1136,6 +1136,8 @@ window.cR = (function() {
          }
          
          switchToTheChatPanel();
+         
+         /*
          
          // A fetch check to see if the file is on the webserver.
          try {
@@ -1163,6 +1165,8 @@ window.cR = (function() {
             hC.displayMessage("Capture must be different from the base version.");
             return;
          }
+         
+         */
          
          console.log("demo version = " + captureObject.demoVersion);
 
