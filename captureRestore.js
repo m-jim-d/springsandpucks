@@ -1113,7 +1113,7 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v18");
+      console.log("inside poster v19");
       
       let workerURL = "https://triquence.org/captures/submit";
                
@@ -1137,26 +1137,36 @@ window.cR = (function() {
          
          switchToTheChatPanel();
          
- 
          
          // A fetch check to see if the file is here, on this webserver.
          try {
             console.log("demoFileName = " + demoFileName);
+            
             const responseA = await fetch( demoFileName); // , {method: 'HEAD'}
             const content = await responseA.text();
+            
             console.log("responseA.status = " + responseA.status);
-            console.log("content = " + content);
+            //console.log("content = " + content);
+            
             if (responseA.status == 404) {
                // This is good, don't return here. Proceed.
-               console.log("webserver fetch, good, file not found (404)");
+               console.log("webserver fetch: file not found (404)");
                
             } else if (responseA.ok) {
-               console.log("webserver fetch ok, maybe found file.");
-               hC.displayMessage("This file exists on the webserver. Please post something new.");
-               return;
+               console.log("webserver fetch: ok, maybe found file.");
+               
+               // Check the contents to see if it looks like one of the capture files on the server.
+               if (content.includes("demo_capture = {")) {
+                  hC.displayMessage("This file exists on the webserver. Please post something new.");
+                  return;
+               
+               // Not a capture, so must be default file on the server, index.html.
+               } else {
+                  console.log("probably got index.html");
+               }
                
             } else {
-               console.log("webserver fetch NOT ok");
+               console.log("webserver fetch: NOT ok");
             }
          } catch (error) {
             console.log("---Error caught in Fetch file check.---");
