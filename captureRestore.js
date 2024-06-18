@@ -1113,7 +1113,7 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v17");
+      console.log("inside poster v18");
       
       let workerURL = "https://triquence.org/captures/submit";
                
@@ -1141,6 +1141,7 @@ window.cR = (function() {
          
          // A fetch check to see if the file is here, on this webserver.
          try {
+            console.log("demoFileName = " + demoFileName);
             const responseA = await fetch( demoFileName); // , {method: 'HEAD'}
             const content = await responseA.text();
             console.log("responseA.status = " + responseA.status);
