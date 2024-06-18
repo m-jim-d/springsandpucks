@@ -1113,7 +1113,7 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v12");
+      console.log("inside poster v15");
       
       let workerURL = "https://triquence.org/captures/submit";
                
@@ -1137,16 +1137,18 @@ window.cR = (function() {
          
          switchToTheChatPanel();
          
-         /*
+ 
          
-         // A fetch check to see if the file is on the webserver.
+         // A fetch check to see if the file is here, on this webserver.
          try {
             const responseA = await fetch( demoFileName, {method: 'HEAD'}); 
+            console.log("responseA.status = " + responseA.status);
             if (responseA.status === 404) {
-               console.log("webserver fetch, file not found (404)");
+               // This is good, don't return here. Proceed.
+               console.log("webserver fetch, good, file not found (404)");
                
             } else if (responseA.ok) {
-               console.log("webserver fetch ok");
+               console.log("webserver fetch ok, maybe found file.");
                hC.displayMessage("This file exists on the webserver. Please post something new.");
                return;
                
@@ -1157,6 +1159,9 @@ window.cR = (function() {
             console.log("---Error caught in Fetch file check.---");
             console.error( error);
          } 
+         
+         
+         /*
          
          // Check to see if this capture is different from the corresponding content of the file on the webserver.
          // Note: TBD, pass an argument to parse, then change the version in the capture to be the base, then stringify, then compare.
@@ -1184,7 +1189,7 @@ window.cR = (function() {
          }); 
 
          if (response.ok) {
-            console.log("response ok");   
+            console.log("response ok (CF worker)");   
             
             let jsonInResponse = await response.json();
             console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
@@ -1197,7 +1202,7 @@ window.cR = (function() {
             
          } else {
             hC.displayMessage("Looks like there's a problem connecting to CloudFlare.");
-            console.log("response NOT ok");  
+            console.log("response NOT ok (CF worker)");  
          } 
          
       } else if (action == "downLoadOne") {
@@ -1331,7 +1336,7 @@ window.cR = (function() {
          );
          
          return gW.aT.hack['captureEdit'];
-
+         
       } catch (error) {
          console.log("---caught error---");
          console.error( error);
