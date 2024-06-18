@@ -1113,7 +1113,7 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v10");
+      console.log("inside poster v11");
       
       let workerURL = "https://triquence.org/captures/submit";
                
@@ -1140,10 +1140,14 @@ window.cR = (function() {
          // A fetch check to see if the file is on the webserver.
          try {
             const responseA = await fetch( demoFileName, {method: 'HEAD'}); 
-            if (responseA.ok) {
+            if (responseA.status === 404) {
+               console.log("webserver fetch, file not found (404)");
+               
+            } else if (responseA.ok) {
                console.log("webserver fetch ok");
-               hC.displayMessage("This file exists on the webserver.");
+               hC.displayMessage("This file exists on the webserver. Please post something new.");
                return;
+               
             } else {
                console.log("webserver fetch NOT ok");
             }
@@ -1152,8 +1156,9 @@ window.cR = (function() {
             console.error( error);
          } 
          
-         // Check to see if this capture is different from the corresponding content of the file is on the webserver.
-         let changedFromBaseVersion = await compareCaptureToFile({'fileName':demoFileName});  
+         // Check to see if this capture is different from the corresponding content of the file on the webserver.
+         // Note: TBD, pass an argument to parse, then change the version in the capture to be the base, then stringify, then compare.
+         let changedFromBaseVersion = await compareCaptureToFile({'fileName':demoFileName});
          if ( ! changedFromBaseVersion) {
             hC.displayMessage("Capture must be different from the base version.");
             return;
