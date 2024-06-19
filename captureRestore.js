@@ -1126,7 +1126,7 @@ window.cR = (function() {
          } else if (response.ok) {
             console.log("webserver fetch: ok, maybe found file.");
             
-            // Check the contents to see if it looks like one of the capture files on the server.
+            // Check the contents to see if it looks like a typical capture file on the server.
             if (content.includes("demo_capture = {")) {
                result.status = "file exists";
                result.fileText = content;
@@ -1172,41 +1172,60 @@ window.cR = (function() {
          captureObject = loadJSON( gW.dC.json);
          if ( ! captureObject) return;
          
-         // Determine the filename from the demoVersion string.
+         switchToTheChatPanel();
+         
+         // check the form of the version-name string
+         //const pattern = /^[0-9]\.[a-z]\.[a-zA-Z0-9.]+$/;
+         //const pattern = /^[0-9]\.[a-z]\.(?:[a-zA-Z0-9-]+\.?)+$/;
+         const pattern = /^[0-9]\.[a-z]\.(?:[a-zA-Z0-9-]+\.?)+[a-zA-Z0-9-]+$/;
+         if ( ! pattern.test( captureObject.demoVersion)) {
+            hC.displayMessage("Posts must use the current naming convention.<br><br>" +
+              "examples:<br>" + 
+              "1.b.cool-one <br>2.c.my-version <br>9.b.no-fence <br>3.d.9ball.a-twist<br><br>" +
+              'You may need to edit the "demoVersion" in the capture. The idea is to add a descriptive part to the end of the name.'
+            );
+            return;
+         }
+         
+         // Determine the corresponding filename from the demoVersion string.
          let demoName = captureObject.demoVersion;
          let parts = demoName.split(".");
          let demoFileName = null;
          console.log('demoName = ' + demoName + ", n=" + parts.length);
-         if (parts.length <= 2) {
-            demoFileName = "demo" + parts[0] + parts[1] + ".js";
-         } else {
+         // This first check should also be covered by the regular expression above...
+         if (parts.length < 3) {
+            hC.displayMessage("names for posts should have at least 3 parts, e.g. 1.b.coolone ");
+            return;
+            
+         } else if (parts.length == 3) {
+            // e.g. 3.a.333  --> demo3a.333.js  
+            //  or  5.b.rube --> demo5b.rube.js
             demoFileName = "demo" + parts[0] + parts[1] + "." + parts[2] + ".js";
+            
+         } else if (parts.length > 3) {
+            // e.g. 5.b.rube.334 --> demo5b.rube.334.js
+            demoFileName = "demo" + parts[0] + parts[1];
+            for (let index in parts) {
+               if (index > 1) demoFileName += "." + parts[ index];
+            }
+            demoFileName += ".js";
          }
          
-         switchToTheChatPanel();
-         
-         
-
+         if (demoFileName == "demo3d.9ball.js") demoFileName = "demo3d.js"; // special case
          let fileCheckResult = await checkForFile( demoFileName);
          if (fileCheckResult.status == "file exists") {
             hC.displayMessage("This file exists as a demo on the webserver. Please post something new.");
             return;
          } else {
-            // fetch the base version and compare the content to see if user renamed a base demo. See commented block below.
+            /* TBD
+            Use checkForFile to fetch the base version and compare the content to see if the user has simply renamed a base demo:
+            Remove "demo_capture = " from the file text.
+            Parse it into an object.
+            Replace the version string in the file text to be the base.
+            Do a formated stringify.
+            Then compare to the capture in textarea.
+            */
          }
-         
-         
-         /*
-         
-         // Check to see if this capture is different from the corresponding content of the file on the webserver.
-         // Note: TBD, pass an argument to parse, then change the version string in the capture to be the base, then stringify, then compare.
-         let changedFromBaseVersion = await compareCaptureToFile({'fileName':demoFileName});
-         if ( ! changedFromBaseVersion) {
-            hC.displayMessage("Capture must be different from the base version.");
-            return;
-         }
-         
-         */
          
          console.log("demo version = " + captureObject.demoVersion);
 
@@ -1345,40 +1364,25 @@ window.cR = (function() {
    // This checks to see if the capture has been edited to be different from the original file.
    // It requires taking time to load files. So, this is called at the start of a game. The results
    // of this (in aT.hack) are used later when reports are issued to the leaderboard.
-   async function compareCaptureToFile( pars) {
+   function compareCaptureToFile( pars) {
       let fileName = uT.setDefault( pars.fileName, 'null');
       gW.aT.hack['captureEdit'] = false;
       
       console.log('fetching ' + fileName + ' from server');
       
-      try {     
-         await $.when( 
+      $.getScript( fileName, function() {
+         // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.
+         if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
          
-            $.getScript( fileName, function() {
-               // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.
-               if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
-               
-            }).fail( function() {
-               // Try again...
-               $.getScript( fileName, function() {
-                  if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
-                  
-               }).fail( function() {
-                  console.log('capture file not found on server');
-               });
-            })
+      }).fail( function() {
+         // Try again...
+         $.getScript( fileName, function() {
+            if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
             
-         );
-         
-         return gW.aT.hack['captureEdit'];
-         
-      } catch (error) {
-         console.log("---caught error---");
-         console.error( error);
-         gW.aT.hack['captureEdit'] = true;
-         return gW.aT.hack['captureEdit'];
-      }
-      
+         }).fail( function() {
+            console.log('capture file not found on server');
+         });
+      })
    }
       
       
