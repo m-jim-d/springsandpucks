@@ -1351,7 +1351,7 @@ window.cR = (function() {
                hC.displayMessage( tableString);
                
             } else {
-               hC.displayMessage("No demos found for search on '" + searchString + "'.");
+               hC.displayMessage("No cloud captures with names starting with '" + searchString + "'.");
             }
                         
          } else {
