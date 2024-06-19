@@ -1212,6 +1212,7 @@ window.cR = (function() {
          }
          
          if (demoFileName == "demo3d.9ball.js") demoFileName = "demo3d.js"; // special case
+         
          let fileCheckResult = await checkForFile( demoFileName);
          if (fileCheckResult.status == "file exists") {
             hC.displayMessage("This file exists as a demo on the webserver. Please post something new.");
@@ -1230,7 +1231,7 @@ window.cR = (function() {
          console.log("demo version = " + captureObject.demoVersion);
 
          let nickName = (gW.clients["local"].nickName) ? gW.clients["local"].nickName : "host";
-         let keyName = captureObject.demoVersion + "--" + nickName;
+         let keyName = captureObject.demoVersion + "__" + nickName;
 
          let postObject = {"keyName":keyName, "action":action, "capture":captureObject};
 
@@ -1336,13 +1337,13 @@ window.cR = (function() {
                for (let index in jsonInResponse.captureList.keys) {
                   let keyObject = jsonInResponse.captureList.keys[ index];
                   let clickCommandString = "cR.postCaptureToCF({'action':'downLoadOne','downLoadKey':'" + keyObject.name + "'})";
-                  let demoName = keyObject.name.split("--")[0];
-                  let userName = keyObject.name.split("--")[1];
-                  userName = (userName) ? userName : "---";
+                  let demoName = keyObject.name.split("__")[0];
+                  let userName = keyObject.name.split("__")[1];
+                  userName = (userName) ? userName : "???";
                   
                   let linkString = "<a onclick=" + clickCommandString + ">" + demoName + "</a>";
                   tableString += "<tr align='right'>" + 
-                  "<td class='score'>" + linkString + "</td>" + 
+                  "<td class='score edits'>" + linkString + "</td>" + 
                   "<td class='score'>" + userName + "</td>" + 
                   "</tr>";
                }
