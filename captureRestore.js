@@ -1104,16 +1104,64 @@ window.cR = (function() {
       });
    }
    
+   
+   async function checkForFile( demoFileName) {
+      let result = {'status':null, 'fileText':null};
+      
+      // A fetch check to see if the file is here, on this webserver.
+      try {
+         console.log("demoFileName = " + demoFileName);
+         
+         const response = await fetch( demoFileName); // , {method: 'HEAD'}
+         const content = await response.text();
+         
+         console.log("response.status = " + response.status);
+         //console.log("content = " + content);
+         
+         if (response.status == 404) {
+            // A clear indication that the file by that name is not there.
+            console.log("webserver fetch: file not found (404)");
+            result.status = "file not found";
+            
+         } else if (response.ok) {
+            console.log("webserver fetch: ok, maybe found file.");
+            
+            // Check the contents to see if it looks like one of the capture files on the server.
+            if (content.includes("demo_capture = {")) {
+               result.status = "file exists";
+               result.fileText = content;
+            
+            // Not a capture, so must be a default file on the server, probably index.html.
+            } else {
+               console.log("probably got index.html");
+               result.status = "file not found";
+            }
+            
+         } else {
+            console.log("webserver fetch: NOT ok");
+            result.status = "file not found";
+         }
+         
+      } catch (error) {
+         console.log("---Error caught in Fetch file check.---");
+         console.error( error);
+         result.status = "error caught";
+      }
+
+      return result;
+   }
+   
    function switchToTheChatPanel() {
       if ( ! gW.dC.multiplayer.checked) {  
          $("#chkMultiplayer").trigger("click");
       }      
    }
+   
    async function postCaptureToCF( pars={}) {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v19");
+      console.log("inside poster v20");
       
       let workerURL = "https://triquence.org/captures/submit";
                
@@ -1138,46 +1186,20 @@ window.cR = (function() {
          switchToTheChatPanel();
          
          
-         // A fetch check to see if the file is here, on this webserver.
-         try {
-            console.log("demoFileName = " + demoFileName);
-            
-            const responseA = await fetch( demoFileName); // , {method: 'HEAD'}
-            const content = await responseA.text();
-            
-            console.log("responseA.status = " + responseA.status);
-            //console.log("content = " + content);
-            
-            if (responseA.status == 404) {
-               // This is good, don't return here. Proceed.
-               console.log("webserver fetch: file not found (404)");
-               
-            } else if (responseA.ok) {
-               console.log("webserver fetch: ok, maybe found file.");
-               
-               // Check the contents to see if it looks like one of the capture files on the server.
-               if (content.includes("demo_capture = {")) {
-                  hC.displayMessage("This file exists on the webserver. Please post something new.");
-                  return;
-               
-               // Not a capture, so must be default file on the server, index.html.
-               } else {
-                  console.log("probably got index.html");
-               }
-               
-            } else {
-               console.log("webserver fetch: NOT ok");
-            }
-         } catch (error) {
-            console.log("---Error caught in Fetch file check.---");
-            console.error( error);
-         } 
+
+         let fileCheckResult = await checkForFile( demoFileName);
+         if (fileCheckResult.status == "file exists") {
+            hC.displayMessage("This file exists as a demo on the webserver. Please post something new.");
+            return;
+         } else {
+            // fetch the base version and compare the content to see if user renamed a base demo. See commented block below.
+         }
          
          
          /*
          
          // Check to see if this capture is different from the corresponding content of the file on the webserver.
-         // Note: TBD, pass an argument to parse, then change the version in the capture to be the base, then stringify, then compare.
+         // Note: TBD, pass an argument to parse, then change the version string in the capture to be the base, then stringify, then compare.
          let changedFromBaseVersion = await compareCaptureToFile({'fileName':demoFileName});
          if ( ! changedFromBaseVersion) {
             hC.displayMessage("Capture must be different from the base version.");
@@ -1208,7 +1230,7 @@ window.cR = (function() {
             console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
             
             if (jsonInResponse.foundOne) {
-               hC.displayMessage("Capture found, already out there.");
+               hC.displayMessage("Cloud capture found. That name is in use.");
             } else {
                hC.displayMessage("Capture posted.");
             }
