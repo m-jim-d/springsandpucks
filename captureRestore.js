@@ -1161,10 +1161,10 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v20");
+      console.log("inside poster v211, key = " + downLoadKey);
       
       let workerURL = "https://triquence.org/captures/submit";
-               
+      
       if (action == "postOne") {
          
          // Check for valid JSON in textarea.
@@ -1233,6 +1233,11 @@ window.cR = (function() {
          let nickName = (gW.clients["local"].nickName) ? gW.clients["local"].nickName : "host";
          let keyName = captureObject.demoVersion + "__" + nickName;
 
+         if (gW.clients['local'].key_shift == "D") {
+            action = "deleteOne";
+            console.log("deleteOne request");
+         }
+      
          let postObject = {"keyName":keyName, "action":action, "capture":captureObject};
 
          const response = await fetch( workerURL, {
@@ -1262,7 +1267,7 @@ window.cR = (function() {
          
       } else if (action == "downLoadOne") {
          
-         let postObject = {"action":action, "key":downLoadKey};
+         let postObject = {"action":action, "keyName":downLoadKey};
 
          const response = await fetch( workerURL, {
             'method': 'POST',
