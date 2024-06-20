@@ -1161,7 +1161,7 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null);
       
-      console.log("inside poster v211, key = " + downLoadKey);
+      console.log("inside poster v25, key = " + downLoadKey);
       
       let workerURL = "https://triquence.org/captures/submit";
       
@@ -1255,7 +1255,11 @@ window.cR = (function() {
             console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
             
             if (jsonInResponse.foundOne) {
-               hC.displayMessage("Cloud capture found. That name is in use.");
+               if (jsonInResponse.deleted) { 
+                  hC.displayMessage("Cloud capture found and deleted.");
+               } else {
+                  hC.displayMessage("Cloud capture found. That name is in use.");
+               } 
             } else {
                hC.displayMessage("Capture posted.");
             }
