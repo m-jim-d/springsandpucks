@@ -1330,8 +1330,18 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="kd">let</span> <span class="nx">keyName</span> <span class="o">=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;__&quot;</span> <span class="o">+</span> <span class="nx">nickName</span><span class="p">;</span>
 
          <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">;</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;deleteOne request&quot;</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;jim&quot;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">){</span>
+                  <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">;</span>
+                  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;deleteOne request&quot;</span><span class="p">);</span>
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;We can&#39;t delete Jim&#39;s posts (only he can).&quot;</span><span class="p">);</span>
+                  <span class="k">return</span><span class="p">;</span>
+               <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">;</span>
+               <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;deleteOne request&quot;</span><span class="p">);</span>
+            <span class="p">}</span>
          <span class="p">}</span>
       
          <span class="kd">let</span> <span class="nx">postObject</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;keyName&quot;</span><span class="o">:</span><span class="nx">keyName</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="o">:</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;capture&quot;</span><span class="o">:</span><span class="nx">captureObject</span><span class="p">};</span>
@@ -1352,12 +1362,21 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             
             <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundOne</span><span class="p">)</span> <span class="p">{</span>
                <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">deleted</span><span class="p">)</span> <span class="p">{</span> 
-                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture found and deleted.&quot;</span><span class="p">);</span>
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; found and deleted.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                     <span class="s2">&quot;Note: it may take 1 to 20 seconds to affect the listing.&quot;</span><span class="p">);</span>
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                   <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture found. That name is in use.&quot;</span><span class="p">);</span>
                <span class="p">}</span> 
+               
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-               <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Capture posted.&quot;</span><span class="p">);</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;postOne&quot;</span><span class="p">)</span> <span class="p">{</span> 
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; posted to Cloud storage for &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">nickName</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt;.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                     <span class="s2">&quot;Note: it may take 1 to 20 seconds to affect the listing.&quot;</span><span class="p">);</span>
+               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Didn&#39;t find &lt;strong&gt;&quot;</span> <span class="o">+</span> 
+                     <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; under your nickname (&lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">nickName</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt;). &lt;br&gt;&quot;</span> <span class="o">+</span> 
+                     <span class="s2">&quot;You may need to specify (or change) your nickname and try again.&quot;</span><span class="p">);</span>
+               <span class="p">}</span>
             <span class="p">}</span>
             
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -1405,7 +1424,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                   
          <span class="nx">switchToTheChatPanel</span><span class="p">();</span>
          
-         <span class="kd">let</span> <span class="nx">searchString</span> <span class="o">=</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoIndex</span><span class="p">();</span>
+         <span class="kd">let</span> <span class="nx">searchString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">?</span> <span class="s2">&quot;&quot;</span> <span class="o">:</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoIndex</span><span class="p">();</span>
          <span class="kd">let</span> <span class="nx">postObject</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="o">:</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;searchString&quot;</span><span class="o">:</span><span class="nx">searchString</span><span class="p">};</span>
 
          <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">fetch</span><span class="p">(</span> <span class="nx">workerURL</span><span class="p">,</span> <span class="p">{</span>
@@ -1437,7 +1456,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                <span class="kd">let</span> <span class="nx">tableString</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="o">+</span> 
                   <span class="s2">&quot;&lt;table class=&#39;score&#39;&gt;&lt;tr align=&#39;right&#39;&gt;&quot;</span> <span class="o">+</span>
                   <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;capture name, click to download and run&#39;&gt;capture&lt;/td&gt;&quot;</span> <span class="o">+</span>
-                  <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;user name&#39;&gt;user&lt;/td&gt;&quot;</span> <span class="o">+</span>
+                  <span class="s2">&quot;&lt;td class=&#39;scoreHeader&#39; title=&#39;user nickname, default (for anonymous) is host&#39;&gt;nickname&lt;/td&gt;&quot;</span> <span class="o">+</span>
                   <span class="s2">&quot;&lt;/tr&gt;&quot;</span><span class="p">;</span>
                <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">index</span> <span class="k">in</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">captureList</span><span class="p">.</span><span class="nx">keys</span><span class="p">)</span> <span class="p">{</span>
                   <span class="kd">let</span> <span class="nx">keyObject</span> <span class="o">=</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">captureList</span><span class="p">.</span><span class="nx">keys</span><span class="p">[</span> <span class="nx">index</span><span class="p">];</span>

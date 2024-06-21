@@ -1234,8 +1234,18 @@ window.cR = (function() {
          let keyName = captureObject.demoVersion + "__" + nickName;
 
          if (gW.clients['local'].key_shift == "D") {
-            action = "deleteOne";
-            console.log("deleteOne request");
+            if (nickName == "jim") {
+               if (gW.clients['local'].key_ctrl == "D"){
+                  action = "deleteOne";
+                  console.log("deleteOne request");
+               } else {
+                  hC.displayMessage("We can't delete Jim's posts (only he can).");
+                  return;
+               }
+            } else {
+               action = "deleteOne";
+               console.log("deleteOne request");
+            }
          }
       
          let postObject = {"keyName":keyName, "action":action, "capture":captureObject};
@@ -1256,12 +1266,21 @@ window.cR = (function() {
             
             if (jsonInResponse.foundOne) {
                if (jsonInResponse.deleted) { 
-                  hC.displayMessage("Cloud capture found and deleted.");
+                  hC.displayMessage("Cloud capture <strong>" + captureObject.demoVersion + "</strong> found and deleted.<br>" +
+                     "Note: it may take 1 to 20 seconds to affect the listing.");
                } else {
                   hC.displayMessage("Cloud capture found. That name is in use.");
                } 
+               
             } else {
-               hC.displayMessage("Capture posted.");
+               if (jsonInResponse.action == "postOne") { 
+                  hC.displayMessage("Capture <strong>" + captureObject.demoVersion + "</strong> posted to Cloud storage for <strong>" + nickName + "</strong>.<br>" +
+                     "Note: it may take 1 to 20 seconds to affect the listing.");
+               } else if (jsonInResponse.action == "deleteOne") {
+                  hC.displayMessage("Didn't find <strong>" + 
+                     captureObject.demoVersion + "</strong> under your nickname (<strong>" + nickName + "</strong>). <br>" + 
+                     "You may need to specify (or change) your nickname and try again.");
+               }
             }
             
          } else {
@@ -1309,7 +1328,7 @@ window.cR = (function() {
                   
          switchToTheChatPanel();
          
-         let searchString = gW.getDemoIndex();
+         let searchString = (gW.clients['local'].key_shift == "D") ? "" : gW.getDemoIndex();
          let postObject = {"action":action, "searchString":searchString};
 
          const response = await fetch( workerURL, {
@@ -1341,7 +1360,7 @@ window.cR = (function() {
                let tableString = "" + 
                   "<table class='score'><tr align='right'>" +
                   "<td class='scoreHeader' title='capture name, click to download and run'>capture</td>" +
-                  "<td class='scoreHeader' title='user name'>user</td>" +
+                  "<td class='scoreHeader' title='user nickname, default (for anonymous) is host'>nickname</td>" +
                   "</tr>";
                for (let index in jsonInResponse.captureList.keys) {
                   let keyObject = jsonInResponse.captureList.keys[ index];
