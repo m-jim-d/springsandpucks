@@ -962,7 +962,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">}</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">CreateFixture</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">define_fixture</span><span class="p">({</span><span class="s1">&#39;radius_scaling&#39;</span><span class="o">:</span><span class="nx">width_factor</span><span class="p">}));</span>
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;height factor = &quot;</span> <span class="o">+</span> <span class="nx">height_factor</span><span class="p">);</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">CreateFixture</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">define_fixture</span><span class="p">({</span><span class="s1">&#39;width_scaling&#39;</span><span class="o">:</span><span class="nx">width_factor</span><span class="p">,</span> <span class="s1">&#39;height_scaling&#39;</span><span class="o">:</span><span class="nx">height_factor</span><span class="p">}));</span>
          <span class="p">}</span>
          
@@ -2619,7 +2618,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">this</span><span class="p">.</span><span class="nx">velocity_2d_mps</span> <span class="o">=</span> <span class="nx">newVelocity_2d_mps</span><span class="p">;</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">SetLinearVelocity</span><span class="p">(</span> <span class="nx">newVelocity_2d_mps</span><span class="p">);</span>
    <span class="p">}</span>
-   <span class="nx">Wall</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">interpret_editCommand</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">command</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">Wall</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">interpret_editCommand</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">command</span><span class="p">,</span> <span class="nx">sf</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
       <span class="c1">// If you are going to modify the fixture dimensions you have to delete</span>
       <span class="c1">// the old one and make a new one. The m_fixtureList linked list always</span>
       <span class="c1">// points to the most recent addition to the linked list. If there&#39;s only</span>
@@ -2631,14 +2630,14 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="nx">gW</span><span class="p">.</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;pwsEdits&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
       
       <span class="k">if</span> <span class="p">(</span><span class="nx">command</span> <span class="o">==</span> <span class="s1">&#39;wider&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">width_factor</span> <span class="o">=</span> <span class="mf">1.1</span><span class="p">;</span>
+         <span class="nx">width_factor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sf</span><span class="p">)</span> <span class="o">?</span> <span class="nx">sf</span> <span class="o">:</span> <span class="mf">1.1</span><span class="p">;</span>
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">command</span> <span class="o">==</span> <span class="s1">&#39;thinner&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">width_factor</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">1.1</span><span class="p">;</span>
+         <span class="nx">width_factor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sf</span><span class="p">)</span> <span class="o">?</span> <span class="nx">sf</span> <span class="o">:</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">1.1</span><span class="p">;</span>
          
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">command</span> <span class="o">==</span> <span class="s1">&#39;taller&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">height_factor</span> <span class="o">=</span> <span class="mf">1.1</span><span class="p">;</span>
+         <span class="nx">height_factor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sf</span><span class="p">)</span> <span class="o">?</span> <span class="nx">sf</span> <span class="o">:</span> <span class="mf">1.1</span><span class="p">;</span>
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">command</span> <span class="o">==</span> <span class="s1">&#39;shorter&#39;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">height_factor</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">1.1</span><span class="p">;</span>
+         <span class="nx">height_factor</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sf</span><span class="p">)</span> <span class="o">?</span> <span class="nx">sf</span> <span class="o">:</span> <span class="mf">1.0</span><span class="o">/</span><span class="mf">1.1</span><span class="p">;</span>
          
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">command</span> <span class="o">==</span> <span class="s1">&#39;noChange&#39;</span><span class="p">)</span> <span class="p">{</span>
          <span class="c1">// don&#39;t change anything.</span>

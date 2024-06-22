@@ -866,7 +866,6 @@ window.cP = (function() {
             }
             this.b2d.CreateFixture( this.define_fixture({'radius_scaling':width_factor}));
          } else {
-            console.log("height factor = " + height_factor);
             this.b2d.CreateFixture( this.define_fixture({'width_scaling':width_factor, 'height_scaling':height_factor}));
          }
          
@@ -2523,7 +2522,7 @@ window.cP = (function() {
       this.velocity_2d_mps = newVelocity_2d_mps;
       this.b2d.SetLinearVelocity( newVelocity_2d_mps);
    }
-   Wall.prototype.interpret_editCommand = function( command) {
+   Wall.prototype.interpret_editCommand = function( command, sf = null) {
       // If you are going to modify the fixture dimensions you have to delete
       // the old one and make a new one. The m_fixtureList linked list always
       // points to the most recent addition to the linked list. If there's only
@@ -2535,14 +2534,14 @@ window.cP = (function() {
       gW.aT.hack['pwsEdits'] = true;
       
       if (command == 'wider') {
-         width_factor = 1.1;
+         width_factor = (sf) ? sf : 1.1;
       } else if (command == 'thinner') {
-         width_factor = 1.0/1.1;
+         width_factor = (sf) ? sf : 1.0/1.1;
          
       } else if (command == 'taller') {
-         height_factor = 1.1;
+         height_factor = (sf) ? sf : 1.1;
       } else if (command == 'shorter') {
-         height_factor = 1.0/1.1;
+         height_factor = (sf) ? sf : 1.0/1.1;
          
       } else if (command == 'noChange') {
          // don't change anything.
