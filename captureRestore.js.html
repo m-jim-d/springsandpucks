@@ -1262,7 +1262,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="kd">let</span> <span class="nx">workerURL</span> <span class="o">=</span> <span class="s2">&quot;https://triquence.org/captures/submit&quot;</span><span class="p">;</span>
       
       <span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;postOne&quot;</span><span class="p">)</span> <span class="p">{</span>
-         
          <span class="c1">// Check for valid JSON in textarea.</span>
          <span class="kd">let</span> <span class="nx">captureObject</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
          <span class="nx">captureObject</span> <span class="o">=</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">);</span>
@@ -1271,8 +1270,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="nx">switchToTheChatPanel</span><span class="p">();</span>
          
          <span class="c1">// check the form of the version-name string</span>
-         <span class="c1">//const pattern = /^[0-9]\.[a-z]\.[a-zA-Z0-9.]+$/;</span>
-         <span class="c1">//const pattern = /^[0-9]\.[a-z]\.(?:[a-zA-Z0-9-]+\.?)+$/;</span>
          <span class="kr">const</span> <span class="nx">pattern</span> <span class="o">=</span> <span class="sr">/^[0-9]\.[a-z]\.(?:[a-zA-Z0-9-]+\.?)+[a-zA-Z0-9-]+$/</span><span class="p">;</span>
          <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">pattern</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">))</span> <span class="p">{</span>
             <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Posts must use the current naming convention.&lt;br&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
@@ -1329,6 +1326,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="kd">let</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span><span class="p">)</span> <span class="o">?</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span> <span class="o">:</span> <span class="s2">&quot;host&quot;</span><span class="p">;</span>
          <span class="kd">let</span> <span class="nx">keyName</span> <span class="o">=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;__&quot;</span> <span class="o">+</span> <span class="nx">nickName</span><span class="p">;</span>
 
+         <span class="c1">// Make it a little harder to delete admin captures.</span>
          <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;jim&quot;</span><span class="p">)</span> <span class="p">{</span>
                <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">){</span>
@@ -1345,6 +1343,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">}</span>
       
          <span class="kd">let</span> <span class="nx">postObject</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;keyName&quot;</span><span class="o">:</span><span class="nx">keyName</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="o">:</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;capture&quot;</span><span class="o">:</span><span class="nx">captureObject</span><span class="p">};</span>
+         <span class="nx">postObject</span><span class="p">.</span><span class="nx">expiration</span> <span class="o">=</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;host&quot;</span><span class="p">)</span> <span class="o">?</span> <span class="mi">259200</span> <span class="o">:</span> <span class="s2">&quot;never&quot;</span><span class="p">;</span> <span class="c1">// 3 days</span>
 
          <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">fetch</span><span class="p">(</span> <span class="nx">workerURL</span><span class="p">,</span> <span class="p">{</span>
             <span class="s1">&#39;method&#39;</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
@@ -1355,8 +1354,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">});</span> 
 
          <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response ok (CF worker)&quot;</span><span class="p">);</span>   
-            
             <span class="kd">let</span> <span class="nx">jsonInResponse</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
             <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response sender = &quot;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">sender</span><span class="p">));</span>
             
@@ -1372,6 +1369,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;postOne&quot;</span><span class="p">)</span> <span class="p">{</span> 
                   <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; posted to Cloud storage for &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">nickName</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt;.&lt;br&gt;&quot;</span> <span class="o">+</span>
                      <span class="s2">&quot;Note: it may take 1 to 20 seconds to affect the listing.&quot;</span><span class="p">);</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;host&quot;</span><span class="p">)</span> <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Note that &lt;strong&gt;anonymous cloud posts&lt;/strong&gt; (using the default nickname of &#39;host&#39;) &lt;strong&gt;expire&lt;/strong&gt; (self delete) in 3 days.&quot;</span><span class="p">);</span>
+                  
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">)</span> <span class="p">{</span>
                   <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Didn&#39;t find &lt;strong&gt;&quot;</span> <span class="o">+</span> 
                      <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; under your nickname (&lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">nickName</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt;). &lt;br&gt;&quot;</span> <span class="o">+</span> 
@@ -1385,7 +1384,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">}</span> 
          
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;downLoadOne&quot;</span><span class="p">)</span> <span class="p">{</span>
-         
          <span class="kd">let</span> <span class="nx">postObject</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="o">:</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;keyName&quot;</span><span class="o">:</span><span class="nx">downLoadKey</span><span class="p">};</span>
 
          <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">fetch</span><span class="p">(</span> <span class="nx">workerURL</span><span class="p">,</span> <span class="p">{</span>
@@ -1399,8 +1397,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="nx">switchToTheChatPanel</span><span class="p">();</span>
 
          <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response ok&quot;</span><span class="p">);</span>   
-            
             <span class="kd">let</span> <span class="nx">jsonInResponse</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
             <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response sender = &quot;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">sender</span><span class="p">));</span>
             
@@ -1408,7 +1404,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundIt</span><span class="p">)</span> <span class="p">{</span>
                <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">capture</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
                <span class="nx">runCapture</span><span class="p">();</span>
-               <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;Capture downloaded and run.&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+               <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;Capture downloaded.&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
                
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Capture not found.&quot;</span><span class="p">);</span>
@@ -1420,8 +1416,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">}</span> 
          
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inside list block&quot;</span><span class="p">);</span>
-                  
          <span class="nx">switchToTheChatPanel</span><span class="p">();</span>
          
          <span class="kd">let</span> <span class="nx">searchString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">?</span> <span class="s2">&quot;&quot;</span> <span class="o">:</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoIndex</span><span class="p">();</span>
@@ -1436,10 +1430,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">});</span> 
 
          <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response ok&quot;</span><span class="p">);</span>   
-            
             <span class="kd">let</span> <span class="nx">jsonInResponse</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response json = &quot;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">sender</span><span class="p">));</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response sender = &quot;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">sender</span><span class="p">));</span>
             <span class="cm">/*</span>
 <span class="cm">            structure of the KW list</span>
 <span class="cm">              &quot;keys&quot;: [</span>

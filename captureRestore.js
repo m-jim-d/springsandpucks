@@ -1166,7 +1166,6 @@ window.cR = (function() {
       let workerURL = "https://triquence.org/captures/submit";
       
       if (action == "postOne") {
-         
          // Check for valid JSON in textarea.
          let captureObject = null;
          captureObject = loadJSON( gW.dC.json);
@@ -1175,8 +1174,6 @@ window.cR = (function() {
          switchToTheChatPanel();
          
          // check the form of the version-name string
-         //const pattern = /^[0-9]\.[a-z]\.[a-zA-Z0-9.]+$/;
-         //const pattern = /^[0-9]\.[a-z]\.(?:[a-zA-Z0-9-]+\.?)+$/;
          const pattern = /^[0-9]\.[a-z]\.(?:[a-zA-Z0-9-]+\.?)+[a-zA-Z0-9-]+$/;
          if ( ! pattern.test( captureObject.demoVersion)) {
             hC.displayMessage("Posts must use the current naming convention.<br><br>" +
@@ -1233,6 +1230,7 @@ window.cR = (function() {
          let nickName = (gW.clients["local"].nickName) ? gW.clients["local"].nickName : "host";
          let keyName = captureObject.demoVersion + "__" + nickName;
 
+         // Make it a little harder to delete admin captures.
          if (gW.clients['local'].key_shift == "D") {
             if (nickName == "jim") {
                if (gW.clients['local'].key_ctrl == "D"){
@@ -1249,6 +1247,7 @@ window.cR = (function() {
          }
       
          let postObject = {"keyName":keyName, "action":action, "capture":captureObject};
+         postObject.expiration = (nickName == "host") ? 259200 : "never"; // 3 days
 
          const response = await fetch( workerURL, {
             'method': 'POST',
@@ -1259,8 +1258,6 @@ window.cR = (function() {
          }); 
 
          if (response.ok) {
-            console.log("response ok (CF worker)");   
-            
             let jsonInResponse = await response.json();
             console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
             
@@ -1276,6 +1273,8 @@ window.cR = (function() {
                if (jsonInResponse.action == "postOne") { 
                   hC.displayMessage("Capture <strong>" + captureObject.demoVersion + "</strong> posted to Cloud storage for <strong>" + nickName + "</strong>.<br>" +
                      "Note: it may take 1 to 20 seconds to affect the listing.");
+                  if (nickName == "host") hC.displayMessage("Note that <strong>anonymous cloud posts</strong> (using the default nickname of 'host') <strong>expire</strong> (self delete) in 3 days.");
+                  
                } else if (jsonInResponse.action == "deleteOne") {
                   hC.displayMessage("Didn't find <strong>" + 
                      captureObject.demoVersion + "</strong> under your nickname (<strong>" + nickName + "</strong>). <br>" + 
@@ -1289,7 +1288,6 @@ window.cR = (function() {
          } 
          
       } else if (action == "downLoadOne") {
-         
          let postObject = {"action":action, "keyName":downLoadKey};
 
          const response = await fetch( workerURL, {
@@ -1303,8 +1301,6 @@ window.cR = (function() {
          switchToTheChatPanel();
 
          if (response.ok) {
-            console.log("response ok");   
-            
             let jsonInResponse = await response.json();
             console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
             
@@ -1312,7 +1308,7 @@ window.cR = (function() {
             if (jsonInResponse.foundIt) {
                gW.dC.json.value = JSON.stringify( jsonInResponse.capture, null, 3);
                runCapture();
-               gW.messages['help'].newMessage("Capture downloaded and run.", 1.0);
+               gW.messages['help'].newMessage("Capture downloaded.", 1.0);
                
             } else {
                hC.displayMessage("Capture not found.");
@@ -1324,8 +1320,6 @@ window.cR = (function() {
          } 
          
       } else if (action == "list") {
-         console.log("inside list block");
-                  
          switchToTheChatPanel();
          
          let searchString = (gW.clients['local'].key_shift == "D") ? "" : gW.getDemoIndex();
@@ -1340,10 +1334,8 @@ window.cR = (function() {
          }); 
 
          if (response.ok) {
-            console.log("response ok");   
-            
             let jsonInResponse = await response.json();
-            console.log("response json = " + JSON.stringify( jsonInResponse.sender));
+            console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
             /*
             structure of the KW list
               "keys": [
