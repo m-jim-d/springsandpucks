@@ -181,7 +181,8 @@ window.mS = (function() {
       });
    }
    MultiSelect.prototype.align = function() {
-      // Align the selected objects between the two outermost (the two most separated) objects and linearize the loss related (e.g. friction and drag) attributes.
+      // Align the selected objects between the two outermost (the two most separated) objects and linearize the loss related attributes (e.g. friction and drag) and 
+      // dimensional attributes (e.g. width, height, and radius).
       
       // Need at least 3. Otherwise, warn then bail.
       let n_selected = this.count();
@@ -264,7 +265,8 @@ window.mS = (function() {
       });
       
       // Check for deltas in the attributes of the two outer objects, A and B.
-      let attributes = { 'restitution':{'delta':null}, 'friction':{'delta':null}, 'linDamp':{'delta':null}, 'angDamp':{'delta':null} };
+      let attributes = { 'restitution':{'delta':null}, 'friction':{'delta':null}, 'linDamp':{'delta':null}, 'angDamp':{'delta':null}, 
+                         'half_width_m':{'delta':null}, 'half_height_m':{'delta':null}, 'radius_m':{'delta':null} };
       for (let attributeName in attributes) {
          if (outer_A[ attributeName] != outer_B[ attributeName]) {
             attributes[ attributeName].delta = outer_B[ attributeName] - outer_A[ attributeName];
@@ -273,13 +275,24 @@ window.mS = (function() {
       
       this.applyToAll( msObject => {
          // Linearize the attributes (that have a delta) based on line position.
-         let helpString_names = ""
+         let helpString_names = "";
          for (let attributeName in attributes) {
             if (attributes[ attributeName].delta) {
                helpString_names += attributeName + ", ";
                let line_position_index = line_position_index_by_name[ msObject.name];
                if (line_position_index) {
-                  msObject[ attributeName] = outer_A[ attributeName] + line_position_index * (attributes[ attributeName].delta /(n_selected-1));
+                  let attributeShift = line_position_index * (attributes[ attributeName].delta /(n_selected-1));
+                  
+                  if (['half_width_m','half_height_m','radius_m'].includes( attributeName)) {
+                     // Calculate a scaling factor for making dimensional changes via interpret_editCommand below.
+                     let scaling_factor = (outer_A[ attributeName] + attributeShift) / (msObject[ attributeName]);
+                     let editCommand = (attributeName == 'half_width_m') ? 'wider' : 'taller';
+                     msObject.interpret_editCommand( editCommand, scaling_factor);
+                  
+                  } else {
+                     msObject[ attributeName] = outer_A[ attributeName] + attributeShift;
+                     
+                  }
                }
             }
          }
@@ -298,6 +311,7 @@ window.mS = (function() {
          // Inhibit changes associated with the gravity toggle.
          msObject.restitution_fixed = true;
          msObject.friction_fixed = true;
+         
       });
    }
    MultiSelect.prototype.resetStepper = function() {

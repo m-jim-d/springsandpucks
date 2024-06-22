@@ -962,6 +962,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">}</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">CreateFixture</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">define_fixture</span><span class="p">({</span><span class="s1">&#39;radius_scaling&#39;</span><span class="o">:</span><span class="nx">width_factor</span><span class="p">}));</span>
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;height factor = &quot;</span> <span class="o">+</span> <span class="nx">height_factor</span><span class="p">);</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">b2d</span><span class="p">.</span><span class="nx">CreateFixture</span><span class="p">(</span> <span class="k">this</span><span class="p">.</span><span class="nx">define_fixture</span><span class="p">({</span><span class="s1">&#39;width_scaling&#39;</span><span class="o">:</span><span class="nx">width_factor</span><span class="p">,</span> <span class="s1">&#39;height_scaling&#39;</span><span class="o">:</span><span class="nx">height_factor</span><span class="p">}));</span>
          <span class="p">}</span>
          

@@ -1266,7 +1266,7 @@ window.cR = (function() {
             
             if (jsonInResponse.foundOne) {
                if (jsonInResponse.deleted) { 
-                  hC.displayMessage("Cloud capture <strong>" + captureObject.demoVersion + "</strong> found and deleted.<br>" +
+                  hC.displayMessage("Cloud capture <strong>" + captureObject.demoVersion + "</strong> found and deleted for <strong>" + nickName + "</strong>.<br>" +
                      "Note: it may take 1 to 20 seconds to affect the listing.");
                } else {
                   hC.displayMessage("Cloud capture found. That name is in use.");

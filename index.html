@@ -63,7 +63,7 @@
    <script src="piEngine.js?v=75"></script>
    
    <script src="tableActs.js?v=75"></script>
-   <script src="multiSelect.js?v=75"></script>
+   <script src="multiSelect.js?v=72"></script>
    <script src="gwModule.js?v=75"></script>
    
    <script src="demoStart.js?v=75"></script>
@@ -76,7 +76,7 @@
    <script src="hostAndClient.js?v=75"></script>
    <script src="eventsNonHost.js?v=75"></script>
 
-   <script src="captureRestore.js?v=74"></script>
+   <script src="captureRestore.js?v=72"></script>
    <script src="leaderBoard.js?v=75"></script>
    <script src="ghostBall.js?v=75"></script>
    <script src="puckPopper.js?v=75"></script>
@@ -566,7 +566,9 @@
          Then start it with the "Run" or #2 buttons.
          <br><br> 
          The "<strong>S</strong>" and "<strong>L</strong>" buttons Save and Load captures through your local file system.
-
+         The "<strong>P</strong>" button posts the current capture to Cloud storage; hold the shift key down to delete the Cloud capture.
+         The "<strong>?</strong>" button lists captures available from Cloud storage (a subset for the current demo index); 
+         hold shift key down to list all Cloud captures. Click the links in the list to download and run the capture.
          <br><br>
          The "remove/add items" select control has two procedures for modifying an existing capture: "shift capture" and "modify capture."
          For both of these, you'll need to start with a capture in the capture text area.
@@ -2117,20 +2119,26 @@ solo players.'>Friendly fire<br>
                  title="Clear out the capture text area">C</button>
          <button class="main" onclick="cR.runCapture();"  style="margin-left: 1px; margin-right: 1px;"
                  title=
-"To run a capture: 
+'To run a capture: 
    Use this button (or shift-r).
    Or, use the corresponding (yellow) number key.
 
 To run and immediately take a capture (a refresh):
    First click outside of the capture text area, 
-   then use this button with the shift key down.
-"><u>R</u>un</button>
+   then use this button with the "Shift" key down.
+'><u>R</u>un</button>
 
          <button class="tight" onclick="cR.fileWriter();" title="Save the capture out to a local file">S</button>
          <button class="tight" onclick="cR.filePicker();" title="Load a local file to the capture text area">L</button>
          
-         <button class="tight" onclick="cR.postCaptureToCF({'action':'postOne'});" style="margin-left: 1px;" title="Post the current capture to cloud storage">P</button>
-         <button class="tight" onclick="cR.postCaptureToCF({'action':'list'});" style="margin-left: -2px; margin-right: -5px;" title="Get list of similar captures from cloud storage">?</button>
+         <button class="tight" onclick="cR.postCaptureToCF({'action':'postOne'});" style="margin-left: 1px;" title=
+'POST the current capture to cloud storage
+
+To DELETE a cloud capture, use this button with the "Shift" key down.'>P</button>
+         <button class="tight" onclick="cR.postCaptureToCF({'action':'list'});" style="margin-left: -2px; margin-right: -5px;" title=
+'Get a LIST of similar captures from cloud storage
+
+For the complete list, use this button with the "Shift" key down.'>?</button>
          <br>
          
          <textarea id="jsonCapture" autocomplete="off" title=

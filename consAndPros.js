@@ -866,6 +866,7 @@ window.cP = (function() {
             }
             this.b2d.CreateFixture( this.define_fixture({'radius_scaling':width_factor}));
          } else {
+            console.log("height factor = " + height_factor);
             this.b2d.CreateFixture( this.define_fixture({'width_scaling':width_factor, 'height_scaling':height_factor}));
          }
          
