@@ -1237,7 +1237,7 @@ window.cR = (function() {
                   action = "deleteOne";
                   console.log("deleteOne request");
                } else {
-                  hC.displayMessage("We can't delete Jim's posts (only he can).");
+                  hC.displayMessage("We can't delete Jim's posts.");
                   return;
                }
             } else {
