@@ -1279,6 +1279,11 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">);</span>
             <span class="k">return</span><span class="p">;</span>
          <span class="p">}</span>
+         <span class="kd">let</span> <span class="nx">indexInDemoVersion</span> <span class="o">=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">indexInDemoVersion</span> <span class="o">!=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoIndex</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;In the capture, the index in the demo version name (&quot;</span><span class="o">+</span> <span class="nx">indexInDemoVersion</span> <span class="o">+</span><span class="s2">&quot;) does not match the value of demoIndex (&quot;</span><span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoIndex</span> <span class="o">+</span><span class="s2">&quot;).&quot;</span><span class="p">);</span>
+            <span class="k">return</span><span class="p">;</span>
+         <span class="p">}</span> 
          
          <span class="c1">// Determine the corresponding filename from the demoVersion string.</span>
          <span class="kd">let</span> <span class="nx">demoName</span> <span class="o">=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">;</span>

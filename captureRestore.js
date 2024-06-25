@@ -1183,6 +1183,11 @@ window.cR = (function() {
             );
             return;
          }
+         let indexInDemoVersion = captureObject.demoVersion.split(".")[0];
+         if (indexInDemoVersion != captureObject.demoIndex) {
+            hC.displayMessage("In the capture, the index in the demo version name ("+ indexInDemoVersion +") does not match the value of demoIndex ("+ captureObject.demoIndex +").");
+            return;
+         } 
          
          // Determine the corresponding filename from the demoVersion string.
          let demoName = captureObject.demoVersion;
