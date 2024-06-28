@@ -40,6 +40,7 @@ window.cR = (function() {
    
    // Names starting with m_ indicate module-scope globals.
    var m_fileHandle = 'documents';
+   var m_cloudCaptureRunning;
    
    // module globals for objects brought in by initializeModule
    var x_canvas, x_ctx;
@@ -1312,6 +1313,7 @@ window.cR = (function() {
             // Write to the textarea element.
             if (jsonInResponse.foundIt) {
                gW.dC.json.value = JSON.stringify( jsonInResponse.capture, null, 3);
+               m_cloudCaptureRunning = true;
                runCapture();
                gW.messages['help'].newMessage("Capture downloaded.", 1.0);
                
@@ -1456,6 +1458,8 @@ window.cR = (function() {
       // Objects
       
       // Variables
+      'set_cloudCaptureRunning': function( val) { m_cloudCaptureRunning = val; },
+      'get_cloudCaptureRunning': function() { return m_cloudCaptureRunning; },      
       
       // Methods
       'initializeModule': initializeModule,

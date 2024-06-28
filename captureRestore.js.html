@@ -136,6 +136,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    
    <span class="c1">// Names starting with m_ indicate module-scope globals.</span>
    <span class="kd">var</span> <span class="nx">m_fileHandle</span> <span class="o">=</span> <span class="s1">&#39;documents&#39;</span><span class="p">;</span>
+   <span class="kd">var</span> <span class="nx">m_cloudCaptureRunning</span><span class="p">;</span>
    
    <span class="c1">// module globals for objects brought in by initializeModule</span>
    <span class="kd">var</span> <span class="nx">x_canvas</span><span class="p">,</span> <span class="nx">x_ctx</span><span class="p">;</span>
@@ -1408,6 +1409,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="c1">// Write to the textarea element.</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundIt</span><span class="p">)</span> <span class="p">{</span>
                <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">capture</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+               <span class="nx">m_cloudCaptureRunning</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
                <span class="nx">runCapture</span><span class="p">();</span>
                <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;Capture downloaded.&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
                
@@ -1552,6 +1554,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="c1">// Objects</span>
       
       <span class="c1">// Variables</span>
+      <span class="s1">&#39;set_cloudCaptureRunning&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span> <span class="nx">m_cloudCaptureRunning</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span> <span class="p">},</span>
+      <span class="s1">&#39;get_cloudCaptureRunning&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">m_cloudCaptureRunning</span><span class="p">;</span> <span class="p">},</span>      
       
       <span class="c1">// Methods</span>
       <span class="s1">&#39;initializeModule&#39;</span><span class="o">:</span> <span class="nx">initializeModule</span><span class="p">,</span>

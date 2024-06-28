@@ -267,7 +267,8 @@ window.gW = (function() {
          } else if (c.demoVersion == "8.e") {
             cR.compareCaptureToFile({'fileName':'demo8e.js'});
          }
-         
+      
+      // hackerCheck is called in noReset mode after a game is over, and before the submit to the leaderboard.  
       } else if (action == 'noReset') {
          // All "a" versions of the games run (as default) without a capture.
          if (c.demoVersion.split(".")[1] == 'a') {
@@ -276,7 +277,9 @@ window.gW = (function() {
             if (dC.json.value != "") {
                let capture_data = JSON.parse( dC.json.value);
                if (capture_data.demoVersion == c.demoVersion) {
-                  aT.hack['captureEdit'] = true;
+                  if ( ! cR.get_cloudCaptureRunning()) {
+                     aT.hack['captureEdit'] = true;
+                  }
                }
             }
          }  
@@ -291,10 +294,16 @@ window.gW = (function() {
          if (aT.hack['puckDirectMove']) levelString += "h"; // h for ball-in-hand
          if (aT.hack['captureEdit']) levelString += "c"; // c for capture
          if (aT.hack['deletedSomething']) levelString += "d"; // d for deleted something
+         
+         // Yes, a reset in the noReset block. This must be done AFTER the game is over.
+         // So, either here or someplace nearby (not anywhere in demoStart).
+         // (see call to get_cloudCaptureRunning above)
+         cR.set_cloudCaptureRunning( false);
       }
       
       // The following checks are made at BOTH the start and end of games (reset and noReset).
       if (dC.editor.checked) aT.hack['editor'] = true;
+      
         
       return levelString;
    }
