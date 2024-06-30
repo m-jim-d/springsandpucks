@@ -235,6 +235,7 @@ window.gW = (function() {
          aT.hack['captureEdit'] = false; // edits to the capture textarea
          aT.hack['deletedSomething'] = false; // deleted something
          
+         // Check for edits to captures on the web server.
          if (c.demoVersion == "3.d.9ball") {
             cR.compareCaptureToFile({'fileName':'demo3d.js'});
          } else if (c.demoVersion == "3.d.8ball") {
@@ -267,6 +268,9 @@ window.gW = (function() {
          } else if (c.demoVersion == "8.e") {
             cR.compareCaptureToFile({'fileName':'demo8e.js'});
          }
+         
+         // Also check for edits to cloud captures.
+         cR.compareCaptureToCloudOriginal();
       
       // hackerCheck is called in noReset mode after a game is over, and before the submit to the leaderboard.  
       } else if (action == 'noReset') {
@@ -277,7 +281,7 @@ window.gW = (function() {
             if (dC.json.value != "") {
                let capture_data = JSON.parse( dC.json.value);
                if (capture_data.demoVersion == c.demoVersion) {
-                  if ( ! cR.get_cloudCaptureRunning()) {
+                  if ( ! cR.compareCaptureToCloudOriginal()) {
                      aT.hack['captureEdit'] = true;
                   }
                }
@@ -294,11 +298,6 @@ window.gW = (function() {
          if (aT.hack['puckDirectMove']) levelString += "h"; // h for ball-in-hand
          if (aT.hack['captureEdit']) levelString += "c"; // c for capture
          if (aT.hack['deletedSomething']) levelString += "d"; // d for deleted something
-         
-         // Yes, a reset in the noReset block. This must be done AFTER the game is over.
-         // So, either here or someplace nearby (not anywhere in demoStart).
-         // (see call to get_cloudCaptureRunning above)
-         cR.set_cloudCaptureRunning( false);
       }
       
       // The following checks are made at BOTH the start and end of games (reset and noReset).

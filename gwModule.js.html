@@ -331,6 +331,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;captureEdit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// edits to the capture textarea</span>
          <span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;deletedSomething&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// deleted something</span>
          
+         <span class="c1">// Check for edits to captures on the web server.</span>
          <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">==</span> <span class="s2">&quot;3.d.9ball&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">cR</span><span class="p">.</span><span class="nx">compareCaptureToFile</span><span class="p">({</span><span class="s1">&#39;fileName&#39;</span><span class="o">:</span><span class="s1">&#39;demo3d.js&#39;</span><span class="p">});</span>
          <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">==</span> <span class="s2">&quot;3.d.8ball&quot;</span><span class="p">)</span> <span class="p">{</span>
@@ -363,6 +364,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">==</span> <span class="s2">&quot;8.e&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">cR</span><span class="p">.</span><span class="nx">compareCaptureToFile</span><span class="p">({</span><span class="s1">&#39;fileName&#39;</span><span class="o">:</span><span class="s1">&#39;demo8e.js&#39;</span><span class="p">});</span>
          <span class="p">}</span>
+         
+         <span class="c1">// Also check for edits to cloud captures.</span>
+         <span class="nx">cR</span><span class="p">.</span><span class="nx">compareCaptureToCloudOriginal</span><span class="p">();</span>
       
       <span class="c1">// hackerCheck is called in noReset mode after a game is over, and before the submit to the leaderboard.  </span>
       <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">==</span> <span class="s1">&#39;noReset&#39;</span><span class="p">)</span> <span class="p">{</span>
@@ -373,7 +377,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="k">if</span> <span class="p">(</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span>
                <span class="kd">let</span> <span class="nx">capture_data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
                <span class="k">if</span> <span class="p">(</span><span class="nx">capture_data</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">==</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">)</span> <span class="p">{</span>
-                  <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">cR</span><span class="p">.</span><span class="nx">get_cloudCaptureRunning</span><span class="p">())</span> <span class="p">{</span>
+                  <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">cR</span><span class="p">.</span><span class="nx">compareCaptureToCloudOriginal</span><span class="p">())</span> <span class="p">{</span>
                      <span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;captureEdit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
                   <span class="p">}</span>
                <span class="p">}</span>
@@ -390,11 +394,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="k">if</span> <span class="p">(</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;puckDirectMove&#39;</span><span class="p">])</span> <span class="nx">levelString</span> <span class="o">+=</span> <span class="s2">&quot;h&quot;</span><span class="p">;</span> <span class="c1">// h for ball-in-hand</span>
          <span class="k">if</span> <span class="p">(</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;captureEdit&#39;</span><span class="p">])</span> <span class="nx">levelString</span> <span class="o">+=</span> <span class="s2">&quot;c&quot;</span><span class="p">;</span> <span class="c1">// c for capture</span>
          <span class="k">if</span> <span class="p">(</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;deletedSomething&#39;</span><span class="p">])</span> <span class="nx">levelString</span> <span class="o">+=</span> <span class="s2">&quot;d&quot;</span><span class="p">;</span> <span class="c1">// d for deleted something</span>
-         
-         <span class="c1">// Yes, a reset in the noReset block. This must be done AFTER the game is over.</span>
-         <span class="c1">// So, either here or someplace nearby (not anywhere in demoStart).</span>
-         <span class="c1">// (see call to get_cloudCaptureRunning above)</span>
-         <span class="nx">cR</span><span class="p">.</span><span class="nx">set_cloudCaptureRunning</span><span class="p">(</span> <span class="kc">false</span><span class="p">);</span>
       <span class="p">}</span>
       
       <span class="c1">// The following checks are made at BOTH the start and end of games (reset and noReset).</span>

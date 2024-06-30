@@ -136,7 +136,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    
    <span class="c1">// Names starting with m_ indicate module-scope globals.</span>
    <span class="kd">var</span> <span class="nx">m_fileHandle</span> <span class="o">=</span> <span class="s1">&#39;documents&#39;</span><span class="p">;</span>
-   <span class="kd">var</span> <span class="nx">m_cloudCaptureRunning</span><span class="p">;</span>
+   <span class="kd">var</span> <span class="nx">m_cloudCapture</span> <span class="o">=</span> <span class="p">{};</span>
    
    <span class="c1">// module globals for objects brought in by initializeModule</span>
    <span class="kd">var</span> <span class="nx">x_canvas</span><span class="p">,</span> <span class="nx">x_ctx</span><span class="p">;</span>
@@ -1335,7 +1335,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="c1">// Make it a little harder to delete admin captures.</span>
          <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;jim&quot;</span><span class="p">)</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">){</span>
+               <span class="k">if</span> <span class="p">((</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_alt</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">;</span>
                   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;deleteOne request&quot;</span><span class="p">);</span>
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -1408,9 +1408,15 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             
             <span class="c1">// Write to the textarea element.</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundIt</span><span class="p">)</span> <span class="p">{</span>
-               <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">capture</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-               <span class="nx">m_cloudCaptureRunning</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+               <span class="c1">// keep the original of the most recent capture for capture-edit checking</span>
+               <span class="nx">m_cloudCapture</span><span class="p">.</span><span class="nx">object</span> <span class="o">=</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">capture</span><span class="p">;</span>
+               <span class="nx">m_cloudCapture</span><span class="p">.</span><span class="nx">string</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">capture</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+               
+               <span class="c1">// give it to the user (put the string in the textarea).</span>
+               <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">m_cloudCapture</span><span class="p">.</span><span class="nx">string</span><span class="p">;</span>
+               
                <span class="nx">runCapture</span><span class="p">();</span>
+               
                <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;Capture downloaded.&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
                
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -1508,7 +1514,29 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">});</span>
       <span class="p">})</span>
    <span class="p">}</span>
+   
+   <span class="kd">function</span> <span class="nx">compareCaptureToCloudOriginal</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">sameNameAsOriginal</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
       
+      <span class="c1">// First check if one has been downloaded.</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">m_cloudCapture</span><span class="p">.</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// Check for intent to run that one (as indicated in textarea) </span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span> 
+            <span class="kd">let</span> <span class="nx">state_data</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+            <span class="kd">let</span> <span class="nx">versionInTextArea</span> <span class="o">=</span> <span class="nx">state_data</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">;</span>
+            <span class="kd">let</span> <span class="nx">versionInCloudCapture</span> <span class="o">=</span> <span class="nx">m_cloudCapture</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">versionInTextArea</span> <span class="o">==</span> <span class="nx">versionInCloudCapture</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">sameNameAsOriginal</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+               <span class="c1">// Intent is there. Now check for edits.</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="nx">m_cloudCapture</span><span class="p">.</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="nx">gW</span><span class="p">.</span><span class="nx">aT</span><span class="p">.</span><span class="nx">hack</span><span class="p">[</span><span class="s1">&#39;captureEdit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+               <span class="p">}</span>
+            <span class="p">}</span>
+         <span class="p">}</span>
+      <span class="p">}</span>
+      
+      <span class="k">return</span> <span class="nx">sameNameAsOriginal</span><span class="p">;</span>
+   <span class="p">}</span>
       
    <span class="c1">// For loading and running a capture from a web page link.</span>
    <span class="kd">function</span> <span class="nx">demoStart_fromCapture</span><span class="p">(</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">pars</span><span class="p">)</span> <span class="p">{</span>
@@ -1552,10 +1580,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="c1">// see comments before the &quot;return&quot; section of gwModule.js</span>
    <span class="k">return</span> <span class="p">{</span>
       <span class="c1">// Objects</span>
+      <span class="s1">&#39;cloudCapture&#39;</span><span class="o">:</span> <span class="nx">m_cloudCapture</span><span class="p">,</span>
       
       <span class="c1">// Variables</span>
-      <span class="s1">&#39;set_cloudCaptureRunning&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span> <span class="nx">m_cloudCaptureRunning</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span> <span class="p">},</span>
-      <span class="s1">&#39;get_cloudCaptureRunning&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">m_cloudCaptureRunning</span><span class="p">;</span> <span class="p">},</span>      
       
       <span class="c1">// Methods</span>
       <span class="s1">&#39;initializeModule&#39;</span><span class="o">:</span> <span class="nx">initializeModule</span><span class="p">,</span>
@@ -1568,6 +1595,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="s1">&#39;cleanCapture&#39;</span><span class="o">:</span> <span class="nx">cleanCapture</span><span class="p">,</span>
       <span class="s1">&#39;restoreFromState&#39;</span><span class="o">:</span> <span class="nx">restoreFromState</span><span class="p">,</span>
       <span class="s1">&#39;compareCaptureToFile&#39;</span><span class="o">:</span> <span class="nx">compareCaptureToFile</span><span class="p">,</span>
+      <span class="s1">&#39;compareCaptureToCloudOriginal&#39;</span><span class="o">:</span> <span class="nx">compareCaptureToCloudOriginal</span><span class="p">,</span>
       <span class="s1">&#39;demoStart_fromCapture&#39;</span><span class="o">:</span> <span class="nx">demoStart_fromCapture</span><span class="p">,</span>
       <span class="s1">&#39;clearState&#39;</span><span class="o">:</span> <span class="nx">clearState</span><span class="p">,</span>
       <span class="s1">&#39;filePicker&#39;</span><span class="o">:</span> <span class="nx">filePicker</span><span class="p">,</span>

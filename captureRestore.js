@@ -40,7 +40,7 @@ window.cR = (function() {
    
    // Names starting with m_ indicate module-scope globals.
    var m_fileHandle = 'documents';
-   var m_cloudCaptureRunning;
+   var m_cloudCapture = {};
    
    // module globals for objects brought in by initializeModule
    var x_canvas, x_ctx;
@@ -1239,7 +1239,7 @@ window.cR = (function() {
          // Make it a little harder to delete admin captures.
          if (gW.clients['local'].key_shift == "D") {
             if (nickName == "jim") {
-               if (gW.clients['local'].key_ctrl == "D"){
+               if ((gW.clients['local'].key_ctrl == "D") && (gW.clients['local'].key_alt == "D")) {
                   action = "deleteOne";
                   console.log("deleteOne request");
                } else {
@@ -1312,9 +1312,15 @@ window.cR = (function() {
             
             // Write to the textarea element.
             if (jsonInResponse.foundIt) {
-               gW.dC.json.value = JSON.stringify( jsonInResponse.capture, null, 3);
-               m_cloudCaptureRunning = true;
+               // keep the original of the most recent capture for capture-edit checking
+               m_cloudCapture.object = jsonInResponse.capture;
+               m_cloudCapture.string = JSON.stringify( jsonInResponse.capture, null, 3);
+               
+               // give it to the user (put the string in the textarea).
+               gW.dC.json.value = m_cloudCapture.string;
+               
                runCapture();
+               
                gW.messages['help'].newMessage("Capture downloaded.", 1.0);
                
             } else {
@@ -1412,7 +1418,29 @@ window.cR = (function() {
          });
       })
    }
+   
+   function compareCaptureToCloudOriginal() {
+      let sameNameAsOriginal = false;
       
+      // First check if one has been downloaded.
+      if (m_cloudCapture.string) {
+         // Check for intent to run that one (as indicated in textarea) 
+         if (gW.dC.json.value != "") { 
+            let state_data = JSON.parse( gW.dC.json.value);
+            let versionInTextArea = state_data.demoVersion;
+            let versionInCloudCapture = m_cloudCapture.object.demoVersion;
+            if (versionInTextArea == versionInCloudCapture) {
+               sameNameAsOriginal = true;
+               // Intent is there. Now check for edits.
+               if (gW.dC.json.value != m_cloudCapture.string) {
+                  gW.aT.hack['captureEdit'] = true;
+               }
+            }
+         }
+      }
+      
+      return sameNameAsOriginal;
+   }
       
    // For loading and running a capture from a web page link.
    function demoStart_fromCapture( index, pars) {
@@ -1456,10 +1484,9 @@ window.cR = (function() {
    // see comments before the "return" section of gwModule.js
    return {
       // Objects
+      'cloudCapture': m_cloudCapture,
       
       // Variables
-      'set_cloudCaptureRunning': function( val) { m_cloudCaptureRunning = val; },
-      'get_cloudCaptureRunning': function() { return m_cloudCaptureRunning; },      
       
       // Methods
       'initializeModule': initializeModule,
@@ -1472,6 +1499,7 @@ window.cR = (function() {
       'cleanCapture': cleanCapture,
       'restoreFromState': restoreFromState,
       'compareCaptureToFile': compareCaptureToFile,
+      'compareCaptureToCloudOriginal': compareCaptureToCloudOriginal,
       'demoStart_fromCapture': demoStart_fromCapture,
       'clearState': clearState,
       'filePicker': filePicker,
