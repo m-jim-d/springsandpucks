@@ -1384,6 +1384,11 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="c1">// Start with control-shift locked, but shot speed variable.</span>
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;basketball&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;monkeyhunt&#39;</span><span class="p">))</span> <span class="p">{</span>
                <span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">ctrlShiftLock</span><span class="p">;</span>
+               <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">poolShotLocked</span><span class="p">;</span>
+               <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">poolShotLockedSpeed_mps</span><span class="p">;</span>
             <span class="p">}</span>
          <span class="p">});</span>
       <span class="p">}</span>   

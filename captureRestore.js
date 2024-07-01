@@ -347,7 +347,7 @@ window.cR = (function() {
       
       // For client objects, clean off all keys EXCEPT these (i.e. SAVE these): 
       var saveTheseDroneKeys = ['color','name','NPC_pin_timer_s','NPC_pin_timer_limit_s','bulletAgeLimit_ms'];
-      var saveTheseHostKeys =  ['color','name','bulletAgeLimit_ms'];
+      var saveTheseHostKeys =  ['color','name','bulletAgeLimit_ms','ctrlShiftLock','poolShotLocked','poolShotLockedSpeed_mps'];
       for (var client_key in tableState_copy.clients) {
          var client = tableState_copy.clients[ client_key];
          
@@ -867,6 +867,9 @@ window.cR = (function() {
             // don't regenerate the host, it should still be there.
             gW.clients['local'].color = (client.color) ? client.color : null;
             gW.clients['local'].bulletAgeLimit_ms = (client.bulletAgeLimit_ms) ? client.bulletAgeLimit_ms : null;
+            gW.clients['local'].ctrlShiftLock = (client.ctrlShiftLock) ? client.ctrlShiftLock : null;            
+            gW.clients['local'].poolShotLocked = (client.poolShotLocked) ? client.poolShotLocked : null;            
+            gW.clients['local'].poolShotLockedSpeed_mps = (client.poolShotLockedSpeed_mps) ? client.poolShotLockedSpeed_mps : null;
          }
       }
       

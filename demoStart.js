@@ -1288,6 +1288,11 @@ window.dS = (function() {
             // Start with control-shift locked, but shot speed variable.
             } else if (c.demoVersion.includes('basketball') || c.demoVersion.includes('monkeyhunt')) {
                client.ctrlShiftLock = true;
+            
+            } else {
+               client.ctrlShiftLock = clients['local'].ctrlShiftLock;
+               client.poolShotLocked = clients['local'].poolShotLocked;
+               client.poolShotLockedSpeed_mps = clients['local'].poolShotLockedSpeed_mps;
             }
          });
       }   
