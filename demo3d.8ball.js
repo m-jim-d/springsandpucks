@@ -828,7 +828,10 @@ demo_capture = {
          "player": true,
          "nickName": null,
          "NPC_pin_timer_s": 0,
-         "NPC_pin_timer_limit_s": 5
+         "NPC_pin_timer_limit_s": 5,
+         "ctrlShiftLock": true,
+         "poolShotLocked": true,
+         "poolShotLockedSpeed_mps": 20         
       }
    }
 }
