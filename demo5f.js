@@ -9,7 +9,6 @@ demo_capture = {
    "gravity": true,
    "comSelection": false,
    "fullScreenDemo": false,
-   "lockedAndLoaded": false,
    "globalCompositeOperation": "source-over",
    "wallMapData": {},
    "puckMapData": {

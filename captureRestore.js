@@ -120,7 +120,6 @@ window.cR = (function() {
                            'gravity':dataForCleaning.gravity,
                            'comSelection':dataForCleaning.comSelection,
                            'fullScreenDemo':dataForCleaning.fullScreenDemo,
-                           'lockedAndLoaded':dataForCleaning.lockedAndLoaded,
                            'globalCompositeOperation':dataForCleaning.globalCompositeOperation,
                            'EpL': dataForCleaning.EpL,
                            'wallMapData':dataForCleaning.wallMapData, 
@@ -170,7 +169,6 @@ window.cR = (function() {
                            'gravity':gW.getG_ON(),
                            'comSelection':gW.dC.comSelection.checked,
                            'fullScreenDemo':gW.getFullScreenDemo(),
-                           'lockedAndLoaded':gW.getLockedAndLoaded(),
                            'globalCompositeOperation':x_ctx.globalCompositeOperation,
                            'EpL': {'display':cP.EpL.displayReport, 'reportType':cP.EpL.reportType, 'COM':cP.EpL.COM, 'angularAxis_2d_m':cP.EpL.angularAxis_2d_m},
                            'wallMapData':gW.aT.wallMap, 
@@ -999,12 +997,7 @@ window.cR = (function() {
       if (state_data.fullScreenDemo) {
          gW.setFullScreenDemo(true);
       }
-      
-      // For example, the dandelion demos, turn shooter on for each client.
-      if (state_data.lockedAndLoaded ) {
-         gW.setLockedAndLoaded(true);
-      }  
-      
+            
       // The energy, momentum, and angular momentum report
       if (state_data.EpL) {
          if (state_data.EpL.reportType) cP.EpL.reportType = state_data.EpL.reportType;

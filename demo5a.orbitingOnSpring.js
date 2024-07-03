@@ -15,7 +15,6 @@ demo_capture = {
       }     
    },
    "fullScreenDemo": false,
-   "lockedAndLoaded": false,
    "globalCompositeOperation": "source-over",
    "wallMapData": {},
    "puckMapData": {

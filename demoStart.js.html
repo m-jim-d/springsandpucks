@@ -483,7 +483,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="nx">c</span><span class="p">.</span><span class="nx">px_per_m</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>  <span class="c1">// a module-level value</span>
       
       <span class="nx">c</span><span class="p">.</span><span class="nx">fullScreenDemo</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-      <span class="nx">c</span><span class="p">.</span><span class="nx">lockedAndLoaded</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
       
       <span class="nx">cP</span><span class="p">.</span><span class="nx">EpL</span><span class="p">.</span><span class="nx">turnDisplayOff</span><span class="p">({});</span>
       <span class="nx">cP</span><span class="p">.</span><span class="nx">EpL</span><span class="p">.</span><span class="nx">COM</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// reset this flag that indicates when a capture uses COM for the angular axis.</span>
@@ -630,28 +629,12 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="kd">var</span> <span class="nx">state_capture</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
       <span class="p">}</span>
       
-      <span class="c1">// pool game locks and settings</span>
-      <span class="c1">// (see also &quot;if (c.lockedAndLoaded)&quot; block)</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">state_capture</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">index</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">state_capture</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;3.d&quot;</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
-         <span class="c1">// Initiate new clients that don&#39;t have pool-game locks set. Restarting the</span>
-         <span class="c1">// pool game will not reset values for a continuing player.</span>
-         <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">client</span> <span class="p">=&gt;</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">&amp;&amp;</span> <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">fineMovesState</span> <span class="o">=</span> <span class="s1">&#39;off&#39;</span><span class="p">;</span>
-            <span class="p">}</span>
-         <span class="p">});</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-         <span class="c1">// Turn off the pool game locks when starting all other demos.</span>
-         <span class="c1">// (see also &quot;if (c.lockedAndLoaded)&quot; block below where these are turned on for special demos)</span>
-         <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">client</span> <span class="p">=&gt;</span> <span class="p">{</span>
-            <span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-            <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-            <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-         <span class="p">});</span>
-      <span class="p">}</span>
+      <span class="c1">// Reset the shot locks and speed.</span>
+      <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">client</span> <span class="p">=&gt;</span> <span class="p">{</span>
+         <span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+         <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+         <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+      <span class="p">});</span>
       
       <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">cR</span><span class="p">.</span><span class="nx">clearState</span><span class="p">();</span>
@@ -1369,29 +1352,13 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">fullScreenDemo</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">eVN</span><span class="p">.</span><span class="nx">changeFullScreenMode</span><span class="p">(</span> <span class="nx">canvas</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">);</span>
       <span class="p">}</span>
-      
-      <span class="c1">// Configure shooter for each client, and optionally set the shot speed.</span>
-      <span class="c1">// c.lockedAndLoaded is set when the capture is restored (that&#39;s why this is at the end).</span>
-      <span class="c1">// Also see &quot;pool game locks and settings&quot; section above.</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">lockedAndLoaded</span><span class="p">)</span> <span class="p">{</span>    
-         <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">client</span> <span class="p">=&gt;</span> <span class="p">{</span>
-            <span class="c1">// The dandelion demos, start with control-shift locked and a locked high-speed shot.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;5.d&quot;</span><span class="p">)</span> <span class="p">{</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
-            
-            <span class="c1">// Start with control-shift locked, but shot speed variable.</span>
-            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;basketball&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;monkeyhunt&#39;</span><span class="p">))</span> <span class="p">{</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-            
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">ctrlShiftLock</span><span class="p">;</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">poolShotLocked</span><span class="p">;</span>
-               <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">poolShotLockedSpeed_mps</span><span class="p">;</span>
-            <span class="p">}</span>
-         <span class="p">});</span>
-      <span class="p">}</span>   
+
+      <span class="c1">// Start all client with shot-locks equal to the host.</span>
+      <span class="nx">cT</span><span class="p">.</span><span class="nx">Client</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span> <span class="nx">client</span> <span class="p">=&gt;</span> <span class="p">{</span>
+         <span class="nx">client</span><span class="p">.</span><span class="nx">ctrlShiftLock</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">ctrlShiftLock</span><span class="p">;</span>
+         <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">poolShotLocked</span><span class="p">;</span>
+         <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span> <span class="o">=</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">poolShotLockedSpeed_mps</span><span class="p">;</span>
+      <span class="p">});</span>
       
       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;c.demoVersion=&#39;</span> <span class="o">+</span> <span class="nx">c</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">);</span>
    <span class="p">}</span>

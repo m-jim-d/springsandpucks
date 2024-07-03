@@ -10,7 +10,6 @@ demo_capture = {
    "gravity": true,
    "comSelection": false,
    "fullScreenDemo": true,
-   "lockedAndLoaded": true,
    "globalCompositeOperation": "source-over",
    "wallMapData": {
       "wall3": {
@@ -259,7 +258,10 @@ demo_capture = {
       "local": {
          "color": "tomato",
          "name": "local",
-         "bulletAgeLimit_ms": null
+         "bulletAgeLimit_ms": null,
+         "ctrlShiftLock": true,
+         "poolShotLocked": false,
+         "poolShotLockedSpeed_mps": null
       }
    }
 }

@@ -11,7 +11,6 @@ demo_capture = {
    "comSelection": true,
    "EpL": {"display": true, "reportType": "EpL", "COM": true},
    "fullScreenDemo": false,
-   "lockedAndLoaded": false,
    "globalCompositeOperation": "source-over",
    "wallMapData": {},
    "puckMapData": {

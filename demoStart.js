@@ -387,7 +387,6 @@ window.dS = (function() {
       c.px_per_m = 100;  // a module-level value
       
       c.fullScreenDemo = false;
-      c.lockedAndLoaded = false;
       
       cP.EpL.turnDisplayOff({});
       cP.EpL.COM = false; // reset this flag that indicates when a capture uses COM for the angular axis.
@@ -534,28 +533,12 @@ window.dS = (function() {
          var state_capture = null;
       }
       
-      // pool game locks and settings
-      // (see also "if (c.lockedAndLoaded)" block)
-      if ( (state_capture) && (index == 3) && (state_capture.demoVersion.slice(0,3) == "3.d") ) {
-         // Initiate new clients that don't have pool-game locks set. Restarting the
-         // pool game will not reset values for a continuing player.
-         cT.Client.applyToAll( client => {
-            if ( ! (client.ctrlShiftLock && client.poolShotLocked) ) {
-               client.ctrlShiftLock = true;
-               client.poolShotLocked = true;
-               client.poolShotLockedSpeed_mps = 20;
-               client.fineMovesState = 'off';
-            }
-         });
-      } else {
-         // Turn off the pool game locks when starting all other demos.
-         // (see also "if (c.lockedAndLoaded)" block below where these are turned on for special demos)
-         cT.Client.applyToAll( client => {
-            client.ctrlShiftLock = false;
-            client.poolShotLocked = false;
-            client.poolShotLockedSpeed_mps = 0;
-         });
-      }
+      // Reset the shot locks and speed.
+      cT.Client.applyToAll( client => {
+         client.ctrlShiftLock = false;
+         client.poolShotLocked = false;
+         client.poolShotLockedSpeed_mps = null;
+      });
       
       if (index == 0) {
          cR.clearState();
@@ -1273,29 +1256,13 @@ window.dS = (function() {
       if (c.fullScreenDemo) {
          eVN.changeFullScreenMode( canvas, 'on');
       }
-      
-      // Configure shooter for each client, and optionally set the shot speed.
-      // c.lockedAndLoaded is set when the capture is restored (that's why this is at the end).
-      // Also see "pool game locks and settings" section above.
-      if (c.lockedAndLoaded) {    
-         cT.Client.applyToAll( client => {
-            // The dandelion demos, start with control-shift locked and a locked high-speed shot.
-            if (c.demoVersion.slice(0,3) == "5.d") {
-               client.ctrlShiftLock = true;
-               client.poolShotLocked = true;
-               client.poolShotLockedSpeed_mps = 200;
-            
-            // Start with control-shift locked, but shot speed variable.
-            } else if (c.demoVersion.includes('basketball') || c.demoVersion.includes('monkeyhunt')) {
-               client.ctrlShiftLock = true;
-            
-            } else {
-               client.ctrlShiftLock = clients['local'].ctrlShiftLock;
-               client.poolShotLocked = clients['local'].poolShotLocked;
-               client.poolShotLockedSpeed_mps = clients['local'].poolShotLockedSpeed_mps;
-            }
-         });
-      }   
+
+      // Start all client with shot-locks equal to the host.
+      cT.Client.applyToAll( client => {
+         client.ctrlShiftLock = clients['local'].ctrlShiftLock;
+         client.poolShotLocked = clients['local'].poolShotLocked;
+         client.poolShotLockedSpeed_mps = clients['local'].poolShotLockedSpeed_mps;
+      });
       
       console.log('c.demoVersion=' + c.demoVersion);
    }

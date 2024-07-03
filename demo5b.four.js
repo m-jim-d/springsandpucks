@@ -10,7 +10,6 @@ demo_capture = {
    "gravity": false,
    "comSelection": true,
    "fullScreenDemo": false,
-   "lockedAndLoaded": false,
    "globalCompositeOperation": "source-over",
    "EpL": {
       "display": true,

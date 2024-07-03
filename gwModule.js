@@ -95,7 +95,6 @@ window.gW = (function() {
    c.fullScreenState = false;
    
    c.fullScreenDemo = false;
-   c.lockedAndLoaded = false;
    
    c.demoIndex = null;
    c.demoLoopIndex = 0;
@@ -1055,9 +1054,6 @@ window.gW = (function() {
       
       'getFullScreenDemo': function() { return c.fullScreenDemo; },
       'setFullScreenDemo': function( val) { c.fullScreenDemo = val; },
-      
-      'getLockedAndLoaded': function() { return c.lockedAndLoaded; },
-      'setLockedAndLoaded': function( val) { c.lockedAndLoaded = val; },
       
       'getPiCalcs': function() {return {'enabled': c.piCalcs.enabled, 'clacks':c.piCalcs.clacks, 'usePiEngine':c.piCalcs.usePiEngine}; },
       'setPiCalcs': function( enabled, clacks, usePiEngine) { c.piCalcs.enabled = enabled, c.piCalcs.clacks = clacks, c.piCalcs.usePiEngine = usePiEngine; }, 

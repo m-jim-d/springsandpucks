@@ -10,7 +10,6 @@ demo_8_fromFile = {
    "gravity": false,
    "comSelection": true,
    "fullScreenDemo": false,
-   "lockedAndLoaded": false,
    "globalCompositeOperation": "source-over",
    "wallMapData": {
       "wall1": {
