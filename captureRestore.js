@@ -1232,20 +1232,29 @@ window.cR = (function() {
          let nickName = (gW.clients["local"].nickName) ? gW.clients["local"].nickName : "host";
          let keyName = captureObject.demoVersion + "__" + nickName;
 
-         // Make it a little harder to delete admin captures.
-         if (gW.clients['local'].key_shift == "D") {
-            if (nickName == "jim") {
-               if ((gW.clients['local'].key_ctrl == "D") && (gW.clients['local'].key_alt == "D")) {
+         // Make it a little harder to delete captures.
+         if ((gW.clients['local'].key_ctrl == "D") && (gW.clients['local'].key_shift == "D")) {
+         
+            if (nickName == "jim") {                  
+               if ($('#chkC19').prop('checked')) {
                   action = "deleteOne";
                   console.log("deleteOne request");
                } else {
                   hC.displayMessage("We can't delete Jim's posts.");
                   return;
-               }
+               }                  
             } else {
                action = "deleteOne";
                console.log("deleteOne request");
-            }
+            } 
+            
+         } else if (gW.clients['local'].key_shift == "D") {
+            action = "updateOne";
+            console.log("updateOne request");
+               
+         } else {
+            action = "postOne";
+            console.log("updateOne request");
          }
       
          let postObject = {"keyName":keyName, "action":action, "capture":captureObject};
@@ -1261,23 +1270,39 @@ window.cR = (function() {
 
          if (response.ok) {
             let jsonInResponse = await response.json();
-            console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
+            //console.log("response sender = " + JSON.stringify( jsonInResponse.sender));
+            console.log("response sender = " + JSON.stringify( jsonInResponse));
             
-            if (jsonInResponse.foundOne) {
-               if (jsonInResponse.deleted) { 
-                  hC.displayMessage("Cloud capture <strong>" + captureObject.demoVersion + "</strong> found and deleted for <strong>" + nickName + "</strong>.<br>" +
-                     "Note: it may take 1 to 20 seconds to affect the listing.");
+            if (jsonInResponse.action == "postOne") { 
+               if (jsonInResponse.foundOne) {
+                  hC.displayMessage("Cloud capture found. That name is in use. If you're trying to update an existing capture, hold the shift key down while clicking the 'P' button.");
+                  
                } else {
-                  hC.displayMessage("Cloud capture found. That name is in use.");
-               } 
-               
-            } else {
-               if (jsonInResponse.action == "postOne") { 
                   hC.displayMessage("Capture <strong>" + captureObject.demoVersion + "</strong> posted to Cloud storage for <strong>" + nickName + "</strong>.<br>" +
                      "Note: it may take 1 to 20 seconds to affect the listing.");
                   if (nickName == "host") hC.displayMessage("Note that <strong>anonymous cloud posts</strong> (using the default nickname of 'host') <strong>expire</strong> (self delete) in 3 days.");
                   
-               } else if (jsonInResponse.action == "deleteOne") {
+               }
+               
+            } else if (jsonInResponse.action == "updateOne") {
+               if (jsonInResponse.foundOne) {
+                  if (jsonInResponse.updated) {
+                     hC.displayMessage("Cloud capture found and updated.");
+                  } else {
+                     hC.displayMessage("Cloud capture found, but no change detected. Update not needed.");
+                  }
+                  
+               } else {
+                  hC.displayMessage("Cloud capture not found. You may need to do an initial post (without the shift key down). Then updates should work.");
+                  
+               }
+               
+            } else if (jsonInResponse.action == "deleteOne") {
+               if (jsonInResponse.deleted) {
+                  hC.displayMessage("Cloud capture <strong>" + captureObject.demoVersion + "</strong> found and deleted for <strong>" + nickName + "</strong>.<br>" +
+                     "Note: it may take 1 to 20 seconds to affect the listing.");
+                  
+               } else {
                   hC.displayMessage("Didn't find <strong>" + 
                      captureObject.demoVersion + "</strong> under your nickname (<strong>" + nickName + "</strong>). <br>" + 
                      "You may need to specify (or change) your nickname and try again.");

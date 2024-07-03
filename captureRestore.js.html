@@ -1328,20 +1328,29 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="kd">let</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span><span class="p">)</span> <span class="o">?</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span> <span class="o">:</span> <span class="s2">&quot;host&quot;</span><span class="p">;</span>
          <span class="kd">let</span> <span class="nx">keyName</span> <span class="o">=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;__&quot;</span> <span class="o">+</span> <span class="nx">nickName</span><span class="p">;</span>
 
-         <span class="c1">// Make it a little harder to delete admin captures.</span>
-         <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;jim&quot;</span><span class="p">)</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">((</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_alt</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="c1">// Make it a little harder to delete captures.</span>
+         <span class="k">if</span> <span class="p">((</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">))</span> <span class="p">{</span>
+         
+            <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;jim&quot;</span><span class="p">)</span> <span class="p">{</span>                  
+               <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#chkC19&#39;</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">;</span>
                   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;deleteOne request&quot;</span><span class="p">);</span>
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                   <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;We can&#39;t delete Jim&#39;s posts.&quot;</span><span class="p">);</span>
                   <span class="k">return</span><span class="p">;</span>
-               <span class="p">}</span>
+               <span class="p">}</span>                  
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">;</span>
                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;deleteOne request&quot;</span><span class="p">);</span>
-            <span class="p">}</span>
+            <span class="p">}</span> 
+            
+         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;updateOne&quot;</span><span class="p">;</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;updateOne request&quot;</span><span class="p">);</span>
+               
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;postOne&quot;</span><span class="p">;</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;updateOne request&quot;</span><span class="p">);</span>
          <span class="p">}</span>
       
          <span class="kd">let</span> <span class="nx">postObject</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;keyName&quot;</span><span class="o">:</span><span class="nx">keyName</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="o">:</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;capture&quot;</span><span class="o">:</span><span class="nx">captureObject</span><span class="p">};</span>
@@ -1357,23 +1366,39 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
 
          <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span> <span class="p">{</span>
             <span class="kd">let</span> <span class="nx">jsonInResponse</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response sender = &quot;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">sender</span><span class="p">));</span>
+            <span class="c1">//console.log(&quot;response sender = &quot; + JSON.stringify( jsonInResponse.sender));</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;response sender = &quot;</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">jsonInResponse</span><span class="p">));</span>
             
-            <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundOne</span><span class="p">)</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">deleted</span><span class="p">)</span> <span class="p">{</span> 
-                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; found and deleted for &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">nickName</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt;.&lt;br&gt;&quot;</span> <span class="o">+</span>
-                     <span class="s2">&quot;Note: it may take 1 to 20 seconds to affect the listing.&quot;</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;postOne&quot;</span><span class="p">)</span> <span class="p">{</span> 
+               <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundOne</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture found. That name is in use. If you&#39;re trying to update an existing capture, hold the shift key down while clicking the &#39;P&#39; button.&quot;</span><span class="p">);</span>
+                  
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture found. That name is in use.&quot;</span><span class="p">);</span>
-               <span class="p">}</span> 
-               
-            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;postOne&quot;</span><span class="p">)</span> <span class="p">{</span> 
                   <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; posted to Cloud storage for &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">nickName</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt;.&lt;br&gt;&quot;</span> <span class="o">+</span>
                      <span class="s2">&quot;Note: it may take 1 to 20 seconds to affect the listing.&quot;</span><span class="p">);</span>
                   <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;host&quot;</span><span class="p">)</span> <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Note that &lt;strong&gt;anonymous cloud posts&lt;/strong&gt; (using the default nickname of &#39;host&#39;) &lt;strong&gt;expire&lt;/strong&gt; (self delete) in 3 days.&quot;</span><span class="p">);</span>
                   
-               <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="p">}</span>
+               
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;updateOne&quot;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundOne</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">updated</span><span class="p">)</span> <span class="p">{</span>
+                     <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture found and updated.&quot;</span><span class="p">);</span>
+                  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                     <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture found, but no change detected. Update not needed.&quot;</span><span class="p">);</span>
+                  <span class="p">}</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture not found. You may need to do an initial post (without the shift key down). Then updates should work.&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span>
+               
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">deleted</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; found and deleted for &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">nickName</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt;.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                     <span class="s2">&quot;Note: it may take 1 to 20 seconds to affect the listing.&quot;</span><span class="p">);</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                   <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Didn&#39;t find &lt;strong&gt;&quot;</span> <span class="o">+</span> 
                      <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; under your nickname (&lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">nickName</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt;). &lt;br&gt;&quot;</span> <span class="o">+</span> 
                      <span class="s2">&quot;You may need to specify (or change) your nickname and try again.&quot;</span><span class="p">);</span>
