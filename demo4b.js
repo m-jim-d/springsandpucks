@@ -1,4 +1,4 @@
-demo_capture  =  {
+demo_capture = {
    "demoIndex": 4,
    "demoVersion": "4.b",
    "date": "5/13/2020, 10:10:32 PM",

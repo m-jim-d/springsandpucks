@@ -1220,7 +1220,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;webserver fetch: ok, maybe found file.&quot;</span><span class="p">);</span>
             
             <span class="c1">// Check the contents to see if it looks like a typical capture file on the server.</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">content</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;demo_capture = {&quot;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">content</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;demoVersion&quot;</span><span class="p">))</span> <span class="p">{</span>
                <span class="nx">result</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="s2">&quot;file exists&quot;</span><span class="p">;</span>
                <span class="nx">result</span><span class="p">.</span><span class="nx">fileText</span> <span class="o">=</span> <span class="nx">content</span><span class="p">;</span>
             
@@ -1269,10 +1269,14 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="c1">// check the form of the version-name string</span>
          <span class="kr">const</span> <span class="nx">pattern</span> <span class="o">=</span> <span class="sr">/^[0-9]\.[a-z]\.(?:[a-zA-Z0-9-]+\.?)+[a-zA-Z0-9-]+$/</span><span class="p">;</span>
          <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">pattern</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">))</span> <span class="p">{</span>
-            <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Posts must use the current naming convention.&lt;br&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
-              <span class="s2">&quot;examples:&lt;br&gt;&quot;</span> <span class="o">+</span> 
+            <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Names for cloud posts should have three (or more) parts.&lt;br&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
+              <span class="s2">&quot;Examples:&lt;br&gt;&quot;</span> <span class="o">+</span> 
               <span class="s2">&quot;1.b.cool-one &lt;br&gt;2.c.my-version &lt;br&gt;9.b.no-fence &lt;br&gt;3.d.9ball.a-twist&lt;br&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
-              <span class="s1">&#39;You may need to edit the &quot;demoVersion&quot; in the capture. The idea is to add a descriptive part to the end of the name.&#39;</span>
+              <span class="s1">&#39;The idea is to start the name with a reference to a similar demo. This should have two parts, a single digit, and a single letter.&lt;br&gt;&lt;br&gt;&#39;</span> <span class="o">+</span>
+              <span class="s1">&#39;Then add a third part that uniquely describes your capture. This can be multiple words separated with dashes.&lt;br&gt;&lt;br&gt;&#39;</span> <span class="o">+</span>
+              <span class="s1">&#39;You establish this name by editing the &quot;demoVersion&quot; in the capture. &#39;</span> <span class="o">+</span>
+              <span class="s1">&#39;You may also need to edit the &quot;demoIndex&quot; (located above &quot;demoVersion&quot;) so that the index matches the digit in the name.&lt;br&gt;&lt;br&gt;&#39;</span> <span class="o">+</span>
+              <span class="s1">&#39;(Note: right click in the capture area for a larger view.)&#39;</span>
             <span class="p">);</span>
             <span class="k">return</span><span class="p">;</span>
          <span class="p">}</span>
@@ -1282,55 +1286,11 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="k">return</span><span class="p">;</span>
          <span class="p">}</span> 
          
-         <span class="c1">// Determine the corresponding filename from the demoVersion string.</span>
-         <span class="kd">let</span> <span class="nx">demoName</span> <span class="o">=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">;</span>
-         <span class="kd">let</span> <span class="nx">parts</span> <span class="o">=</span> <span class="nx">demoName</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">);</span>
-         <span class="kd">let</span> <span class="nx">demoFileName</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;demoName = &#39;</span> <span class="o">+</span> <span class="nx">demoName</span> <span class="o">+</span> <span class="s2">&quot;, n=&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-         <span class="c1">// This first check should also be covered by the regular expression above...</span>
-         <span class="k">if</span> <span class="p">(</span><span class="nx">parts</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;names for posts should have at least 3 parts, e.g. 1.b.coolone &quot;</span><span class="p">);</span>
-            <span class="k">return</span><span class="p">;</span>
-            
-         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">parts</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// e.g. 3.a.333  --&gt; demo3a.333.js  </span>
-            <span class="c1">//  or  5.b.rube --&gt; demo5b.rube.js</span>
-            <span class="nx">demoFileName</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.js&quot;</span><span class="p">;</span>
-            
-         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">parts</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// e.g. 5.b.rube.334 --&gt; demo5b.rube.334.js</span>
-            <span class="nx">demoFileName</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-            <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">index</span> <span class="k">in</span> <span class="nx">parts</span><span class="p">)</span> <span class="p">{</span>
-               <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="nx">demoFileName</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span> <span class="nx">index</span><span class="p">];</span>
-            <span class="p">}</span>
-            <span class="nx">demoFileName</span> <span class="o">+=</span> <span class="s2">&quot;.js&quot;</span><span class="p">;</span>
-         <span class="p">}</span>
-         
-         <span class="k">if</span> <span class="p">(</span><span class="nx">demoFileName</span> <span class="o">==</span> <span class="s2">&quot;demo3d.9ball.js&quot;</span><span class="p">)</span> <span class="nx">demoFileName</span> <span class="o">=</span> <span class="s2">&quot;demo3d.js&quot;</span><span class="p">;</span> <span class="c1">// special case</span>
-         
-         <span class="kd">let</span> <span class="nx">fileCheckResult</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">checkForFile</span><span class="p">(</span> <span class="nx">demoFileName</span><span class="p">);</span>
-         <span class="k">if</span> <span class="p">(</span><span class="nx">fileCheckResult</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="s2">&quot;file exists&quot;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;This file exists as a demo on the webserver. Please post something new.&quot;</span><span class="p">);</span>
-            <span class="k">return</span><span class="p">;</span>
-         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="cm">/* TBD</span>
-<span class="cm">            Use checkForFile to fetch the base version and compare the content to see if the user has simply renamed a base demo:</span>
-<span class="cm">            Remove &quot;demo_capture = &quot; from the file text.</span>
-<span class="cm">            Parse it into an object.</span>
-<span class="cm">            Replace the version string in the file text to be the base.</span>
-<span class="cm">            Do a formated stringify.</span>
-<span class="cm">            Then compare to the capture in textarea.</span>
-<span class="cm">            */</span>
-         <span class="p">}</span>
-         
-         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;demo version = &quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">);</span>
-
-         <span class="kd">let</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span><span class="p">)</span> <span class="o">?</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span> <span class="o">:</span> <span class="s2">&quot;host&quot;</span><span class="p">;</span>
-         <span class="kd">let</span> <span class="nx">keyName</span> <span class="o">=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;__&quot;</span> <span class="o">+</span> <span class="nx">nickName</span><span class="p">;</span>
-
+         <span class="c1">// Pick which of the three variations of postOne: delete, update, and post.</span>
          <span class="c1">// Make it a little harder to delete captures.</span>
-         <span class="k">if</span> <span class="p">((</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="kd">let</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span><span class="p">)</span> <span class="o">?</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span> <span class="o">:</span> <span class="s2">&quot;host&quot;</span><span class="p">;</span>
          
+         <span class="k">if</span> <span class="p">((</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">))</span> <span class="p">{</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;jim&quot;</span><span class="p">)</span> <span class="p">{</span>                  
                <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#chkC19&#39;</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">;</span>
@@ -1350,9 +1310,81 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
             <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;postOne&quot;</span><span class="p">;</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;updateOne request&quot;</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;normal postOne request&quot;</span><span class="p">);</span>
          <span class="p">}</span>
+         
+         <span class="c1">// Check if new stuff, by name and by content. Cloud posts should not be copies</span>
+         <span class="c1">// of capture files on the web server.</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;postOne&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Determine the corresponding filename from the demoVersion string.</span>
+            <span class="kd">let</span> <span class="nx">demoName</span> <span class="o">=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">;</span>
+            <span class="kd">let</span> <span class="nx">parts</span> <span class="o">=</span> <span class="nx">demoName</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">);</span>
+            <span class="kd">let</span> <span class="nx">demoFileName</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;demoName = &#39;</span> <span class="o">+</span> <span class="nx">demoName</span> <span class="o">+</span> <span class="s2">&quot;, n=&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+            <span class="c1">// This first check should also be covered by the regular expression above...</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">parts</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;names for posts should have at least 3 parts, e.g. 1.b.coolone &quot;</span><span class="p">);</span>
+               <span class="k">return</span><span class="p">;</span>
+               
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">parts</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+               <span class="c1">// e.g. 3.a.333  --&gt; demo3a.333.js  </span>
+               <span class="c1">//  or  5.b.rube --&gt; demo5b.rube.js</span>
+               <span class="nx">demoFileName</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.js&quot;</span><span class="p">;</span>
+               
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">parts</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+               <span class="c1">// e.g. 5.b.rube.334 --&gt; demo5b.rube.334.js</span>
+               <span class="nx">demoFileName</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+               <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">index</span> <span class="k">in</span> <span class="nx">parts</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nx">index</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="nx">demoFileName</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span> <span class="nx">index</span><span class="p">];</span>
+               <span class="p">}</span>
+               <span class="nx">demoFileName</span> <span class="o">+=</span> <span class="s2">&quot;.js&quot;</span><span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">demoFileName</span> <span class="o">==</span> <span class="s2">&quot;demo3d.9ball.js&quot;</span><span class="p">)</span> <span class="nx">demoFileName</span> <span class="o">=</span> <span class="s2">&quot;demo3d.js&quot;</span><span class="p">;</span> <span class="c1">// special case</span>
+            
+            <span class="kd">let</span> <span class="nx">fileCheckResult</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">checkForFile</span><span class="p">(</span> <span class="nx">demoFileName</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">fileCheckResult</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="s2">&quot;file exists&quot;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;This file exists as a demo on the webserver. Please post something new.&quot;</span><span class="p">);</span>
+               <span class="k">return</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="cm">/*</span>
+<span class="cm">               Use checkForFile to fetch the base version and compare the content to see if the user has simply renamed a base demo:</span>
+<span class="cm">                  Remove &quot;demo_capture = &quot; from the file text.</span>
+<span class="cm">                  Parse it into an object.</span>
+<span class="cm">                  Replace the version string in the file text to be the base.</span>
+<span class="cm">                  Do a formated stringify.</span>
+<span class="cm">                  Then compare to the capture in textarea.</span>
+<span class="cm">               */</span>
+               <span class="kd">let</span> <span class="nx">baseFileName</span> <span class="o">=</span> <span class="s2">&quot;demo&quot;</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.js&quot;</span><span class="p">;</span>
+               <span class="kd">let</span> <span class="nx">fileContentCheck</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">checkForFile</span><span class="p">(</span> <span class="nx">baseFileName</span><span class="p">);</span>
+               
+               <span class="k">if</span> <span class="p">(</span><span class="nx">fileContentCheck</span><span class="p">.</span><span class="nx">status</span> <span class="o">==</span> <span class="s2">&quot;file exists&quot;</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="kd">let</span> <span class="nx">contentText</span> <span class="o">=</span> <span class="nx">fileContentCheck</span><span class="p">.</span><span class="nx">fileText</span><span class="p">;</span>
+                  <span class="c1">// Remove the global assignment at the beginning of the file.</span>
+                  <span class="nx">contentText</span> <span class="o">=</span> <span class="nx">contentText</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot;demo_capture = &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
+                  
+                  <span class="c1">// To facilitate a simple content comparison, make the names the same, and then format the JSON.</span>
+                  <span class="kd">let</span> <span class="nx">contentObject</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">contentText</span><span class="p">);</span>
+                  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;name in file = &quot;</span> <span class="o">+</span> <span class="nx">contentObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">);</span>
+                  <span class="nx">contentObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">=</span> <span class="nx">demoName</span><span class="p">;</span>
+                  <span class="kd">let</span> <span class="nx">formatedText</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">contentObject</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">==</span> <span class="nx">formatedText</span><span class="p">)</span> <span class="p">{</span>
+                     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Looks identical to the base demo content.&quot;</span><span class="p">);</span>
+                     <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;This capture looks equivalent to the content in the base demo. Please post something new.&quot;</span><span class="p">);</span>
+                     <span class="k">return</span><span class="p">;</span>
+                  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Looks like fresh stuff.&quot;</span><span class="p">);</span>
+                  <span class="p">}</span>
+                  
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;base file not found: &quot;</span> <span class="o">+</span> <span class="nx">baseFileName</span><span class="p">);</span>
+               <span class="p">}</span>
+            <span class="p">}</span>
+         <span class="p">}</span>
+         
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;demo version = &quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span><span class="p">);</span>
       
+         <span class="kd">let</span> <span class="nx">keyName</span> <span class="o">=</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;__&quot;</span> <span class="o">+</span> <span class="nx">nickName</span><span class="p">;</span>
          <span class="kd">let</span> <span class="nx">postObject</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;keyName&quot;</span><span class="o">:</span><span class="nx">keyName</span><span class="p">,</span> <span class="s2">&quot;action&quot;</span><span class="o">:</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;capture&quot;</span><span class="o">:</span><span class="nx">captureObject</span><span class="p">};</span>
          <span class="nx">postObject</span><span class="p">.</span><span class="nx">expiration</span> <span class="o">=</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;host&quot;</span><span class="p">)</span> <span class="o">?</span> <span class="mi">259200</span> <span class="o">:</span> <span class="s2">&quot;never&quot;</span><span class="p">;</span> <span class="c1">// 3 days</span>
 

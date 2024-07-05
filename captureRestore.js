@@ -1124,7 +1124,7 @@ window.cR = (function() {
             console.log("webserver fetch: ok, maybe found file.");
             
             // Check the contents to see if it looks like a typical capture file on the server.
-            if (content.includes("demo_capture = {")) {
+            if (content.includes("demoVersion")) {
                result.status = "file exists";
                result.fileText = content;
             
@@ -1173,10 +1173,14 @@ window.cR = (function() {
          // check the form of the version-name string
          const pattern = /^[0-9]\.[a-z]\.(?:[a-zA-Z0-9-]+\.?)+[a-zA-Z0-9-]+$/;
          if ( ! pattern.test( captureObject.demoVersion)) {
-            hC.displayMessage("Posts must use the current naming convention.<br><br>" +
-              "examples:<br>" + 
+            hC.displayMessage("Names for cloud posts should have three (or more) parts.<br><br>" +
+              "Examples:<br>" + 
               "1.b.cool-one <br>2.c.my-version <br>9.b.no-fence <br>3.d.9ball.a-twist<br><br>" +
-              'You may need to edit the "demoVersion" in the capture. The idea is to add a descriptive part to the end of the name.'
+              'The idea is to start the name with a reference to a similar demo. This should have two parts, a single digit, and a single letter.<br><br>' +
+              'Then add a third part that uniquely describes your capture. This can be multiple words separated with dashes.<br><br>' +
+              'You establish this name by editing the "demoVersion" in the capture. ' +
+              'You may also need to edit the "demoIndex" (located above "demoVersion") so that the index matches the digit in the name.<br><br>' +
+              '(Note: right click in the capture area for a larger view.)'
             );
             return;
          }
@@ -1186,55 +1190,11 @@ window.cR = (function() {
             return;
          } 
          
-         // Determine the corresponding filename from the demoVersion string.
-         let demoName = captureObject.demoVersion;
-         let parts = demoName.split(".");
-         let demoFileName = null;
-         console.log('demoName = ' + demoName + ", n=" + parts.length);
-         // This first check should also be covered by the regular expression above...
-         if (parts.length < 3) {
-            hC.displayMessage("names for posts should have at least 3 parts, e.g. 1.b.coolone ");
-            return;
-            
-         } else if (parts.length == 3) {
-            // e.g. 3.a.333  --> demo3a.333.js  
-            //  or  5.b.rube --> demo5b.rube.js
-            demoFileName = "demo" + parts[0] + parts[1] + "." + parts[2] + ".js";
-            
-         } else if (parts.length > 3) {
-            // e.g. 5.b.rube.334 --> demo5b.rube.334.js
-            demoFileName = "demo" + parts[0] + parts[1];
-            for (let index in parts) {
-               if (index > 1) demoFileName += "." + parts[ index];
-            }
-            demoFileName += ".js";
-         }
-         
-         if (demoFileName == "demo3d.9ball.js") demoFileName = "demo3d.js"; // special case
-         
-         let fileCheckResult = await checkForFile( demoFileName);
-         if (fileCheckResult.status == "file exists") {
-            hC.displayMessage("This file exists as a demo on the webserver. Please post something new.");
-            return;
-         } else {
-            /* TBD
-            Use checkForFile to fetch the base version and compare the content to see if the user has simply renamed a base demo:
-            Remove "demo_capture = " from the file text.
-            Parse it into an object.
-            Replace the version string in the file text to be the base.
-            Do a formated stringify.
-            Then compare to the capture in textarea.
-            */
-         }
-         
-         console.log("demo version = " + captureObject.demoVersion);
-
-         let nickName = (gW.clients["local"].nickName) ? gW.clients["local"].nickName : "host";
-         let keyName = captureObject.demoVersion + "__" + nickName;
-
+         // Pick which of the three variations of postOne: delete, update, and post.
          // Make it a little harder to delete captures.
-         if ((gW.clients['local'].key_ctrl == "D") && (gW.clients['local'].key_shift == "D")) {
+         let nickName = (gW.clients["local"].nickName) ? gW.clients["local"].nickName : "host";
          
+         if ((gW.clients['local'].key_ctrl == "D") && (gW.clients['local'].key_shift == "D")) {
             if (nickName == "jim") {                  
                if ($('#chkC19').prop('checked')) {
                   action = "deleteOne";
@@ -1254,9 +1214,81 @@ window.cR = (function() {
                
          } else {
             action = "postOne";
-            console.log("updateOne request");
+            console.log("normal postOne request");
          }
+         
+         // Check if new stuff, by name and by content. Cloud posts should not be copies
+         // of capture files on the web server.
+         if (action == "postOne") {
+            // Determine the corresponding filename from the demoVersion string.
+            let demoName = captureObject.demoVersion;
+            let parts = demoName.split(".");
+            let demoFileName = null;
+            console.log('demoName = ' + demoName + ", n=" + parts.length);
+            // This first check should also be covered by the regular expression above...
+            if (parts.length < 3) {
+               hC.displayMessage("names for posts should have at least 3 parts, e.g. 1.b.coolone ");
+               return;
+               
+            } else if (parts.length == 3) {
+               // e.g. 3.a.333  --> demo3a.333.js  
+               //  or  5.b.rube --> demo5b.rube.js
+               demoFileName = "demo" + parts[0] + parts[1] + "." + parts[2] + ".js";
+               
+            } else if (parts.length > 3) {
+               // e.g. 5.b.rube.334 --> demo5b.rube.334.js
+               demoFileName = "demo" + parts[0] + parts[1];
+               for (let index in parts) {
+                  if (index > 1) demoFileName += "." + parts[ index];
+               }
+               demoFileName += ".js";
+            }
+
+            if (demoFileName == "demo3d.9ball.js") demoFileName = "demo3d.js"; // special case
+            
+            let fileCheckResult = await checkForFile( demoFileName);
+            if (fileCheckResult.status == "file exists") {
+               hC.displayMessage("This file exists as a demo on the webserver. Please post something new.");
+               return;
+            } else {
+               /*
+               Use checkForFile to fetch the base version and compare the content to see if the user has simply renamed a base demo:
+                  Remove "demo_capture = " from the file text.
+                  Parse it into an object.
+                  Replace the version string in the file text to be the base.
+                  Do a formated stringify.
+                  Then compare to the capture in textarea.
+               */
+               let baseFileName = "demo" + parts[0] + parts[1] + ".js";
+               let fileContentCheck = await checkForFile( baseFileName);
+               
+               if (fileContentCheck.status == "file exists") {
+                  let contentText = fileContentCheck.fileText;
+                  // Remove the global assignment at the beginning of the file.
+                  contentText = contentText.replace("demo_capture = ", "");
+                  
+                  // To facilitate a simple content comparison, make the names the same, and then format the JSON.
+                  let contentObject = JSON.parse( contentText);
+                  console.log("name in file = " + contentObject.demoVersion);
+                  contentObject.demoVersion = demoName;
+                  let formatedText = JSON.stringify( contentObject, null, 3);
+                  if (gW.dC.json.value == formatedText) {
+                     console.log("Looks identical to the base demo content.");
+                     hC.displayMessage("This capture looks equivalent to the content in the base demo. Please post something new.");
+                     return;
+                  } else {
+                     console.log("Looks like fresh stuff.");
+                  }
+                  
+               } else {
+                  console.log("base file not found: " + baseFileName);
+               }
+            }
+         }
+         
+         console.log("demo version = " + captureObject.demoVersion);
       
+         let keyName = captureObject.demoVersion + "__" + nickName;
          let postObject = {"keyName":keyName, "action":action, "capture":captureObject};
          postObject.expiration = (nickName == "host") ? 259200 : "never"; // 3 days
 
