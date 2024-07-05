@@ -1175,8 +1175,8 @@ window.cR = (function() {
          if ( ! pattern.test( captureObject.demoVersion)) {
             hC.displayMessage("Names for cloud posts should have three (or more) parts.<br><br>" +
               "Examples:<br>" + 
-              "1.b.cool-one <br>2.c.my-version <br>9.b.no-fence <br>3.d.9ball.a-twist<br><br>" +
-              'The idea is to start the name with a reference to a similar demo. This should have two parts, a single digit, and a single letter.<br><br>' +
+              "1.b.new-one <br>2.c.my-version <br>9.b.no-fence <br>3.d.9ball.big-twist<br><br>" +
+              'The idea is to start the name with a reference to a similar demo. This should have two parts: a single digit, and a single letter.<br><br>' +
               'Then add a third part that uniquely describes your capture. This can be multiple words separated with dashes.<br><br>' +
               'You establish this name by editing the "demoVersion" in the capture. ' +
               'You may also need to edit the "demoIndex" (located above "demoVersion") so that the index matches the digit in the name.<br><br>' +
