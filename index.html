@@ -157,7 +157,12 @@
             <span id="serverTitle">Server</span><input id="nodeServer" list="nodeServerList" value='connect.triquence.org' autocomplete="off" title='Use the default unless you have an ip address (and port) for a local node server.'>
             <div id="roomAndConnect" style="display:inline-block; float:right;">
                <span id="roomTitle">Room</span><input id="roomName" autocomplete="off" maxlength="9"/>
-               <button id="ConnectButton" class="chat" onclick="hC.connect_and_listen('normal');" title='Initiate (or reset) the host connection and create the game room.'>Create</button>
+               <button id="ConnectButton" class="chat" onclick="hC.connect_and_listen('normal');" title=
+"Initiate the host's connection and create the game room.
+
+Note: for an existing connection, this 'Create' button can be used
+to rejoin the room under a different nickname (chat input).
+">Create</button>
             </div>
             </br>
             <form id="chatForm" action="" style="display:inline-block; float:right; white-space:nowrap;">
