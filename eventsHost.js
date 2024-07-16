@@ -1714,13 +1714,11 @@ window.eV = (function() {
       // Button on host for posting captures to CloudFlare
       dC.postToCloud = document.getElementById('button-postToCloud');
       dC.postToCloud.addEventListener("click", function() {
-         console.log("inside new cloud-post handler");
-         
          let warningMessage, acceptLabel, purpose;
          
-         let leftPanelInfo = "<li>Responses from the server are displayed in the chat (left panel).";
-         let deletAndUpdatInfo = "<ul>" +
-                                 "<li>This will target the cloud capture having the same name " +
+         let leftPanelInfo = "<li class='dialog'>Responses from the server are displayed in the chat (left panel).";
+         let deletAndUpdatInfo = "<ul class='dialog'>" +
+                                 "<li class='dialog'>This will target the cloud capture having the same name " +
                                      "as the local capture's demoVersion (right panel)." +
                                  leftPanelInfo + 
                                  "</ul>";
@@ -1741,10 +1739,10 @@ window.eV = (function() {
             
          } else {
             warningMessage = "This will attempt to <strong>POST</strong> the current capture to cloud storage.<br>" + 
-                             "<ul>" +
-                                "<li>To UPDATE a previously posted cloud capture, " +
+                             "<ul class='dialog'>" +
+                                "<li class='dialog'>To UPDATE a previously posted cloud capture, " +
                                     "click the P button while holding the SHIFT key down." +
-                                "<li>To DELETE a cloud capture, click the P button while " + 
+                                "<li class='dialog'>To DELETE a cloud capture, click the P button while " + 
                                     "holding the CTRL and SHIFT keys down." +
                                 leftPanelInfo + 
                              "</ul>" +

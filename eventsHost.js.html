@@ -1810,13 +1810,11 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="c1">// Button on host for posting captures to CloudFlare</span>
       <span class="nx">dC</span><span class="p">.</span><span class="nx">postToCloud</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;button-postToCloud&#39;</span><span class="p">);</span>
       <span class="nx">dC</span><span class="p">.</span><span class="nx">postToCloud</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inside new cloud-post handler&quot;</span><span class="p">);</span>
-         
          <span class="kd">let</span> <span class="nx">warningMessage</span><span class="p">,</span> <span class="nx">acceptLabel</span><span class="p">,</span> <span class="nx">purpose</span><span class="p">;</span>
          
-         <span class="kd">let</span> <span class="nx">leftPanelInfo</span> <span class="o">=</span> <span class="s2">&quot;&lt;li&gt;Responses from the server are displayed in the chat (left panel).&quot;</span><span class="p">;</span>
-         <span class="kd">let</span> <span class="nx">deletAndUpdatInfo</span> <span class="o">=</span> <span class="s2">&quot;&lt;ul&gt;&quot;</span> <span class="o">+</span>
-                                 <span class="s2">&quot;&lt;li&gt;This will target the cloud capture having the same name &quot;</span> <span class="o">+</span>
+         <span class="kd">let</span> <span class="nx">leftPanelInfo</span> <span class="o">=</span> <span class="s2">&quot;&lt;li class=&#39;dialog&#39;&gt;Responses from the server are displayed in the chat (left panel).&quot;</span><span class="p">;</span>
+         <span class="kd">let</span> <span class="nx">deletAndUpdatInfo</span> <span class="o">=</span> <span class="s2">&quot;&lt;ul class=&#39;dialog&#39;&gt;&quot;</span> <span class="o">+</span>
+                                 <span class="s2">&quot;&lt;li class=&#39;dialog&#39;&gt;This will target the cloud capture having the same name &quot;</span> <span class="o">+</span>
                                      <span class="s2">&quot;as the local capture&#39;s demoVersion (right panel).&quot;</span> <span class="o">+</span>
                                  <span class="nx">leftPanelInfo</span> <span class="o">+</span> 
                                  <span class="s2">&quot;&lt;/ul&gt;&quot;</span><span class="p">;</span>
@@ -1837,10 +1835,10 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
             <span class="nx">warningMessage</span> <span class="o">=</span> <span class="s2">&quot;This will attempt to &lt;strong&gt;POST&lt;/strong&gt; the current capture to cloud storage.&lt;br&gt;&quot;</span> <span class="o">+</span> 
-                             <span class="s2">&quot;&lt;ul&gt;&quot;</span> <span class="o">+</span>
-                                <span class="s2">&quot;&lt;li&gt;To UPDATE a previously posted cloud capture, &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;&lt;ul class=&#39;dialog&#39;&gt;&quot;</span> <span class="o">+</span>
+                                <span class="s2">&quot;&lt;li class=&#39;dialog&#39;&gt;To UPDATE a previously posted cloud capture, &quot;</span> <span class="o">+</span>
                                     <span class="s2">&quot;click the P button while holding the SHIFT key down.&quot;</span> <span class="o">+</span>
-                                <span class="s2">&quot;&lt;li&gt;To DELETE a cloud capture, click the P button while &quot;</span> <span class="o">+</span> 
+                                <span class="s2">&quot;&lt;li class=&#39;dialog&#39;&gt;To DELETE a cloud capture, click the P button while &quot;</span> <span class="o">+</span> 
                                     <span class="s2">&quot;holding the CTRL and SHIFT keys down.&quot;</span> <span class="o">+</span>
                                 <span class="nx">leftPanelInfo</span> <span class="o">+</span> 
                              <span class="s2">&quot;&lt;/ul&gt;&quot;</span> <span class="o">+</span>
