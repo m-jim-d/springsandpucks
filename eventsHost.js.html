@@ -1047,7 +1047,19 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
 <span class="cm">                  }</span>
 <span class="cm">                  */</span>               
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">keyMap</span><span class="p">[</span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;key_m&#39;</span><span class="p">)</span> <span class="p">{</span> 
-                  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#chkMultiplayer&#39;</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">);</span>
+                  <span class="c1">// Note: ctrl key (down) seems to block this m key event. </span>
+                  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;key_m block, ctrl=&quot;</span> <span class="o">+</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">+</span> <span class="s2">&quot;, alt=&quot;</span> <span class="o">+</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_alt</span> <span class="o">+</span> <span class="s2">&quot;, shift=&quot;</span> <span class="o">+</span> <span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span><span class="p">);</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="p">{</span>
+                     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;shift-m block&quot;</span><span class="p">);</span>
+                     <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">hostMSelect</span><span class="p">.</span><span class="nx">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> 
+                        <span class="kd">let</span> <span class="nx">message</span> <span class="o">=</span> <span class="s2">&quot;You must select at least one object to run this JSON modification function.&quot;</span><span class="p">;</span>
+                        <span class="nx">pS</span><span class="p">.</span><span class="nx">viewGeneralDialog</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="s2">&quot;nothing selected&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="nx">message</span><span class="p">,</span> <span class="s2">&quot;label_close&quot;</span><span class="o">:</span><span class="s2">&quot;close&quot;</span><span class="p">});</span>
+                     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="nx">cR</span><span class="p">.</span><span class="nx">modifyCapture</span><span class="p">();</span>
+                     <span class="p">}</span>
+                  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                     <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#chkMultiplayer&#39;</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">);</span>
+                  <span class="p">}</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">keyMap</span><span class="p">[</span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;key_n&#39;</span><span class="p">)</span> <span class="p">{</span> 
                   <span class="nx">key_n_handler</span><span class="p">(</span><span class="s1">&#39;local&#39;</span><span class="p">);</span>
@@ -1793,6 +1805,54 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="nx">cR</span><span class="p">.</span><span class="nx">saveState</span><span class="p">();</span>
             
          <span class="p">},</span> <span class="nx">waitForFullScreen</span><span class="p">);</span> <span class="c1">// delay needed for Firefox</span>
+         
+      <span class="p">},</span> <span class="p">{</span><span class="nx">capture</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
+      
+      <span class="c1">// Button on host for posting captures to CloudFlare</span>
+      <span class="nx">dC</span><span class="p">.</span><span class="nx">postToCloud</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;button-postToCloud&#39;</span><span class="p">);</span>
+      <span class="nx">dC</span><span class="p">.</span><span class="nx">postToCloud</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inside new cloud-post handler&quot;</span><span class="p">);</span>
+         
+         <span class="kd">let</span> <span class="nx">warningMessage</span><span class="p">,</span> <span class="nx">acceptLabel</span><span class="p">,</span> <span class="nx">purpose</span><span class="p">;</span>
+         
+         <span class="kd">let</span> <span class="nx">leftPanelInfo</span> <span class="o">=</span> <span class="s2">&quot;&lt;li&gt;Responses from the server are displayed in the chat (left panel).&quot;</span><span class="p">;</span>
+         <span class="kd">let</span> <span class="nx">deletAndUpdatInfo</span> <span class="o">=</span> <span class="s2">&quot;&lt;ul&gt;&quot;</span> <span class="o">+</span>
+                                 <span class="s2">&quot;&lt;li&gt;This will target the cloud capture having the same name &quot;</span> <span class="o">+</span>
+                                     <span class="s2">&quot;as the local capture&#39;s demoVersion (right panel).&quot;</span> <span class="o">+</span>
+                                 <span class="nx">leftPanelInfo</span> <span class="o">+</span> 
+                                 <span class="s2">&quot;&lt;/ul&gt;&quot;</span><span class="p">;</span>
+         
+         <span class="k">if</span> <span class="p">((</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">warningMessage</span> <span class="o">=</span> <span class="s2">&quot;This will attempt to &lt;strong&gt;DELETE&lt;/strong&gt; the corresponding capture in cloud storage.&lt;br&gt;&quot;</span> <span class="o">+</span> 
+                             <span class="nx">deletAndUpdatInfo</span> <span class="o">+</span>
+                             <span class="s2">&quot;Continue ?&quot;</span><span class="p">;</span> 
+            <span class="nx">acceptLabel</span> <span class="o">=</span> <span class="s2">&quot;go ahead, try to DELETE it&quot;</span><span class="p">;</span>
+            <span class="nx">purpose</span> <span class="o">=</span> <span class="s2">&quot;post-delete&quot;</span><span class="p">;</span>
+            
+         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">warningMessage</span> <span class="o">=</span> <span class="s2">&quot;This will attempt to &lt;strong&gt;UPDATE&lt;/strong&gt; the corresponding capture in cloud storage.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                             <span class="nx">deletAndUpdatInfo</span> <span class="o">+</span>
+                             <span class="s2">&quot;Continue ?&quot;</span><span class="p">;</span> 
+            <span class="nx">acceptLabel</span> <span class="o">=</span> <span class="s2">&quot;go ahead, try to UPDATE it&quot;</span><span class="p">;</span>
+            <span class="nx">purpose</span> <span class="o">=</span> <span class="s2">&quot;post-update&quot;</span><span class="p">;</span>
+            
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">warningMessage</span> <span class="o">=</span> <span class="s2">&quot;This will attempt to &lt;strong&gt;POST&lt;/strong&gt; the current capture to cloud storage.&lt;br&gt;&quot;</span> <span class="o">+</span> 
+                             <span class="s2">&quot;&lt;ul&gt;&quot;</span> <span class="o">+</span>
+                                <span class="s2">&quot;&lt;li&gt;To UPDATE a previously posted cloud capture, &quot;</span> <span class="o">+</span>
+                                    <span class="s2">&quot;click the P button while holding the SHIFT key down.&quot;</span> <span class="o">+</span>
+                                <span class="s2">&quot;&lt;li&gt;To DELETE a cloud capture, click the P button while &quot;</span> <span class="o">+</span> 
+                                    <span class="s2">&quot;holding the CTRL and SHIFT keys down.&quot;</span> <span class="o">+</span>
+                                <span class="nx">leftPanelInfo</span> <span class="o">+</span> 
+                             <span class="s2">&quot;&lt;/ul&gt;&quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;Continue ?&quot;</span><span class="p">;</span>
+            <span class="nx">acceptLabel</span> <span class="o">=</span> <span class="s2">&quot;go ahead, try to POST it&quot;</span><span class="p">;</span>
+            <span class="nx">purpose</span> <span class="o">=</span> <span class="s2">&quot;post-normal&quot;</span><span class="p">;</span>
+         <span class="p">}</span>
+         
+         <span class="nx">pS</span><span class="p">.</span><span class="nx">viewGeneralDialog</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="s2">&quot;first, a check&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="nx">warningMessage</span><span class="p">,</span> 
+                               <span class="s2">&quot;label_accept&quot;</span><span class="o">:</span><span class="nx">acceptLabel</span><span class="p">,</span> <span class="s2">&quot;label_reject&quot;</span><span class="o">:</span><span class="s2">&quot;cancel&quot;</span><span class="p">,</span> <span class="s2">&quot;label_close&quot;</span><span class="o">:</span><span class="s2">&quot;close&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;purpose&quot;</span><span class="o">:</span><span class="nx">purpose</span><span class="p">});</span>
          
       <span class="p">},</span> <span class="p">{</span><span class="nx">capture</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
       

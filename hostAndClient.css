@@ -165,7 +165,8 @@ p.title {
    margin-bottom: 0px;
 }
 
-body, p {
+/* body, p {} */
+body {
    font-family: Helvetica, Arial, sans-serif;
    font-size: 100%;
    background-color: #f4f3f1; /* pink #a7a09a  #EFEFEF */

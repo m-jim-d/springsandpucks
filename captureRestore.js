@@ -402,34 +402,49 @@ window.cR = (function() {
    }
    
    function loadJSON( element) {
-      let emptyMessage, errorMessage, emptyMessageDuration;
-      
-      if (element.id == "jsonCapture") {
-         errorMessage = "There's a formatting error in the state capture. Try clicking the 'C' button (clear it).";
-         emptyMessage = "The capture text area is empty.";
-         emptyMessageDuration = 2.0;
-         
-      } else {
-         errorMessage = 'There is a formatting error in the JSON in the chat input field.' + 
-                        '\nAn example of good format is {"color": "yellow"} or {"friction": 0.5}.' + 
-                        '\n\n(You may need to use the "m" key to toggle the left panel and reveal the chat input field.)';
-                        
-         emptyMessage = 'There is no modifying JSON to use. \\Put some JSON in the chat input field. \\Examples: {"color": "yellow"} or {"friction": 0.5}';
-         emptyMessageDuration = 5.0;
-      }
-      
-      let state_capture;
+      let state_capture, message, title;
+            
       if (element.value != '') {
          try {
             state_capture = JSON.parse( element.value);
+            
          } catch (err) {
+            if (element.id == "jsonCapture") {
+               title = "JSON error in the capture";
+               message = "There is a formatting error in the state capture.<br>" + 
+                         "<ul><li>Do not use single quotes, use doubles (" + '""' + ").<br>" + 
+                         "<li>Quote strings and attribute names.<br>" + 
+                         "<li>Numbers and logicals don't need quotes.<br>" + 
+                         "<li>Try reversing recent edits.<br>" +
+                         "<li>Try starting over, clear it (click the 'C' button).</ul>";
+               
+            } else if (element.id == "inputField") {
+               title = "JSON error in chat input";
+               message = 'There is a formatting error in the JSON in the chat input.<br>' + 
+                         'An example of good format is {"color": "yellow"} or {"friction": 0.5}.<br><br>' + 
+                         'You may need to use the "m" key to toggle the left panel and reveal the chat input field.';               
+            }
+            
+            pS.viewGeneralDialog({"title":title, "message":message, "label_close":"close"});
             state_capture = null;
-            window.alert( errorMessage);
          }
+         
       } else {
-         gW.messages['help'].newMessage( emptyMessage, emptyMessageDuration);
+         if (element.id == "jsonCapture") {
+            title = "capture missing";
+            message = "The capture text area is empty.";
+            
+         } else if (element.id == "inputField") {
+            title = "chat field is empty";
+            message = 'There is no modifying JSON to use.<br>' + 
+                      'Put some JSON in the chat input field.<br>' + 
+                      'Examples: {"color": "yellow"} or {"friction": 0.5}';
+         }
+         
+         pS.viewGeneralDialog({"title":title, "message":message, "label_close":"close"});
          state_capture = null;
       }
+      
       return state_capture;
    }
    
@@ -464,6 +479,8 @@ window.cR = (function() {
          state_capture.demoVersion += '.' + Math.floor((Math.random() * 1000) + 1);
          let table_JSON = JSON.stringify( state_capture, null, 3);
          gW.dC.json.value = table_JSON;
+         
+         runCapture();
       }
    }
    
@@ -776,13 +793,15 @@ window.cR = (function() {
          
       } catch (err) {
          gW.stopit();
-         window.alert(gW.getDemoVersion() +
-                     "\nUnable to restore this capture. " +
-                     "\n   Possibly you've been boldly editing the JSON text." +
-                     "\n   If so, please refine your edits or start from a new capture." +
-                     "\n" +
-                     "\n" + err.name +
-                     "\nmessage:  " + err.message);
+         
+         let message = gW.getDemoVersion() + "<br>" +
+                       "Unable to restore this capture.<br><br>" +
+                       "Possibly you've been boldly editing the JSON text (that's good, BTW). " +
+                       "If so, please refine your edits or start from a new capture.<br><br>" +
+                       "error name: " + err.name + "<br>" +
+                       "error message: " + err.message;
+         pS.viewGeneralDialog({"title":"error in capture", "message":message, "label_close":"close"});
+         
          dS.demoStart(0);
       }
    }
@@ -1156,7 +1175,8 @@ window.cR = (function() {
    
    async function postCaptureToCF( pars={}) {
       let action = uT.setDefault( pars.action, "list");
-      let downLoadKey = uT.setDefault( pars.downLoadKey, null);
+      let actionType = uT.setDefault( pars.actionType, "normal");
+      let downLoadKey = uT.setDefault( pars.downLoadKey, null); // key for KV (key-value) storage at Cloudflare 
       
       console.log("inside poster v25, key = " + downLoadKey);
       
@@ -1190,11 +1210,11 @@ window.cR = (function() {
             return;
          } 
          
-         // Pick which of the three variations of postOne: delete, update, and post.
+         // Based on actionType in pars, pick which of the three variations of postOne: deleteOne, updateOne, and postOne.
          // Make it a little harder to delete captures.
          let nickName = (gW.clients["local"].nickName) ? gW.clients["local"].nickName : "host";
          
-         if ((gW.clients['local'].key_ctrl == "D") && (gW.clients['local'].key_shift == "D")) {
+         if (actionType == "delete") {
             if (nickName == "jim") {                  
                if ($('#chkC19').prop('checked')) {
                   action = "deleteOne";
@@ -1208,7 +1228,7 @@ window.cR = (function() {
                console.log("deleteOne request");
             } 
             
-         } else if (gW.clients['local'].key_shift == "D") {
+         } else if (actionType == "update") {
             action = "updateOne";
             console.log("updateOne request");
                
@@ -1447,7 +1467,6 @@ window.cR = (function() {
       }
    }
 
-      
    // This checks to see if the capture has been edited to be different from the original file.
    // It requires taking time to load files. So, this is called at the start of a game. The results
    // of this (in aT.hack) are used later when reports are issued to the leaderboard.

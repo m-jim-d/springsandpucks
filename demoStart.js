@@ -521,16 +521,9 @@ window.dS = (function() {
       // When a capture is taken, its name will be based on (added to) this demo version name.
       c.demoVersion = index + '.a';
       
-      // Convert (parse) the json capture into a local object.
+      // Parse the JSON capture into a local object.
       if (dC.json.value != '') {
-         try {
-            var state_capture = JSON.parse( dC.json.value);
-         } catch (err) {
-            var state_capture = null;
-            window.alert("There's a formatting error in the state capture. Try clicking the 'Clear' button.");
-         }
-      } else {
-         var state_capture = null;
+         var state_capture = cR.loadJSON( dC.json);
       }
       
       // Reset the shot locks and speed.

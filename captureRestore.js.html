@@ -498,34 +498,49 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">let</span> <span class="nx">emptyMessage</span><span class="p">,</span> <span class="nx">errorMessage</span><span class="p">,</span> <span class="nx">emptyMessageDuration</span><span class="p">;</span>
-      
-      <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s2">&quot;jsonCapture&quot;</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">errorMessage</span> <span class="o">=</span> <span class="s2">&quot;There&#39;s a formatting error in the state capture. Try clicking the &#39;C&#39; button (clear it).&quot;</span><span class="p">;</span>
-         <span class="nx">emptyMessage</span> <span class="o">=</span> <span class="s2">&quot;The capture text area is empty.&quot;</span><span class="p">;</span>
-         <span class="nx">emptyMessageDuration</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
-         
-      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-         <span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;There is a formatting error in the JSON in the chat input field.&#39;</span> <span class="o">+</span> 
-                        <span class="s1">&#39;\nAn example of good format is {&quot;color&quot;: &quot;yellow&quot;} or {&quot;friction&quot;: 0.5}.&#39;</span> <span class="o">+</span> 
-                        <span class="s1">&#39;\n\n(You may need to use the &quot;m&quot; key to toggle the left panel and reveal the chat input field.)&#39;</span><span class="p">;</span>
-                        
-         <span class="nx">emptyMessage</span> <span class="o">=</span> <span class="s1">&#39;There is no modifying JSON to use. \\Put some JSON in the chat input field. \\Examples: {&quot;color&quot;: &quot;yellow&quot;} or {&quot;friction&quot;: 0.5}&#39;</span><span class="p">;</span>
-         <span class="nx">emptyMessageDuration</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">;</span>
-      <span class="p">}</span>
-      
-      <span class="kd">let</span> <span class="nx">state_capture</span><span class="p">;</span>
+      <span class="kd">let</span> <span class="nx">state_capture</span><span class="p">,</span> <span class="nx">message</span><span class="p">,</span> <span class="nx">title</span><span class="p">;</span>
+            
       <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
          <span class="k">try</span> <span class="p">{</span>
             <span class="nx">state_capture</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span> <span class="nx">element</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span>
+            
          <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s2">&quot;jsonCapture&quot;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;JSON error in the capture&quot;</span><span class="p">;</span>
+               <span class="nx">message</span> <span class="o">=</span> <span class="s2">&quot;There is a formatting error in the state capture.&lt;br&gt;&quot;</span> <span class="o">+</span> 
+                         <span class="s2">&quot;&lt;ul&gt;&lt;li&gt;Do not use single quotes, use doubles (&quot;</span> <span class="o">+</span> <span class="s1">&#39;&quot;&quot;&#39;</span> <span class="o">+</span> <span class="s2">&quot;).&lt;br&gt;&quot;</span> <span class="o">+</span> 
+                         <span class="s2">&quot;&lt;li&gt;Quote strings and attribute names.&lt;br&gt;&quot;</span> <span class="o">+</span> 
+                         <span class="s2">&quot;&lt;li&gt;Numbers and logicals don&#39;t need quotes.&lt;br&gt;&quot;</span> <span class="o">+</span> 
+                         <span class="s2">&quot;&lt;li&gt;Try reversing recent edits.&lt;br&gt;&quot;</span> <span class="o">+</span>
+                         <span class="s2">&quot;&lt;li&gt;Try starting over, clear it (click the &#39;C&#39; button).&lt;/ul&gt;&quot;</span><span class="p">;</span>
+               
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s2">&quot;inputField&quot;</span><span class="p">)</span> <span class="p">{</span>
+               <span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;JSON error in chat input&quot;</span><span class="p">;</span>
+               <span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;There is a formatting error in the JSON in the chat input.&lt;br&gt;&#39;</span> <span class="o">+</span> 
+                         <span class="s1">&#39;An example of good format is {&quot;color&quot;: &quot;yellow&quot;} or {&quot;friction&quot;: 0.5}.&lt;br&gt;&lt;br&gt;&#39;</span> <span class="o">+</span> 
+                         <span class="s1">&#39;You may need to use the &quot;m&quot; key to toggle the left panel and reveal the chat input field.&#39;</span><span class="p">;</span>               
+            <span class="p">}</span>
+            
+            <span class="nx">pS</span><span class="p">.</span><span class="nx">viewGeneralDialog</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="nx">title</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="nx">message</span><span class="p">,</span> <span class="s2">&quot;label_close&quot;</span><span class="o">:</span><span class="s2">&quot;close&quot;</span><span class="p">});</span>
             <span class="nx">state_capture</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-            <span class="nb">window</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span> <span class="nx">errorMessage</span><span class="p">);</span>
          <span class="p">}</span>
+         
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-         <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span> <span class="nx">emptyMessage</span><span class="p">,</span> <span class="nx">emptyMessageDuration</span><span class="p">);</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s2">&quot;jsonCapture&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;capture missing&quot;</span><span class="p">;</span>
+            <span class="nx">message</span> <span class="o">=</span> <span class="s2">&quot;The capture text area is empty.&quot;</span><span class="p">;</span>
+            
+         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s2">&quot;inputField&quot;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;chat field is empty&quot;</span><span class="p">;</span>
+            <span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;There is no modifying JSON to use.&lt;br&gt;&#39;</span> <span class="o">+</span> 
+                      <span class="s1">&#39;Put some JSON in the chat input field.&lt;br&gt;&#39;</span> <span class="o">+</span> 
+                      <span class="s1">&#39;Examples: {&quot;color&quot;: &quot;yellow&quot;} or {&quot;friction&quot;: 0.5}&#39;</span><span class="p">;</span>
+         <span class="p">}</span>
+         
+         <span class="nx">pS</span><span class="p">.</span><span class="nx">viewGeneralDialog</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="nx">title</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="nx">message</span><span class="p">,</span> <span class="s2">&quot;label_close&quot;</span><span class="o">:</span><span class="s2">&quot;close&quot;</span><span class="p">});</span>
          <span class="nx">state_capture</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
       <span class="p">}</span>
+      
       <span class="k">return</span> <span class="nx">state_capture</span><span class="p">;</span>
    <span class="p">}</span>
    
@@ -560,6 +575,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="nx">state_capture</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">((</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
          <span class="kd">let</span> <span class="nx">table_JSON</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">state_capture</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
          <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">table_JSON</span><span class="p">;</span>
+         
+         <span class="nx">runCapture</span><span class="p">();</span>
       <span class="p">}</span>
    <span class="p">}</span>
    
@@ -872,13 +889,15 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          
       <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">gW</span><span class="p">.</span><span class="nx">stopit</span><span class="p">();</span>
-         <span class="nb">window</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoVersion</span><span class="p">()</span> <span class="o">+</span>
-                     <span class="s2">&quot;\nUnable to restore this capture. &quot;</span> <span class="o">+</span>
-                     <span class="s2">&quot;\n   Possibly you&#39;ve been boldly editing the JSON text.&quot;</span> <span class="o">+</span>
-                     <span class="s2">&quot;\n   If so, please refine your edits or start from a new capture.&quot;</span> <span class="o">+</span>
-                     <span class="s2">&quot;\n&quot;</span> <span class="o">+</span>
-                     <span class="s2">&quot;\n&quot;</span> <span class="o">+</span> <span class="nx">err</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span>
-                     <span class="s2">&quot;\nmessage:  &quot;</span> <span class="o">+</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+         
+         <span class="kd">let</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoVersion</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&lt;br&gt;&quot;</span> <span class="o">+</span>
+                       <span class="s2">&quot;Unable to restore this capture.&lt;br&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
+                       <span class="s2">&quot;Possibly you&#39;ve been boldly editing the JSON text (that&#39;s good, BTW). &quot;</span> <span class="o">+</span>
+                       <span class="s2">&quot;If so, please refine your edits or start from a new capture.&lt;br&gt;&lt;br&gt;&quot;</span> <span class="o">+</span>
+                       <span class="s2">&quot;error name: &quot;</span> <span class="o">+</span> <span class="nx">err</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;&lt;br&gt;&quot;</span> <span class="o">+</span>
+                       <span class="s2">&quot;error message: &quot;</span> <span class="o">+</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+         <span class="nx">pS</span><span class="p">.</span><span class="nx">viewGeneralDialog</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="s2">&quot;error in capture&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="nx">message</span><span class="p">,</span> <span class="s2">&quot;label_close&quot;</span><span class="o">:</span><span class="s2">&quot;close&quot;</span><span class="p">});</span>
+         
          <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
       <span class="p">}</span>
    <span class="p">}</span>
@@ -1252,7 +1271,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    
    <span class="nx">async</span> <span class="kd">function</span> <span class="nx">postCaptureToCF</span><span class="p">(</span> <span class="nx">pars</span><span class="o">=</span><span class="p">{})</span> <span class="p">{</span>
       <span class="kd">let</span> <span class="nx">action</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">action</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">);</span>
-      <span class="kd">let</span> <span class="nx">downLoadKey</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">downLoadKey</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+      <span class="kd">let</span> <span class="nx">actionType</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">actionType</span><span class="p">,</span> <span class="s2">&quot;normal&quot;</span><span class="p">);</span>
+      <span class="kd">let</span> <span class="nx">downLoadKey</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">downLoadKey</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span> <span class="c1">// key for KV (key-value) storage at Cloudflare </span>
       
       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;inside poster v25, key = &quot;</span> <span class="o">+</span> <span class="nx">downLoadKey</span><span class="p">);</span>
       
@@ -1286,11 +1306,11 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="k">return</span><span class="p">;</span>
          <span class="p">}</span> 
          
-         <span class="c1">// Pick which of the three variations of postOne: delete, update, and post.</span>
+         <span class="c1">// Based on actionType in pars, pick which of the three variations of postOne: deleteOne, updateOne, and postOne.</span>
          <span class="c1">// Make it a little harder to delete captures.</span>
          <span class="kd">let</span> <span class="nx">nickName</span> <span class="o">=</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span><span class="p">)</span> <span class="o">?</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s2">&quot;local&quot;</span><span class="p">].</span><span class="nx">nickName</span> <span class="o">:</span> <span class="s2">&quot;host&quot;</span><span class="p">;</span>
          
-         <span class="k">if</span> <span class="p">((</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">))</span> <span class="p">{</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">actionType</span> <span class="o">==</span> <span class="s2">&quot;delete&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;jim&quot;</span><span class="p">)</span> <span class="p">{</span>                  
                <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#chkC19&#39;</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">))</span> <span class="p">{</span>
                   <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;deleteOne&quot;</span><span class="p">;</span>
@@ -1304,7 +1324,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;deleteOne request&quot;</span><span class="p">);</span>
             <span class="p">}</span> 
             
-         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="p">{</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">actionType</span> <span class="o">==</span> <span class="s2">&quot;update&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;updateOne&quot;</span><span class="p">;</span>
             <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;updateOne request&quot;</span><span class="p">);</span>
                

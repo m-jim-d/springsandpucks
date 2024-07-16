@@ -15,6 +15,7 @@
    <meta property="og:image" content="https://triquence.org/screenshots/colormixer.png">
 
    <link href="hostAndClient.css?v=26" rel="stylesheet" type="text/css">  
+   <link href="dialog.css?v=26" rel="stylesheet" type="text/css">  
 
    <!-- Google icon library -->
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -51,43 +52,43 @@
      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
    </script>
 
-   <script src="Box2D.js?v=85"></script>
+   <script src="Box2D.js?v=90"></script>
 
-   <script src="utilities.js?v=85"></script>
-   <script src="pageStuff.js?v=85"></script>
-   <script src="worldScreen.js?v=85"></script>
+   <script src="utilities.js?v=90"></script>
+   <script src="pageStuff.js?v=90"></script>
+   <script src="worldScreen.js?v=90"></script>
    
-   <script src="drawFunc.js?v=85"></script>
-   <script src="consAndPros.js?v=85"></script>
-   <script src="clientProto.js?v=85"></script>
-   <script src="piEngine.js?v=85"></script>
+   <script src="drawFunc.js?v=90"></script>
+   <script src="consAndPros.js?v=90"></script>
+   <script src="clientProto.js?v=90"></script>
+   <script src="piEngine.js?v=90"></script>
    
-   <script src="tableActs.js?v=85"></script>
-   <script src="multiSelect.js?v=85"></script>
-   <script src="gwModule.js?v=92"></script>
+   <script src="tableActs.js?v=90"></script>
+   <script src="multiSelect.js?v=90"></script>
+   <script src="gwModule.js?v=90"></script>
    
-   <script src="demoStart.js?v=92"></script>
-   <script src="eventsHost.js?v=85"></script>
-   <script src="boxStuff.js?v=85"></script>
+   <script src="demoStart.js?v=90"></script>
+   <script src="eventsHost.js?v=90"></script>
+   <script src="boxStuff.js?v=90"></script>
 
    <!-- for testing: load client via script element
    <script src="https://triquence-ca88d70f0e55.herokuapp.com/socket.io/socket.io.js"></script>
    -->
-   <script src="hostAndClient.js?v=85"></script>
-   <script src="eventsNonHost.js?v=85"></script>
+   <script src="hostAndClient.js?v=90"></script>
+   <script src="eventsNonHost.js?v=90"></script>
 
-   <script src="captureRestore.js?v=94"></script>
-   <script src="leaderBoard.js?v=85"></script>
-   <script src="ghostBall.js?v=85"></script>
-   <script src="puckPopper.js?v=85"></script>
-   <script src="jelloMadness.js?v=85"></script>
-   <script src="bpHoops.js?v=85"></script>
-   <script src="monkeyHunt.js?v=85"></script>
+   <script src="captureRestore.js?v=90"></script>
+   <script src="leaderBoard.js?v=90"></script>
+   <script src="ghostBall.js?v=90"></script>
+   <script src="puckPopper.js?v=90"></script>
+   <script src="jelloMadness.js?v=90"></script>
+   <script src="bpHoops.js?v=90"></script>
+   <script src="monkeyHunt.js?v=90"></script>
 
    <!-- put a capture into the page level global: demo_6_fromFile -->
-   <script src="demo6.js?v=85"></script>
+   <script src="demo6.js?v=90"></script>
    <!-- put a capture into the page level global: demo_8_fromFile -->
-   <script src="demo8.js?v=85"></script>
+   <script src="demo8.js?v=90"></script>
    <!--
    <script src="demo2b.js"></script>
    -->
@@ -106,13 +107,26 @@
       
       // After the page loads (and canvas element is defined)....
       $(document).ready( function() { 
-         pS.init({"pageDesc":"SP: Main", "logPage":true, "scrollAdjust":-13, "scrollAtLoad":false});
+         pS.init({"pageDesc":"SP: Main", "logPage":true, "scrollAdjust":-13, "scrollAtLoad":false, "generalDialog":true});
          gW.init();
          hC.init_chatFeatures();
       });
    </script> 
 
 </head>
+
+<body>
+
+<dialog id="generalDialog" style="z-index:5; width:400px">
+   <h2 class="dialog" id="title">The title</h2>
+   <p id="dialogMessage">The message</p>
+   <form method="dialog">
+      <button class="dialog" id="gD-accept"  value="accept"                     >Accept</button>
+      <button class="dialog" id="gD-reject"  value="reject"                     >Reject</button>    
+      <button class="dialog" id="gD-close"   value="close" style="float:right;" >Close (no change)</button>
+   </form>
+   <span id="gD-purpose" style="display:none;"><span> 
+</dialog>
 
 <!-- the puck costumes -->
 <div style="display:none;">
@@ -588,7 +602,7 @@ to rejoin the room under a new nickname (chat input).
                Click on this option, then "Run" the resulting modified capture.</li>
                <li>The "modify capture" procedure operates on selected elements, editing the capture based on a substitution string in the chat field. 
                For example, starting with a capture of demo 1, put {"color": "brown"} in the chat field (use the "m" key if chat is hidden), 
-               select a few pucks, click this option, then "Run" the modified capture.</li>
+               select a few pucks, click this option (or shift-m shortcut). The modified capture will automatically run.</li>
             </ul>
          </details>
          <br>
@@ -2117,7 +2131,7 @@ solo players.'>Friendly fire<br>
             
             <option value="bullets-from-pucks" title="bullets from human clients (demos 7 and 8) are fabricated (cannibalized) from the client's puck, shrinking it.">bullets from pucks</option>
             <option value="shift-capture" title="shift a small-canvas capture to the center of a larger full-screen canvas">shift capture</option>
-            <option value="modify-capture" title="modify the capture for the selected table objects using the JSON in the chat field">modify capture</option>
+            <option value="modify-capture" title="modify the capture for the selected table objects using the JSON in the chat field (shortcut: shift-m)">modify capture</option>
             
          </select>
          </div>
@@ -2140,7 +2154,7 @@ To run and immediately take a capture (a refresh):
          <button class="tight" onclick="cR.fileWriter();" title="Save the capture out to a local file">S</button>
          <button class="tight" onclick="cR.filePicker();" title="Load a local file to the capture text area">L</button>
          
-         <button class="tight" onclick="cR.postCaptureToCF({'action':'postOne'});" style="margin-left: 1px;" title=
+         <button id="button-postToCloud" class="tight" style="margin-left: 1px;" title=
 'POST the current capture to cloud storage.
 To UPDATE an existing cloud capture, use this button with the "Shift" key down.
 To DELETE a cloud capture, use this button with the "Shift" and "Ctrl" keys down.'>P</button>

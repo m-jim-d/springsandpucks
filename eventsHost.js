@@ -951,7 +951,18 @@ window.eV = (function() {
                   }
                   */               
                } else if (keyMap[e.keyCode] == 'key_m') { 
-                  $('#chkMultiplayer').trigger('click');
+                  // Note: ctrl key (down) seems to block this m key event. 
+                  //console.log("key_m block, ctrl=" + clients['local'].key_ctrl + ", alt=" + clients['local'].key_alt + ", shift=" + clients['local'].key_shift);
+                  if (clients['local'].key_shift == 'D') {
+                     if (gW.hostMSelect.count() == 0) { 
+                        let message = "You must select at least one object to run this JSON modification function.";
+                        pS.viewGeneralDialog({"title":"nothing selected", "message":message, "label_close":"close"});
+                     } else {
+                        cR.modifyCapture();
+                     }
+                  } else {
+                     $('#chkMultiplayer').trigger('click');
+                  }
                   
                } else if (keyMap[e.keyCode] == 'key_n') { 
                   key_n_handler('local');
@@ -1697,6 +1708,54 @@ window.eV = (function() {
             cR.saveState();
             
          }, waitForFullScreen); // delay needed for Firefox
+         
+      }, {capture: false});
+      
+      // Button on host for posting captures to CloudFlare
+      dC.postToCloud = document.getElementById('button-postToCloud');
+      dC.postToCloud.addEventListener("click", function() {
+         console.log("inside new cloud-post handler");
+         
+         let warningMessage, acceptLabel, purpose;
+         
+         let leftPanelInfo = "<li>Responses from the server are displayed in the chat (left panel).";
+         let deletAndUpdatInfo = "<ul>" +
+                                 "<li>This will target the cloud capture having the same name " +
+                                     "as the local capture's demoVersion (right panel)." +
+                                 leftPanelInfo + 
+                                 "</ul>";
+         
+         if ((clients['local'].key_ctrl == 'D') && (clients['local'].key_shift == 'D')) {
+            warningMessage = "This will attempt to <strong>DELETE</strong> the corresponding capture in cloud storage.<br>" + 
+                             deletAndUpdatInfo +
+                             "Continue ?"; 
+            acceptLabel = "go ahead, try to DELETE it";
+            purpose = "post-delete";
+            
+         } else if (clients['local'].key_shift == 'D') {
+            warningMessage = "This will attempt to <strong>UPDATE</strong> the corresponding capture in cloud storage.<br>" +
+                             deletAndUpdatInfo +
+                             "Continue ?"; 
+            acceptLabel = "go ahead, try to UPDATE it";
+            purpose = "post-update";
+            
+         } else {
+            warningMessage = "This will attempt to <strong>POST</strong> the current capture to cloud storage.<br>" + 
+                             "<ul>" +
+                                "<li>To UPDATE a previously posted cloud capture, " +
+                                    "click the P button while holding the SHIFT key down." +
+                                "<li>To DELETE a cloud capture, click the P button while " + 
+                                    "holding the CTRL and SHIFT keys down." +
+                                leftPanelInfo + 
+                             "</ul>" +
+                             "Continue ?";
+            acceptLabel = "go ahead, try to POST it";
+            purpose = "post-normal";
+         }
+         
+         pS.viewGeneralDialog({"title":"first, a check", "message":warningMessage, 
+                               "label_accept":acceptLabel, "label_reject":"cancel", "label_close":"close",
+                               "purpose":purpose});
          
       }, {capture: false});
       
