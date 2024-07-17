@@ -1327,7 +1327,7 @@ window.cR = (function() {
             
             if (jsonInResponse.action == "postOne") { 
                if (jsonInResponse.foundOne) {
-                  hC.displayMessage("Cloud capture found. That name is in use. If you're trying to update an existing capture, hold the shift key down while clicking the 'P' button.");
+                  hC.displayMessage("Cloud capture <strong>" + captureObject.demoVersion + "</strong> found. That name is in use. If you're trying to update an existing capture, hold the shift key down while clicking the 'P' button.");
                   
                } else {
                   hC.displayMessage("Capture <strong>" + captureObject.demoVersion + "</strong> posted to Cloud storage for <strong>" + nickName + "</strong>.<br>" +
@@ -1339,13 +1339,13 @@ window.cR = (function() {
             } else if (jsonInResponse.action == "updateOne") {
                if (jsonInResponse.foundOne) {
                   if (jsonInResponse.updated) {
-                     hC.displayMessage("Cloud capture found and updated.");
+                     hC.displayMessage("Cloud capture <strong>" + captureObject.demoVersion + "</strong> found and updated.");
                   } else {
-                     hC.displayMessage("Cloud capture found, but no change detected. Update not needed.");
+                     hC.displayMessage("Cloud capture <strong>" + captureObject.demoVersion + "</strong> found. Update not needed. No difference detected.");
                   }
                   
                } else {
-                  hC.displayMessage("Cloud capture not found. You may need to do an initial post (without the shift key down). Then updates should work.");
+                  hC.displayMessage("Cloud capture <strong>" + captureObject.demoVersion + "</strong> not found. You may need to do an initial post (without the shift key down). Then updates should work.");
                   
                }
                

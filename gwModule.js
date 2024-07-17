@@ -164,7 +164,7 @@ window.gW = (function() {
                  '32':'key_space', 
                  
                  // Note that default behavior is blocked on all these arrow-key type keys. Search on
-                 // editKeysMap in the handler for the keydown event.
+                 // editKeysMap in the handler for the keydown event (in eventsHost.js).
                  // Exceptions to this are the key_+ and key_- number-pad keys that are in the allowDefaultKeysMap.
                  // This allows the desired native zoom feature when using the ctrl key along with these keys.  
                  '33':'key_pageUp', '34':'key_pageDown', 

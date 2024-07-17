@@ -538,6 +538,7 @@ window.eV = (function() {
    
    function initializeEventListeners() {
    
+      /* */
       // text area for JSON captures
       dC.json = document.getElementById('jsonCapture');
       dC.json.addEventListener("mousedown", function( e) {
@@ -732,7 +733,7 @@ window.eV = (function() {
          // Uncomment the following line for an easy test to see if the default key behavior can be inhibited.
          //e.preventDefault();
          
-         //console.log(e.keyCode + " down/repeated, " + keyMap[e.keyCode]);
+         console.log(e.keyCode + " down/repeated V2, " + keyMap[e.keyCode]);
          
          // The following is necessary in Firefox to avoid the spacebar from re-clicking 
          // page controls (like the demo buttons) if they have focus.
@@ -752,7 +753,7 @@ window.eV = (function() {
          */
          
          // Note: the activeElement clause avoids acting on keystrokes while typing in the input cells in MS Edge.
-         if ((e.keyCode in keyMap) && (document.activeElement.tagName != 'INPUT')) {
+         if ((e.keyCode in keyMap) && (document.activeElement.tagName != 'INPUT')) { 
             // If you want down keys to repeat, put them here.
             
             // Inhibit default behaviors.
@@ -1714,7 +1715,7 @@ window.eV = (function() {
       // Button on host for posting captures to CloudFlare
       dC.postToCloud = document.getElementById('button-postToCloud');
       dC.postToCloud.addEventListener("click", function() {
-         let warningMessage, acceptLabel, purpose;
+         let warningMessage, acceptLabel, purpose, title;
          
          let leftPanelInfo = "<li class='dialog'>Responses from the server are displayed in the chat (left panel).";
          let deletAndUpdatInfo = "<ul class='dialog'>" +
@@ -1724,21 +1725,23 @@ window.eV = (function() {
                                  "</ul>";
          
          if ((clients['local'].key_ctrl == 'D') && (clients['local'].key_shift == 'D')) {
-            warningMessage = "This will attempt to <strong>DELETE</strong> the corresponding capture in cloud storage.<br>" + 
+            warningMessage = "This will attempt to DELETE the corresponding capture in cloud storage.<br>" + 
                              deletAndUpdatInfo +
                              "Continue ?"; 
             acceptLabel = "go ahead, try to DELETE it";
             purpose = "post-delete";
+            title = "DELETE";
             
          } else if (clients['local'].key_shift == 'D') {
-            warningMessage = "This will attempt to <strong>UPDATE</strong> the corresponding capture in cloud storage.<br>" +
+            warningMessage = "This will attempt to UPDATE the corresponding capture in cloud storage.<br>" +
                              deletAndUpdatInfo +
                              "Continue ?"; 
             acceptLabel = "go ahead, try to UPDATE it";
             purpose = "post-update";
+            title = "UPDATE";
             
          } else {
-            warningMessage = "This will attempt to <strong>POST</strong> the current capture to cloud storage.<br>" + 
+            warningMessage = "This will attempt to POST the current capture to cloud storage.<br>" + 
                              "<ul class='dialog'>" +
                                 "<li class='dialog'>To UPDATE a previously posted cloud capture, " +
                                     "click the P button while holding the SHIFT key down." +
@@ -1749,9 +1752,10 @@ window.eV = (function() {
                              "Continue ?";
             acceptLabel = "go ahead, try to POST it";
             purpose = "post-normal";
+            title = "POST";
          }
          
-         pS.viewGeneralDialog({"title":"first, a check", "message":warningMessage, 
+         pS.viewGeneralDialog({"title":title, "message":warningMessage,
                                "label_accept":acceptLabel, "label_reject":"cancel", "label_close":"close",
                                "purpose":purpose});
          
