@@ -734,7 +734,7 @@ window.eV = (function() {
          // Uncomment the following line for an easy test to see if the default key behavior can be inhibited.
          //e.preventDefault();
          
-         console.log("keyCode=" + e.keyCode + ", code=" + e.code + ", key=" + e.key + ", mapName=" + keyMap[e.keyCode]);
+         //console.log("keyCode=" + e.keyCode + ", code=" + e.code + ", key=" + e.key + ", mapName=" + keyMap[e.keyCode]);
          
          // The following is necessary in Firefox to avoid the spacebar from re-clicking 
          // page controls (like the demo buttons) if they have focus.
