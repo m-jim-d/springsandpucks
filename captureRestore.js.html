@@ -758,6 +758,9 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoIndex</span><span class="p">());</span>
             <span class="nx">saveState</span><span class="p">();</span>
             <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s1">&#39;A capture has been taken.&#39;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">);</span>
+            
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s1">&#39;The capture text area is empty.&#39;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">);</span>
          <span class="p">}</span>
          
          <span class="c1">// Make sure the loop isn&#39;t paused so the help messages are displayed.</span>

@@ -662,6 +662,9 @@ window.cR = (function() {
             dS.demoStart( gW.getDemoIndex());
             saveState();
             gW.messages['help'].newMessage('A capture has been taken.', 2.0);
+            
+         } else {
+            gW.messages['help'].newMessage('The capture text area is empty.', 2.0);
          }
          
          // Make sure the loop isn't paused so the help messages are displayed.
