@@ -636,23 +636,28 @@ window.cR = (function() {
    function runCapture( pars={}) {
       let fromKeyBoard = uT.setDefault( pars.fromKeyBoard, false);
       let state_capture, demoIndex;
-      
-      state_capture = loadJSON( gW.dC.json);
-      
+            
       let shift_key = gW.clients['local'].key_shift; // before the key-state reset that is in demoStart
       
-      if (state_capture) { 
+      // Capture available
+      if (gW.dC.json.value != "") {
+         let state_capture = loadJSON( gW.dC.json);
+         if ( ! state_capture) return; // must be error in json
          demoIndex = state_capture.demoIndex;
          dS.demoStart( demoIndex, {'scrollCA':false});
          
-         // grab a capture before the engine changes state...
+         // If shift key is down and using a button (not keyboard), after starting the demo from the capture, 
+         // immediately grab a capture before the engine changes state. This is an easy way to update
+         // an older capture.
          if ((shift_key == "D") && ( ! fromKeyBoard)) {
             saveState();
             gW.messages['help'].newMessage('The capture has been updated.', 2.0);
          }
          
+      // No capture 
       } else {
-         // grab a capture before the engine changes state...
+         // If shift key is down and using a button (not keyboard), start the demo, then immediately grab a capture 
+         // before the engine changes state. This is a good way to take a capture of an "a" version demo.
          if ((shift_key == "D") && ( ! fromKeyBoard)) {
             dS.demoStart( gW.getDemoIndex());
             saveState();

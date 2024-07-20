@@ -557,6 +557,7 @@ window.eV = (function() {
                   window.scrollBy( 200, 0);
                }, 600);
             }
+         // mouse-wheel click
          } else if (e.button == 1) {
             e.preventDefault();
             cR.cleanCapture();
@@ -733,12 +734,13 @@ window.eV = (function() {
          // Uncomment the following line for an easy test to see if the default key behavior can be inhibited.
          //e.preventDefault();
          
-         console.log(e.keyCode + " down/repeated V2, " + keyMap[e.keyCode]);
+         console.log("keyCode=" + e.keyCode + ", code=" + e.code + ", key=" + e.key + ", mapName=" + keyMap[e.keyCode]);
          
          // The following is necessary in Firefox to avoid the spacebar from re-clicking 
          // page controls (like the demo buttons) if they have focus.
          // This also prevents some unwanted spacebar-related button behavior in Chrome.
-         if ((document.activeElement.tagName != 'BODY') && (document.activeElement.tagName != 'INPUT')) {
+         // (document.activeElement.tagName != 'BODY') && (document.activeElement.tagName != 'INPUT')
+         if ( ! ['BODY','INPUT','TEXTAREA'].includes( document.activeElement.tagName)) {     
             document.activeElement.blur();
          }
          
@@ -752,9 +754,13 @@ window.eV = (function() {
          the key state (up/down) each frame. 
          */
          
-         // Note: the activeElement clause avoids acting on keystrokes while typing in the input cells in MS Edge.
-         if ((e.keyCode in keyMap) && (document.activeElement.tagName != 'INPUT')) { 
+         if (e.keyCode in keyMap) { 
             // If you want down keys to repeat, put them here.
+            
+            // First, exit if focus is in the typing areas (exceptions are the modifier keys that might be used with buttons).
+            if ( ['INPUT','TEXTAREA'].includes( document.activeElement.tagName) && ( ! ['key_alt','key_shift','key_ctrl'].includes( keyMap[e.keyCode])) ) {
+               return;
+            }
             
             // Inhibit default behaviors.
             if (['key_space', 'key_l', 'key_s', 'key_q', 'key_alt', 'key_questionMark', 'key_tab'].includes( keyMap[e.keyCode])) {

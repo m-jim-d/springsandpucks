@@ -438,6 +438,11 @@ window.eVN = (function() {
          }
          
          if (e.keyCode in keyMap) {
+            // First, exit if in the typing areas (exceptions are the modifier keys that might be used with buttons).
+            if ( ['INPUT','TEXTAREA'].includes( document.activeElement.tagName) && ( ! ['alt','sh','ct'].includes( keyMap[e.keyCode])) ) {
+               return;
+            }
+            
             if (mK[keyMap[e.keyCode]] == 'U') {
                // Set the key to DOWN.
                mK[keyMap[e.keyCode]] = 'D';

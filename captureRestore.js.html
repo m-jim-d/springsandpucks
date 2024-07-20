@@ -732,23 +732,28 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="kd">function</span> <span class="nx">runCapture</span><span class="p">(</span> <span class="nx">pars</span><span class="o">=</span><span class="p">{})</span> <span class="p">{</span>
       <span class="kd">let</span> <span class="nx">fromKeyBoard</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">fromKeyBoard</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
       <span class="kd">let</span> <span class="nx">state_capture</span><span class="p">,</span> <span class="nx">demoIndex</span><span class="p">;</span>
-      
-      <span class="nx">state_capture</span> <span class="o">=</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">);</span>
-      
+            
       <span class="kd">let</span> <span class="nx">shift_key</span> <span class="o">=</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span><span class="p">;</span> <span class="c1">// before the key-state reset that is in demoStart</span>
       
-      <span class="k">if</span> <span class="p">(</span><span class="nx">state_capture</span><span class="p">)</span> <span class="p">{</span> 
+      <span class="c1">// Capture available</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span>
+         <span class="kd">let</span> <span class="nx">state_capture</span> <span class="o">=</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">);</span>
+         <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">state_capture</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span> <span class="c1">// must be error in json</span>
          <span class="nx">demoIndex</span> <span class="o">=</span> <span class="nx">state_capture</span><span class="p">.</span><span class="nx">demoIndex</span><span class="p">;</span>
          <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span> <span class="nx">demoIndex</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;scrollCA&#39;</span><span class="o">:</span><span class="kc">false</span><span class="p">});</span>
          
-         <span class="c1">// grab a capture before the engine changes state...</span>
+         <span class="c1">// If shift key is down and using a button (not keyboard), after starting the demo from the capture, </span>
+         <span class="c1">// immediately grab a capture before the engine changes state. This is an easy way to update</span>
+         <span class="c1">// an older capture.</span>
          <span class="k">if</span> <span class="p">((</span><span class="nx">shift_key</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">fromKeyBoard</span><span class="p">))</span> <span class="p">{</span>
             <span class="nx">saveState</span><span class="p">();</span>
             <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s1">&#39;The capture has been updated.&#39;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">);</span>
          <span class="p">}</span>
          
+      <span class="c1">// No capture </span>
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-         <span class="c1">// grab a capture before the engine changes state...</span>
+         <span class="c1">// If shift key is down and using a button (not keyboard), start the demo, then immediately grab a capture </span>
+         <span class="c1">// before the engine changes state. This is a good way to take a capture of an &quot;a&quot; version demo.</span>
          <span class="k">if</span> <span class="p">((</span><span class="nx">shift_key</span> <span class="o">==</span> <span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">fromKeyBoard</span><span class="p">))</span> <span class="p">{</span>
             <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">getDemoIndex</span><span class="p">());</span>
             <span class="nx">saveState</span><span class="p">();</span>
@@ -1423,7 +1428,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             
             <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;postOne&quot;</span><span class="p">)</span> <span class="p">{</span> 
                <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundOne</span><span class="p">)</span> <span class="p">{</span>
-                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture found. That name is in use. If you&#39;re trying to update an existing capture, hold the shift key down while clicking the &#39;P&#39; button.&quot;</span><span class="p">);</span>
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; found. That name is in use. If you&#39;re trying to update an existing capture, hold the shift key down while clicking the &#39;P&#39; button.&quot;</span><span class="p">);</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                   <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; posted to Cloud storage for &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">nickName</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt;.&lt;br&gt;&quot;</span> <span class="o">+</span>
@@ -1435,13 +1440,13 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">action</span> <span class="o">==</span> <span class="s2">&quot;updateOne&quot;</span><span class="p">)</span> <span class="p">{</span>
                <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">foundOne</span><span class="p">)</span> <span class="p">{</span>
                   <span class="k">if</span> <span class="p">(</span><span class="nx">jsonInResponse</span><span class="p">.</span><span class="nx">updated</span><span class="p">)</span> <span class="p">{</span>
-                     <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture found and updated.&quot;</span><span class="p">);</span>
+                     <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; found and updated.&quot;</span><span class="p">);</span>
                   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                     <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture found, but no change detected. Update not needed.&quot;</span><span class="p">);</span>
+                     <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; found. Update not needed. No difference detected.&quot;</span><span class="p">);</span>
                   <span class="p">}</span>
                   
                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture not found. You may need to do an initial post (without the shift key down). Then updates should work.&quot;</span><span class="p">);</span>
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;Cloud capture &lt;strong&gt;&quot;</span> <span class="o">+</span> <span class="nx">captureObject</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strong&gt; not found. You may need to do an initial post (without the shift key down). Then updates should work.&quot;</span><span class="p">);</span>
                   
                <span class="p">}</span>
                

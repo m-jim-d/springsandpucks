@@ -833,10 +833,16 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
       <span class="p">});</span>
       
-      <span class="c1">// Prevent typing in the input fields from triggering document level keyboard events.</span>
-      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inputField, #nodeServer, #roomName, #jsonCapture&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;keyup keydown keypress&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span> <span class="c1">// stops bubbling...</span>
-      <span class="p">});</span>
+      <span class="cm">/*</span>
+<span class="cm">      Leaving this here (commented). Replaced this bubbling stopper (for typing areas) with a more controlled exit</span>
+<span class="cm">      in the keydown handler for the host and also for the client. That allows for modifier keys</span>
+<span class="cm">      to be processed in the event handler even if the focus is in an input area.</span>
+<span class="cm">      </span>
+<span class="cm">      // Prevent typing in the input fields from triggering document level keyboard events.  </span>
+<span class="cm">      $(&#39;#inputField, #nodeServer, #roomName, #jsonCapture&#39;).on(&#39;keyup keydown keypress&#39;, function( e) {</span>
+<span class="cm">         e.stopPropagation(); // stops bubbling...</span>
+<span class="cm">      });</span>
+<span class="cm">      */</span>
       
       <span class="c1">// A first message in the chat area</span>
       <span class="kd">var</span> <span class="nx">helloMessage</span><span class="p">,</span> <span class="nx">helloMessageA</span><span class="p">;</span>

@@ -737,10 +737,16 @@ window.hC = (function() {
          return false;
       });
       
-      // Prevent typing in the input fields from triggering document level keyboard events.
+      /*
+      Leaving this here (commented). Replaced this bubbling stopper (for typing areas) with a more controlled exit
+      in the keydown handler for the host and also for the client. That allows for modifier keys
+      to be processed in the event handler even if the focus is in an input area.
+      
+      // Prevent typing in the input fields from triggering document level keyboard events.  
       $('#inputField, #nodeServer, #roomName, #jsonCapture').on('keyup keydown keypress', function( e) {
          e.stopPropagation(); // stops bubbling...
       });
+      */
       
       // A first message in the chat area
       var helloMessage, helloMessageA;
