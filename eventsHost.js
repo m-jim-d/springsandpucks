@@ -734,7 +734,7 @@ window.eV = (function() {
          // Uncomment the following line for an easy test to see if the default key behavior can be inhibited.
          //e.preventDefault();
          
-         //console.log("keyCode=" + e.keyCode + ", code=" + e.code + ", key=" + e.key + ", mapName=" + keyMap[e.keyCode]);
+         //console.log("keyCode=" + e.keyCode + ", code=" + e.code + ", key=" + e.key + ", mapName=" + keyMap[e.code]);
          
          // The following is necessary in Firefox to avoid the spacebar from re-clicking 
          // page controls (like the demo buttons) if they have focus.
@@ -754,16 +754,16 @@ window.eV = (function() {
          the key state (up/down) each frame. 
          */
          
-         if (e.keyCode in keyMap) { 
+         if (e.code in keyMap) { 
             // If you want down keys to repeat, put them here.
             
             // First, exit if focus is in the typing areas (exceptions are the modifier keys that might be used with buttons).
-            if ( ['INPUT','TEXTAREA'].includes( document.activeElement.tagName) && ( ! ['key_alt','key_shift','key_ctrl'].includes( keyMap[e.keyCode])) ) {
+            if ( ['INPUT','TEXTAREA'].includes( document.activeElement.tagName) && ( ! ['key_alt','key_shift','key_ctrl'].includes( keyMap[e.code])) ) {
                return;
             }
             
             // Inhibit default behaviors.
-            if (['key_space', 'key_l', 'key_s', 'key_q', 'key_alt', 'key_questionMark', 'key_tab'].includes( keyMap[e.keyCode])) {
+            if (['key_space', 'key_l', 'key_s', 'key_q', 'key_alt', 'key_questionMark', 'key_tab'].includes( keyMap[e.code])) {
                // Inhibit page scrolling that results from using the spacebar (when using puck shields)
                // Also inhibit repeat presses of the demo keys when using the spacebar.
                // Inhibit ctrl-s behavior in Firefox (save page).
@@ -774,11 +774,11 @@ window.eV = (function() {
                // Inhibit tabbing: jumping to each of the GUI controls on the page.
                e.preventDefault();
                 
-            } else if ((keyMap[e.keyCode] in editKeysMap) && !(keyMap[e.keyCode] in allowDefaultKeysMap)) {
+            } else if ((keyMap[e.code] in editKeysMap) && !(keyMap[e.code] in allowDefaultKeysMap)) {
                // Prevent page scrolling when using the arrow keys in the editor.
                e.preventDefault();
             
-            } else if (keyMap[e.keyCode] == 'key_o') {
+            } else if (keyMap[e.code] == 'key_o') {
                if (! dC.pause.checked) {
                   uT.setElementDisplay("fps_wrapper", "none");
                   uT.setElementDisplay("stepper_wrapper", "inline");
@@ -786,7 +786,7 @@ window.eV = (function() {
                gW.stepAnimation();
             
             // Change body rotation when editing.
-            } else if ((keyMap[e.keyCode] == 'key_t')) {
+            } else if ((keyMap[e.code] == 'key_t')) {
                gW.hostMSelect.applyToAll( tableObj => {
                   if (clients['local'].key_shift == 'D') {
                      // Increase rate counterclockwise
@@ -809,8 +809,8 @@ window.eV = (function() {
             }
             
             // Use the keys in the edit-keys map to change the characteristics of the selected body.
-            if (keyMap[e.keyCode] in editKeysMap) {
-               var command = editKeysMap[ keyMap[e.keyCode]];
+            if (keyMap[e.code] in editKeysMap) {
+               var command = editKeysMap[ keyMap[e.code]];
                
                function modifyPuckCommand( tableObject, command) {
                   // The host can use the alt key to modify angular drag on pucks...
@@ -876,21 +876,21 @@ window.eV = (function() {
             */
             
             // If the current key state is UP...
-            if (clients['local'][keyMap[e.keyCode]] == 'U') {
+            if (clients['local'][keyMap[e.code]] == 'U') {
                
                // Set the key state to be DOWN.
-               clients['local'][keyMap[e.keyCode]] = 'D';
+               clients['local'][keyMap[e.code]] = 'D';
                
                // Immediate execution on keydown (that's the event that got you in here):
                
-               if (keyMap[e.keyCode] == 'key_ctrl') {
+               if (keyMap[e.code] == 'key_ctrl') {
                   key_ctrl_handler('keydown', 'local');
                   
-               } else if (keyMap[e.keyCode] == 'key_l') {
+               } else if (keyMap[e.code] == 'key_l') {
                   key_l_handler('keydown', 'local');
                
                // For showing all the count-to-pi demos without exiting full-screen view (for making videos).
-               } else if ((clients['local'].key_alt == 'D') && (keyMap[e.keyCode] == 'key_pageDown')) {
+               } else if ((clients['local'].key_alt == 'D') && (keyMap[e.code] == 'key_pageDown')) {
                   if (c.demoLoopIndex == 0) {
                      cR.demoStart_fromCapture(1, {'fileName':'demoSeries1b.js'});
                   } else if (c.demoLoopIndex == 1)  {
@@ -906,21 +906,21 @@ window.eV = (function() {
                      c.demoLoopIndex += 1;
                   }
                   
-               } else if ((keyMap[e.keyCode] == 'key_a') && (clients['local'].key_ctrl == 'D')) {
+               } else if ((keyMap[e.code] == 'key_a') && (clients['local'].key_ctrl == 'D')) {
                   c.drawSyncImage = ( ! c.drawSyncImage);
                   cT.Client.applyToAll( client => {client.sendDrawSyncCommand = true;});
                                  
-               } else if ((keyMap[e.keyCode] == 'key_b')) {
+               } else if ((keyMap[e.code] == 'key_b')) {
                   key_b_handler('local');
                   
-               } else if ((keyMap[e.keyCode] == 'key_c') && (clients['local'].key_ctrl != 'D')) {
+               } else if ((keyMap[e.code] == 'key_c') && (clients['local'].key_ctrl != 'D')) {
                   key_c_handler('local');
                   
-               } else if ((keyMap[e.keyCode] == 'key_backspace') && (clients['local'].key_ctrl == 'D')) {
+               } else if ((keyMap[e.code] == 'key_backspace') && (clients['local'].key_ctrl == 'D')) {
                   reverseDirection();
                   gW.messages['help'].newMessage('translation and rotation have been [base,yellow]reversed[base]', 0.5);
                   
-               } else if (keyMap[e.keyCode] == 'key_f') { 
+               } else if (keyMap[e.code] == 'key_f') { 
                   if (clients['local'].key_alt == 'D') {
                      // nothing here yet
                   } else {
@@ -928,7 +928,7 @@ window.eV = (function() {
                      gW.messages['help'].newMessage('[base,yellow]translation[base] has been momentarily [base,yellow]stopped[base]', 1.0);
                   }
                   
-               } else if (keyMap[e.keyCode] == 'key_r') { 
+               } else if (keyMap[e.code] == 'key_r') { 
                   if ((clients['local'].key_alt == 'U') && (clients['local'].key_shift == 'U')) {
                      stopRotation();
                      gW.messages['help'].newMessage('[base,yellow]rotation[base] has been momentarily [base,yellow]stopped[base]', 0.5);
@@ -940,7 +940,7 @@ window.eV = (function() {
                      cR.runCapture({'fromKeyBoard':true});
                   }
                
-               } else if (keyMap[e.keyCode] == 'key_g') { 
+               } else if (keyMap[e.code] == 'key_g') { 
                   c.g_ON = !c.g_ON;
                   if (c.g_ON) {
                      dC.gravity.checked = true;
@@ -957,7 +957,7 @@ window.eV = (function() {
                      console.log("name=" + x);
                   }
                   */               
-               } else if (keyMap[e.keyCode] == 'key_m') { 
+               } else if (keyMap[e.code] == 'key_m') { 
                   // Note: ctrl key (down) seems to block this m key event. 
                   //console.log("key_m block, ctrl=" + clients['local'].key_ctrl + ", alt=" + clients['local'].key_alt + ", shift=" + clients['local'].key_shift);
                   if (clients['local'].key_shift == 'D') {
@@ -971,25 +971,25 @@ window.eV = (function() {
                      $('#chkMultiplayer').trigger('click');
                   }
                   
-               } else if (keyMap[e.keyCode] == 'key_n') { 
+               } else if (keyMap[e.code] == 'key_n') { 
                   key_n_handler('local');
                   
-               } else if (keyMap[e.keyCode] == 'key_u') { 
+               } else if (keyMap[e.code] == 'key_u') { 
                   cR.saveState();
                   gW.messages['help'].newMessage('state has been [base,yellow]captured[base]', 0.5);
                   
-               } else if ((keyMap[e.keyCode] == 'key_v') && (clients['local'].key_ctrl != 'D')) { 
+               } else if ((keyMap[e.code] == 'key_v') && (clients['local'].key_ctrl != 'D')) { 
                   eVN.changeFullScreenMode( canvas, 'on');
                   
-               } else if (keyMap[e.keyCode] == 'key_e') { 
+               } else if (keyMap[e.code] == 'key_e') { 
                   dC.editor.checked = !dC.editor.checked;
                   toggleEditorStuff();
                
-               } else if ((keyMap[e.keyCode] == 'key_p') && (clients['local'].key_shift != 'D') && (clients['local'].key_alt != 'D')) { 
+               } else if ((keyMap[e.code] == 'key_p') && (clients['local'].key_shift != 'D') && (clients['local'].key_alt != 'D')) { 
                   dC.pause.checked = !dC.pause.checked;
                   gW.setPauseState();
                
-               } else if ((keyMap[e.keyCode] == 'key_p') && (clients['local'].key_alt == 'D')) { 
+               } else if ((keyMap[e.code] == 'key_p') && (clients['local'].key_alt == 'D')) { 
                   gW.clearCanvas();
                   c.pauseErase = ! c.pauseErase;
                   if ((c.pauseErase) && (c.demoVersion.slice(0,3) == "3.d")) {
@@ -1000,7 +1000,7 @@ window.eV = (function() {
                   if ( ! c.pauseErase) gW.messages['help'].newMessage( 'screen erasing is [base,yellow]ON[base]', 0.5);
                
                // Toggle the default spring type
-               } else if ((keyMap[e.keyCode] == 'key_s') && (clients['local'].key_shift == 'D')) {
+               } else if ((keyMap[e.code] == 'key_s') && (clients['local'].key_shift == 'D')) {
                   // Clear this zo there is no spring report to conflict with the spring-nature report.
                   mS.clearMultiSelect();
                   
@@ -1045,11 +1045,11 @@ window.eV = (function() {
                   
                
                // Toggle the lock on the pool shot and set the speed value (z key pressed, while control and shift are down).
-               } else if ( (keyMap[e.keyCode] == 'key_z') && (((clients['local'].key_shift == 'D') && (clients['local'].key_ctrl == 'D')) || (clients['local'].ctrlShiftLock)) ) {
+               } else if ( (keyMap[e.code] == 'key_z') && (((clients['local'].key_shift == 'D') && (clients['local'].key_ctrl == 'D')) || (clients['local'].ctrlShiftLock)) ) {
                   gB.togglePoolShotLock( clients['local']);
                
                // Pause NPC navigation.
-               } else if ((keyMap[e.keyCode] == 'key_q') && (clients['local'].key_ctrl == 'D')) {
+               } else if ((keyMap[e.code] == 'key_q') && (clients['local'].key_ctrl == 'D')) {
                   pP.setNpcSleep( ! pP.getNpcSleep());
                   if (pP.getNpcSleep()) {
                      // Keep track of this during game play.
@@ -1063,7 +1063,7 @@ window.eV = (function() {
                   }
                   
                // Set delete (and select) mode offered in the tab menu for multiselect.
-               } else if (keyMap[e.keyCode] == 'key_tab') {
+               } else if (keyMap[e.code] == 'key_tab') {
                   if (gW.hostMSelect.count() > 1) {
                      if (gW.hostMSelect.selectModeIndex < 3) {
                         gW.hostMSelect.selectModeIndex++;
@@ -1091,7 +1091,7 @@ window.eV = (function() {
                   }
                   
                // Step through the springs and/or joints in the multiselect.
-               } else if (keyMap[e.keyCode] == 'key_enter') {
+               } else if (keyMap[e.code] == 'key_enter') {
                   
                   if (gW.hostMSelect.selectMode[ gW.hostMSelect.selectModeIndex] == "springs") {
                      gW.hostMSelect.stepThroughArray( aT.springMap);
@@ -1101,7 +1101,7 @@ window.eV = (function() {
                   }
                   
                // Delete stuff   
-               } else if ((keyMap[e.keyCode] == 'key_x') && (clients['local'].key_ctrl == 'D')) {
+               } else if ((keyMap[e.code] == 'key_x') && (clients['local'].key_ctrl == 'D')) {
                   
                   // First process multi-select
                   var foundSpringOrJoint = false;
@@ -1154,7 +1154,7 @@ window.eV = (function() {
                   }
                   
                // Identify a spring for copying.
-               } else if ((keyMap[e.keyCode] == 'key_c') && (clients['local'].key_ctrl == 'D')) {
+               } else if ((keyMap[e.code] == 'key_c') && (clients['local'].key_ctrl == 'D')) {
                   // If a candidate was already selected...
                   if ((gW.hostMSelect.selectMode[ gW.hostMSelect.selectModeIndex] == "springs") && (gW.hostMSelect.candidateReportPasteDelete)) {
                      cP.Spring.nameForPasting = gW.hostMSelect.candidateReportPasteDelete;
@@ -1210,7 +1210,7 @@ window.eV = (function() {
                   }
                
                // Paste a spring onto a pair of pucks.
-               } else if (keyMap[e.keyCode] == 'key_s') {
+               } else if (keyMap[e.code] == 'key_s') {
                   if (clients['local'].key_ctrl == 'D') {
                      if (clients['local'].key_alt == 'U') {
                         // paste a copy of a spring.
@@ -1225,7 +1225,7 @@ window.eV = (function() {
                   }
                
                // A general copy and paste of the selected bodies.
-               } else if ((keyMap[e.keyCode] == 'key_v') && (clients['local'].key_ctrl == 'D')) {
+               } else if ((keyMap[e.code] == 'key_v') && (clients['local'].key_ctrl == 'D')) {
                   // Single object or a group as selected using the techniques of multiselect.
                   if (gW.hostMSelect.count() > 0) {
                      gW.hostMSelect.pasteCopyAtCursor();
@@ -1250,25 +1250,26 @@ window.eV = (function() {
                      }
                   
                // numbers 0 to 9, run a demo
-               } else if ((e.keyCode >= 48) && (e.keyCode <= 57)) {
+               } else if (e.code.startsWith('Digit')) {
                   if (document.activeElement.tagName == 'BODY') {
-                     dS.demoStart(e.keyCode - 48, false);
+                     dS.demoStart( e.code.slice(5), false);
                   }
                }
+                             
             }            
          }
       }, {capture: false}); //This "false" makes this fire in the bubbling phase (not capturing phase).
       
       document.addEventListener("keyup", function(e) {
-         if (e.keyCode in keyMap) {
+         if (e.code in keyMap) {
             // Set the key state to be UP.
-            clients['local'][keyMap[e.keyCode]] = 'U';               
+            clients['local'][keyMap[e.code]] = 'U';               
          }
          
          // Some specific actions.
          
          // Done with box-based selection.
-         if (keyMap[e.keyCode] == 'key_alt') {
+         if (keyMap[e.code] == 'key_alt') {
             gW.hostSelectBox.stop();
             // This detach is needed for cases when ctrl-alt is used for multi-body rotations. This suppresses
             // the fling of the selected body that would result when the alt key is lifted. The "if" condition
@@ -1276,13 +1277,13 @@ window.eV = (function() {
             // is used to inhibit screen erasing each frame. Wow, that's a lot of explaining for one line of code.
             if (clients['local'].key_ctrl == 'D') clients['local'].modifyCursorSpring('detach');
             
-         } else if (keyMap[e.keyCode] == 'key_ctrl') {
+         } else if (keyMap[e.code] == 'key_ctrl') {
             // Detach the cursor spring. This prevents unintended movement when releasing the control key.
             //clients['local'].modifyCursorSpring('detach');
             
             key_ctrl_handler('keyup', 'local');
             
-         } else if (keyMap[e.keyCode] == 'key_shift') {
+         } else if (keyMap[e.code] == 'key_shift') {
             // Done with the rotation action. Get ready for the next one.
             gW.hostMSelect.resetCenter();
             clients['local'].modifyCursorSpring('detach');

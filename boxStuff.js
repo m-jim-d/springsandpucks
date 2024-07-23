@@ -143,6 +143,7 @@ window.bS = (function() {
                }
                
                // Count it as a hit, if not shooting yourself in the foot, and not friendly-fire restricted.
+               //console.log( bullet.clientNameOfShooter + "," + target.clientName + "," + ff_restricted);
                if ( (bullet.clientNameOfShooter != target.clientName) && ( ! ff_restricted) ) {
                   // if the shield is off or weakened...
                   if (!target.shield.ON || (target.shield.ON && !target.shield.STRONG)) {

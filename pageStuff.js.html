@@ -441,7 +441,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    <span class="p">}</span>
       
    <span class="kd">function</span> <span class="nx">initialize</span><span class="p">(</span> <span class="nx">pars</span><span class="o">=</span><span class="p">{})</span> <span class="p">{</span>
-      <span class="cm">/*  */</span>
       <span class="kd">let</span> <span class="nx">dialogOptions</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">dialogOptions</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
       <span class="kd">let</span> <span class="nx">generalDialog</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">generalDialog</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
       <span class="kd">let</span> <span class="nx">navMenu</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">navMenu</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
@@ -549,8 +548,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       
       <span class="c1">// event listener for keyboard operations with the scrolling history</span>
       <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;keydown&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-         <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span> <span class="k">in</span> <span class="nx">m_keyMap</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">let</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">m_keyMap</span><span class="p">[</span> <span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span><span class="p">];</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">code</span> <span class="k">in</span> <span class="nx">m_keyMap</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">let</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">m_keyMap</span><span class="p">[</span> <span class="nx">e</span><span class="p">.</span><span class="nx">code</span><span class="p">];</span>
             
             <span class="k">if</span> <span class="p">(</span><span class="nx">m_keyStates</span><span class="p">[</span> <span class="nx">key</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;U&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// inhibit key repeats</span>
                <span class="nx">m_keyStates</span><span class="p">[</span> <span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;D&#39;</span><span class="p">;</span>
@@ -576,8 +575,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">}</span>
       <span class="p">},</span> <span class="p">{</span><span class="nx">capture</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span> <span class="c1">//This &quot;false&quot; makes this fire in the bubbling phase (not capturing phase).</span>
       <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;keyup&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-         <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span> <span class="k">in</span> <span class="nx">m_keyMap</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">m_keyStates</span><span class="p">[</span> <span class="nx">m_keyMap</span><span class="p">[</span> <span class="nx">e</span><span class="p">.</span><span class="nx">keyCode</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;U&#39;</span><span class="p">;</span>               
+         <span class="k">if</span> <span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">code</span> <span class="k">in</span> <span class="nx">m_keyMap</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">m_keyStates</span><span class="p">[</span> <span class="nx">m_keyMap</span><span class="p">[</span> <span class="nx">e</span><span class="p">.</span><span class="nx">code</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;U&#39;</span><span class="p">;</span>               
          <span class="p">}</span>
       <span class="p">},</span> <span class="p">{</span><span class="nx">capture</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
       

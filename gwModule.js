@@ -151,37 +151,37 @@ window.gW = (function() {
    dC.player = null;
    dC.friendlyFire = null;
    dC.editor = null;
-      
+                    
    // Key values.
-   var keyMap = {'48':'key_0', '49':'key_1', '50':'key_2', '51':'key_3', '52':'key_4', '53':'key_5', '54':'key_6', '55':'key_7', '56':'key_8', '57':'key_9',
-                 '65':'key_a', '66':'key_b', '67':'key_c', '68':'key_d', '69':'key_e', '70':'key_f', '71':'key_g', 
-                 '73':'key_i', '74':'key_j', '75':'key_k', '76':'key_l', '77':'key_m', '78':'key_n', '79':'key_o', 
-                 '80':'key_p', '81':'key_q', '82':'key_r', '83':'key_s', 
-                 '84':'key_t', '85':'key_u', '86':'key_v', '87':'key_w', '88':'key_x', '90':'key_z',
+   var keyMap = {'Digit0':'key_0', 'Digit1':'key_1', 'Digit2':'key_2', 'Digit3':'key_3', 'Digit4':'key_4', 
+                 'Digit5':'key_5', 'Digit6':'key_6', 'Digit7':'key_7', 'Digit8':'key_8', 'Digit9':'key_9',
                  
-                 '8':'key_backspace', '9':'key_tab', '13':'key_enter', '16':'key_shift', '17':'key_ctrl', 
-                 '18':'key_alt', // both left and right alt key on Windows
-                 '32':'key_space', 
+                 'KeyA':'key_a', 'KeyB':'key_b', 'KeyC':'key_c', 'KeyD':'key_d', 'KeyE':'key_e', 'KeyF':'key_f', 'KeyG':'key_g', 
+                 'KeyI':'key_i', 'KeyJ':'key_j', 'KeyK':'key_k', 'KeyL':'key_l', 'KeyM':'key_m', 'KeyN':'key_n', 'KeyO':'key_o', 
+                 'KeyP':'key_p', 'KeyQ':'key_q', 'KeyR':'key_r', 'KeyS':'key_s', 
+                 'KeyT':'key_t', 'KeyU':'key_u', 'KeyV':'key_v', 'KeyW':'key_w', 'KeyX':'key_x', 'KeyZ':'key_z',
+                 
+                 'Backspace':'key_backspace', 'Tab':'key_tab', 'Enter':'key_enter', 
+                 'ShiftLeft':'key_shift', 'ShiftRight':'key_shift', 
+                 'ControlLeft':'key_ctrl', 'ControlRight':'key_ctrl', 
+                 'AltLeft':'key_alt', 'AltRight':'key_alt',
+                 'Space':'key_space', 
                  
                  // Note that default behavior is blocked on all these arrow-key type keys. Search on
                  // editKeysMap in the handler for the keydown event (in eventsHost.js).
                  // Exceptions to this are the key_+ and key_- number-pad keys that are in the allowDefaultKeysMap.
                  // This allows the desired native zoom feature when using the ctrl key along with these keys.  
-                 '33':'key_pageUp', '34':'key_pageDown', 
-                 '37':'key_leftArrow', '38':'key_upArrow', '39':'key_rightArrow', '40':'key_downArrow',
-                 // These are the number pad +/- keys.
-                 '107':'key_+', '109':'key_-',
-                 // These are the +/- keys on the main keyboard.
-                 '187':'key_=+', '189':'key_-_', // Chrome
-                 '61':'key_=+',  '173':'key_-_', // Firefox
+                 'PageUp':'key_pageUp', 'PageDown':'key_pageDown', 
+                 'ArrowLeft':'key_leftArrow', 'ArrowUp':'key_upArrow', 'ArrowRight':'key_rightArrow', 'ArrowDown':'key_downArrow',
                  
-                 '188':'key_lt', '190':'key_gt',
+                 // Number pad +/- keys.
+                 'NumpadAdd':'key_+', 'NumpadSubtract':'key_-',
+                 // Main keyboard +/- keys.
+                 'Equal':'key_=+', 'Minus':'key_-_',
                  
-                 '191':'key_questionMark',
-                 
-                 '219':'key_[', '221':'key_]',
-                 
-                 '225':'key_alt'};   // right-side alt key, needed for RPi
+                 'Comma':'key_lt', 'Period':'key_gt',
+                 'Slash':'key_questionMark',
+                 'BracketLeft':'key_[', 'BracketRight':'key_]'};
    
    var fileName = "gwModule.js";
    

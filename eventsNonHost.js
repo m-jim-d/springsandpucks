@@ -32,17 +32,24 @@ gwModule.js has an alphabetical list of all modules and their nicknames as added
 window.eVN = (function() {
    "use strict";
       
-   // Key values.
-   var keyMap = {'16':'sh','17':'ct','18':'alt','32':'sp',  //sh:shift, ct:ctrl, sp:space
-                 '49':'1', '50':'2', '51':'3', '52':'4', '53':'5', '54':'6', '55':'7', '56':'8', '57':'9',
-                 '65':'a', '66':'b', '67':'c', '68':'d', '70':'f', 
-                 '73':'i', '74':'j', '75':'k', '76':'l', '78':'n', 
-                 '83':'s', '87':'w', '90':'z',
-                 '191':'cl'};  // cl (short for color), 191 is the question-mark key.
+   // Key values.   
+   var keyMap = {'ShiftLeft':'sh', 'ShiftRight':'sh', 
+                 'ControlLeft':'ct', 'ControlRight':'ct', 
+                 'AltLeft':'alt', 'AltRight':'alt',
+                 'Space':'sp',
+                 'Digit1':'1', 'Digit2':'2', 'Digit3':'3', 'Digit4':'4', 
+                 'Digit5':'5', 'Digit6':'6', 'Digit7':'7', 'Digit8':'8', 'Digit9':'9',
+                 'KeyA':'a', 'KeyB':'b', 'KeyC':'c', 'KeyD':'d', 'KeyF':'f', 
+                 'KeyI':'i', 'KeyJ':'j', 'KeyK':'k', 'KeyL':'l', 'KeyN':'n', 
+                 'KeyS':'s', 'KeyW':'w', 'KeyZ':'z',
+                 'Slash':'cl'};  // cl (short for color), Slash is the question-mark key.
    
    // Key values, cso (client side only) for use only by the client, not to be sent over network
    // to the host.
-   var keyMap_cso = {'16':'key_shift', '17':'key_ctrl', '27':'key_esc', '80':'key_p'}
+   var keyMap_cso = {'ShiftLeft':'key_shift', 'ShiftRight':'key_shift', 
+                     'ControlLeft':'key_ctrl', 'ControlRight':'key_ctrl', 
+                     'Escape':'key_esc', 
+                     'KeyP':'key_p'}
    var mK_cso = {};
       
    // supporting touch-screen event processing
@@ -400,9 +407,10 @@ window.eVN = (function() {
       }, {passive: false, capture: false});
       
       document.addEventListener("keydown", function( e) {
+         //console.log("keyCode=" + e.keyCode + ", code=" + e.code + ", key=" + e.key + ", keyMap=" + keyMap[e.code] + ", keyMap_cso=" + keyMap_cso[e.code]);
+         
          // This allows the spacebar to be used for the puck shields.
-         //console.log(e.keyCode + "(down)=" + String.fromCharCode(e.keyCode));
-         if (keyMap[e.keyCode] == 'sp') {
+         if (keyMap[e.code] == 'sp') {
             // Inhibit page scrolling that results from using the spacebar.
             e.preventDefault();
             // The following is necessary in Firefox to avoid the spacebar from re-clicking 
@@ -410,10 +418,10 @@ window.eVN = (function() {
             if (document.activeElement != document.body) document.activeElement.blur();
          }
          
-         if (e.keyCode in keyMap_cso) {
-            if (mK_cso[keyMap_cso[e.keyCode]] == 'U') {
+         if (e.code in keyMap_cso) {
+            if (mK_cso[keyMap_cso[e.code]] == 'U') {
                // Set the key to DOWN.
-               mK_cso[keyMap_cso[e.keyCode]] = 'D';
+               mK_cso[keyMap_cso[e.code]] = 'D';
             }
          }
          
@@ -426,7 +434,7 @@ window.eVN = (function() {
          // If you're in fullscreen mode, this one won't
          // be the first to fire. The fullscreenchange handler fires first. Then, after
          // a second esc key press, this block will execute.
-         } else if (keyMap_cso[e.keyCode] == 'key_esc') {
+         } else if (keyMap_cso[e.code] == 'key_esc') {
             if (hC.getClientDeviceType() != 'mobile') {
                // Reveal the video element (and hide the canvas).
                videoMirror.removeAttribute("hidden");
@@ -437,15 +445,15 @@ window.eVN = (function() {
             twoThumbs.setEnabled(false);
          }
          
-         if (e.keyCode in keyMap) {
+         if (e.code in keyMap) {
             // First, exit if in the typing areas (exceptions are the modifier keys that might be used with buttons).
-            if ( ['INPUT','TEXTAREA'].includes( document.activeElement.tagName) && ( ! ['alt','sh','ct'].includes( keyMap[e.keyCode])) ) {
+            if ( ['INPUT','TEXTAREA'].includes( document.activeElement.tagName) && ( ! ['alt','sh','ct'].includes( keyMap[e.code])) ) {
                return;
             }
             
-            if (mK[keyMap[e.keyCode]] == 'U') {
+            if (mK[keyMap[e.code]] == 'U') {
                // Set the key to DOWN.
-               mK[keyMap[e.keyCode]] = 'D';
+               mK[keyMap[e.code]] = 'D';
                handle_sending_mK_data( mK);
             }
          }
@@ -453,14 +461,14 @@ window.eVN = (function() {
       }, {capture: false}); //"false" makes this fire in the bubbling phase (not capturing phase).
       
       document.addEventListener("keyup", function(e) {
-         if (e.keyCode in keyMap) {
+         if (e.code in keyMap) {
             // Set the key to UP.
-            mK[keyMap[e.keyCode]] = 'U';               
+            mK[keyMap[e.code]] = 'U';               
             handle_sending_mK_data( mK);
          }
-         if (e.keyCode in keyMap_cso) {
+         if (e.code in keyMap_cso) {
             // Set the key to UP.
-            mK_cso[keyMap_cso[e.keyCode]] = 'U';               
+            mK_cso[keyMap_cso[e.code]] = 'U';               
          }
       }, {capture: false}); //"false" makes this fire in the bubbling phase (not capturing phase).
       
