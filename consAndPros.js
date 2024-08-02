@@ -2658,7 +2658,7 @@ window.cP = (function() {
          let ke_total = 0, ke_total_rotational = 0, ke_total_translational = 0;
          let pe_total = 0;
          let e_total = 0, pe = 0;
-         let px_total = 0, px, py_total = 0, py;
+         let p_total_2d, p_total = 0, px_total = 0, px, py_total = 0, py;
          
          Puck.applyToAll( puck => {
             let l_orbital = puck.angularMomentum_Orbital();
@@ -2680,6 +2680,8 @@ window.cP = (function() {
             py = puck.mass_kg * puck.velocity_2d_mps.y;
             px_total += px;
             py_total += py;
+            p_total_2d = new wS.Vec2D( px_total, py_total);
+            p_total = p_total_2d.length();
             
             let shortName = puck.name.replace('puck','p');
             
@@ -2697,7 +2699,9 @@ window.cP = (function() {
          
          e_total = ke_total + pe_total;
          let totalsString = "                                " + "\\" +
-                        "[base,cyan]  AGG " + uT.fixed( e_total, 1) + "[base]<----E--------[base,cyan]" + uT.fixed( l_total, 2) + "[base]<----L--  --P--------\\" +
+                        "[base,cyan]  AGG " + uT.fixed( e_total, 2) + "[base]<----------E-" + 
+                        "[base,cyan]"       + uT.fixed( l_total, 2) + "[base]<----L-" +  
+                        "[base,cyan]"       + uT.fixed( p_total, 2) + "[base]<----P-\\" +
                         "          PE    KEt    KEr     Lo     Ls     Px     Py \\" +
                         "[base,cyan]total " + uT.fixed( pe_total, 1) + "" +
                                                uT.fixed( ke_total_translational, 2) + "" + uT.fixed( ke_total_rotational, 2) + "" +
@@ -2725,15 +2729,15 @@ window.cP = (function() {
                let orbit_tangentialSpeed_mps = rCrossV / orbit_radius_m;
                let orbit_angularSpeed_rps = orbit_tangentialSpeed_mps / orbit_radius_m;
                
-               orbit_result = "" + uT.fixed( orbit_angularSpeed_rps, 2);
-               orbit_title = "  Orbit";               
+               orbit_result = uT.fixed( orbit_radius_m, 2) + "" + uT.fixed( orbit_angularSpeed_rps, 2);
+               orbit_title = "Radius  Orbit ";               
             }
             
-            m_EpL.reportString += shortName.padStart(5,' ') + " " + uT.fixed( puckSpeed_mps, 2) + uT.fixed( orbit_radius_m, 2) + orbit_result + 
-                                  ""  + uT.fixed( puck.angularSpeed_rps, 2) + "\\";
+            m_EpL.reportString += shortName.padStart(5,' ') + " " + uT.fixed( puckSpeed_mps, 2) + "" + orbit_result + 
+                                  "" + uT.fixed( puck.angularSpeed_rps, 2) + "\\";
          });
          
-         let puckHeader = "\\ \\ \\        Speed Radius" + orbit_title + "   Spin  \\";
+         let puckHeader = "\\ \\ \\        Speed " + orbit_title + "  Spin  \\";
          
          m_EpL.reportString = puckHeader + m_EpL.reportString;
          
