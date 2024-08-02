@@ -2701,8 +2701,8 @@ window.cP = (function() {
          let totalsString = "                                " + "\\" +
                         "[base,cyan]  AGG " + uT.fixed( e_total, 2) + "[base]<----------E-" + 
                         "[base,cyan]"       + uT.fixed( l_total, 2) + "[base]<----L-" +  
-                        "[base,cyan]"       + uT.fixed( p_total, 2) + "[base]<----P-\\" +
-                        "          PE    KEt    KEr     Lo     Ls     Px     Py \\" +
+                        "[base,cyan]"       + uT.fixed( p_total, 2) + "[base]<----p-\\" +
+                        "          PE    KEt    KEr     Lo     Ls     px     py \\" +
                         "[base,cyan]total " + uT.fixed( pe_total, 1) + "" +
                                                uT.fixed( ke_total_translational, 2) + "" + uT.fixed( ke_total_rotational, 2) + "" +
                                                uT.fixed( l_total_orbital, 2)        + "" + uT.fixed( l_total_spin, 2) + "" +

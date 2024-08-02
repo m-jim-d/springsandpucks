@@ -1237,8 +1237,18 @@ window.cR = (function() {
             } 
             
          } else if (actionType == "update") {
-            action = "updateOne";
-            console.log("updateOne request");
+            if (nickName == "jim") {                  
+               if ($('#chkC19').prop('checked')) {
+                  action = "updateOne";
+                  console.log("updateOne request");
+               } else {
+                  hC.displayMessage("We can't update Jim's posts.");
+                  return;
+               }                  
+            } else {
+               action = "updateOne";
+               console.log("updateOne request");
+            }
                
          } else {
             action = "postOne";

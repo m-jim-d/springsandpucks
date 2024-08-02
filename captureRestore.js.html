@@ -1333,8 +1333,18 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="p">}</span> 
             
          <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">actionType</span> <span class="o">==</span> <span class="s2">&quot;update&quot;</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;updateOne&quot;</span><span class="p">;</span>
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;updateOne request&quot;</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">nickName</span> <span class="o">==</span> <span class="s2">&quot;jim&quot;</span><span class="p">)</span> <span class="p">{</span>                  
+               <span class="k">if</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#chkC19&#39;</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;checked&#39;</span><span class="p">))</span> <span class="p">{</span>
+                  <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;updateOne&quot;</span><span class="p">;</span>
+                  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;updateOne request&quot;</span><span class="p">);</span>
+               <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                  <span class="nx">hC</span><span class="p">.</span><span class="nx">displayMessage</span><span class="p">(</span><span class="s2">&quot;We can&#39;t update Jim&#39;s posts.&quot;</span><span class="p">);</span>
+                  <span class="k">return</span><span class="p">;</span>
+               <span class="p">}</span>                  
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+               <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;updateOne&quot;</span><span class="p">;</span>
+               <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;updateOne request&quot;</span><span class="p">);</span>
+            <span class="p">}</span>
                
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
             <span class="nx">action</span> <span class="o">=</span> <span class="s2">&quot;postOne&quot;</span><span class="p">;</span>
