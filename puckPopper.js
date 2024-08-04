@@ -700,7 +700,7 @@ window.pP = (function() {
       if (this.client.key_space == "D") {
          this.ON = true;
          if (this.STRONG) {
-            var dashArray = [ 0];
+            var dashArray = [];
          } else {
             // Shields are weak.
             var dashArray = [10];

@@ -2205,7 +2205,7 @@ window.cP = (function() {
                alpha = 1.0;
             } else {
                // If not dashed, you can use the fancy 'round' ends. Nice.
-               var dashArray = [0];
+               var dashArray = [];
                var lineCap = 'round';
             }
          }

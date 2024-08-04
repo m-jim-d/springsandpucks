@@ -48,7 +48,7 @@ window.dFM = (function() {
    DrawingFunctions.prototype.drawLine = function( drawingContext, p1_2d_px, p2_2d_px, pars) {
       drawingContext.strokeStyle = uT.setDefault( pars.color, 'white');
       drawingContext.lineWidth = uT.setDefault( pars.width_px, 2);
-      var dashArray = uT.setDefault( pars.dashArray, [0]);
+      var dashArray = uT.setDefault( pars.dashArray, []);
       var alpha = uT.setDefault( pars.alpha, 1.0);
       var lineCap = uT.setDefault( pars.lineCap, 'butt');
       
@@ -72,7 +72,7 @@ window.dFM = (function() {
       var fillColor = uT.setDefault( pars.fillColor, 'red');
       var fillAlpha = uT.setDefault( pars.fillAlpha, 1.00);
       var lineAlpha = uT.setDefault( pars.lineAlpha, 1.00);
-      var dashArray = uT.setDefault( pars.dashArray, [0]);
+      var dashArray = uT.setDefault( pars.dashArray, []);
       
       drawingContext.setLineDash( dashArray);
       
@@ -94,7 +94,7 @@ window.dFM = (function() {
       }
       
       // Turn off the dashes
-      drawingContext.setLineDash([0]);
+      drawingContext.setLineDash([]);
    }
    DrawingFunctions.prototype.drawPolygon = function( drawingContext, poly_px, pars) {
       var borderWidth_px = uT.setDefault( pars.borderWidth_px, 2);
@@ -117,7 +117,7 @@ window.dFM = (function() {
          drawingContext.strokeStyle = drawingContext.fillStyle;
       }
       
-      drawingContext.setLineDash([0]);
+      drawingContext.setLineDash([]); // no dashes
       
       drawingContext.beginPath();
       drawingContext.moveTo( poly_px[0].x, poly_px[0].y);

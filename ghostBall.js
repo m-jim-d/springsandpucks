@@ -539,7 +539,7 @@ window.gB = (function() {
                      color = 'yellow';
                      lineWidth_px = 2;
                      if (elasticCollision) {
-                        dashArray = [0]; // solid line
+                        dashArray = []; // solid line
                         useThisLineForPathShadow = true;
                      } else {
                         dashArray = [3];
@@ -565,7 +565,7 @@ window.gB = (function() {
                         if (dotProduct > 0) {
                            lineWidth_px = 2;
                            if (elasticCollision) {
-                              dashArray = [0]; // solid line
+                              dashArray = []; // solid line
                               useThisLineForPathShadow = true;
                            } else {
                               dashArray = [3];
@@ -593,7 +593,7 @@ window.gB = (function() {
          } else if (client.sensorTargetName.includes('wall') && (mouseToWallContact_2d_m) &&  (client.fineMovesState != 'inTransition')) {
             let dashArray, useThisLineForPathShadow;
             if ((client.selectedBody.restitution == 1.0) && (client.selectedBody.friction == 0.0)) {
-               dashArray = [0];
+               dashArray = [];
                useThisLineForPathShadow = true;
             } else {
                dashArray = [3];
@@ -668,7 +668,7 @@ window.gB = (function() {
    function drawPathAfterShot( drawingContext, client) {
       if ((client.gBS.pathAfter.enabled) && (client.gBS.pathAfter.sensorTargetName)) {
          let scalingFactor = 12.0;
-         let dashArray = [0]; // [0] makes the line solid (no dash)
+         let dashArray = []; // [] makes the line solid (no dash)
          
          let fadeFactor = (client.gBS.pathAfter.framesForFade - client.gBS.pathAfter.fadeCounter)/client.gBS.pathAfter.framesForFade;
          if (fadeFactor < 0.0) fadeFactor = 0;
