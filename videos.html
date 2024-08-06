@@ -13,7 +13,7 @@
    <script src="jquery-3.6.1.min.js?v=3"></script>
 
    <link href="videos.css?v=9" rel="stylesheet" type="text/css">
-   <link href="dialog.css?v=3" rel="stylesheet" type="text/css">
+   <link href="dialog.css?v=4" rel="stylesheet" type="text/css">
 
    <!-- Google icon library -->
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -52,14 +52,15 @@
     <i>Accept</i> to view the videos as embedded on this page.
     <i>Reject</i> to decline cookies and view in a new tab.
   </p>
-  <form method="dialog">
-    <button class="dialog" id="firstDialogButton" value="accept">Accept</button>
-    <button class="dialog-cancel" value="reject">Reject</button>    
-    <button class="dialog-cancel" value="close" style="float: right;">Close (no change)</button>
-  </form>
   <p>
     If you accept, click a video to load; click again to play.
-  </p>
+  </p>  
+  <form method="dialog">
+    <button class="dialog-cancel-x" id="firstDialogButton" value="close" title="close">&times;</button>
+    <button class="dialog" style="float:right;" value="accept">Accept</button>
+    <button class="dialog-cancel" style="float:right;" value="reject">Reject</button>    
+    <!-- <button class="dialog-cancel" value="close" style="float: right;">Close (no change)</button> -->
+  </form>
 </dialog>
 
 

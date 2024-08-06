@@ -1830,16 +1830,16 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="k">if</span> <span class="p">((</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_ctrl</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">))</span> <span class="p">{</span>
             <span class="nx">warningMessage</span> <span class="o">=</span> <span class="s2">&quot;This will attempt to DELETE the corresponding capture in cloud storage.&lt;br&gt;&quot;</span> <span class="o">+</span> 
                              <span class="nx">deletAndUpdatInfo</span> <span class="o">+</span>
-                             <span class="s2">&quot;Continue ?&quot;</span><span class="p">;</span> 
-            <span class="nx">acceptLabel</span> <span class="o">=</span> <span class="s2">&quot;go ahead, try to DELETE it&quot;</span><span class="p">;</span>
+                             <span class="s2">&quot;&quot;</span><span class="p">;</span> <span class="c1">// Continue ?</span>
+            <span class="nx">acceptLabel</span> <span class="o">=</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">;</span>
             <span class="nx">purpose</span> <span class="o">=</span> <span class="s2">&quot;post-delete&quot;</span><span class="p">;</span>
             <span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">;</span>
             
          <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">clients</span><span class="p">[</span><span class="s1">&#39;local&#39;</span><span class="p">].</span><span class="nx">key_shift</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">warningMessage</span> <span class="o">=</span> <span class="s2">&quot;This will attempt to UPDATE the corresponding capture in cloud storage.&lt;br&gt;&quot;</span> <span class="o">+</span>
                              <span class="nx">deletAndUpdatInfo</span> <span class="o">+</span>
-                             <span class="s2">&quot;Continue ?&quot;</span><span class="p">;</span> 
-            <span class="nx">acceptLabel</span> <span class="o">=</span> <span class="s2">&quot;go ahead, try to UPDATE it&quot;</span><span class="p">;</span>
+                             <span class="s2">&quot;&quot;</span><span class="p">;</span> <span class="c1">// Continue ?</span>
+            <span class="nx">acceptLabel</span> <span class="o">=</span> <span class="s2">&quot;UPDATE&quot;</span><span class="p">;</span>
             <span class="nx">purpose</span> <span class="o">=</span> <span class="s2">&quot;post-update&quot;</span><span class="p">;</span>
             <span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;UPDATE&quot;</span><span class="p">;</span>
             
@@ -1852,14 +1852,14 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                                     <span class="s2">&quot;holding the CTRL and SHIFT keys down.&quot;</span> <span class="o">+</span>
                                 <span class="nx">leftPanelInfo</span> <span class="o">+</span> 
                              <span class="s2">&quot;&lt;/ul&gt;&quot;</span> <span class="o">+</span>
-                             <span class="s2">&quot;Continue ?&quot;</span><span class="p">;</span>
-            <span class="nx">acceptLabel</span> <span class="o">=</span> <span class="s2">&quot;go ahead, try to POST it&quot;</span><span class="p">;</span>
+                             <span class="s2">&quot;&quot;</span><span class="p">;</span> <span class="c1">// Continue ?</span>
+            <span class="nx">acceptLabel</span> <span class="o">=</span> <span class="s2">&quot;POST&quot;</span><span class="p">;</span>
             <span class="nx">purpose</span> <span class="o">=</span> <span class="s2">&quot;post-normal&quot;</span><span class="p">;</span>
             <span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;POST&quot;</span><span class="p">;</span>
          <span class="p">}</span>
          
          <span class="nx">pS</span><span class="p">.</span><span class="nx">viewGeneralDialog</span><span class="p">({</span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="nx">title</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="nx">warningMessage</span><span class="p">,</span>
-                               <span class="s2">&quot;label_accept&quot;</span><span class="o">:</span><span class="nx">acceptLabel</span><span class="p">,</span> <span class="s2">&quot;label_reject&quot;</span><span class="o">:</span><span class="s2">&quot;cancel&quot;</span><span class="p">,</span> <span class="s2">&quot;label_close&quot;</span><span class="o">:</span><span class="s2">&quot;close&quot;</span><span class="p">,</span>
+                               <span class="s2">&quot;label_accept&quot;</span><span class="o">:</span><span class="nx">acceptLabel</span><span class="p">,</span> <span class="s2">&quot;label_reject&quot;</span><span class="o">:</span><span class="s2">&quot;cancel&quot;</span><span class="p">,</span>  <span class="c1">// &quot;label_close&quot;:&quot;close&quot;,</span>
                                <span class="s2">&quot;purpose&quot;</span><span class="o">:</span><span class="nx">purpose</span><span class="p">});</span>
          
       <span class="p">},</span> <span class="p">{</span><span class="nx">capture</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>

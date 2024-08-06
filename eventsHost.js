@@ -1734,16 +1734,16 @@ window.eV = (function() {
          if ((clients['local'].key_ctrl == 'D') && (clients['local'].key_shift == 'D')) {
             warningMessage = "This will attempt to DELETE the corresponding capture in cloud storage.<br>" + 
                              deletAndUpdatInfo +
-                             "Continue ?"; 
-            acceptLabel = "go ahead, try to DELETE it";
+                             ""; // Continue ?
+            acceptLabel = "DELETE";
             purpose = "post-delete";
             title = "DELETE";
             
          } else if (clients['local'].key_shift == 'D') {
             warningMessage = "This will attempt to UPDATE the corresponding capture in cloud storage.<br>" +
                              deletAndUpdatInfo +
-                             "Continue ?"; 
-            acceptLabel = "go ahead, try to UPDATE it";
+                             ""; // Continue ?
+            acceptLabel = "UPDATE";
             purpose = "post-update";
             title = "UPDATE";
             
@@ -1756,14 +1756,14 @@ window.eV = (function() {
                                     "holding the CTRL and SHIFT keys down." +
                                 leftPanelInfo + 
                              "</ul>" +
-                             "Continue ?";
-            acceptLabel = "go ahead, try to POST it";
+                             ""; // Continue ?
+            acceptLabel = "POST";
             purpose = "post-normal";
             title = "POST";
          }
          
          pS.viewGeneralDialog({"title":title, "message":warningMessage,
-                               "label_accept":acceptLabel, "label_reject":"cancel", "label_close":"close",
+                               "label_accept":acceptLabel, "label_reject":"cancel",  // "label_close":"close",
                                "purpose":purpose});
          
       }, {capture: false});

@@ -15,7 +15,7 @@
    <meta property="og:image" content="https://triquence.org/screenshots/colormixer.png">
 
    <link href="hostAndClient.css?v=26" rel="stylesheet" type="text/css">  
-   <link href="dialog.css?v=26" rel="stylesheet" type="text/css">  
+   <link href="dialog.css?v=4" rel="stylesheet" type="text/css">  
 
    <!-- Google icon library -->
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -121,9 +121,10 @@
    <h2 class="dialog" id="title">The title</h2>
    <p id="dialogMessage">The message</p>
    <form method="dialog">
-      <button class="dialog"         id="gD-accept"  value="accept"                     >Accept</button>
-      <button class="dialog-cancel"  id="gD-reject"  value="reject"                     >Reject</button>    
-      <button class="dialog-cancel"  id="gD-close"   value="close" style="float:right;" >Close (no change)</button>
+      <button class="dialog-cancel-x"                 value="close" title="close"         >&times;</button>
+      <button class="dialog"         id="gD-accept"   value="accept" style="float:right;" >Accept</button>
+      <button class="dialog-cancel"  id="gD-reject"   value="reject" style="float:right;" >Reject</button>    
+      <button class="dialog-cancel"  id="gD-close"    value="close"  style="float:left;"  >Close (no change)</button>
    </form>
    <span id="gD-purpose" style="display:none;"><span> 
 </dialog>

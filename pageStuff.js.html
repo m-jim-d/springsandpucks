@@ -307,6 +307,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="p">}</span>
          <span class="nx">jQuery</span><span class="p">(</span><span class="s2">&quot;#dialog-status&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span> <span class="nx">statusMessage</span><span class="p">);</span>
       <span class="p">}</span>
+      <span class="c1">// When the page loads, if the dialog is needed, the first button get focus (by default).</span>
+      <span class="c1">// So, this counters that native behavior.</span>
       <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;firstDialogButton&quot;</span><span class="p">).</span><span class="nx">blur</span><span class="p">();</span>
    <span class="p">}</span>
    
