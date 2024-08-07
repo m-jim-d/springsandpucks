@@ -484,6 +484,10 @@ window.cR = (function() {
       }
    }
    
+   function sortPucks() {
+      
+   }
+   
    // This is the default modification function used by modifyForCalculator.
    let settingsForDemos = function( state_capture, demoName) {
       // Use the speed version of the EpL report.
@@ -1585,6 +1589,7 @@ window.cR = (function() {
       'modifyCapture': modifyCapture,
       'modifyForCalculator': modifyForCalculator,
       'shiftCapture': shiftCapture,
+      'sortPucks': sortPucks,
       'runCapture': runCapture,
       'cleanCapture': cleanCapture,
       'restoreFromState': restoreFromState,

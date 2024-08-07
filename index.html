@@ -123,8 +123,10 @@
    <form method="dialog">
       <button class="dialog-cancel-x"                 value="close" title="close"         >&times;</button>
       <button class="dialog"         id="gD-accept"   value="accept" style="float:right;" >Accept</button>
-      <button class="dialog-cancel"  id="gD-reject"   value="reject" style="float:right;" >Reject</button>    
-      <button class="dialog-cancel"  id="gD-close"    value="close"  style="float:left;"  >Close (no change)</button>
+      <button class="dialog-cancel"  id="gD-reject"   value="reject" style="float:right;" >Reject</button> 
+      <div class="center-close-button">
+      <button class="dialog-cancel"  id="gD-close"    value="close"  style="float:center;"  >Close (no change)</button>
+      </div>
    </form>
    <span id="gD-purpose" style="display:none;"><span> 
 </dialog>
@@ -2132,9 +2134,10 @@ solo players.'>Friendly fire<br>
             
             
             <option value="bullets-from-pucks" title="bullets from human clients (demos 7 and 8) are fabricated (cannibalized) from the client's puck, shrinking it.">bullets from pucks</option>
+            
             <option value="shift-capture" title="shift a small-canvas capture to the center of a larger full-screen canvas">shift capture</option>
             <option value="modify-capture" title="modify the capture for the selected table objects using the JSON in the chat field (shortcut: shift-m)">modify capture</option>
-            
+            <option value="sort-pucks" title="sort pucks by size and rename them">sort pucks</option>
          </select>
          </div>
 

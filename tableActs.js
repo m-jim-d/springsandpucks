@@ -548,6 +548,9 @@ window.tA = (function() {
          
       } else if (tableAction == "shift-capture") {
          cR.shiftCapture();
+         
+      } else if (tableAction == "sort-pucks") {
+         cR.sortPucks();         
       }
       
       // reset the select element to the placeholder (title) value
