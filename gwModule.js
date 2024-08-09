@@ -1041,7 +1041,7 @@ window.gW = (function() {
       'getDemoVersion': function() { return c.demoVersion; },
       'setDemoVersion': function( val) { c.demoVersion = val; },
       
-      'getDemoIndex': function() { return c.demoIndex; },
+      'getDemoIndex': function() { return parseInt( c.demoIndex); },
       
       'getPauseErase': function() { return c.pauseErase; },
       

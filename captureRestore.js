@@ -401,7 +401,8 @@ window.cR = (function() {
       return table_JSON;
    }
    
-   function loadJSON( element) {
+   function loadJSON( element, pars={}) {
+      let captureMissing = uT.setDefault( pars.captureMissing, "The capture text area is empty.");
       let state_capture, message, title;
             
       if (element.value != '') {
@@ -432,7 +433,7 @@ window.cR = (function() {
       } else {
          if (element.id == "jsonCapture") {
             title = "capture missing";
-            message = "The capture text area is empty.";
+            message = captureMissing;
             
          } else if (element.id == "inputField") {
             title = "chat field is empty";
@@ -485,7 +486,54 @@ window.cR = (function() {
    }
    
    function sortPucks() {
+      let state_capture = null, jsonModifier = null;
       
+      // Pull in the capture
+      state_capture = loadJSON( gW.dC.json);
+      
+      // Parse the JSON in the chat field.
+      jsonModifier = loadJSON( gW.dC.inputField);
+      
+      let sortedItems;
+      if (jsonModifier.sort == "position") {
+         // sort on position
+         console.log("position sort");
+         sortedItems = Object.entries( state_capture.puckMapData).sort((a, b) => a[1].position_2d_m.x - b[1].position_2d_m.x);
+      } else {
+         // Sort on height.
+         sortedItems = Object.entries( state_capture.puckMapData).sort((a, b) => a[1].half_height_m - b[1].half_height_m);
+      }
+      
+      
+      // Remove items that are positioned outside the boundaries of the canvas.
+      let filteredItems = sortedItems.filter( function( item) { 
+         let p_2d_m = new wS.Vec2D( item[1].position_2d_m.x, item[1].position_2d_m.y);
+         let p_2d_px = wS.screenFromWorld( p_2d_m);
+         let canvasDimensions = {};
+         if (state_capture.canvasDimensions) {
+            canvasDimensions = state_capture.canvasDimensions;
+         } else {
+            canvasDimensions = x_canvas;
+         }
+         return wS.pointInCanvas( canvasDimensions, p_2d_px);
+      });
+      
+      // Rename the pucks.
+      let renamedItems = {};
+      filteredItems.forEach((item, index) => {
+         let newName = "puck" + (index + 1);
+         item[1].name = newName;
+         renamedItems[ newName] = item[1];
+      });
+      
+      state_capture.puckMapData = renamedItems;
+      
+      // Write out the updated capture.
+      state_capture.demoVersion += '.' + Math.floor((Math.random() * 1000) + 1);
+      let table_JSON = JSON.stringify( state_capture, null, 3);
+      gW.dC.json.value = table_JSON;
+      
+      runCapture();
    }
    
    // This is the default modification function used by modifyForCalculator.
@@ -563,10 +611,13 @@ window.cR = (function() {
          '5.b.six': 'demo5b.six.js',
          '5.b': 'demo5b.js',
       };
-      let demoIndex = demoName.split('.')[0];
+      let demoIndex = parseInt( demoName.split('.')[0]);
       
       // Check for the correct demo capture in the textarea.
-      let state_capture = loadJSON( gW.dC.json);
+      let emptyMessage = "The calculators modify captures. " + 
+                         "You'll see this message if you went directly (first) to one of the calculator buttons. " + 
+                         "That's fine. The capture that you need has been loaded.";
+      let state_capture = loadJSON( gW.dC.json, {"captureMissing":emptyMessage});
       let loadWaitNeeded = false;
       if ( ! (state_capture && (state_capture.demoVersion == demoName))) {
          gW.messages['help'].newMessage('Loading the [base,yellow]' + demoName + '[base] demo.', 3.0);
@@ -647,7 +698,7 @@ window.cR = (function() {
       if (gW.dC.json.value != "") {
          let state_capture = loadJSON( gW.dC.json);
          if ( ! state_capture) return; // must be error in json
-         demoIndex = state_capture.demoIndex;
+         demoIndex = parseInt( state_capture.demoIndex);
          dS.demoStart( demoIndex, {'scrollCA':false});
          
          // If shift key is down and using a button (not keyboard), after starting the demo from the capture, 

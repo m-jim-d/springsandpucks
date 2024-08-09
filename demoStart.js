@@ -378,7 +378,7 @@ window.dS = (function() {
       if (scrollCA) cR.scrollCaptureArea();
       
       // Set this module-level value to support the JSON capture.
-      c.demoIndex = index;
+      c.demoIndex = parseInt( index);
       var networkPuckTemplate = null;
       
       dC.extraDemos.innerHTML = '';

@@ -497,7 +497,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">return</span> <span class="nx">table_JSON</span><span class="p">;</span>
    <span class="p">}</span>
    
-   <span class="kd">function</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+   <span class="kd">function</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">pars</span><span class="o">=</span><span class="p">{})</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">captureMissing</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">captureMissing</span><span class="p">,</span> <span class="s2">&quot;The capture text area is empty.&quot;</span><span class="p">);</span>
       <span class="kd">let</span> <span class="nx">state_capture</span><span class="p">,</span> <span class="nx">message</span><span class="p">,</span> <span class="nx">title</span><span class="p">;</span>
             
       <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">{</span>
@@ -528,7 +529,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
          <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s2">&quot;jsonCapture&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;capture missing&quot;</span><span class="p">;</span>
-            <span class="nx">message</span> <span class="o">=</span> <span class="s2">&quot;The capture text area is empty.&quot;</span><span class="p">;</span>
+            <span class="nx">message</span> <span class="o">=</span> <span class="nx">captureMissing</span><span class="p">;</span>
             
          <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="s2">&quot;inputField&quot;</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">title</span> <span class="o">=</span> <span class="s2">&quot;chat field is empty&quot;</span><span class="p">;</span>
@@ -578,6 +579,57 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          
          <span class="nx">runCapture</span><span class="p">();</span>
       <span class="p">}</span>
+   <span class="p">}</span>
+   
+   <span class="kd">function</span> <span class="nx">sortPucks</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">state_capture</span> <span class="o">=</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">jsonModifier</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+      
+      <span class="c1">// Pull in the capture</span>
+      <span class="nx">state_capture</span> <span class="o">=</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">);</span>
+      
+      <span class="c1">// Parse the JSON in the chat field.</span>
+      <span class="nx">jsonModifier</span> <span class="o">=</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">inputField</span><span class="p">);</span>
+      
+      <span class="kd">let</span> <span class="nx">sortedItems</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">jsonModifier</span><span class="p">.</span><span class="nx">sort</span> <span class="o">==</span> <span class="s2">&quot;position&quot;</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// sort on position</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;position sort&quot;</span><span class="p">);</span>
+         <span class="nx">sortedItems</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span> <span class="nx">state_capture</span><span class="p">.</span><span class="nx">puckMapData</span><span class="p">).</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">a</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">position_2d_m</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="nx">b</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">position_2d_m</span><span class="p">.</span><span class="nx">x</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+         <span class="c1">// Sort on height.</span>
+         <span class="nx">sortedItems</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span> <span class="nx">state_capture</span><span class="p">.</span><span class="nx">puckMapData</span><span class="p">).</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">a</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">half_height_m</span> <span class="o">-</span> <span class="nx">b</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">half_height_m</span><span class="p">);</span>
+      <span class="p">}</span>
+      
+      
+      <span class="c1">// Remove items that are positioned outside the boundaries of the canvas.</span>
+      <span class="kd">let</span> <span class="nx">filteredItems</span> <span class="o">=</span> <span class="nx">sortedItems</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">item</span><span class="p">)</span> <span class="p">{</span> 
+         <span class="kd">let</span> <span class="nx">p_2d_m</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">wS</span><span class="p">.</span><span class="nx">Vec2D</span><span class="p">(</span> <span class="nx">item</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">position_2d_m</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">item</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">position_2d_m</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
+         <span class="kd">let</span> <span class="nx">p_2d_px</span> <span class="o">=</span> <span class="nx">wS</span><span class="p">.</span><span class="nx">screenFromWorld</span><span class="p">(</span> <span class="nx">p_2d_m</span><span class="p">);</span>
+         <span class="kd">let</span> <span class="nx">canvasDimensions</span> <span class="o">=</span> <span class="p">{};</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">state_capture</span><span class="p">.</span><span class="nx">canvasDimensions</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">canvasDimensions</span> <span class="o">=</span> <span class="nx">state_capture</span><span class="p">.</span><span class="nx">canvasDimensions</span><span class="p">;</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">canvasDimensions</span> <span class="o">=</span> <span class="nx">x_canvas</span><span class="p">;</span>
+         <span class="p">}</span>
+         <span class="k">return</span> <span class="nx">wS</span><span class="p">.</span><span class="nx">pointInCanvas</span><span class="p">(</span> <span class="nx">canvasDimensions</span><span class="p">,</span> <span class="nx">p_2d_px</span><span class="p">);</span>
+      <span class="p">});</span>
+      
+      <span class="c1">// Rename the pucks.</span>
+      <span class="kd">let</span> <span class="nx">renamedItems</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="nx">filteredItems</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+         <span class="kd">let</span> <span class="nx">newName</span> <span class="o">=</span> <span class="s2">&quot;puck&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+         <span class="nx">item</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">newName</span><span class="p">;</span>
+         <span class="nx">renamedItems</span><span class="p">[</span> <span class="nx">newName</span><span class="p">]</span> <span class="o">=</span> <span class="nx">item</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+      <span class="p">});</span>
+      
+      <span class="nx">state_capture</span><span class="p">.</span><span class="nx">puckMapData</span> <span class="o">=</span> <span class="nx">renamedItems</span><span class="p">;</span>
+      
+      <span class="c1">// Write out the updated capture.</span>
+      <span class="nx">state_capture</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">+=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">((</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="kd">let</span> <span class="nx">table_JSON</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">state_capture</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+      <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">table_JSON</span><span class="p">;</span>
+      
+      <span class="nx">runCapture</span><span class="p">();</span>
    <span class="p">}</span>
    
    <span class="c1">// This is the default modification function used by modifyForCalculator.</span>
@@ -655,10 +707,13 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="s1">&#39;5.b.six&#39;</span><span class="o">:</span> <span class="s1">&#39;demo5b.six.js&#39;</span><span class="p">,</span>
          <span class="s1">&#39;5.b&#39;</span><span class="o">:</span> <span class="s1">&#39;demo5b.js&#39;</span><span class="p">,</span>
       <span class="p">};</span>
-      <span class="kd">let</span> <span class="nx">demoIndex</span> <span class="o">=</span> <span class="nx">demoName</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="kd">let</span> <span class="nx">demoIndex</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span> <span class="nx">demoName</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]);</span>
       
       <span class="c1">// Check for the correct demo capture in the textarea.</span>
-      <span class="kd">let</span> <span class="nx">state_capture</span> <span class="o">=</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">);</span>
+      <span class="kd">let</span> <span class="nx">emptyMessage</span> <span class="o">=</span> <span class="s2">&quot;The calculators modify captures. &quot;</span> <span class="o">+</span> 
+                         <span class="s2">&quot;You&#39;ll see this message if you went directly (first) to one of the calculator buttons. &quot;</span> <span class="o">+</span> 
+                         <span class="s2">&quot;That&#39;s fine. The capture that you need has been loaded.&quot;</span><span class="p">;</span>
+      <span class="kd">let</span> <span class="nx">state_capture</span> <span class="o">=</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;captureMissing&quot;</span><span class="o">:</span><span class="nx">emptyMessage</span><span class="p">});</span>
       <span class="kd">let</span> <span class="nx">loadWaitNeeded</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
       <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="p">(</span><span class="nx">state_capture</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">state_capture</span><span class="p">.</span><span class="nx">demoVersion</span> <span class="o">==</span> <span class="nx">demoName</span><span class="p">)))</span> <span class="p">{</span>
          <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s1">&#39;Loading the [base,yellow]&#39;</span> <span class="o">+</span> <span class="nx">demoName</span> <span class="o">+</span> <span class="s1">&#39;[base] demo.&#39;</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">);</span>
@@ -739,7 +794,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="k">if</span> <span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="p">{</span>
          <span class="kd">let</span> <span class="nx">state_capture</span> <span class="o">=</span> <span class="nx">loadJSON</span><span class="p">(</span> <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">);</span>
          <span class="k">if</span> <span class="p">(</span> <span class="o">!</span> <span class="nx">state_capture</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span> <span class="c1">// must be error in json</span>
-         <span class="nx">demoIndex</span> <span class="o">=</span> <span class="nx">state_capture</span><span class="p">.</span><span class="nx">demoIndex</span><span class="p">;</span>
+         <span class="nx">demoIndex</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span> <span class="nx">state_capture</span><span class="p">.</span><span class="nx">demoIndex</span><span class="p">);</span>
          <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span> <span class="nx">demoIndex</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;scrollCA&#39;</span><span class="o">:</span><span class="kc">false</span><span class="p">});</span>
          
          <span class="c1">// If shift key is down and using a button (not keyboard), after starting the demo from the capture, </span>
@@ -1681,6 +1736,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="s1">&#39;modifyCapture&#39;</span><span class="o">:</span> <span class="nx">modifyCapture</span><span class="p">,</span>
       <span class="s1">&#39;modifyForCalculator&#39;</span><span class="o">:</span> <span class="nx">modifyForCalculator</span><span class="p">,</span>
       <span class="s1">&#39;shiftCapture&#39;</span><span class="o">:</span> <span class="nx">shiftCapture</span><span class="p">,</span>
+      <span class="s1">&#39;sortPucks&#39;</span><span class="o">:</span> <span class="nx">sortPucks</span><span class="p">,</span>
       <span class="s1">&#39;runCapture&#39;</span><span class="o">:</span> <span class="nx">runCapture</span><span class="p">,</span>
       <span class="s1">&#39;cleanCapture&#39;</span><span class="o">:</span> <span class="nx">cleanCapture</span><span class="p">,</span>
       <span class="s1">&#39;restoreFromState&#39;</span><span class="o">:</span> <span class="nx">restoreFromState</span><span class="p">,</span>
