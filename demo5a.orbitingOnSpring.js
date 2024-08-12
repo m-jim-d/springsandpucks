@@ -8,26 +8,29 @@ demo_capture = {
    },
    "gravity": false,
    "comSelection": true,
-   "EpL": {"display": true, "reportType": "EpL", "COM": true,
+   "EpL": {
+      "display": true,
+      "reportType": "EpL",
+      "COM": true,
       "angularAxis_2d_m": {
          "x": 7.799999999999992,
          "y": 4.25
-      }     
+      }
    },
    "fullScreenDemo": false,
    "globalCompositeOperation": "source-over",
    "wallMapData": {},
    "puckMapData": {
-      "puck12": {
+      "puck1": {
          "bullet": false,
          "bulletIndication": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck12",
+         "name": "puck1",
          "position_2d_m": {
             "x": 7.8,
-            "y": 3.0
+            "y": 3
          },
          "velocity_2d_mps": {
             "x": -20,
@@ -62,13 +65,13 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck15": {
+      "puck2": {
          "bullet": false,
          "bulletIndication": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck15",
+         "name": "puck2",
          "position_2d_m": {
             "x": 7.8,
             "y": 5.5
@@ -109,8 +112,8 @@ demo_capture = {
    },
    "pinMapData": {},
    "springMapData": {
-      "s14": {
-         "name": "s14",
+      "s1": {
+         "name": "s1",
          "color": "yellow",
          "visible": true,
          "length_m": 2.5,
@@ -120,12 +123,12 @@ demo_capture = {
          "damper_Ns2pm2": 0.5,
          "navigationForNPC": false,
          "forCursor": false,
-         "p1_name": "puck12",
+         "p1_name": "puck1",
          "spo1_ap_l_2d_m": {
             "x": 0,
             "y": 0
          },
-         "p2_name": "puck15",
+         "p2_name": "puck2",
          "spo2_ap_l_2d_m": {
             "x": 0,
             "y": 0

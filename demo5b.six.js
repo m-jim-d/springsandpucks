@@ -275,9 +275,9 @@ demo_capture = {
          "name": "s1",
          "color": "brown",
          "visible": true,
-         "length_m": 0.80,
+         "length_m": 0.8,
          "stretch_m": -0.04854277708711896,
-         "strength_Npm": 40.0,
+         "strength_Npm": 40,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -297,13 +297,13 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s5": {
-         "name": "s5",
+      "s2": {
+         "name": "s2",
          "color": "brown",
          "visible": true,
-         "length_m": 0.80,
+         "length_m": 0.8,
          "stretch_m": -0.04854277708712029,
-         "strength_Npm": 40.0,
+         "strength_Npm": 40,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -323,13 +323,13 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s9": {
-         "name": "s9",
+      "s3": {
+         "name": "s3",
          "color": "brown",
          "visible": true,
-         "length_m": 0.80,
+         "length_m": 0.8,
          "stretch_m": -0.04854277708711585,
-         "strength_Npm": 40.0,
+         "strength_Npm": 40,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -349,13 +349,13 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s13": {
-         "name": "s13",
+      "s4": {
+         "name": "s4",
          "color": "brown",
          "visible": true,
-         "length_m": 0.80,
+         "length_m": 0.8,
          "stretch_m": -0.04854277708712207,
-         "strength_Npm": 40.0,
+         "strength_Npm": 40,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -375,13 +375,13 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s16": {
-         "name": "s16",
+      "s5": {
+         "name": "s5",
          "color": "brown",
          "visible": true,
-         "length_m": 0.80,
+         "length_m": 0.8,
          "stretch_m": -0.04854277708711896,
-         "strength_Npm": 40.0,
+         "strength_Npm": 40,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -401,169 +401,13 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s25": {
-         "name": "s25",
-         "color": "tan",
-         "visible": true,
-         "length_m": 1.80,
-         "stretch_m": 0.028026185418458027,
-         "strength_Npm": 20.0,
-         "unstretched_width_m": 0.06,
-         "drag_c": 0,
-         "damper_Ns2pm2": 10,
-         "navigationForNPC": false,
-         "forCursor": false,
-         "p1_name": "puck6",
-         "spo1_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "p2_name": "puck2",
-         "spo2_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "fixedLength": false,
-         "collideConnected": true,
-         "softConstraints": false
-      },
-      "s36": {
-         "name": "s36",
-         "color": "tan",
-         "visible": true,
-         "length_m": 1.80,
-         "stretch_m": 0.028026185418460692,
-         "strength_Npm": 20.0,
-         "unstretched_width_m": 0.06,
-         "drag_c": 0,
-         "damper_Ns2pm2": 10,
-         "navigationForNPC": false,
-         "forCursor": false,
-         "p1_name": "puck5",
-         "spo1_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "p2_name": "puck3",
-         "spo2_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "fixedLength": false,
-         "collideConnected": true,
-         "softConstraints": false
-      },
-      "s43": {
-         "name": "s43",
-         "color": "tan",
-         "visible": true,
-         "length_m": 1.80,
-         "stretch_m": 0.028026185418458027,
-         "strength_Npm": 20.0,
-         "unstretched_width_m": 0.06,
-         "drag_c": 0,
-         "damper_Ns2pm2": 10,
-         "navigationForNPC": false,
-         "forCursor": false,
-         "p1_name": "puck4",
-         "spo1_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "p2_name": "puck6",
-         "spo2_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "fixedLength": false,
-         "collideConnected": true,
-         "softConstraints": false
-      },
-      "s44": {
-         "name": "s44",
-         "color": "tan",
-         "visible": true,
-         "length_m": 1.80,
-         "stretch_m": 0.02802618541845625,
-         "strength_Npm": 20.0,
-         "unstretched_width_m": 0.06,
-         "drag_c": 0,
-         "damper_Ns2pm2": 10,
-         "navigationForNPC": false,
-         "forCursor": false,
-         "p1_name": "puck5",
-         "spo1_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "p2_name": "puck1",
-         "spo2_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "fixedLength": false,
-         "collideConnected": true,
-         "softConstraints": false
-      },
-      "s45": {
-         "name": "s45",
-         "color": "tan",
-         "visible": true,
-         "length_m": 1.80,
-         "stretch_m": 0.028026185418459804,
-         "strength_Npm": 20.0,
-         "unstretched_width_m": 0.06,
-         "drag_c": 0,
-         "damper_Ns2pm2": 10,
-         "navigationForNPC": false,
-         "forCursor": false,
-         "p1_name": "puck4",
-         "spo1_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "p2_name": "puck2",
-         "spo2_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "fixedLength": false,
-         "collideConnected": true,
-         "softConstraints": false
-      },
-      "s46": {
-         "name": "s46",
-         "color": "tan",
-         "visible": true,
-         "length_m": 1.80,
-         "stretch_m": 0.02802618541845625,
-         "strength_Npm": 20.0,
-         "unstretched_width_m": 0.06,
-         "drag_c": 0,
-         "damper_Ns2pm2": 10,
-         "navigationForNPC": false,
-         "forCursor": false,
-         "p1_name": "puck3",
-         "spo1_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "p2_name": "puck1",
-         "spo2_ap_l_2d_m": {
-            "x": 0,
-            "y": 0
-         },
-         "fixedLength": false,
-         "collideConnected": true,
-         "softConstraints": false
-      },
-      "s47": {
-         "name": "s47",
+      "s6": {
+         "name": "s6",
          "color": "brown",
          "visible": true,
-         "length_m": 0.80,
+         "length_m": 0.8,
          "stretch_m": -0.048542777087116296,
-         "strength_Npm": 40.0,
+         "strength_Npm": 40,
          "unstretched_width_m": 0.06,
          "drag_c": 0,
          "damper_Ns2pm2": 10,
@@ -583,11 +427,167 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s48": {
-         "name": "s48",
+      "s7": {
+         "name": "s7",
+         "color": "tan",
+         "visible": true,
+         "length_m": 1.8,
+         "stretch_m": 0.028026185418458027,
+         "strength_Npm": 20,
+         "unstretched_width_m": 0.06,
+         "drag_c": 0,
+         "damper_Ns2pm2": 10,
+         "navigationForNPC": false,
+         "forCursor": false,
+         "p1_name": "puck6",
+         "spo1_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "p2_name": "puck2",
+         "spo2_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "fixedLength": false,
+         "collideConnected": true,
+         "softConstraints": false
+      },
+      "s8": {
+         "name": "s8",
+         "color": "tan",
+         "visible": true,
+         "length_m": 1.8,
+         "stretch_m": 0.028026185418460692,
+         "strength_Npm": 20,
+         "unstretched_width_m": 0.06,
+         "drag_c": 0,
+         "damper_Ns2pm2": 10,
+         "navigationForNPC": false,
+         "forCursor": false,
+         "p1_name": "puck5",
+         "spo1_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "p2_name": "puck3",
+         "spo2_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "fixedLength": false,
+         "collideConnected": true,
+         "softConstraints": false
+      },
+      "s9": {
+         "name": "s9",
+         "color": "tan",
+         "visible": true,
+         "length_m": 1.8,
+         "stretch_m": 0.028026185418458027,
+         "strength_Npm": 20,
+         "unstretched_width_m": 0.06,
+         "drag_c": 0,
+         "damper_Ns2pm2": 10,
+         "navigationForNPC": false,
+         "forCursor": false,
+         "p1_name": "puck4",
+         "spo1_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "p2_name": "puck6",
+         "spo2_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "fixedLength": false,
+         "collideConnected": true,
+         "softConstraints": false
+      },
+      "s10": {
+         "name": "s10",
+         "color": "tan",
+         "visible": true,
+         "length_m": 1.8,
+         "stretch_m": 0.02802618541845625,
+         "strength_Npm": 20,
+         "unstretched_width_m": 0.06,
+         "drag_c": 0,
+         "damper_Ns2pm2": 10,
+         "navigationForNPC": false,
+         "forCursor": false,
+         "p1_name": "puck5",
+         "spo1_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "p2_name": "puck1",
+         "spo2_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "fixedLength": false,
+         "collideConnected": true,
+         "softConstraints": false
+      },
+      "s11": {
+         "name": "s11",
+         "color": "tan",
+         "visible": true,
+         "length_m": 1.8,
+         "stretch_m": 0.028026185418459804,
+         "strength_Npm": 20,
+         "unstretched_width_m": 0.06,
+         "drag_c": 0,
+         "damper_Ns2pm2": 10,
+         "navigationForNPC": false,
+         "forCursor": false,
+         "p1_name": "puck4",
+         "spo1_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "p2_name": "puck2",
+         "spo2_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "fixedLength": false,
+         "collideConnected": true,
+         "softConstraints": false
+      },
+      "s12": {
+         "name": "s12",
+         "color": "tan",
+         "visible": true,
+         "length_m": 1.8,
+         "stretch_m": 0.02802618541845625,
+         "strength_Npm": 20,
+         "unstretched_width_m": 0.06,
+         "drag_c": 0,
+         "damper_Ns2pm2": 10,
+         "navigationForNPC": false,
+         "forCursor": false,
+         "p1_name": "puck3",
+         "spo1_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "p2_name": "puck1",
+         "spo2_ap_l_2d_m": {
+            "x": 0,
+            "y": 0
+         },
+         "fixedLength": false,
+         "collideConnected": true,
+         "softConstraints": false
+      },
+      "s13": {
+         "name": "s13",
          "color": "brown",
          "visible": true,
-         "length_m": 2.00,
+         "length_m": 2,
          "stretch_m": -0.1003072501126574,
          "strength_Npm": 20,
          "unstretched_width_m": 0.06,
@@ -609,11 +609,11 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s49": {
-         "name": "s49",
+      "s14": {
+         "name": "s14",
          "color": "brown",
          "visible": true,
-         "length_m": 2.00,
+         "length_m": 2,
          "stretch_m": -0.10029390621163525,
          "strength_Npm": 20,
          "unstretched_width_m": 0.06,
@@ -635,11 +635,11 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s50": {
-         "name": "s50",
+      "s15": {
+         "name": "s15",
          "color": "brown",
          "visible": true,
-         "length_m": 2.00,
+         "length_m": 2,
          "stretch_m": -0.1002983661767296,
          "strength_Npm": 20,
          "unstretched_width_m": 0.06,
@@ -660,8 +660,8 @@ demo_capture = {
          "fixedLength": false,
          "collideConnected": true,
          "softConstraints": false
-      }      
-   },   
+      }
+   },
    "jointMapData": {},
    "startingPosAndVels": [],
    "clients": {

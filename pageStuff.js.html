@@ -588,8 +588,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
          <span class="nx">m_generalDialog</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
             <span class="kr">const</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">m_generalDialog</span><span class="p">.</span><span class="nx">returnValue</span><span class="p">;</span>
             <span class="kr">const</span> <span class="nx">purpose</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;gD-purpose&#39;</span><span class="p">).</span><span class="nx">innerHTML</span><span class="p">;</span>
+            <span class="c1">//console.log(&quot;purpose = &quot; + purpose);</span>
             
-            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;purpose = &quot;</span> <span class="o">+</span> <span class="nx">purpose</span><span class="p">);</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">value</span> <span class="o">==</span> <span class="s2">&quot;accept&quot;</span><span class="p">)</span> <span class="p">{</span>
                <span class="c1">//console.log(&#39;gd = accept&#39;);</span>
                <span class="k">if</span> <span class="p">(</span><span class="nx">purpose</span> <span class="o">==</span> <span class="s2">&quot;post-normal&quot;</span><span class="p">)</span> <span class="p">{</span> 
@@ -599,6 +599,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">purpose</span> <span class="o">==</span> <span class="s2">&quot;post-delete&quot;</span><span class="p">)</span> <span class="p">{</span>
                   <span class="nx">cR</span><span class="p">.</span><span class="nx">postCaptureToCF</span><span class="p">({</span><span class="s1">&#39;action&#39;</span><span class="o">:</span><span class="s1">&#39;postOne&#39;</span><span class="p">,</span> <span class="s1">&#39;actionType&#39;</span><span class="o">:</span><span class="s1">&#39;delete&#39;</span><span class="p">});</span>
                <span class="p">}</span>
+               
             <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">value</span> <span class="o">==</span> <span class="s2">&quot;reject&quot;</span><span class="p">)</span> <span class="p">{</span>
                <span class="c1">//console.log(&#39;gd = reject&#39;);</span>
                

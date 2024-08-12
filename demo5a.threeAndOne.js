@@ -22,12 +22,12 @@ demo_capture = {
    },
    "wallMapData": {},
    "puckMapData": {
-      "puck19": {
+      "puck1": {
          "bullet": false,
          "bulletIndication": false,
          "jello": false,
          "clientName": null,
-         "name": "puck19",
+         "name": "puck1",
          "position_2d_m": {
             "x": 1.8499640673217275,
             "y": 4.439199992281335
@@ -63,53 +63,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck20": {
+      "puck2": {
          "bullet": false,
          "bulletIndication": false,
          "jello": false,
          "clientName": null,
-         "name": "puck20",
-         "position_2d_m": {
-            "x": 2.813850862023708,
-            "y": 3.100059608764745
-         },
-         "velocity_2d_mps": {
-            "x": 0.0004594101371422749,
-            "y": -0.0001941920055228429
-         },
-         "color": "DarkSlateGray",
-         "borderColor": "white",
-         "shape": "circle",
-         "imageID": null,
-         "imageScale": 1,
-         "colorSource": false,
-         "density": 1.5,
-         "linDamp": 1,
-         "angDamp": 0,
-         "createTail": false,
-         "tail": null,
-         "groupIndex": 0,
-         "categoryBits": 1,
-         "maskBits": 65535,
-         "angle_r": -0.4877771942833492,
-         "angularSpeed_rps": 0.34067458235325065,
-         "angleLine": "stripe",
-         "borderWidth_px": 0,
-         "restitution": 0,
-         "restitution_fixed": false,
-         "friction": 1,
-         "friction_fixed": true,
-         "radius_m": 1.3,
-         "aspectR": 1,
-         "half_height_m": null,
-         "half_width_m": null
-      },
-      "puck21": {
-         "bullet": false,
-         "bulletIndication": false,
-         "jello": false,
-         "clientName": null,
-         "name": "puck21",
+         "name": "puck2",
          "position_2d_m": {
             "x": 2.1305358691585257,
             "y": 1.5935688081934098
@@ -145,12 +104,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck22": {
+      "puck3": {
          "bullet": false,
          "bulletIndication": false,
          "jello": false,
          "clientName": null,
-         "name": "puck22",
+         "name": "puck3",
          "position_2d_m": {
             "x": 4.459510505639462,
             "y": 3.2398484574769446
@@ -182,6 +141,47 @@ demo_capture = {
          "friction": 1,
          "friction_fixed": true,
          "radius_m": 0.35431220000000013,
+         "aspectR": 1,
+         "half_height_m": null,
+         "half_width_m": null
+      },
+      "puck4": {
+         "bullet": false,
+         "bulletIndication": false,
+         "jello": false,
+         "clientName": null,
+         "name": "puck4",
+         "position_2d_m": {
+            "x": 2.813850862023708,
+            "y": 3.100059608764745
+         },
+         "velocity_2d_mps": {
+            "x": 0.0004594101371422749,
+            "y": -0.0001941920055228429
+         },
+         "color": "DarkSlateGray",
+         "borderColor": "white",
+         "shape": "circle",
+         "imageID": null,
+         "imageScale": 1,
+         "colorSource": false,
+         "density": 1.5,
+         "linDamp": 1,
+         "angDamp": 0,
+         "createTail": false,
+         "tail": null,
+         "groupIndex": 0,
+         "categoryBits": 1,
+         "maskBits": 65535,
+         "angle_r": -0.4877771942833492,
+         "angularSpeed_rps": 0.34067458235325065,
+         "angleLine": "stripe",
+         "borderWidth_px": 0,
+         "restitution": 0,
+         "restitution_fixed": false,
+         "friction": 1,
+         "friction_fixed": true,
+         "radius_m": 1.3,
          "aspectR": 1,
          "half_height_m": null,
          "half_width_m": null
@@ -238,8 +238,8 @@ demo_capture = {
       }
    },
    "springMapData": {
-      "s19": {
-         "name": "s19",
+      "s1": {
+         "name": "s1",
          "color": "darkgray",
          "visible": true,
          "length_m": 0,
@@ -250,7 +250,7 @@ demo_capture = {
          "damper_Ns2pm2": 0,
          "navigationForNPC": false,
          "forCursor": false,
-         "p1_name": "puck20",
+         "p1_name": "puck4",
          "spo1_ap_l_2d_m": {
             "x": 1.3,
             "y": 0
@@ -260,8 +260,8 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s20": {
-         "name": "s20",
+      "s2": {
+         "name": "s2",
          "color": "darkgray",
          "visible": true,
          "length_m": 0,
@@ -272,7 +272,7 @@ demo_capture = {
          "damper_Ns2pm2": 0,
          "navigationForNPC": false,
          "forCursor": false,
-         "p1_name": "puck20",
+         "p1_name": "puck4",
          "spo1_ap_l_2d_m": {
             "x": -1.3,
             "y": 0
@@ -282,8 +282,8 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s21": {
-         "name": "s21",
+      "s3": {
+         "name": "s3",
          "color": "black",
          "visible": true,
          "length_m": 2.1435888100000016,
@@ -294,12 +294,12 @@ demo_capture = {
          "damper_Ns2pm2": 0.5,
          "navigationForNPC": false,
          "forCursor": false,
-         "p1_name": "puck19",
+         "p1_name": "puck1",
          "spo1_ap_l_2d_m": {
             "x": 0,
             "y": 0
          },
-         "p2_name": "puck21",
+         "p2_name": "puck2",
          "spo2_ap_l_2d_m": {
             "x": 0,
             "y": 0
@@ -308,8 +308,8 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s22": {
-         "name": "s22",
+      "s4": {
+         "name": "s4",
          "color": "black",
          "visible": true,
          "length_m": 2.1435888100000016,
@@ -320,12 +320,12 @@ demo_capture = {
          "damper_Ns2pm2": 0.5,
          "navigationForNPC": false,
          "forCursor": false,
-         "p1_name": "puck19",
+         "p1_name": "puck1",
          "spo1_ap_l_2d_m": {
             "x": 0,
             "y": 0
          },
-         "p2_name": "puck22",
+         "p2_name": "puck3",
          "spo2_ap_l_2d_m": {
             "x": 0,
             "y": 0
@@ -334,8 +334,8 @@ demo_capture = {
          "collideConnected": true,
          "softConstraints": false
       },
-      "s23": {
-         "name": "s23",
+      "s5": {
+         "name": "s5",
          "color": "black",
          "visible": true,
          "length_m": 2.1435888100000016,
@@ -346,12 +346,12 @@ demo_capture = {
          "damper_Ns2pm2": 0.5,
          "navigationForNPC": false,
          "forCursor": false,
-         "p1_name": "puck21",
+         "p1_name": "puck2",
          "spo1_ap_l_2d_m": {
             "x": 0,
             "y": 0
          },
-         "p2_name": "puck22",
+         "p2_name": "puck3",
          "spo2_ap_l_2d_m": {
             "x": 0,
             "y": 0

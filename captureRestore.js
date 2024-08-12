@@ -402,7 +402,17 @@ window.cR = (function() {
    }
    
    function loadJSON( element, pars={}) {
-      let captureMissing = uT.setDefault( pars.captureMissing, "The capture text area is empty.");
+      let captureMissing = uT.setDefault( pars.captureMissing, 
+            "The capture text area is empty.");
+      let chatInputMissing = uT.setDefault( pars.chatInputMissing, 
+            'There is no modifying JSON to use.<br>' + 
+            'Put some JSON in the chat input field.<br>' + 
+            'Examples: {"color": "yellow"} or {"friction": 0.5}');
+      let chatInputError = uT.setDefault( pars.chatInputError, 
+            'There is a formatting error in the JSON in the chat input.<br>' + 
+            'An example of good format is {"color": "yellow"} or {"friction": 0.5}.<br><br>' + 
+            'You may need to use the "m" key to toggle the left panel and reveal the chat input field.');
+      
       let state_capture, message, title;
             
       if (element.value != '') {
@@ -421,9 +431,7 @@ window.cR = (function() {
                
             } else if (element.id == "inputField") {
                title = "JSON error in chat input";
-               message = 'There is a formatting error in the JSON in the chat input.<br>' + 
-                         'An example of good format is {"color": "yellow"} or {"friction": 0.5}.<br><br>' + 
-                         'You may need to use the "m" key to toggle the left panel and reveal the chat input field.';               
+               message = chatInputError;               
             }
             
             pS.viewGeneralDialog({"title":title, "message":message, "label_close":"close"});
@@ -437,9 +445,7 @@ window.cR = (function() {
             
          } else if (element.id == "inputField") {
             title = "chat field is empty";
-            message = 'There is no modifying JSON to use.<br>' + 
-                      'Put some JSON in the chat input field.<br>' + 
-                      'Examples: {"color": "yellow"} or {"friction": 0.5}';
+            message = chatInputMissing; 
          }
          
          pS.viewGeneralDialog({"title":title, "message":message, "label_close":"close"});
@@ -485,48 +491,173 @@ window.cR = (function() {
       }
    }
    
+   function calculateArea( puck) {
+      let area_sm; // square meters (sm)
+      if (puck.shape == "circle") {
+         area_sm = Math.PI * puck.radius_m * puck.radius_m;
+      } else {
+         area_sm = 4.0 * puck.half_height_m * puck.half_width_m;
+      }
+      return area_sm;
+   }
+   
    function sortPucks() {
       let state_capture = null, jsonModifier = null;
       
-      // Pull in the capture
-      state_capture = loadJSON( gW.dC.json);
-      
       // Parse the JSON in the chat field.
-      jsonModifier = loadJSON( gW.dC.inputField);
+      let sortPuckHelp = 'When using "sort pucks", there must be a capture in the capture textarea and there must be control parameters (in JSON format) in the chat input.<br><br>' + 
+            'Here are examples of control parameters:' +
+            '<ul>' +
+            '<li>{}' +
+            '<li>{"sort":"area"}' +
+            '<li>{"sort":"position"}' +
+            '<li>{"offCanvas":"delete"}' +
+            '<li>{"sort":"area", "offCanvas":"delete"}' +
+            '</ul>' +
+            'You may need to use the "m" key to toggle the left panel and reveal the chat input field.' +
+            '';
       
-      let sortedItems;
+      // Pull in the capture
+      state_capture = loadJSON( gW.dC.json, {"captureMissing":sortPuckHelp});
+      if ( ! state_capture) return;
+      
+      jsonModifier = loadJSON( gW.dC.inputField, {"chatInputError":sortPuckHelp, "chatInputMissing":sortPuckHelp});
+      if ( ! jsonModifier) return;
+      
+      let sortedPucks; // array
       if (jsonModifier.sort == "position") {
-         // sort on position
+         // sort on x position (left/right)
          console.log("position sort");
-         sortedItems = Object.entries( state_capture.puckMapData).sort((a, b) => a[1].position_2d_m.x - b[1].position_2d_m.x);
+         sortedPucks = Object.entries( state_capture.puckMapData).sort((a, b) => a[1].position_2d_m.x - b[1].position_2d_m.x);
+      
+      } else if (jsonModifier.sort == "area") {
+         console.log("area sort");
+         // Add an area column.
+         let arrayWithArea = Object.entries( state_capture.puckMapData).map( ([name, item]) => [name, item, calculateArea( item)] );
+         // Sort on the area.
+         let sortedArrayWithArea = arrayWithArea.sort((a, b) => a[2] - b[2]);
+         // Remove the area column now that the sort is done.
+         sortedPucks = sortedArrayWithArea.map(([name, item]) => [name, item]);
+      
       } else {
-         // Sort on height.
-         sortedItems = Object.entries( state_capture.puckMapData).sort((a, b) => a[1].half_height_m - b[1].half_height_m);
+         // Sort on the old-name index.
+         console.log("old-name sort");
+         // Add column with numeric index based on the old name.
+         let arrayWithNameIndex = Object.entries( state_capture.puckMapData).map( ([name, item]) => [name, item, parseInt( item['name'].slice(4))] );
+         // Sort by that index
+         let sortedArraybyIndex = arrayWithNameIndex.sort((a, b) => a[2] - b[2]);
+         // Remove the index column now that the sort is done.
+         sortedPucks = sortedArraybyIndex.map(([name, item]) => [name, item]);
       }
       
-      
-      // Remove items that are positioned outside the boundaries of the canvas.
-      let filteredItems = sortedItems.filter( function( item) { 
-         let p_2d_m = new wS.Vec2D( item[1].position_2d_m.x, item[1].position_2d_m.y);
-         let p_2d_px = wS.screenFromWorld( p_2d_m);
-         let canvasDimensions = {};
-         if (state_capture.canvasDimensions) {
-            canvasDimensions = state_capture.canvasDimensions;
+      let filteredPucks = sortedPucks.filter( function( item) { 
+         // Remove pucks that are positioned outside the boundaries of the canvas.
+         if (jsonModifier.offCanvas == "delete") {
+            let p_2d_m = new wS.Vec2D( item[1].position_2d_m.x, item[1].position_2d_m.y);
+            let p_2d_px = wS.screenFromWorld( p_2d_m);
+            let canvasDimensions = {};
+            if (state_capture.canvasDimensions) {
+               canvasDimensions = state_capture.canvasDimensions;
+            } else {
+               canvasDimensions = x_canvas;
+            }
+            return wS.pointInCanvas( canvasDimensions, p_2d_px);
+         
          } else {
-            canvasDimensions = x_canvas;
+            return true;
          }
-         return wS.pointInCanvas( canvasDimensions, p_2d_px);
       });
       
       // Rename the pucks.
-      let renamedItems = {};
-      filteredItems.forEach((item, index) => {
+      let mapFromOldPuckNames = {};
+      let newPuckMapData = {};
+      filteredPucks.forEach((item, index) => {
+         // New name according to sort order.
          let newName = "puck" + (index + 1);
+         
+         // Make a map from the old names to the new names.
+         mapFromOldPuckNames[ item[0]] = newName;
+         
+         // Update the puck's name attribute. 
          item[1].name = newName;
-         renamedItems[ newName] = item[1];
+         
+         // Add to the new puck map.
+         newPuckMapData[ newName] = item[1];
       });
       
-      state_capture.puckMapData = renamedItems;
+      // Reference the new puck map.
+      state_capture.puckMapData = newPuckMapData;
+      
+      
+      let sortedSprings; // array
+      sortedSprings = Object.entries( state_capture.springMapData).sort((a, b) => a[1].length_m - b[1].length_m);
+      
+      // Remove springs that are attached to deleted pucks.
+      let filteredSprings = sortedSprings.filter( function( item) {
+         //console.log(item[1].p1_name + ", " + item[1].p2_name);
+         
+         let p1_ok = ((mapFromOldPuckNames[ item[1].p1_name] in newPuckMapData) || item[1].p1_name.includes("pin"));
+         let p2_ok = ((mapFromOldPuckNames[ item[1].p2_name] in newPuckMapData) || item[1].p2_name.includes("pin"));
+         let goodSpring = (p1_ok && p2_ok) ? true : false;
+         return goodSpring;
+      });
+      
+      // Rename the springs and the attached pucks.
+      let newSpringMapData = {};
+      filteredSprings.forEach((item, index) => {
+         // Name according to the sort order.
+         let newName = "s" + (index + 1);
+         
+         // Update the name attribute.
+         item[1].name = newName;
+         
+         // Update the names of the pucks to which the spring is attached (skip if it's a pin).
+         if ( ! item[1].p1_name.includes("pin")) item[1].p1_name = mapFromOldPuckNames[ item[1].p1_name];
+         if ( ! item[1].p2_name.includes("pin")) item[1].p2_name = mapFromOldPuckNames[ item[1].p2_name];
+         
+         // Make a new spring map from the array.
+         newSpringMapData[ newName] = item[1];
+      });
+      
+      // reference the new spring map.
+      state_capture.springMapData = newSpringMapData;
+      
+      // Not all of the original captures have joint maps.
+      if (state_capture.jointMapData) {
+         let sortedJoints; // array
+         // Sort on the name of the first attachment.
+         sortedJoints = Object.entries( state_capture.jointMapData).sort((a, b) => a[1].jto1_name - b[1].jto1_name);
+         
+         // Remove joints that are attached to deleted pucks.
+         let filteredJoints = sortedJoints.filter( function( item) {
+            //console.log(item[1].jto1_name + ", " + item[1].jto2_name);
+            
+            let p1_ok = ((mapFromOldPuckNames[ item[1].jto1_name] in newPuckMapData) || item[1].jto1_name.includes("pin"));
+            let p2_ok = ((mapFromOldPuckNames[ item[1].jto2_name] in newPuckMapData) || item[1].jto2_name.includes("pin"));
+            let goodJoint = (p1_ok && p2_ok) ? true : false;
+            return goodJoint;
+         });
+         
+         // Rename the joints and the attached pucks.
+         let newJointMapData = {};
+         filteredJoints.forEach((item, index) => {
+            // Name according to the sort order.
+            let newName = "j" + (index + 1);
+            
+            // Update the name attribute.
+            item[1].name = newName;
+            
+            // Update the names of the pucks to which the joint is attached (skip if it's a pin).
+            if ( ! item[1].jto1_name.includes("pin")) item[1].jto1_name = mapFromOldPuckNames[ item[1].jto1_name];
+            if ( ! item[1].jto2_name.includes("pin")) item[1].jto2_name = mapFromOldPuckNames[ item[1].jto2_name];
+            
+            // Make a new joint map from the array.
+            newJointMapData[ newName] = item[1];
+         });
+         
+         // reference the new joint map.
+         state_capture.jointMapData = newJointMapData;
+      }
       
       // Write out the updated capture.
       state_capture.demoVersion += '.' + Math.floor((Math.random() * 1000) + 1);
@@ -545,10 +676,10 @@ window.cR = (function() {
          let vx_init_mps = Number( $('#vx_init').val());
          let vy_init_mps = Number( $('#vy_init').val());
          
-         state_capture['puckMapData']['puck15']['velocity_2d_mps'].x = vx_init_mps;
-         state_capture['puckMapData']['puck15']['velocity_2d_mps'].y = vy_init_mps;
-         state_capture['puckMapData']['puck12']['velocity_2d_mps'].x = -vx_init_mps; 
-         state_capture['puckMapData']['puck12']['velocity_2d_mps'].y = -vy_init_mps; 
+         state_capture['puckMapData']['puck1']['velocity_2d_mps'].x = vx_init_mps;
+         state_capture['puckMapData']['puck1']['velocity_2d_mps'].y = vy_init_mps;
+         state_capture['puckMapData']['puck2']['velocity_2d_mps'].x = -vx_init_mps; 
+         state_capture['puckMapData']['puck2']['velocity_2d_mps'].y = -vy_init_mps; 
       
       } else if (demoName == '5.b.two') {
          let a_init = Number( $('#a_2p_init').val());
@@ -563,10 +694,10 @@ window.cR = (function() {
          let c_init = Number( $('#c_4p_init').val());
          let d_init = Number( $('#d_4p_init').val());
          
-         state_capture['puckMapData']['puck17']['angularSpeed_rps'] = a_init;
-         state_capture['puckMapData']['puck18']['angularSpeed_rps'] = b_init;               
-         state_capture['puckMapData']['puck19']['angularSpeed_rps'] = c_init;               
-         state_capture['puckMapData']['puck20']['angularSpeed_rps'] = d_init;               
+         state_capture['puckMapData']['puck1']['angularSpeed_rps'] = a_init;
+         state_capture['puckMapData']['puck2']['angularSpeed_rps'] = b_init;               
+         state_capture['puckMapData']['puck3']['angularSpeed_rps'] = c_init;               
+         state_capture['puckMapData']['puck4']['angularSpeed_rps'] = d_init;               
          
       } else if (demoName == '5.b.six') {
          let a_init = Number( $('#a_6p_init').val());
@@ -589,9 +720,9 @@ window.cR = (function() {
          let b_init = Number( $('#b_init').val());
          let c_init = Number( $('#c_init').val());
          
-         state_capture['puckMapData']['puck9']['angularSpeed_rps'] = a_init;
-         state_capture['puckMapData']['puck10']['angularSpeed_rps'] = b_init;               
-         state_capture['puckMapData']['puck11']['angularSpeed_rps'] = c_init;               
+         state_capture['puckMapData']['puck1']['angularSpeed_rps'] = a_init;
+         state_capture['puckMapData']['puck2']['angularSpeed_rps'] = b_init;               
+         state_capture['puckMapData']['puck3']['angularSpeed_rps'] = c_init;               
       }
       
       //state_capture.demoVersion += '.' + Math.floor((Math.random() * 1000) + 1);
@@ -614,9 +745,9 @@ window.cR = (function() {
       let demoIndex = parseInt( demoName.split('.')[0]);
       
       // Check for the correct demo capture in the textarea.
-      let emptyMessage = "The calculators modify captures. " + 
-                         "You'll see this message if you went directly (first) to one of the calculator buttons. " + 
-                         "That's fine. The capture that you need has been loaded.";
+      let emptyMessage = "The calculators modify captures before running them. " + 
+                         "You'll see this message if you directly (first) use a calculator without loading the capture. " + 
+                         "This will load the needed capture, modify it, and then run it.";
       let state_capture = loadJSON( gW.dC.json, {"captureMissing":emptyMessage});
       let loadWaitNeeded = false;
       if ( ! (state_capture && (state_capture.demoVersion == demoName))) {
