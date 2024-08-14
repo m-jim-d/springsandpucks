@@ -124,12 +124,12 @@ demo_capture = {
       }
    },
    "puckMapData": {
-      "puck21": {
+      "puck1": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck21",
+         "name": "puck1",
          "position_2d_m": {
             "x": 4.109555376611081,
             "y": 5.380864357389676
@@ -163,12 +163,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck22": {
+      "puck2": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck22",
+         "name": "puck2",
          "position_2d_m": {
             "x": 3.535135644264897,
             "y": 5.464264543657703
@@ -202,12 +202,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck23": {
+      "puck3": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck23",
+         "name": "puck3",
          "position_2d_m": {
             "x": 5.491469970813845,
             "y": 5.474651438931505
@@ -241,12 +241,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck24": {
+      "puck4": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck24",
+         "name": "puck4",
          "position_2d_m": {
             "x": 4.253003832976421,
             "y": 5.814348374230365
@@ -280,12 +280,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck25": {
+      "puck5": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck25",
+         "name": "puck5",
          "position_2d_m": {
             "x": 3.565501469527707,
             "y": 5.0917863519703115
@@ -319,12 +319,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck26": {
+      "puck6": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck26",
+         "name": "puck6",
          "position_2d_m": {
             "x": 3.74507333625629,
             "y": 5.174720071748113
@@ -358,12 +358,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck27": {
+      "puck7": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck27",
+         "name": "puck7",
          "position_2d_m": {
             "x": 4.661206861101342,
             "y": 4.6661079916528445
@@ -397,12 +397,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck28": {
+      "puck8": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck28",
+         "name": "puck8",
          "position_2d_m": {
             "x": 5.2421437317691035,
             "y": 5.815826010903867
@@ -436,12 +436,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck30": {
+      "puck9": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck30",
+         "name": "puck9",
          "position_2d_m": {
             "x": 4.079918170188969,
             "y": 4.4302805693055625
@@ -475,12 +475,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck32": {
+      "puck10": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck32",
+         "name": "puck10",
          "position_2d_m": {
             "x": 4.319759548268805,
             "y": 4.715587254286283
@@ -514,12 +514,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck33": {
+      "puck11": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck33",
+         "name": "puck11",
          "position_2d_m": {
             "x": 4.870917686387893,
             "y": 4.712469965542229
@@ -553,12 +553,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck35": {
+      "puck12": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck35",
+         "name": "puck12",
          "position_2d_m": {
             "x": 5.1617138699964356,
             "y": 4.560584820461761
@@ -592,12 +592,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck36": {
+      "puck13": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck36",
+         "name": "puck13",
          "position_2d_m": {
             "x": 3.848155339613701,
             "y": 5.72823525800186
@@ -631,12 +631,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck37": {
+      "puck14": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck37",
+         "name": "puck14",
          "position_2d_m": {
             "x": 3.3188579380596304,
             "y": 4.442337027051743
@@ -670,12 +670,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck38": {
+      "puck15": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck38",
+         "name": "puck15",
          "position_2d_m": {
             "x": 3.641996522842617,
             "y": 5.610871324479243
@@ -709,12 +709,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck39": {
+      "puck16": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck39",
+         "name": "puck16",
          "position_2d_m": {
             "x": 3.926014757368094,
             "y": 5.052369846804411
@@ -748,12 +748,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck40": {
+      "puck17": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck40",
+         "name": "puck17",
          "position_2d_m": {
             "x": 3.559550829391663,
             "y": 4.562956551200824
@@ -787,12 +787,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck41": {
+      "puck18": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck41",
+         "name": "puck18",
          "position_2d_m": {
             "x": 4.01780759466312,
             "y": 5.206973978585102
@@ -826,12 +826,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck42": {
+      "puck19": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck42",
+         "name": "puck19",
          "position_2d_m": {
             "x": 3.798204839944897,
             "y": 4.896039280545234
@@ -865,12 +865,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck43": {
+      "puck20": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck43",
+         "name": "puck20",
          "position_2d_m": {
             "x": 4.801047901633343,
             "y": 5.3072946751769905
@@ -904,12 +904,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck44": {
+      "puck21": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck44",
+         "name": "puck21",
          "position_2d_m": {
             "x": 3.3426247264516125,
             "y": 4.62520871511923
@@ -943,12 +943,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck45": {
+      "puck22": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck45",
+         "name": "puck22",
          "position_2d_m": {
             "x": 3.5116524650838663,
             "y": 4.3677700009041125
@@ -982,12 +982,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck46": {
+      "puck23": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck46",
+         "name": "puck23",
          "position_2d_m": {
             "x": 4.701259539769827,
             "y": 5.454979389917267
@@ -1021,12 +1021,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck47": {
+      "puck24": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck47",
+         "name": "puck24",
          "position_2d_m": {
             "x": 3.8746693714424114,
             "y": 4.7287548575139695
@@ -1060,12 +1060,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck48": {
+      "puck25": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck48",
+         "name": "puck25",
          "position_2d_m": {
             "x": 4.749752774086249,
             "y": 5.653897372750475
@@ -1099,12 +1099,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck49": {
+      "puck26": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck49",
+         "name": "puck26",
          "position_2d_m": {
             "x": 3.680784166214549,
             "y": 4.748994828500372
@@ -1138,12 +1138,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck50": {
+      "puck27": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck50",
+         "name": "puck27",
          "position_2d_m": {
             "x": 4.441208114555773,
             "y": 5.213427443783786
@@ -1177,12 +1177,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck51": {
+      "puck28": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck51",
+         "name": "puck28",
          "position_2d_m": {
             "x": 4.302617081834687,
             "y": 5.376975081604696
@@ -1216,12 +1216,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck52": {
+      "puck29": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck52",
+         "name": "puck29",
          "position_2d_m": {
             "x": 3.3484289539755863,
             "y": 5.819006931259541
@@ -1255,12 +1255,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck53": {
+      "puck30": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck53",
+         "name": "puck30",
          "position_2d_m": {
             "x": 3.5987594527889724,
             "y": 4.907976799050617
@@ -1294,12 +1294,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck54": {
+      "puck31": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck54",
+         "name": "puck31",
          "position_2d_m": {
             "x": 3.4183629959350195,
             "y": 5.596928690128933
@@ -1333,12 +1333,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck55": {
+      "puck32": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck55",
+         "name": "puck32",
          "position_2d_m": {
             "x": 3.912493113795729,
             "y": 5.362292820361853
@@ -1372,12 +1372,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck56": {
+      "puck33": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck56",
+         "name": "puck33",
          "position_2d_m": {
             "x": 3.9034971584713025,
             "y": 4.410500984880589
@@ -1411,12 +1411,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck57": {
+      "puck34": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck57",
+         "name": "puck34",
          "position_2d_m": {
             "x": 3.780353354389368,
             "y": 4.57743572217194
@@ -1450,12 +1450,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck58": {
+      "puck35": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck58",
+         "name": "puck35",
          "position_2d_m": {
             "x": 3.2884318096714487,
             "y": 5.378457854024971
@@ -1489,12 +1489,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck59": {
+      "puck36": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck59",
+         "name": "puck36",
          "position_2d_m": {
             "x": 3.3450612931973267,
             "y": 5.12463600360266
@@ -1528,12 +1528,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck60": {
+      "puck37": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck60",
+         "name": "puck37",
          "position_2d_m": {
             "x": 3.505294649438617,
             "y": 5.2585376940174235
@@ -1567,12 +1567,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck61": {
+      "puck38": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck61",
+         "name": "puck38",
          "position_2d_m": {
             "x": 3.5287647908425526,
             "y": 5.765439185768656
@@ -1606,12 +1606,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck62": {
+      "puck39": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck62",
+         "name": "puck39",
          "position_2d_m": {
             "x": 3.692669800159008,
             "y": 4.387057281429912
@@ -1645,12 +1645,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck63": {
+      "puck40": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck63",
+         "name": "puck40",
          "position_2d_m": {
             "x": 3.6887313779365978,
             "y": 5.350419804768409
@@ -1684,12 +1684,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck64": {
+      "puck41": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck64",
+         "name": "puck41",
          "position_2d_m": {
             "x": 3.4847812592817533,
             "y": 4.765286544389617
@@ -1723,12 +1723,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck65": {
+      "puck42": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck65",
+         "name": "puck42",
          "position_2d_m": {
             "x": 3.309937933992128,
             "y": 4.802486832346082
@@ -1762,12 +1762,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck66": {
+      "puck43": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck66",
+         "name": "puck43",
          "position_2d_m": {
             "x": 5.428434782917926,
             "y": 5.8360877766337955
@@ -1801,12 +1801,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck67": {
+      "puck44": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck67",
+         "name": "puck44",
          "position_2d_m": {
             "x": 5.123551841641275,
             "y": 5.466305762259945
@@ -1840,12 +1840,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck68": {
+      "puck45": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck68",
+         "name": "puck45",
          "position_2d_m": {
             "x": 5.604775578288019,
             "y": 5.816810737316878
@@ -1879,12 +1879,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck69": {
+      "puck46": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck69",
+         "name": "puck46",
          "position_2d_m": {
             "x": 5.12740771815484,
             "y": 5.071493389605329
@@ -1918,12 +1918,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck70": {
+      "puck47": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck70",
+         "name": "puck47",
          "position_2d_m": {
             "x": 4.522977574209807,
             "y": 5.045005239032881
@@ -1957,12 +1957,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck71": {
+      "puck48": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck71",
+         "name": "puck48",
          "position_2d_m": {
             "x": 4.371191114490813,
             "y": 5.564827294370852
@@ -1996,12 +1996,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck73": {
+      "puck49": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck73",
+         "name": "puck49",
          "position_2d_m": {
             "x": 5.714901944901856,
             "y": 5.680259808591367
@@ -2035,12 +2035,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck74": {
+      "puck50": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck74",
+         "name": "puck50",
          "position_2d_m": {
             "x": 4.814483431466465,
             "y": 4.8791184378492005
@@ -2074,12 +2074,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck75": {
+      "puck51": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck75",
+         "name": "puck51",
          "position_2d_m": {
             "x": 4.339702762911374,
             "y": 4.4631427424481585
@@ -2113,12 +2113,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck76": {
+      "puck52": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck76",
+         "name": "puck52",
          "position_2d_m": {
             "x": 4.70329615562415,
             "y": 5.023204044360301
@@ -2152,12 +2152,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck77": {
+      "puck53": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck77",
+         "name": "puck53",
          "position_2d_m": {
             "x": 4.613612611533322,
             "y": 4.497704347369071
@@ -2191,12 +2191,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck78": {
+      "puck54": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck78",
+         "name": "puck54",
          "position_2d_m": {
             "x": 5.846278594153971,
             "y": 5.809643549214345
@@ -2230,12 +2230,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck79": {
+      "puck55": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck79",
+         "name": "puck55",
          "position_2d_m": {
             "x": 4.971474204634011,
             "y": 4.9701607898874975
@@ -2269,12 +2269,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck81": {
+      "puck56": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck81",
+         "name": "puck56",
          "position_2d_m": {
             "x": 3.989208316631773,
             "y": 5.604247258130315
@@ -2308,12 +2308,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck82": {
+      "puck57": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck82",
+         "name": "puck57",
          "position_2d_m": {
             "x": 5.158506534030277,
             "y": 5.643236214273158
@@ -2347,12 +2347,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck83": {
+      "puck58": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck83",
+         "name": "puck58",
          "position_2d_m": {
             "x": 4.473987048170359,
             "y": 4.607177404709397
@@ -2386,12 +2386,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck85": {
+      "puck59": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck85",
+         "name": "puck59",
          "position_2d_m": {
             "x": 5.206047835306947,
             "y": 5.29255849353329
@@ -2425,12 +2425,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck87": {
+      "puck60": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck87",
+         "name": "puck60",
          "position_2d_m": {
             "x": 3.979070822822571,
             "y": 4.582192181710281
@@ -2464,12 +2464,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck88": {
+      "puck61": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck88",
+         "name": "puck61",
          "position_2d_m": {
             "x": 5.544247528750918,
             "y": 5.641503257555689
@@ -2503,12 +2503,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck89": {
+      "puck62": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck89",
+         "name": "puck62",
          "position_2d_m": {
             "x": 4.64489724487756,
             "y": 5.8312499487942535
@@ -2542,12 +2542,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck90": {
+      "puck63": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck90",
+         "name": "puck63",
          "position_2d_m": {
             "x": 4.4280838579343635,
             "y": 4.8608106845602475
@@ -2581,12 +2581,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck91": {
+      "puck64": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck91",
+         "name": "puck64",
          "position_2d_m": {
             "x": 5.053557427749863,
             "y": 4.708058731454243
@@ -2620,12 +2620,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck92": {
+      "puck65": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck92",
+         "name": "puck65",
          "position_2d_m": {
             "x": 4.627688796115531,
             "y": 5.224863658884099
@@ -2659,12 +2659,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck93": {
+      "puck66": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck93",
+         "name": "puck66",
          "position_2d_m": {
             "x": 5.2585748276388875,
             "y": 4.7354621198374085
@@ -2698,12 +2698,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck94": {
+      "puck67": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck94",
+         "name": "puck67",
          "position_2d_m": {
             "x": 5.024785006831601,
             "y": 5.305469033459683
@@ -2737,12 +2737,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck95": {
+      "puck68": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck95",
+         "name": "puck68",
          "position_2d_m": {
             "x": 5.5220247718355795,
             "y": 4.594434939547361
@@ -2776,12 +2776,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck96": {
+      "puck69": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck96",
+         "name": "puck69",
          "position_2d_m": {
             "x": 5.061082952918618,
             "y": 5.820051168678531
@@ -2815,12 +2815,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck97": {
+      "puck70": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck97",
+         "name": "puck70",
          "position_2d_m": {
             "x": 4.463524893079227,
             "y": 5.824407339871356
@@ -2854,12 +2854,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck101": {
+      "puck71": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck101",
+         "name": "puck71",
          "position_2d_m": {
             "x": 4.240867748639079,
             "y": 5.18820473379782
@@ -2893,12 +2893,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck102": {
+      "puck72": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck102",
+         "name": "puck72",
          "position_2d_m": {
             "x": 3.9891924418572633,
             "y": 4.871776738834047
@@ -2932,12 +2932,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck103": {
+      "puck73": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck103",
+         "name": "puck73",
          "position_2d_m": {
             "x": 5.671483963771281,
             "y": 5.476479699748103
@@ -2971,12 +2971,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck104": {
+      "puck74": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck104",
+         "name": "puck74",
          "position_2d_m": {
             "x": 4.981400703065337,
             "y": 4.537502161310723
@@ -3010,12 +3010,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck105": {
+      "puck75": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck105",
+         "name": "puck75",
          "position_2d_m": {
             "x": 4.216559878391493,
             "y": 4.872813378120519
@@ -3049,12 +3049,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck107": {
+      "puck76": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck107",
+         "name": "puck76",
          "position_2d_m": {
             "x": 4.10187489027083,
             "y": 4.7245099681638925
@@ -3088,12 +3088,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck108": {
+      "puck77": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck108",
+         "name": "puck77",
          "position_2d_m": {
             "x": 5.857551281342989,
             "y": 4.703952085535802
@@ -3127,12 +3127,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck109": {
+      "puck78": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck109",
+         "name": "puck78",
          "position_2d_m": {
             "x": 4.894451539099672,
             "y": 5.488295077119245
@@ -3166,12 +3166,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck110": {
+      "puck79": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck110",
+         "name": "puck79",
          "position_2d_m": {
             "x": 5.34100601597785,
             "y": 4.575690134881769
@@ -3205,12 +3205,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck111": {
+      "puck80": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck111",
+         "name": "puck80",
          "position_2d_m": {
             "x": 4.835244442929753,
             "y": 5.831318606606687
@@ -3244,12 +3244,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck112": {
+      "puck81": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck112",
+         "name": "puck81",
          "position_2d_m": {
             "x": 3.697503856498164,
             "y": 5.820254424929449
@@ -3283,12 +3283,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck113": {
+      "puck82": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck113",
+         "name": "puck82",
          "position_2d_m": {
             "x": 4.946981983801062,
             "y": 5.6578453708081335
@@ -3322,12 +3322,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck114": {
+      "puck83": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck114",
+         "name": "puck83",
          "position_2d_m": {
             "x": 3.8041048096019376,
             "y": 5.521721368080179
@@ -3361,12 +3361,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck116": {
+      "puck84": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck116",
+         "name": "puck84",
          "position_2d_m": {
             "x": 4.201207291495975,
             "y": 4.578940882735366
@@ -3400,12 +3400,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck117": {
+      "puck85": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck117",
+         "name": "puck85",
          "position_2d_m": {
             "x": 4.325123845454347,
             "y": 5.028877665379626
@@ -3439,12 +3439,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck118": {
+      "puck86": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck118",
+         "name": "puck86",
          "position_2d_m": {
             "x": 5.341986839585603,
             "y": 5.641451967075105
@@ -3478,12 +3478,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck120": {
+      "puck87": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck120",
+         "name": "puck87",
          "position_2d_m": {
             "x": 4.634544487995604,
             "y": 4.855327545126725
@@ -3517,12 +3517,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck122": {
+      "puck88": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck122",
+         "name": "puck88",
          "position_2d_m": {
             "x": 4.17764106390531,
             "y": 5.5926954427339375
@@ -3556,12 +3556,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck123": {
+      "puck89": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck123",
+         "name": "puck89",
          "position_2d_m": {
             "x": 5.701138266144215,
             "y": 4.620095409256047
@@ -3595,12 +3595,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck125": {
+      "puck90": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck125",
+         "name": "puck90",
          "position_2d_m": {
             "x": 4.860468984289627,
             "y": 5.1216908361782085
@@ -3634,12 +3634,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck126": {
+      "puck91": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck126",
+         "name": "puck91",
          "position_2d_m": {
             "x": 5.858963149065039,
             "y": 5.37723954145792
@@ -3673,12 +3673,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck127": {
+      "puck92": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck127",
+         "name": "puck92",
          "position_2d_m": {
             "x": 3.416669854844529,
             "y": 4.96118075891333
@@ -3712,12 +3712,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck130": {
+      "puck93": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck130",
+         "name": "puck93",
          "position_2d_m": {
             "x": 4.563098921717231,
             "y": 5.622330941662482
@@ -3751,12 +3751,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck131": {
+      "puck94": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck131",
+         "name": "puck94",
          "position_2d_m": {
             "x": 4.107786221154547,
             "y": 5.024961153033241
@@ -3790,12 +3790,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck132": {
+      "puck95": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck132",
+         "name": "puck95",
          "position_2d_m": {
             "x": 4.0779233785078,
             "y": 5.769521452122544
@@ -3829,12 +3829,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck133": {
+      "puck96": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck133",
+         "name": "puck96",
          "position_2d_m": {
             "x": 5.314166434993432,
             "y": 5.446952582084404
@@ -3868,12 +3868,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck136": {
+      "puck97": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck136",
+         "name": "puck97",
          "position_2d_m": {
             "x": 4.791150552651627,
             "y": 4.5359185670386255
@@ -3907,12 +3907,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck138": {
+      "puck98": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck138",
+         "name": "puck98",
          "position_2d_m": {
             "x": 5.846442345740399,
             "y": 5.551791051001963
@@ -3946,12 +3946,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck139": {
+      "puck99": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck139",
+         "name": "puck99",
          "position_2d_m": {
             "x": 5.122378017720489,
             "y": 4.871134801944355
@@ -3985,12 +3985,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck140": {
+      "puck100": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck140",
+         "name": "puck100",
          "position_2d_m": {
             "x": 4.522935225612238,
             "y": 5.407531011205025
@@ -4024,12 +4024,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck142": {
+      "puck101": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck142",
+         "name": "puck101",
          "position_2d_m": {
             "x": 5.5730221321353355,
             "y": 5.041117164206972

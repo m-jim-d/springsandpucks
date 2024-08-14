@@ -2685,7 +2685,7 @@ window.cP = (function() {
             
             let shortName = puck.name.replace('puck','p');
             
-            m_EpL.reportString += shortName.padStart(5,' ') + " "  + uT.fixed( pe, 1) +
+            m_EpL.reportString += shortName.padStart(5,' ') + " "  + uT.fixed( pe, 2) +
                                                               ""  + uT.fixed( ke_translational, 2) + "" + uT.fixed( ke_rotational, 2) + 
                                                               ""  + uT.fixed( l_orbital, 2)        + "" + uT.fixed( l_spin, 2) + 
                                                               ""  + uT.fixed( px, 2)               + "" + uT.fixed( py, 2) + "\\";
@@ -2693,17 +2693,17 @@ window.cP = (function() {
          
          Spring.applyToAll( spring => {
             pe = spring.potentialEnergy();
-            m_EpL.reportString += spring.name.padStart(5,' ') + " " + uT.fixed( pe, 1) + "\\";
+            m_EpL.reportString += spring.name.padStart(5,' ') + " " + uT.fixed( pe, 2) + "\\";
             pe_total += pe;
          });
          
          e_total = ke_total + pe_total;
          let totalsString = "                                " + "\\" +
-                        "[base,cyan]  AGG " + uT.fixed( e_total, 2) + "[base]<----------E-" + 
+                        "[base,cyan]  AGG " + uT.fixed( e_total, 2) + "[base]<-----------E-" + 
                         "[base,cyan]"       + uT.fixed( l_total, 2) + "[base]<----L-" +  
                         "[base,cyan]"       + uT.fixed( p_total, 2) + "[base]<----p-\\" +
-                        "          PE    KEt    KEr     Lo     Ls     px     py \\" +
-                        "[base,cyan]total " + uT.fixed( pe_total, 1) + "" +
+                        "           PE    KEt    KEr     Lo     Ls     px     py \\" +
+                        "[base,cyan]total " +  uT.fixed( pe_total, 2) + "" +
                                                uT.fixed( ke_total_translational, 2) + "" + uT.fixed( ke_total_rotational, 2) + "" +
                                                uT.fixed( l_total_orbital, 2)        + "" + uT.fixed( l_total_spin, 2) + "" +
                                                uT.fixed( px_total, 2)               + "" + uT.fixed( py_total, 2) + "[base]\\";

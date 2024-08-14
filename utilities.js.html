@@ -158,18 +158,28 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
    
    <span class="kd">function</span> <span class="nx">fixed</span><span class="p">(</span> <span class="nx">numberValue</span><span class="p">,</span> <span class="nx">nDigits</span><span class="p">,</span> <span class="nx">padding</span><span class="o">=</span><span class="p">(</span><span class="nx">nDigits</span><span class="o">+</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
       <span class="kd">let</span> <span class="nx">absValue</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span> <span class="nx">numberValue</span><span class="p">);</span>
-      <span class="kd">let</span> <span class="nx">stringValue</span> <span class="o">=</span> <span class="nx">absValue</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span> <span class="nx">nDigits</span><span class="p">);</span>
-      <span class="kd">let</span> <span class="nx">signChar</span><span class="p">;</span>
-      <span class="kd">let</span> <span class="nx">small</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="nx">nDigits</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">numberValue</span> <span class="o">&lt;</span> <span class="p">(</span><span class="o">-</span><span class="nx">small</span><span class="p">))</span> <span class="p">{</span>
-         <span class="nx">signChar</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="p">;</span> <span class="c1">//String.fromCharCode(8722);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">numberValue</span> <span class="o">&gt;</span> <span class="p">(</span><span class="o">+</span><span class="nx">small</span><span class="p">))</span> <span class="p">{</span>
-         <span class="nx">signChar</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="p">;</span>
+      
+      <span class="kd">let</span> <span class="nx">paddedStringValue</span><span class="p">;</span>
+      
+      <span class="c1">// scientific notation</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">absValue</span> <span class="o">&gt;</span> <span class="mf">999.9</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">paddedStringValue</span> <span class="o">=</span> <span class="nx">numberValue</span><span class="p">.</span><span class="nx">toExponential</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">padStart</span><span class="p">(</span> <span class="nx">padding</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">);</span>
+         
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-         <span class="nx">signChar</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="p">;</span>
+         <span class="kd">let</span> <span class="nx">stringValue</span> <span class="o">=</span> <span class="nx">absValue</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span> <span class="nx">nDigits</span><span class="p">);</span>
+         <span class="kd">let</span> <span class="nx">signChar</span><span class="p">;</span>
+         <span class="kd">let</span> <span class="nx">small</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="nx">nDigits</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nx">numberValue</span> <span class="o">&lt;</span> <span class="p">(</span><span class="o">-</span><span class="nx">small</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">signChar</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="p">;</span> <span class="c1">//String.fromCharCode(8722);</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">numberValue</span> <span class="o">&gt;</span> <span class="p">(</span><span class="o">+</span><span class="nx">small</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nx">signChar</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="p">;</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">signChar</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="p">;</span>
+         <span class="p">}</span>
+         <span class="nx">stringValue</span> <span class="o">=</span> <span class="nx">signChar</span> <span class="o">+</span> <span class="nx">stringValue</span><span class="p">;</span>
+         <span class="nx">paddedStringValue</span> <span class="o">=</span> <span class="nx">stringValue</span><span class="p">.</span><span class="nx">padStart</span><span class="p">(</span> <span class="nx">padding</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">);</span>
       <span class="p">}</span>
-      <span class="nx">stringValue</span> <span class="o">=</span> <span class="nx">signChar</span> <span class="o">+</span> <span class="nx">stringValue</span><span class="p">;</span>
-      <span class="kd">let</span> <span class="nx">paddedStringValue</span> <span class="o">=</span> <span class="nx">stringValue</span><span class="p">.</span><span class="nx">padStart</span><span class="p">(</span> <span class="nx">padding</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">);</span>      
+      
       <span class="k">return</span> <span class="nx">paddedStringValue</span><span class="p">;</span>
    <span class="p">}</span>
    

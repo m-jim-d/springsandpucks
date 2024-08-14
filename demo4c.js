@@ -4,7 +4,11 @@ demo_capture = {
    "date": "6/11/2019, 4:21:16 PM",
    "gravity": false,
    "comSelection": true,
-   "EpL": {"display": true, "reportType": "EpL", "COM": true},
+   "EpL": {
+      "display": true,
+      "reportType": "EpL",
+      "COM": true
+   },
    "globalCompositeOperation": "source-over",
    "wallMapData": {
       "wall1": {
@@ -73,15 +77,15 @@ demo_capture = {
       }
    },
    "puckMapData": {
-      "puck3": {
+      "puck1": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck3",
+         "name": "puck1",
          "position_2d_m": {
-            "x": 3.0,
-            "y": 3.0
+            "x": 3,
+            "y": 3
          },
          "velocity_2d_mps": {
             "x": 2,
