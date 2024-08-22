@@ -482,6 +482,13 @@ window.cR = (function() {
             }
          });
          
+         // Change the attributes of the selected springs
+         cP.Spring.findAll_InMultiSelect( spring => {            
+            for (let key in jsonModifier) {
+               state_capture['springMapData'][ spring.name][ key] = jsonModifier[ key];
+            }
+         });
+         
          // Write out the updated capture.
          state_capture.demoVersion += '.' + Math.floor((Math.random() * 1000) + 1);
          let table_JSON = JSON.stringify( state_capture, null, 3);

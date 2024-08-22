@@ -441,6 +441,16 @@ table.twoInOrbit td, table.twoPuckCalculator td, table.threePuckCalculator td, t
    padding: 3px 3px;
    text-align: center;
 }
+div.green {
+   color: white;
+   background-color: DarkSlateGray; /*DarkSlateGray shade of green */
+   padding-bottom: 3px;
+}
+div.yellow {
+   color: black;
+   background-color: GoldenRod; /* shade of yellow */
+   padding-bottom: 3px;
+}
 
 
 button.main {

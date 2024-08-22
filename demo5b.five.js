@@ -58,7 +58,7 @@ demo_capture = {
          "restitution_fixed": true,
          "friction": 2.5,
          "friction_fixed": true,
-         "radius_m": 0.3897434200000002,
+         "radius_m": 0.45,
          "aspectR": 1,
          "half_height_m": null,
          "half_width_m": null
@@ -99,7 +99,7 @@ demo_capture = {
          "restitution_fixed": true,
          "friction": 2.5,
          "friction_fixed": true,
-         "radius_m": 0.3897434200000002,
+         "radius_m": 0.45,
          "aspectR": 1,
          "half_height_m": null,
          "half_width_m": null
@@ -140,7 +140,7 @@ demo_capture = {
          "restitution_fixed": true,
          "friction": 2.5,
          "friction_fixed": true,
-         "radius_m": 0.3897434200000002,
+         "radius_m": 0.45,
          "aspectR": 1,
          "half_height_m": null,
          "half_width_m": null
@@ -181,7 +181,7 @@ demo_capture = {
          "restitution_fixed": true,
          "friction": 2.5,
          "friction_fixed": true,
-         "radius_m": 0.3897434200000002,
+         "radius_m": 0.45,
          "aspectR": 1,
          "half_height_m": null,
          "half_width_m": null
@@ -222,7 +222,7 @@ demo_capture = {
          "restitution_fixed": true,
          "friction": 2.5,
          "friction_fixed": true,
-         "radius_m": 0.3897434200000002,
+         "radius_m": 0.45,
          "aspectR": 1,
          "half_height_m": null,
          "half_width_m": null

@@ -1478,8 +1478,8 @@ window.eV = (function() {
             
             // r_o * s_t = rXv
             
-            let puck_A = state_capture['puckMapData']['puck15'];
-            let puck_B = state_capture['puckMapData']['puck12'];
+            let puck_A = state_capture['puckMapData']['puck1'];
+            let puck_B = state_capture['puckMapData']['puck2'];
             
             let position_A_2d_m = wS.Vec2D_from_b2Vec2( puck_A['position_2d_m']);
             let position_B_2d_m = wS.Vec2D_from_b2Vec2( puck_B['position_2d_m']);
@@ -1492,7 +1492,7 @@ window.eV = (function() {
             let puck_A_mass_kg = puck_A.density * Math.PI * puck_A.radius_m ** 2;
             let l_total = 2 * puck_A_mass_kg * rXv;
             
-            let spring = state_capture['springMapData']['s14'];
+            let spring = state_capture['springMapData']['s1'];
             let spring_k = spring['strength_Npm'];
             let spring_l_m = spring['length_m'];
             

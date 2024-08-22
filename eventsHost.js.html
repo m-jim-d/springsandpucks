@@ -1574,8 +1574,8 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             
             <span class="c1">// r_o * s_t = rXv</span>
             
-            <span class="kd">let</span> <span class="nx">puck_A</span> <span class="o">=</span> <span class="nx">state_capture</span><span class="p">[</span><span class="s1">&#39;puckMapData&#39;</span><span class="p">][</span><span class="s1">&#39;puck15&#39;</span><span class="p">];</span>
-            <span class="kd">let</span> <span class="nx">puck_B</span> <span class="o">=</span> <span class="nx">state_capture</span><span class="p">[</span><span class="s1">&#39;puckMapData&#39;</span><span class="p">][</span><span class="s1">&#39;puck12&#39;</span><span class="p">];</span>
+            <span class="kd">let</span> <span class="nx">puck_A</span> <span class="o">=</span> <span class="nx">state_capture</span><span class="p">[</span><span class="s1">&#39;puckMapData&#39;</span><span class="p">][</span><span class="s1">&#39;puck1&#39;</span><span class="p">];</span>
+            <span class="kd">let</span> <span class="nx">puck_B</span> <span class="o">=</span> <span class="nx">state_capture</span><span class="p">[</span><span class="s1">&#39;puckMapData&#39;</span><span class="p">][</span><span class="s1">&#39;puck2&#39;</span><span class="p">];</span>
             
             <span class="kd">let</span> <span class="nx">position_A_2d_m</span> <span class="o">=</span> <span class="nx">wS</span><span class="p">.</span><span class="nx">Vec2D_from_b2Vec2</span><span class="p">(</span> <span class="nx">puck_A</span><span class="p">[</span><span class="s1">&#39;position_2d_m&#39;</span><span class="p">]);</span>
             <span class="kd">let</span> <span class="nx">position_B_2d_m</span> <span class="o">=</span> <span class="nx">wS</span><span class="p">.</span><span class="nx">Vec2D_from_b2Vec2</span><span class="p">(</span> <span class="nx">puck_B</span><span class="p">[</span><span class="s1">&#39;position_2d_m&#39;</span><span class="p">]);</span>
@@ -1588,7 +1588,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="kd">let</span> <span class="nx">puck_A_mass_kg</span> <span class="o">=</span> <span class="nx">puck_A</span><span class="p">.</span><span class="nx">density</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">*</span> <span class="nx">puck_A</span><span class="p">.</span><span class="nx">radius_m</span> <span class="o">**</span> <span class="mi">2</span><span class="p">;</span>
             <span class="kd">let</span> <span class="nx">l_total</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nx">puck_A_mass_kg</span> <span class="o">*</span> <span class="nx">rXv</span><span class="p">;</span>
             
-            <span class="kd">let</span> <span class="nx">spring</span> <span class="o">=</span> <span class="nx">state_capture</span><span class="p">[</span><span class="s1">&#39;springMapData&#39;</span><span class="p">][</span><span class="s1">&#39;s14&#39;</span><span class="p">];</span>
+            <span class="kd">let</span> <span class="nx">spring</span> <span class="o">=</span> <span class="nx">state_capture</span><span class="p">[</span><span class="s1">&#39;springMapData&#39;</span><span class="p">][</span><span class="s1">&#39;s1&#39;</span><span class="p">];</span>
             <span class="kd">let</span> <span class="nx">spring_k</span> <span class="o">=</span> <span class="nx">spring</span><span class="p">[</span><span class="s1">&#39;strength_Npm&#39;</span><span class="p">];</span>
             <span class="kd">let</span> <span class="nx">spring_l_m</span> <span class="o">=</span> <span class="nx">spring</span><span class="p">[</span><span class="s1">&#39;length_m&#39;</span><span class="p">];</span>
             

@@ -36,7 +36,7 @@ demo_capture = {
             "x": 9.80120564493055e-16,
             "y": 1.9733428271583305e-16
          },
-         "color": "#E9DCC9",
+         "color": "GoldenRod",
          "borderColor": "white",
          "shape": "circle",
          "imageID": null,
@@ -118,7 +118,7 @@ demo_capture = {
             "x": -1.497102425442719e-16,
             "y": 9.980682836284795e-17
          },
-         "color": "#E9DCC9",
+         "color": "GoldenRod",
          "borderColor": "white",
          "shape": "circle",
          "imageID": null,
@@ -200,7 +200,7 @@ demo_capture = {
             "x": -7.043385387536069e-16,
             "y": -2.289428562884626e-16
          },
-         "color": "#E9DCC9",
+         "color": "GoldenRod",
          "borderColor": "white",
          "shape": "circle",
          "imageID": null,

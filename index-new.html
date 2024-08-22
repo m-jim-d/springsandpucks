@@ -1,0 +1,2183 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <!-- also tried an initial-scale factor, 0.5, a compromise for rendering the text in the domain menu on a cell phone. -->
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="interactive animations and games, Box2D">
+
+   <title>springs & pucks</title>
+
+   <link rel="canonical" href="https://triquence.org/index.html" />
+   
+   <!-- This Open Graph tag controls how a link is displayed if posted on social media -->
+   <meta property="og:image" content="https://triquence.org/screenshots/colormixer.png">
+
+   <link href="hostAndClient.css?v=27" rel="stylesheet" type="text/css">  
+   <link href="dialog.css?v=4" rel="stylesheet" type="text/css">  
+
+   <!-- Google icon library -->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   
+   <!-- Google Charts loader -->
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     
+   <style>
+      details.onIndex {
+         margin-top: 3px;
+      }
+   </style>
+
+   <noscript>
+      <br><br><br><br><br>
+      <p style="font-family:Helvetica; font-size:150%; color:brown;">
+      triquence.org requires JavaScript.
+      <br><br> 
+      Please enable JavaScript in your browser<br>
+      and then reload this page.
+      </p>
+      <br><br><br><br><br><br><br>
+   </noscript>
+
+   <script src="jquery-3.6.1.min.js?v=3"></script>
+   <!-- see https://github.com/josdejong/mathjs ; use "math.", lowercase m, to reference methods in math.js -->
+   <script src="math.min.js?v=2"></script>
+      
+   <!--
+   MathJax rendering of LaTex equations 
+   https://docs.mathjax.org/en/latest/web/configuration.html
+   -->
+   <script type="text/javascript" id="MathJax-script" async
+     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+   </script>
+
+   <script src="Box2D.js?v=110"></script>
+
+   <script src="utilities.js?v=110"></script>
+   <script src="pageStuff.js?v=110"></script>
+   <script src="worldScreen.js?v=110"></script>
+   
+   <script src="drawFunc.js?v=110"></script>
+   <script src="consAndPros.js?v=110"></script>
+   <script src="clientProto.js?v=110"></script>
+   <script src="piEngine.js?v=110"></script>
+   
+   <script src="tableActs.js?v=110"></script>
+   <script src="multiSelect.js?v=110"></script>
+   <script src="gwModule.js?v=110"></script>
+   
+   <script src="demoStart.js?v=110"></script>
+   <script src="eventsHost.js?v=110"></script>
+   <script src="boxStuff.js?v=110"></script>
+
+   <!-- for testing: load client via script element
+   <script src="https://triquence-ca88d70f0e55.herokuapp.com/socket.io/socket.io.js"></script>
+   -->
+   <script src="hostAndClient.js?v=110"></script>
+   <script src="eventsNonHost.js?v=110"></script>
+
+   <script src="captureRestore.js?v=110"></script>
+   <script src="leaderBoard.js?v=110"></script>
+   <script src="ghostBall.js?v=110"></script>
+   <script src="puckPopper.js?v=110"></script>
+   <script src="jelloMadness.js?v=110"></script>
+   <script src="bpHoops.js?v=110"></script>
+   <script src="monkeyHunt.js?v=110"></script>
+
+   <!-- put a capture into the page level global: demo_6_fromFile -->
+   <script src="demo6.js?v=110"></script>
+   <!-- put a capture into the page level global: demo_8_fromFile -->
+   <script src="demo8.js?v=110"></script>
+   <!--
+   <script src="demo2b.js"></script>
+   -->
+
+   <!--
+   <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+   -->
+   <script src="adapter-latest.js?v=2"></script>
+
+   <!-- The navigation menu -->
+   <link href="sitemap.css?v=20" rel="stylesheet" type="text/css">   
+
+   <script>
+      // Page-level global (for index.html) to facilitate the dynamic loading of captures for various demos.
+      var demo_capture;
+      
+      // After the page loads (and canvas element is defined)....
+      $(document).ready( function() { 
+         pS.init({"pageDesc":"SP: Main", "logPage":true, "scrollAdjust":-13, "scrollAtLoad":false, "generalDialog":true});
+         gW.init();
+         hC.init_chatFeatures();
+      });
+   </script> 
+
+</head>
+
+<body>
+
+<dialog id="generalDialog" style="z-index:5; width:400px">
+   <h2 class="dialog" id="title">The title</h2>
+   <p id="dialogMessage">The message</p>
+   <form method="dialog">
+      <button class="dialog-cancel-x"                 value="close" title="close"         >&times;</button>
+      <button class="dialog"         id="gD-accept"   value="accept" style="float:right;" >Accept</button>
+      <button class="dialog-cancel"  id="gD-reject"   value="reject" style="float:right;" >Reject</button> 
+      <div class="center-close-button">
+      <button class="dialog-cancel"  id="gD-close"    value="close"  style="float:center;"  >Close (no change)</button>
+      </div>
+   </form>
+   <span id="gD-purpose" style="display:none;"><span> 
+</dialog>
+
+<!-- the puck costumes -->
+<div style="display:none;">
+  <img id="covid"      src="images/covid2019.png"  width="50"  height="50" title="covid">
+  <img id="dandelion"  src="images/dandelion.png"  width="50"  height="50" title="dandelion">
+  <img id="wheel"      src="images/wheel1.png"     width="50"  height="50" title="wheel">
+  <img id="monkey"     src="images/monkey.png"     width="335" height="481" title="monkey">
+  
+  <img id="basketball" src="images/basketball.png" width="50"  height="50" title="basketball">
+  
+  <img id="biden2"     src="images/biden2.png"     width="348" height="502" title="Biden">
+  <img id="trump2"     src="images/trump2.png"     width="687" height="888" title="Trump">
+  <img id="pence"      src="images/pence.png"      width="146" height="196" title="Pence">
+  <img id="harris"     src="images/harris.png"     width="179" height="185" title="Harris">
+  <img id="pelosi"     src="images/pelosi.png"     width="282" height="307" title="Pelosi">
+  <img id="schumer"    src="images/schumer.png"    width="603" height="918" title="Schumer">
+  <img id="mcconnell"  src="images/mcconnell.png"  width="207" height="272" title="McConnell">
+  <img id="mccarthy"   src="images/mccarthy.png"   width="137" height="193" title="McCarthy">
+  <img id="miller"     src="images/miller.png"     width="315" height="436" title="Miller">
+  
+  <img id="elephant-1" src="images/elephant.png"   width="853" height="1049" title="Republican #1">
+  <img id="elephant-2" src="images/elephant.png"   width="853" height="1049" title="Republican #2">
+  <img id="elephant-3" src="images/elephant.png"   width="853" height="1049" title="Republican #3">
+  <img id="elephant-4" src="images/elephant.png"   width="853" height="1049" title="Republican #4">
+  <img id="donkey-1"   src="images/donkey.png"     width="603" height="655"  title="Democrat #1">
+  <img id="donkey-2"   src="images/donkey.png"     width="603" height="655"  title="Democrat #2">
+  <img id="donkey-3"   src="images/donkey.png"     width="603" height="655"  title="Democrat #3">
+  <img id="donkey-4"   src="images/donkey.png"     width="603" height="655"  title="Democrat #4">
+  <img id="monkey-1"   src="images/monkey.png"     width="335" height="481"  title="Independent #1">
+</div>
+
+<!-- The navigation menu -->
+<div id="navDiv"></div>
+<!-- <span class="menuicon" id="opener" style="font-size:19px; cursor:pointer;">&#9776;</span> -->
+<img class="menuicon" id="opener" src="images/menu.svg" alt="" style="cursor:pointer;">
+<div class="main" id="mainDiv">
+   
+   <div class="containerRow" style="">
+      <div class="maintext" id="multiPlayer" style="display:none">
+         <div class="scroller">
+            <datalist id="nodeServerList"></datalist>         
+            <span id="serverTitle">Server</span><input id="nodeServer" list="nodeServerList" value='connect.triquence.org' autocomplete="off" title='Use the default unless you have an ip address (and port) for a local node server.'>
+            <div id="roomAndConnect" style="display:inline-block; float:right;">
+               <span id="roomTitle">Room</span><input id="roomName" autocomplete="off" maxlength="9"/>
+               <button id="ConnectButton" class="chat" onclick="hC.connect_and_listen('normal');" title=
+"Initiate the host's connection and create the game room. 
+Optionally, put a nickname in the chat before clicking this button.
+
+Note: for an existing connection, this 'Create' button can be used
+to rejoin the room under a new nickname (chat input).
+">Create</button>
+            </div>
+            </br>
+            <form id="chatForm" action="" style="display:inline-block; float:right; white-space:nowrap;">
+               <input id="inputField" autocomplete="off" 
+                      title="Use the 'Enter' key to submit a message."
+                      value=" put your NICKNAME here before creating the room or starting a game"
+                      onFocus="hC.clearInputDefault( this)"/>
+               <button disabled id="ChatButton" class="chat">Chat</button>
+            </form>
+            </br>
+            <ul id="messages"></ul>
+         </div>
+      </div>
+      <div class="maintext" id="ttcIntro" style="display:table-cell">
+         <div class="scroller" id="helpScroller" data-divType="scroll">
+         
+         <!-- <a name="TOP"></a><a name="top"></a> -->
+         <p class="title" id="topScroll">springs & pucks</p>
+         
+         <!--
+         <p class="title" style="font-size: 125%;">
+         springs & pucks</p>
+         -->
+         
+         <p id="browserAdvice"> (best with a Chromium-based browser)</p>
+         <br>
+         
+         <p>
+         Triquence.org is host to a collection of animations and games.
+         </p>
+         <p>
+         For a start, click and drag a colored circle on the canvas.
+         Take the <a class="scroll-link" href="#" title="a guided intro" data-scroll-target="superShortIntro">tour</a>.
+         <a href="videos.html?interactions" title="videos on interactions" target="_blank">Watch</a> and see how to grab, fling, rotate, and shoot.
+         </p>
+         <!-- 
+         a collection of code scripts,
+         These topics can be accessed through the navigation menu, upper left.
+         There may be a few R scripts coming...
+         
+         </p><p>There's a back-burner plan for a new Waconia page 
+         based on Google Charts, client sided this time.
+         the team at the <a href="https://www.youtube.com/watch?v=-LQtBxP9SDs" target="_blank"> rec-center and</a> 
+         
+         <p><a title='show or hide the help content' onclick="uT.toggleElementDisplay('outline1','block');uT.toggleSpanValue('moreOrLess','More','Less');">
+         <span id='moreOrLess'>More</span></a>: on multiplayer, capture, the editor, and the games. 
+         </p>
+         <span id='outline1' style='display:none'>
+         testing
+         </span>
+         -->         
+         
+         <div style="text-align: left; margin-top:-10px;">
+         
+         <div style="display: inline-block; vertical-align: top;">
+         <span id="introduction"></span>
+         <p>Topics here:</p>
+         <ul style="margin: 2px 15px 10px 0px;">            
+            <li><a class="scroll-link" href="#" title="" data-scroll-target="buttonsHelp">number buttons</a></li>             
+            <li><a class="scroll-link" href="#" title="" data-scroll-target="multi">multiplayer</a>
+               <ul>
+                  <li><a class="scroll-link" href="#" title="" data-scroll-target="twoThumbs">game client</a></li>
+               </ul>       
+            </li>
+            <li><a class="scroll-link" href="#" title="" data-scroll-target="capture">capture</a></li>
+            <li><a class="scroll-link" href="#" title="" data-scroll-target="editorMark">editing</a>
+               <ul>
+                  <li><a class="scroll-link" href="#" title="" data-scroll-target="editorMark">single-select</a></li>
+                  <li><a class="scroll-link" href="#" title="" data-scroll-target="multiSelect">multi-select</a></li>
+               </ul>
+            </li> 
+            <li><a class="scroll-link" data-scroll-target="EpLReport" href="#" title="Energy, Momentum, and Angular Momentum">epl and speed reports</a></li>
+            <li><a class="scroll-link" data-scroll-target="frameRate" href="#" title="">frame rate</a></li>
+            <li><a class="scroll-link" href="#" title="" data-scroll-target="browsers">browsers</a></li>
+            <li><a class="scroll-link" href="#" title="" data-scroll-target="codeLinks">the code</a></li>              
+         </ul>
+         </div>
+         
+         <div style="display: inline-block; vertical-align: top;">
+         <ul style="margin: 14px 0px 10px 0px;">
+            <li>has to be: <a class="scroll-link" href="#" title="...that way, unless..." data-scroll-target="d1b">&nbsp;1b&nbsp;</a></li> 
+            <li>counting to pi: <a class="scroll-link" href="#" title="" data-scroll-target="d1_pi">&nbsp;1c&nbsp;</a></li> 
+            <li>sound fields: <a class="scroll-link" href="#" title="" data-scroll-target="d2">&nbsp;2a&nbsp;</a></li>
+            <li><span class="gameBullet">Ghost-ball Pool</span>: <a class="scroll-link" href="#" title="" data-scroll-target="d3d">&nbsp;3d&nbsp;</a></li> 
+            <!-- <li>rectangles: <a class="scroll-link" href="#" title="" data-scroll-target="d4">&nbsp;4&nbsp;</a></li> -->
+            <li>chain reaction: <a class="scroll-link" href="#" title="" data-scroll-target="d4d">&nbsp;4d&nbsp;</a></li>
+            <li><span class="gameBullet">Monkey Hunt</span>: <a class="scroll-link" href="#" title="" data-scroll-target="hunt">&nbsp;4e&nbsp;</a></li> 
+            <li>springs and pins: <a class="scroll-link" href="#" title="" data-scroll-target="d5">&nbsp;5a&nbsp;</a></li>
+            <li>orbit from spin: 
+               <a class="scroll-link" href="#" title="" data-scroll-target="d5b">&nbsp;5b&nbsp;</a>,
+               <a class="scroll-link" href="#" title="" data-scroll-target="d5btwo">two</a>
+               <!-- <a class="scroll-link" href="#" title="" data-scroll-target="d5bfour">four</a> -->
+            </li>
+            <li><span class="gameBullet">dandelions</span>: <a class="scroll-link" href="#" title="" data-scroll-target="d5d">&nbsp;5d&nbsp;</a></li>
+            <li><span class="gameBullet">Bipartisan Hoops</span>: <a class="scroll-link" href="#" title="" data-scroll-target="bphoops">5e.ball</a></li>
+            <li><span class="gameBullet">Jello Madness</span>: <a class="scroll-link" href="#" title="" data-scroll-target="d6">&nbsp;6a&nbsp;</a></li> 
+            <li><span class="gameBullet">Puck Popper</span>:   
+               <a class="scroll-link" href="#" title="" data-scroll-target="d7">&nbsp;7a&nbsp;</a>, 
+               <a class="scroll-link" href="#" title="" data-scroll-target="d8">&nbsp;8a&nbsp;</a></li> 
+            <li>color mixing: <a class="scroll-link" href="#" title="" data-scroll-target="d9">&nbsp;9a&nbsp;</a></li>
+         </ul>
+         </div>
+         
+         </div>
+         
+         <p>
+         These animations use <a class="scroll-link" href="#" title="" data-scroll-target="codeLinks">JavaScript</a>, 
+         <a href="https://github.com/hecht-software/box2dweb" target="_blank" title="github download">Box2dWeb</a>, 
+         and an HTML5 Canvas. 
+         Multiplayer games use peer-to-peer Wi-Fi <a href="client.html" title="client-to-host communication">clients</a> 
+         developed with  
+         <a href="multiplayer.html" target="_blank" title="overview and a quick multiplayer how-to">socket.io</a> and 
+         <a href="peer2peer.html" target="_black" title="discussion on peer-to-peer">WebRTC</a>.
+         </p>
+         
+         <p>
+         The <a href="mouseandkeys.html" target="_blank" title="mice, keyboards, and touchscreens">reference</a> and <a href="rev-history.html" target="_blank" title="revision history for triquence.org">revisions</a> 
+         pages give another perspective on functionality. You may find a note on what's coming next.
+         </p>
+         
+         <p style="margin-bottom:25px">Nearby, you'll find a related 
+         <a href="https://pet.triquence.org/index.html" title="physics-engine tutorial">tutorial</a> 
+         and some very unrelated 
+         <a href="https://waconia.triquence.org/weather.html?station=RMTN&days=5" title="weather data, JSON and XML feed readers, screen-scraper parsing, and charts...">charting</a>.
+         </p>
+
+         <hr><br>
+         <span id="superShortIntro">A playful introduction:<br>
+         </span>
+         
+         <ul style="list-style-type: circle; margin: 20px 0px 20px -20px;">
+            <li>Move objects (pucks) with your mouse or finger. Drag and fling them. Put on the breaks with the f key. 
+            Try the g key.
+            <br><br></li>
+            
+            <li>Click on the links in the row of letters (under the numbered buttons) to run the variations of the base demos. For example,
+            click on the "5" button and then click on the "d" link to see the falling-dandelions demo.
+            <br><br></li>
+
+            <li>Button #7 starts the Puck Popper game. With multiple players, use #8 for more terrain. For more challenge, try 8c, 8d, and 8e.
+            Here are a few how-to <a title='How to play Puck Popper' href='https://triquence.org/videos.html?puckPopper' target="_blank">videos</a>.
+            <br><br></li>
+               
+            <li>The <a href="#" onClick="window.open('client.html', '_blank', 'width=1240, height=750')" title="open a client page in a new window.">client</a> 
+            interface for multiplayer includes a virtual gamepad for cell phones (or any touch-screen device). 
+            Try it. Click the multiplayer option (right panel) to start hosting a game. 
+            Type in a room name (left panel), and then click the "Create" button. On your cell phone, 
+            from the <a href="#" onClick="window.open('client.html?m', '_blank', 'width=1240, height=750')" title="open a client page in a new window.">mini-client</a> page,
+            enter the room name and then touch the "Connect" button. 
+            After your connection to the host succeeds, touch the "Two-Thumbs" button.
+            <br><br></li>
+            
+            <li>
+            Play some <a onclick="cR.demoStart_fromCapture(3, {'fileName':'demo3d.js'})">ghost-ball</a> pool. 
+            Go <a onclick="cR.demoStart_fromCapture(4, {'fileName':'demo4e.monkeyhunt.js'})">hunting</a>.
+            Detangle the Jello: #6.
+            <br><br></li>
+            
+            <li>Try an editor feature: select a puck, then resize it with the arrow keys.
+            <br><br></li>
+            
+            <li>Then save your edits, capture them, by clicking the "U" button. Replay the capture by clicking the corresponding number key or the "Run" button.
+            <br><br></li>
+            
+            <li>Take a look at the list of keyboard <a href="mouseandkeys.html" target="_blank" title="mice, keyboards, and touchscreens">shortcuts</a>.
+            <br><br></li>
+            
+            <li>(Note: with the "Ctrl" and "Shift" keys down, use the left/right arrow keys to step through the history of 
+            page links that have been clicked. The up-arrow key jumps to the top of the page.)</li>
+         </ul>
+                  
+         <hr><br>
+         <span id="buttonsHelp"></span>
+         Use the <strong>number buttons</strong> (right panel) to start demos and games. 
+         Each button presents a group of similar demos. For example, the #5 group introduces springs. 
+         To restart, click again (or use the keyboard's number keys). 
+         The letter links, below the number buttons, start variations of the base demo or game. 
+         Hover over the buttons and links for info tips.
+         <details class="coloredText">
+         <summary title="click for more on the buttons">details...</summary>
+         Clicking one of these letter links populates the capture box and starts the variation. 
+         Clicking the corresponding number button restarts the variation. 
+         The "a" link acts to clear out the capture box and then restart the base demo. 
+         The "0" (zero) key resets the demos, clears the capture, exits from full-screen mode, and scrolls this panel to the top.
+         Each number button auto-scrolls this left panel to show corresponding information. 
+         <br><br>
+         The scrolling in the left panel is recorded. These panel-scroll positions can be revisited using the left and right
+         arrow keys if both the "Ctrl" and "Shift" keys are held down. Similarly, the up-arrow key scrolls this panel to the top. 
+         </details>
+         
+         <br>
+         The "<strong>Freeze</strong>" button momentarily stops all puck translation while 
+         allowing rotation to continue. The neighboring "<strong>R</strong>" button stops all 
+         rotation (use t and shift-t to change the rotation rate of a selected puck).
+         <br>&nbsp;<br>
+         
+         The "<strong>Reverse</strong>" button (or Ctrl-Backspace) flips the velocity and reverses the rotation rate of each puck. 
+         <br>&nbsp;<br>
+         
+         Each of the <strong>three mouse buttons</strong> has a different spring strength 
+         for dragging objects: left click for the normal spring, center 
+         click for the weakest spring, right click for the strongest spring and a firmer connection 
+         to the larger pucks.
+         <details class="coloredText">
+         <summary title="click for more on the mouse buttons">details...</summary>
+         Note that using the right mouse button on the smallest 
+         pucks may cause instability in the physics engine; go ahead and try it. If you're only
+         positioning a small puck (not flinging it), try doing so with the control key down; that
+         will always be stable.
+         </details>
+         <br>
+         
+         Most controls have a <strong>keyboard shortcut</strong> letter underlined in their label. 
+         <br>&nbsp;<br>
+         
+         The "<strong>COM</strong>" (Center Of Mass) checkbox controls the position of the selection point (and where the cursor spring attaches). 
+         With this on, the selection point will always be at the center of the target object. 
+         Turning this off allows you to apply an off-center force (torque) to spin or stop spinning the object. 
+         <details class="coloredText">
+         <summary title="click for more on the COM control">details...</summary>
+         The "c" key is a keyboard shortcut for the COM checkbox. 
+         Use alt-c to center the cursor-spring attachment point along the narrowest dimension of a rectangular puck. 
+         Issuing alt-c a second time pushes the attachment point to the nearest end of the puck 
+         (these alt-c commands apply to both single and multi-select).
+         </details>
+         <br>
+         
+         The "<strong>g</strong>" checkbox (or "g" key) toggles gravity between 0 and 9.8.
+         <details class="coloredText">
+         <summary title="click for more on gravity">details...</summary>
+         The gravity checkbox also controls several associated parameters in
+         Box2D: restitution, friction, and 
+         b2_velocityThreshold. Depending on the demo, if gravity is 
+         turned off, these settings are used to produce more elastic 
+         collisions (low energy loss) so things keep moving and don't 
+         stick to the walls. In demo #6, the opposite is done so that 
+         collisions are inelastic, reducing chatter when pucks are 
+         held in contact with each other under the tension of springs. Note that if you use
+         the editor to change the restitution or friction of a puck (or if the corresponding "fixed" flag has been set in the
+         capture), it will remain fixed at that level, independent
+         of the gravity checkbox, until the demo is reloaded or the puck is edited again. If you grab a puck
+         with the control key down, you may see the word "fixed" after the restitution or friction values in
+         the puck report.
+         </details>
+         <br>
+         
+         The "<strong>CV</strong>" checkbox put a Coronavirus costume on each of the drone pucks in the 
+         Puck Popper game, demos 7 and 8. This gives you a safe way to take a swing at this nasty little
+         virus.
+         <br>&nbsp;<br>
+         
+         The "<strong>pause</strong>" checkbox disables all updates to the canvas. When paused,
+         a stepper button is revealed in place of the fps value; click it to advance a single frame.
+         If the perimeter walls are red, the animation is paused. Uncheck the "pause" control to
+         resume animation. Alternatively use the "p" key to pause and resume. The neighboring "o" key
+         will single step the animation. Hold the "o" key down to repeatedly step at a slow rate. 
+         <br><br>
+         
+         The combination of the "<strong>alt</strong>" and "<strong>p</strong>" keys toggles the <strong>canvas 
+         eraser</strong>. 
+         <details class="coloredText">
+         <summary title="click for more on the inhibiting the eraser">details...</summary>
+         The eraser normally precedes each frame. When 
+         toggled off, some drawing features, such as for springs, are inhibited. 
+         This feature produces interesting variation of the demos, especially the 
+         spinning rectangles of the 
+         <a onclick="cR.demoStart_fromCapture(4, {'fileName':'demo4d.js'})">#4d</a>
+         group (turn gravity off, use the 
+         <i class="material-icons" style="font-size:24px; position:relative; top:7px; left:0px; margin: -10px 2px;">aspect_ratio</i>
+         full-canvas button, and then alt-p), and the expanding color tail of 
+         <a onclick="cR.demoStart_fromCapture(2, {'fileName':'demo2e.js'})">#2e</a> 
+         (again, use the full-canvas button, 
+         grab the puck with the mouse, shrink it 
+         all the way down using the arrow keys, fling it hard, 
+         and then alt-p).
+         </details>
+         
+         <p style="margin-top: 2px;">
+         The <i class="material-icons" style="font-size:30px; position:relative; top:9px; left:0px; margin: 0px -3px;">fullscreen</i> 
+         full-screen button stretches the 
+         animation canvas into full-screen mode while preserving the original aspect ratio. 
+         This provides a nice front-and-center 
+         presentation of the demos (a good way to play Puck Popper). 
+         </p>
+         
+         <p style="margin-top: -15px;">
+         The neighboring
+         <i class="material-icons" style="font-size:24px; position:relative; top:5px; left:0px; margin: 0px 2px;">aspect_ratio</i>
+         full-canvas button enlarges the 
+         canvas to match the size and aspect ratio of the screen (view port). When using this 
+         feature, the perimeter fence is enlarged to match the dimensions of the 
+         larger canvas (note: the fence is not adjusted for the pool games). 
+         </p>
+         
+         <p style="margin-top: -5px;">
+         Use either the "esc" key or the "0" key to exit from either of the full-screen views. Note
+         that the "0" key clears the capture that is automatically taken when this button is used.
+         </p>
+         
+         <span id="removeAdd"></span>The "<strong>remove/add items</strong>" select control, provides a way to scrub off the canvas and add elements as needed. If the cursor is moved off an option and onto
+         the canvas (before clicking it) the cursor position can be used to position the new element; after positioning the cursor, press the enter key. If the option is 
+         clicked, a default position on the canvas is used. 
+         <br><br>
+         The "<strong>align-selected</strong>" option under "remove/add items" acts to position (equally spaced) all the selected objects along a line formed by the two most separated members.
+         It also linearizes the values of restitution, friction, and linear and angular damping based on the corresponding values of the two outer members. The keyboard shortcut is alt-L.
+         <br><br>
+         Similarly, the "<strong>arc-selected</strong>" option acts to position (equally spaced) the selected pucks along an arc (a semi-circle). The ordering of placement is in
+         the same order as individual pucks are selected. So, for a trick-shot rack in a game of 9-ball, select the 1 ball first and the 9 ball last. This sets up a potential chain reaction
+         of collisions, sending the 9-ball into a pocket.
+         The keyboard shortcut is alt-shift-L.
+         <br><br>
+         
+         <hr><br>
+         <span id="multi">Use the "<strong>Multiplayer</strong>" checkbox to display the 
+         controls for connecting as a host to the node server. Then type a short 
+         room name into the red input box (on the left). Optionally, type a 
+         nickname for yourself into the chat input box. Then click the "create" button. Wait a 
+         few seconds for the server to wake up. Open one (or several) client 
+         windows from these links: 
+         <a href="#" onClick="window.open('client.html', '_blank', 'width=1240,height=750')">window</a>, 
+         <a href="client.html" target='_blank'>tab</a>. 
+         From those client pages, repeat the connection 
+         process using the same room name that you specified as the host. Once 
+         connected, you will see your mouse and keyboard events rendering to the 
+         host canvas (this page). That way multiple users can simultaneously 
+         interact with the animated objects in the demo. 
+         The question-mark key can be useful for locating your puck in the Puck Popper game (demos 7 and 8).
+         There's more info on the 
+         specifics of multiplayer game play in the topics for 
+         <a class="scroll-link" href="#" title="" data-scroll-target="d7">demos #7</a> and #8 below.</span>
+         <br><br> 
+         
+         Optionally, each connected client may initiate a live <strong>video 
+         stream</strong> of the host's canvas. After connecting, click the 
+         "Stream" checkbox on the client. This works best if the host and the 
+         clients are running their monitors at the same refresh rate. Overall, 
+         Chrome is the best browser for producing smooth rendering of the stream 
+         on the client. If the client has limited cpu power (like a Raspberry 
+         Pi), it's best not to stream. Any client without a video stream has to 
+         be in the same physical room to see the rendering on the host's screen. 
+         <br><br> 
+         
+         <span id="twoThumbs">The <strong>Two-Thumbs</strong> touch screen interface, a virtual 
+         gamepad (see image below), is useful for controlling a game puck from a 
+         cell phone in demos 7 and 8 (Puck Popper). From your cell phone, or 
+         other touch-screen device, open the <a href="client.html?m" target="_blank">mini-client</a> page in Chrome (or the <a href="client.html" target="_blank">full client</a>). 
+         Connect to the host as described above, then click the "Two Thumbs" button. Your 
+         left thumb will control the jet direction and intensity (more thrust the 
+         farther your touch point is out from center dot). Right thumb fires and 
+         aims the shooter. The center rectangle turns the shield on/off.</span>
+         <br><br>
+         <!-- image-rendering: -webkit-optimize-contrast optimizeQuality crisp-edges -->
+         <img title="screen shot of the Two-Thumbs touch-screen interface" src="images/twoThumbs_small.png" width="513" height="316">
+         <br><br>          
+         The colored rectangle, below the shield control, indicates your client color. Touch 
+         it, and a large circle will show around your puck (helping you to find 
+         it). The small rectangle controls at the bottom require the alt 
+         rectangle to be touched first (this prevents accidental firing 
+         of these controls when driving the puck). These can be used to: get out 
+         of the full-screen mode (esc), freeze the object motion (f), restart the 
+         two Puck Popper games (7 and 8). 
+         The scope control is located in the bottom right corner of the virtual 
+         gamepad. This control precisely rotates the shooter tube and shoots from 
+         a fixed position. Touching the center block stops the movement of your 
+         puck, and then shoots without recoil (and no rotation). The surrounding 
+         two blocks, rotate the shooter tube (ccw or cw). The rotation rate is 
+         reduced as the touch point approaches the center block. 
+         <br><br>
+         
+         Note that you can use the Two-Thumbs interface, even when
+         there is no direct line of sight to the host's screen, by starting up a second client with a video stream.
+         <br><br>
+         
+         As described above, the full-screen buttons 
+         provide means for presenting the canvas without the help/chat and the controls panels (nice for playing
+         Puck Popper).
+         <br><br>
+		
+         There is more information on the <a href="multiplayer.html" target="_blank">Node.js</a>, <a href="multiplayer.html" target="_blank">socket.io</a>, and 
+         <a href="peer2peer.html" target="_blank">WebRTC</a> that are used here, including <a href="multiplayer.html" target="_blank">instructions</a> on 
+         how to install a local node server on the host computer.
+         <br>&nbsp;
+         
+         <br><hr><br>
+         <span id="capture">The capture, "<strong>U</strong>" button (or "u" key), records the current state of 
+         a demo. The result is written to the neighboring text cell and also to 
+         the paste buffer. The capture can be started with the "<strong>Run</strong>" button (or shift-r from keyboard) or the corresponding
+         number button (highlighted yellow). Restart with "Run" or the yellow demo button.</span>
+         <br><br>
+         After capturing, the results can be saved for later use by pasting into 
+         a text file. To reanimate the capture, paste the result back into the 
+         capture text area and click the "Run" button or the corresponding demo button. 
+         The capture result is in formatted JSON. Code editors work well to view 
+         and edit the capture with syntax highlighting (JavaScript).
+         <br><br> 
+         A capture can be immediately taken after starting a demo (before the engine alters the state) by clicking the "Run" button
+         while holding the shift key down. This can be used to get an updated copy of an existing capture. This is also a good way to
+         take an un-altered (0th frame) capture of the "a" versions of the demos.
+         <br><br> 
+         There are links to color-highlighted examples of JSON captures in the help topic for <a class="scroll-link" href="#" title="" data-scroll-target="d6">demo #6</a>. 
+         These were taken following use of the editing features (see below) to 
+         make two circular structures from the Jello matrix.
+         <br><br>
+         Captures can be edited. To try it, first, to better view the capture, right-click in the capture text area (or drag out the lower right corner). 
+         Run the 2c demo, and then change one of the pucks so that its tail's rainbow parameter is set to "true".
+         Then start it with the "Run" or #2 buttons.
+         <br><br> 
+         The "<strong>S</strong>" and "<strong>L</strong>" buttons Save and Load captures through your local file system.
+         The "<strong>P</strong>" button posts the current capture to Cloud storage; 
+         hold the shift key down to update an existing Cloud capture;
+         hold the shift and ctrl keys down to delete an existing Cloud capture.
+         The "<strong>?</strong>" button lists captures available from Cloud storage (a subset for the current demo index); 
+         hold shift key down to list all Cloud captures. Click the links in the list to download and run the capture. 
+         <strong>Anonymous cloud posts</strong> (using the default nickname of "host") <strong>expire</strong> (self delete) in 3 days.
+         <br><br>
+         The "remove/add items" select control has two procedures for modifying an existing capture: "shift capture" and "modify capture."
+         For both of these, you'll need to start with a capture in the capture text area.
+         <details class="coloredText">
+         <summary title="click for more on modifying captures">details...</summary>
+            <ul style="margin-top: 4px; margin-bottom: 0px; margin-left: -10px">
+               <li>The "shift capture" procedure moves all the elements in a small-canvas capture to the center of a larger canvas. 
+               Click on this option, then "Run" the resulting modified capture.</li>
+               <li>The "modify capture" procedure operates on selected elements, editing the capture based on a substitution string in the chat field. 
+               For example, starting with a capture of demo 1, put {"color": "brown"} in the chat field (use the "m" key if chat is hidden), 
+               select a few pucks, click this option (or shift-m shortcut). The modified capture will automatically run.</li>
+            </ul>
+         </details>
+         <br>
+         
+         <hr><br>
+         <span id="editorMark"><strong>Editing features</strong> can be used to change the characteristics of selected pucks, pins, walls, or springs.</span>
+         <br><br>
+         Select a <strong>single</strong> object by clicking in the canvas area and then dragging the cursor over the object (or by directly clicking on the object).
+         <br><br>
+         Summary of the <strong>single-select</strong> commands:
+         <ul>
+            <li>"c" key:
+               <ul>
+                  <li><strong>cursor-spring-attachment mode</strong>: use the "c" key to toggle between center-of-mass (COM) and a specific point on the selected puck.</li>
+                  <li><strong>aim an arrow</strong>: use "alt-c" to center the attachment point in the narrowest dimension of a rectangular puck. This is useful for shooting a skinny one.</li>
+               </ul>
+            </li>   
+            <li>control key:
+               <ul>
+                  <li><strong>mouse drag</strong>: hold the "ctrl" key down and mouse drag the object. Puck position and other characteristics are displayed in this mode.</li>
+                  <li><strong>rotation</strong>: hold down the "ctrl" and "Shift" keys and drag the object using the mouse. For circular pucks, you'll see a ghost
+                  (outline) as you drag to rotate the source puck.</li>
+                  <li><strong>shoot a puck</strong>: the rotation move (above) leads to a billiards shot by releasing the mouse button. For more on this, 
+                  try demo <a onclick="cR.demoStart_fromCapture(3, {'fileName':'demo3d.js'})">3d</a>, the Ghost-Ball Pool game.
+                  Note that the game has the "ctrl" and "Shift" keys locked down; ctrl-Shift-L toggles this lock. Use the "alt" key to <strong>reverse</strong> the direction of a shot. 
+                  </li>
+               </ul>
+            </li>   
+            <li>arrow keys: <strong>resize</strong> a single object
+               <ul>
+                  <li>up/down keys: change a rectangular object's height</li>
+                  <li>left/right keys: change a rectangular object's width</li>
+               </ul>
+            </li>   
+            <li>"-" and "+" keys: change the <strong>surface friction</strong> (tackiness)</li>
+            <li>"[" and "]" keys: change the puck's <strong>restitution</strong> (elasticity)</li>
+            <li>"&lt;" and "&gt;" keys: change the <strong>linear damping</strong> (drag). Use while holding down the "alt" key to change a puck's <strong>rotational damping</strong>.</li>
+            <li>ctrl-v: <strong>replicate</strong> the object (includes navigation pins) near the original</li>
+            <li>ctrl-x: <strong>delete</strong></li>
+         </ul>
+         <br>
+         To repeat the resizing operations keep holding the corresponding key down.
+         <br><br>
+         By default, walls and
+         pins (stationary spring anchors), are not selectable unless you check the "Edit walls & pins" box. This default protects them from
+         moving around under normal mouse-drag situations. To mouse-drag walls and pins, you must also hold down the "ctrl" key.
+         <br><br>
+         Check the "Edit walls & pins" box to change the characteristics of the 
+         static terrain for any of the demos. This includes perimeter and 
+         interior walls (even rotating ones). Refer to the next section, on Multi-select, for commands to rotate objects.
+         <br><br>
+         Demo #8 was constructed using the editing features and 
+         the state-capture feature. Modify demo #8 to create your own battle 
+         field: edit, then capture it. 
+         <br><br>
+         <span id="multiSelect"><strong>Multi-select</strong> allows you to select single or multiple objects. This is the only method by which springs can be selected (by selecting their connected pucks and pins).
+         </span>
+         <br><br>
+         Hold the shift key down to select multiple objects during mouse drag (turn off "Select COM" to select off-center points). Hold down the alt key for box-based selection.
+         <br><br>
+         Selected objects are indicated by yellow dots; springs are dashed. To 
+         unselect an object, RIGHT click and drag, still using the shift (or alt) key.
+         Note that right clicking with shift down in 
+         FireFox yields a context menu when you release the click; ignore it, try using the alt key with FireFox, or use Chrome.
+         <br><br>
+         To completely reset 
+         the multi-selection, release the shift (or alt) key and click on any empty space 
+         in the canvas area. 
+         <br><br>
+         Summary of the <strong>multi-select</strong> commands:
+         <ul>
+            <li>control key: group <strong>drag</strong>
+               <ul>
+                  <li>hold the control key down, then click and mouse drag any body in the multi-select group causing the whole group to drag</li>
+               </ul>
+            </li>   
+            <li>control and shift keys (or control and alt): group <strong>rotation</strong>
+               <ul>
+                  <li>hold both the control and <strong>shift</strong> keys down, then click and mouse drag any body in the multi-select group causing the whole group to rotate <strong>about the center</strong> of the group</li>
+                  <li>hold both the control and <strong>alt</strong> keys down to cause each body to rotate <strong>about itself</strong></li>
+               </ul>
+            </li>   
+            <li>arrow keys: <strong>resize</strong> single or multiple objects
+               <ul>
+                  <li>holding down the "s" key directs resizing (or damping) operations at selected springs. In the default mode ("s" key up), operations are directed at selected pucks and walls.</li>
+                  <li>up/down keys change the object's length</li>
+                  <li>left/right keys change the object's width (and strength if it's a spring)</li>
+                  <li>left/right keys, while holding down "s" and "alt", changes spring width without affecting spring strength</li>
+               </ul> 
+            </li>   
+            <li>t (and shift-t): incrementally change the rotation <strong>rate</strong>.</li>
+            <li>"-" and "+" keys: change the <strong>surface friction</strong> (tackiness)</li>
+            <li>"[" and "]" keys: change the <strong>restitution</strong> (elasticity)</li>
+            <li>"&lt;" and "&gt;" keys: change the <strong>damping</strong> (drag) on selected pucks
+               <ul>
+                  <li>Use while holding down the "alt" key to change the <strong>rotational</strong> damping (drag) on pucks.</li> 
+                  <li>Use while holding down the "s" key to change the damping characteristics (<strong>shock absorbers</strong>) of selected springs.</li>
+               </ul>
+            </li>
+            <li>ctrl-x: <strong>deletes</strong> single or multiple objects
+               <ul>
+                  <li>the first ctrl-x operation deletes the selected springs, a second ctrl-x deletes selected pucks and pins</li>
+               </ul>  
+            </li>   
+            <li>ctrl-c: <strong>copy</strong> a single spring (must have ONLY the two connected pucks or pins selected). 
+            Press ctrl-c a second time, with no selected pucks or pins, to stop using this spring as the source for paste operations.</li>
+            <li>ctrl-s: <strong>paste</strong> a single spring (onto two selected pins or pucks)</li>
+            <li>ctrl-v: <strong>replicate</strong> a selected group of objects to the cursor location. Note: client pucks and navigation pins are excluded.</li>
+         </ul>
+         <br>
+         Altering the characteristics of objects in a multi-select group, such as 
+         resizing, affects all members of the group. If a status message is displayed, 
+         it indicates the changing value of the last object selected in the group. All 
+         member values are scaled with the same factor (increments of 5 or 10%). 
+         <br><br>
+         The "tab" key <strong>steps</strong> through additional features for interacting with a multiselect group:
+         <ul>
+            <li><strong>normal</strong>: a delete operation, ctrl-x, first targets springs and revolute joints and then (a second ctrl-x) targets pucks and walls.</li>
+            <li><strong>everything</strong>: first ctrl-x deletes everything highlighted in the multiselect group.</li>
+            <li><strong>springs</strong>: ctrl-x applies to springs on pucks/pins in the multiselect
+               <ul>
+                  <li>"enter" key <strong>steps</strong> through, and individually highlights a specific spring. "shift-enter" steps in <strong>reverse</strong> order. 
+                  Copy/paste/delete/alter operations apply to that specific spring.</li>
+               </ul>
+            </li>   
+            <li><strong>revolute joints</strong>: ctrl-x applies to revolute joints on pucks/pins/walls in the multiselect
+               <ul>
+                  <li>"enter" and "shift-enter" <strong>step</strong> through the revolute joints. Delete operations (ctrl-x) apply to the highlighted joint.</li>
+               </ul>
+            </li>  
+         </ul>
+         Copy and paste can be used to place a spring onto a pair of selected pucks or pins: 
+         <ol>
+            <li>use multi-select to select ONE spring (two pucks/pins)</li>
+            <li>copy it (ctrl-c)</li>
+            <li>use multi-select to select a new pair of pucks/pins (turn off "Select COM" to select off-center points)</li>
+            <li>paste the spring (ctrl-s)</li>
+         </ol>
+         <br>
+         A few things to try with multi-select:
+         <ul>
+            <li>Dissect (or add to) the jello matrix in demos #6 and #8.</li>
+            <li>Select a compound object (like the triangle in demo #5) and change the connecting spring lengths while it's spinning.</li>
+            <li>Delete some of the pucks in demo #3. Select and delete without using the freeze button. Notice how the new holes in the puck grid propagate after wall collisions.</li>
+         </ul>
+         <br><hr><br>
+         
+         <span id="d1"><strong>Demo #1</strong> presents several circular puck animations.</span>
+         The <a onclick="cR.clearState();dS.demoStart(1)">1a</a> version is a simple mix of large and small pucks, no gravity. These pucks have some surface friction,
+         tackiness, affecting collision and rotational behavior. If gravity is toggled on, their tacky surface, allows 
+         these to be combined (stacked) into rolling trios. Try toggling off the "COM" (center of mass) selection and then
+         mouse drag to apply a torque to one of these pucks. Surface friction of selected pucks can be changed via the editor (+,- keys).
+         <br><br>
+         <a onclick="cR.demoStart_fromCapture(1, {'fileName':'demo1b.js'})">1b</a> shows the capability of
+         Box2D in a difficult task, modeling a settled pile (i.e., stationary objects in contact, under gravity). 
+         <br><br>
+         <span id="d1b"></span><a onclick="cR.demoStart_fromCapture(1, {'fileName':'demo1b.js'})">1b</a> also shows that what appears to be a very random process
+         is actually deterministic. At a 17ms timestep, a pyramid of yellow balls will form. This always happens unless there is some user
+         interaction. If you first change to a 10ms timestep,
+         the <a onclick="cR.demoStart_fromCapture(1, {'fileName':'demo1b.10ms.js'})">10ms</a> version will yield a similar result.
+         <br><br>
+         (Note: to see the deterministic behavior, the 1b demos must be done without the host connected to the node server. 
+         If the host has created a room, and a client has connected, you must reload the 
+         this page to fully disconnect the host from the node server.)
+         <br><br>
+         For a little side trip with 1b, try setting the surface friction to zero for all the pucks. 
+         First, edit the capture, set gravity to <i>false</i>. 
+         Then run the altered 1b capture by clicking the "1" button.
+         Box select all the pucks (drag with alt key down). 
+         Then hold down the "-" key until puck friction is at zero. 
+         Deselect everything by clicking on an open spot in the canvas. 
+         Finally, toggle gravity back on ("g" key) to see the more fluid result.
+         <br><br><hr><br>
+         
+         <span id="d1_pi"></span><a onclick="cR.demoStart_fromCapture(1, {'fileName':'demo1c.js'})">1c</a> presents an unusual method for
+         calculating the first two digits of pi (31) using two elastically colliding pucks. 
+         Wait as the large puck is repelled by collisions with the smaller puck (and wall). The
+         collision count will stop, eventually, as the two pucks both move in the negative y direction, 
+         the large puck slightly faster than the smaller one.
+         This 31-count case occurs when the larger puck has 100 times the mass of the smaller. 
+         If the mass of the two pucks are changed to be equal (you can try this by editing the capture), this
+         demo will yield the first digit of pi (3), three collisions, two kisses and one wall bounce. 
+         <br><br>
+         This 3Blue1Brown <a href="https://www.youtube.com/watch?v=jsYwFizhncE" target="_blank">video</a> tells the counting-to-pi story.
+         <br><br>
+         More pi digits can be found in this way at higher mass ratios, where the ratio is 100
+         to some power of n. You'll need to use a dedicated 1D physics engine like
+         <a href="https://pet.triquence.org/?countpi" target="_blank">this one</a> written in Python.
+         The 1D algorithm is also implemented here in demos
+         <a onclick="cR.demoStart_fromCapture(1, {'fileName':'demo1d.js'})">1d</a> (3 digits of pi, n=2) and 
+         <a onclick="cR.demoStart_fromCapture(1, {'fileName':'demo1e.js'})">1e</a> (5 digits, n=4).
+         <br><br>
+         The "v max" value captures the highest velocity for the smaller puck during the pi-counting series. This peaks at the point
+         when the larger puck has transfered all its kinetic energy to the smaller puck and reverses its direction. A closed-form solution
+         to this can be derived by equating the kinetic-energy expressions for the two pucks. For 1e:
+         <br>
+         <!-- 
+         image-rendering: -webkit-optimize-contrast optimizeQuality crisp-edges 
+         <img title="v max" src="images/CodeCogs_vmax.gif" width="293" height="45" style="display:block; margin-left:auto; margin-right:auto; image-rendering:-webkit-optimize-contrast;">
+         -->
+         \[ v_{max}=\sqrt{\frac{m_{2}}{m_{1}}}v_{2}=\sqrt{100^{4}}\ast0.4=4000 \]
+         
+         <hr><br>
+         
+         <span id="d2"><strong>Demo #2</strong> <a onclick="cR.clearState();dS.demoStart(2)">2a</a> is a sound-field simulation where 
+         two of the pucks are emitting at 60Hz (or the refresh rate of your 
+         computer and monitor). The width of the canvas represents 6 meters. 
+         Every second a single wave is colored white (contrasting) so you can 
+         see that waves are propagating out from the puck. The propagation speed 
+         can be changed in the capture (propSpeed_ppf_px). The set of waves are 
+         stored in a FIFO buffer. The set size can be changed in the capture 
+         (length_limit). This gives the appearance of a tail as the puck is 
+         dragged. If you fling the puck so it moves faster than the wave speed (Mach > 1) 
+         you will see a shock-wave.</span>
+         <br><br>
+         The <a onclick="cR.demoStart_fromCapture(2, {'fileName':'demo2c.js'})">2c</a> version of this demo illustrates object motion at Mach speeds of 1.00, 1.41, and 2.00. These speeds
+         produce corresponding Mach angles of 90&#176;, 45&#176;, and 30&#176;
+         (view the <a href="demo2c.js.html" target="_blank">capture</a>).
+         <br><br>
+         When using the single-frame stepper,
+         you'll see that the 'white' wave is colored red for added visibility. 
+         Pause it when the white wave is visible, then click the "step" button. Notice that the center
+         of the red circle never moves, even if the puck is moving.
+         <br><br>
+         <a onclick="cR.demoStart_fromCapture(2, {'fileName':'demo2d.js'})">2d</a> has one puck with a tail propagation
+         speed of zero. This helps to show that the center of each propagation wave does not move, independent of the puck movement.
+         <br><br>
+         <a onclick="cR.demoStart_fromCapture(2, {'fileName':'demo2e.js'})">2e</a> has a rainbow tail, as characterized
+         in the HSL (hue, saturation, lightness) color space. Saturation and lightness percentages are editable in the capture.
+         <br><br><hr><br>
+         
+         <span id="d3"><strong>Demo #3</strong> presents examples of order and disorder and are intended for use with the "reverse"
+         button (or Ctrl-Backspace).</span>
+         <br><br>
+         <a onclick="cR.clearState();dS.demoStart(3)">3a</a> illustrates the effect of a disorderly influence on a grid of pucks colliding with
+         each other and the walls. Try reversing the puck motion shortly after the start of the disorder. You'll see that it doesn't take long before
+         this becomes non-reversible. The Playing Catch video (second) in the <a href="https://pet.triquence.org?perfect-kiss" target="_black">Perfect Kiss</a> 
+         topic, demonstrates a much more reversible puck-puck collision calculation.
+         <br><br>
+         <a onclick="cR.demoStart_fromCapture(3, {'fileName':'demo3b.js'})">3b</a> and 
+         <a onclick="cR.demoStart_fromCapture(3, {'fileName':'demo3c.js'})">3c</a> have puck-puck collisions inhibited, leaving only wall collisions. This
+         makes for a very reversible collision process even minutes into the demo.
+         <br><br>
+         If you try demo <a onclick="cR.demoStart_fromCapture(3, {'fileName':'demo3d.js'})">3d</a> you might smell the smoke and beer from your local pool hall.
+         <br><br><hr><br>
+         
+         <span id="d3d">
+         <strong>Demo #3d</strong> is the 
+         <a title="pocket the 9-ball for a win" onclick="cR.demoStart_fromCapture(3, {'fileName':'demo3d.js'})">9-ball</a> 
+         version of the <strong>Ghost-Ball Pool</strong> game (here are racks for 
+         <a title="pocket the balls in your group, stripes or solids, then pocket the 8-ball" onclick="cR.demoStart_fromCapture(3, {'fileName':'demo3d.8ball.js'})">8-ball</a> and 
+         <a title="pocket a total of 8 balls for a win" onclick="cR.demoStart_fromCapture(3, {'fileName':'demo3d.rotation.js'})">simple rotation</a>).
+         Instructions are displayed at the start and in the outline below. 
+         Press the "v" key or <a class="fullScreenLink">click here</a> to go <strong>full-screen</strong> (you'll see the cue ball on the right). The "esc" key returns you to normal view.
+         <br><br>
+         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" enterkeyhint="enter" class="nickNameField" id="nn_pool" maxlength="10" minlength="2" autocomplete="off">
+         <br>
+         <ul>
+            <li>To <strong>aim a shot</strong>, select the cue ball with the mouse, then drag the ghost ball so as to touch it to an object ball or cushion.
+            This will display alignment lines. After colliding, the object ball travels along the solid yellow line, cue ball along the solid white.</li>
+            
+            <li><strong>Shoot</strong> the cue ball by releasing the mouse button. Shot speed is initially set at 20. Release over the cue ball to <strong>cancel</strong> the shot.
+            Use the "alt" key to <strong>reverse</strong> the direction of the shot.</li>
+            
+            <li><strong>Adjust</strong> the shooting speed by tapping the "z" key while dragging the ghost. The value is based on the separation between the ghost and the ball.
+            Optionally, adjust with the mouse wheel.</li>
+            
+            <li><strong>Move</strong> any of the balls by dragging with the "ctrl" key down, useful for setting up trick shots and ball-in-hand positioning after a foul.</li>
+            
+            <li><strong>Restart</strong> the game with the "3" key.</li>
+            
+            <li>The "b" key disengages the ghost-ball from the target (temporarily turns off <strong>finemoves</strong>), or toggles it, on/off, in other demos.</li>
+            
+            <li>"alt-b" and "alt-n" step you through the <strong>shot history</strong>.</li>
+            
+            <li>The "m" key toggles between this <strong>help</strong> and the <strong>chat</strong> panel where 
+            the <a title="click for chat panel" onclick="$('#chkMultiplayer').trigger('click');">leaderboard</a> reports are displayed.</li>
+         </ul>
+         For multiple players, the desktop <a href="client.html" target='_blank' title="Open a client page in a new tab.">client</a> supports all the keyboard and mouse commands needed. 
+         Try a three-device setup: two players on laptops, connected to a host computer, and viewing
+         the pool game on the host's screen.
+         Use the <strong>full-screen</strong> mode on clients and host.
+         <br><br>
+         A cell phone (touch screen), also, can be used as a client device (to aim a shot).
+         Open the desktop <a href="client.html" target='_blank' title="Open a client page in a new tab.">client</a> on your phone and connect as usual to the host. 
+         Then use the client's full-screen button (after which you'll get a blank gray screen).
+         Touch and drag to <strong>aim a shot</strong>; release the touch point to <strong>shoot</strong>.
+         Release over the cue ball to <strong>cancel</strong> the shot.
+         Starting a second touch point <strong>adjusts</strong> the speed lock (like the "z" key described above).
+         Triple tapping, with one finger, toggles ball-in-hand mode (so you can <strong>move</strong> any ball).
+         Starting a fourth touch point <strong>restarts</strong> the game (four fingers).
+         <br><br>
+         (My dad had a good eye for the game; remembering the times we shared shooting pool in our basement.)
+         <br>
+         <br><hr><br>
+         
+         <span id="d4"><strong>Demo #4</strong> <a onclick="cR.clearState();dS.demoStart(4)">4a</a> shows Box2D's capability for modeling the rotation and collisions of non-spherical objects.
+         This is a good one to try the <a class="scroll-link" href="#" title="" data-scroll-target="editorMark">editing</a> features. Copy one of the
+         rectangles and then change its width and length. Make some copies of your copy.</span>
+         <br><br>
+         The <a onclick="cR.demoStart_fromCapture(4, {'fileName':'demo4b.js'})">4b</a> capture (<a href="demo4b.js.html" target="_blank">view it</a>) 
+         looks a bit like a flying drone. 
+         Try using multi-select (alt-key and mouse drag) to select the whole system, three pucks and three springs. 
+         Then, while holding down the s key, use the up/down arrow keys to change the length of the springs. 
+         If you make them short enough, the rotors (spinning pucks) will collide. 
+         Angular momentum (L) is conserved in this collision but is transfered from the spinning form (Ls) to the orbiting form (Lo).
+         The result: the system rotates about its center.
+         <br><br>
+         If you're stepping through the demos in sequence, demo <a onclick="cR.demoStart_fromCapture(4, {'fileName':'demo4b.js'})">4b</a> is the first display of the
+         <a class="scroll-link" data-scroll-target="EpLReport" href="#" title="Energy, Momentum, and Angular Momentum">EpL & Speed</a> reports. Notice that
+         the angular momentum stays constant at -0.56 before and after the collision suggested in the preceding paragraph.
+         <br><br>
+         For an editing exercise, enable wall and pin edits (click the checkbox).
+         On the left side of the canvas, a spring is mounted on two pins. This 
+         can be used to produce a copy (shift key, then mouse-drag over the pins, then 
+         ctrl-c) and paste it onto one of the pins and one of the rotors (with the shift key down, mouse-drag over these objects, then ctrl-s). 
+         <br><br>
+         The "Freeze" (stop translation) and "R" (stop rotation) buttons are especially
+         useful here.
+         <br><br>
+         The <a onclick="cR.demoStart_fromCapture(4, {'fileName':'demo4c.js'})">4c</a> capture shows a rectangular puck,
+         elastic and with no surface friction, initialized to have no y component of momentum. The wall collisions, without
+         friction, offer no impulse in the y direction, so it's center of mass continues to travel along the same line.
+         The wall collisions do provide a rotational impulse, so the puck's energy transfers back and forth between translational (KEt) 
+         and rotational (KEr) forms. 
+         <br><br>
+         <a onclick="cR.demoStart_fromCapture(4, {'fileName':'demo4c.inelastic.js'})">4c.inelastic</a> shows the conservation of momentum (Px) even as the majority of the
+         initial energy is dissipated in inelastic collisions.
+         <br><br>
+         <span id="d4d"></span><a onclick="cR.demoStart_fromCapture(4, {'fileName':'demo4d.js'})">4d</a> shows a chain-reaction release of potential energy in tall pucks. Note the small
+         circular puck (p3) starts with only a fraction of a joule, but triggers a reaction releasing almost 100 joules.
+         <br><br>
+         <span id="hunt"><a title= "Monkey Hunt" onclick="cR.demoStart_fromCapture(4, {'fileName':'demo4e.monkeyhunt.js'})">4e</a></span>, <strong>Monkey Hunt</strong>, is a game based on
+         the classic lecture-hall demonstration: <i>The Monkey and the Hunter</i>.
+         The goal is to aim and shoot the projectile so as to hit the free-falling monkey, even better if you do so in a way that sends the monkey outside via the window on the right side.
+         <br><br>
+         Click on the ball and drag. This will produce a line-of-sight aiming line and a projectile forecast. The farther you drag, the higher the shot speed. Release the mouse button
+         or touch point to shoot the ball.
+         <br><br>
+         Use the "b" key on a keyboard (or a second finger on a touch screen) to toggle on fine-adjustment aiming.
+         You'll need this feature to get a perfect game score of 600 points.
+         <br><br>
+         This game is best played with a full-screen view of the canvas. Use the "v" key to start full-screen view. Use "esc" or "0" (zero key) to exit. 
+         <br><br>
+         You may be wondering why this game is in the #4 group of demos on rectangles. Well, mainly there is a rectangular puck, behind the monkey image, which provides a more realistic bounce.
+         <br><br>
+         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" enterkeyhint="enter" class="nickNameField" id="nn_monkeyHunt" maxlength="10" minlength="2" autocomplete="off">
+         <br><br><hr><br>
+         
+         <span id="d5"><strong>Demo #5</strong> introduces springs, pins (<a onclick="cR.clearState();dS.demoStart(5)">5a</a>), 
+         and revolute joints (<a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.js'})">5e</a>). 
+         The spring objects model both springiness and damping behaviors. Revolute joints allow two objects to rotate about a hinge point. 
+         Pins are stationary anchor points to which springs and revolute joints can be
+         attached. Use ctrl-L to toggle the live report on/off.</span>
+         <br><br>
+         With demo <a onclick="cR.clearState();dS.demoStart(5)">5a</a>, try using the "F" key to stop the orbiting behavior. The 
+         pucks in the triangle group and the large tethered-to-a-pin puck are all 
+         characterized as inelastic so they play well together under tension. Try 
+         to get the large puck inside the triangle group; lengthen the springs in the triangle group, or shrink
+         the size of the large puck.
+         <br><br>
+         This is another good place to try the 
+         <a class="scroll-link" href="#" title="" data-scroll-target="editorMark">editing</a> features. Use 
+         multi-select to select the three springs on the triangle (hold the "Shift" (or 
+         "Alt") key down then mouse drag over the three pucks), then adjust their 
+         length, as a group, using the "S" and the up/down arrow keys. Use the "S" key and
+         the "[" and "]" keys to change their damping coefficients, "S" and left/right arrow keys to change their spring strength (k).
+         Try copying and pasting a spring (ctrl-v after selecting).
+         Also note, to position something, without the cursor spring, drag with the ctrl key down. Here's what you're
+         shooting for: <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.threeAndOne.js'})">5.a.threeAndOne</a>.
+         <br>         
+         <br><hr><br>
+         <span id="d5b"></span>
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.js'})">5b</a> shows the transfer of angular momentum from spin (Ls) to orbital (Lo). Total
+         angular momentum (L) is conserved in this inelastic collision of three pucks with surface friction.
+         The table below presents a preview of this system's final state using the closed-form derivation below. 
+         Edits in the "initial" row will update the preview in the "final" row. 
+         Then, click the "Run" button to start the engine with these initial conditions.
+         Use ctrl-alt-L to toggle the live <a class="scroll-link" data-scroll-target="EpLReport" href="#" title="Energy, Momentum, and Angular Momentum">report</a> (on the canvas) between energy-and-momentum and speed. Use ctrl-L to toggle the report on/off.
+         The spin and orbital angular rates, \(\omega\) and \(\Omega\), are in rad/sec.
+         
+         <br><br>
+         <table rules="all" class="threePuckCalculator">
+         <tr>
+         <td><button class="chat" id="runFromThreePuckCalc" onclick="cR.modifyForCalculator('5.b');" 
+            title='This runs the 5b capture using the initial rotational-angular-speed values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
+         <td title="rotational angular speed for puck 1"><div class="green">\(\omega_{1}\)</div></td>
+         <td title="rotational angular speed for puck 2"><div class="green">\(\omega_{2}\)</div></td>
+         <td title="rotational angular speed for puck 3"><div class="green">\(\omega_{3}\)</div></td>
+         <td title="orbital angular speed">\(\Omega\)</td></tr>
+         <tr>
+         <td style="text-align:right">initial</td>
+         <td><input title="click to edit the initial value for puck 1" type="number" class="threePuckCalculator" id="a_init" max="30" min="-30" autocomplete="off" value="5"></td>
+         <td><input title="click to edit the initial value for puck 2" type="number" class="threePuckCalculator" id="b_init" max="30" min="-30" autocomplete="off" value="25"></td>
+         <td><input title="click to edit the initial value for puck 3" type="number" class="threePuckCalculator" id="c_init" max="30" min="-30" autocomplete="off" value="-25"></td>
+         <td title="Orbit"> ------ </td>
+         </tr>
+         <tr style="border-bottom: none">
+         <td style="text-align:right">final</td>
+         <td title="puck 1 final rotational angular speed" id="a_final"></td>
+         <td title="puck 2 final rotational angular speed" id="b_final"></td>
+         <td title="puck 3 final rotational angular speed" id="c_final"></td>
+         <td title="orbital angular speed after collision" id="orbit"  ></td>
+         </tr>
+         </table>
+         
+
+         \[ L_{spin} = \frac{mr^{2}}{2} \omega  \;\; \textrm{ and } \;\; L_{orbit} = m(\vec{r_{o}}\times\vec{v}) = m r_{o}^{2} \Omega \]
+         
+         <p>Conservation of total angular momentum (subscript \(i\) for initial state; \(f\) for final):</p>
+         
+         <p>\[ \frac{mr^{2}}{2}\sum_{j=1}^{3}(\omega_{j, \,i}-\omega_{j, \,f})=3mr_{o}^{2}\Omega_{f} \]</p>
+         <!--
+         \[ \displaylines{
+            \frac{mr^{2}}{2}\left(\omega_{Ai}+\omega_{Bi}+\omega_{Ci}\right) = \\
+            \frac{mr^{2}}{2}\left(\omega_{Af}+\omega_{Bf}+\omega_{Cf}\right) +
+             3mr_{o}\left(r_{o}\Omega_{f}\right)   
+         } \]
+         -->
+         
+         <p>Orbit radius, \( r_{o} \), in terms of puck radius, \( r \):</p>
+         \[ r_{o} = r\times(2\sqrt{3}/3) \]
+         
+         <p>Contact constraint, no slip and no rolling:</p>
+         \[ \omega_{1,f} = \omega_{2,f} = \omega_{3,f} = \Omega_{f} \]
+         
+         <p>Combining:</p>
+         \[ \Omega_{f} = \left( \omega_{1,i} +\omega_{2,i} +\omega_{3,i} \right)/11 \]
+         
+         <br>
+         <span id="d5btwo"></span>
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.two.js'})">5b.two</a> also shows a collision and transfer of angular momentum, here for a two puck system
+         (refer to the <a class="scroll-link" href="#" title="" data-scroll-target="d5b">5b</a> topic above for help on the preview tables). The closed-form derivation uses conservation of
+         angular momentum, non-slip contact, and the symmetry of the collision impulse, to solve for the three unknowns, \(\omega_{1,f}\), \(\omega_{2,f}\), and \(\Omega_{f}\).
+         
+         <br><br>
+         <table rules="all" class="twoPuckCalculator">
+         <tr>
+         <td><button class="chat" id="runFromTwoPuckCalc" onclick="cR.modifyForCalculator('5.b.two');" 
+            title='This runs the 5b.two capture using the initial spin-rate values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
+         <td title="spin rate for puck 1"><div class="yellow">\(\omega_{1}\)</div></td>
+         <td title="spin rate for puck 2"><div class="green">\(\omega_{2}\)</div></td>
+         <td title="orbit rate">\(\Omega\)</td></tr>
+         <tr>
+         <td style="text-align:right">initial</td>
+         <td><input title="click to edit the initial value for puck A" type="number" class="twoPuckCalculator" id="a_2p_init" max="10" min="-10" autocomplete="off" value="6"></td>
+         <td><input title="click to edit the initial value for puck B" type="number" class="twoPuckCalculator" id="b_2p_init" max="10" min="-10" autocomplete="off" value="3"></td>
+         <td title="Orbit"> ------ </td>
+         </tr>
+         <tr style="border-bottom: none">
+         <td style="text-align:right">final</td>
+         <td title="puck A final spin rate"     id="a_2p_final"></td>
+         <td title="puck B final spin rate"     id="b_2p_final"></td>
+         <td title="orbit rate after collision" id="orbit_2p"  ></td>
+         </tr>
+         </table>
+         
+         
+         
+         <p>Conservation of total angular momentum:</p>
+         <!--
+         <p>\[ \frac{mr^{2}}{2}\left(\omega_{Ai}+\omega_{Bi}\right)=\frac{mr^{2}}{2}\left(\omega_{Af}+\omega_{Bf}\right)+2mr^{2}\Omega_{f} \]</p>
+         -->
+         <p>\[ \frac{mr^{2}}{2}\sum_{j=1}^{2}(\omega_{j, \,i}-\omega_{j, \,f})=2mr_{o}^{2}\Omega_{f} \]</p>
+         
+         <p>Here, the orbit radius, \( r_{o} \), is equal to the puck radius, \( r \):</p>
+         \[ r_{o} = r \]
+         
+         <p>A contact constraint, rolling but no slip:</p>
+         <!--
+         \[ \displaylines{
+            \omega_{Af}-\Omega_{f}=-(\omega_{Bf}-\Omega_{f}) \\
+            \textrm{or} \\
+            \Omega_{f} = (\omega_{Af} + \omega_{Bf})/2  
+         } \]
+         -->
+         \[ 
+            \omega_{1,f}-\Omega_{f}=-(\omega_{2,f}-\Omega_{f})
+            \;\; \textrm{ or } \;\;
+            \Omega_{f} = (\omega_{1,f} + \omega_{2,f})/2  
+          \]         
+         
+         <p>Combining, eliminating \(\omega_{1,f}\) and \(\omega_{2,f}\):</p>
+         <p>\[ \Omega_{f}=(\omega_{1,i}+\omega_{2,i})/6 \]</p>
+             
+         <p>During the collision, the tangential impulse forces are equal and opposite on the two pucks. This causes an equal change in
+         spin-angular momentum, and in this case of equal mass pucks, an equal change in spin rate. 
+         This is the third constraint needed for a closed-form expression of this three-degrees-of-freedom system:</p>
+         <p>\[ \omega_{1,f}-\omega_{1,i}=\omega_{2,f}-\omega_{2,i} \]</p>
+         
+         <p>Yielding the final spin rates for the two pucks:</p>
+         <!--
+         \omega_{Af}=(2\omega_{Ai}-\omega_{Bi})/3
+         \;\; \textrm{ and } \;\;
+         \omega_{Bf}=(2\omega_{Bi}-\omega_{Ai})/3 
+         -->
+         <p>
+         \[ 
+         \omega_{1,f}=\omega_{1,i}-2\Omega_{f}
+         \;\; \textrm{ and } \;\;
+         \omega_{2,f}=\omega_{2,i}-2\Omega_{f}
+         \]
+         </p>
+         
+         <details>
+         <summary title="click to continue the discussion, systems with higher numbers of pucks">more: 4, 5, and 6 puck systems...</summary>
+         
+         <br>
+         <span id="d5bfour"></span>
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.four.js'})">5b.four</a> shows the collision in a four-puck system.
+         
+         <br><br>
+         <table rules="all" class="twoPuckCalculator">
+         <tr>
+         <td><button class="chat" id="runFromFourPuckCalc" onclick="cR.modifyForCalculator('5.b.four');" 
+            title='This runs the 5b.four capture using the initial spin-rate values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
+         <td title="spin rate for puck A"><div class="yellow">\(\omega_{1}\)</div></td>
+         <td title="spin rate for puck B"><div class="green">\(\omega_{2}\)</div></td>
+         <td title="spin rate for puck C"><div class="yellow">\(\omega_{3}\)</div></td>
+         <td title="spin rate for puck D"><div class="green">\(\omega_{4}\)</div></td>
+         <td title="orbit rate">\(\Omega\)</td></tr>
+         <tr>
+         <td style="text-align:right">initial</td>
+         <td><input title="click to edit the initial value for puck A" type="number" class="fourPuckCalculator" id="a_4p_init" max="25" min="-25" autocomplete="off" value="6"></td>
+         <td><input title="click to edit the initial value for puck B" type="number" class="fourPuckCalculator" id="b_4p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial value for puck C" type="number" class="fourPuckCalculator" id="c_4p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial value for puck D" type="number" class="fourPuckCalculator" id="d_4p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td title="Orbit"> ------ </td>
+         </tr>
+         <tr style="border-bottom: none">
+         <td style="text-align:right">final</td>
+         <td title="puck A final spin rate"     id="a_4p_final"></td>
+         <td title="puck B final spin rate"     id="b_4p_final"></td>
+         <td title="puck C final spin rate"     id="c_4p_final"></td>
+         <td title="puck D final spin rate"     id="d_4p_final"></td>
+         <td title="orbit rate after collision" id="orbit_4p"  ></td>
+         </tr>
+         </table>
+         
+         <p>Conservation of total angular momentum (spin and orbit):</p>
+         <p>\[ \frac{mr^{2}}{2}\sum_{j=1}^{4}(\omega_{j, \,i}-\omega_{j, \,f})=4mr_{o}^{2}\Omega_{f} \]</p>
+         
+         <p>Orbit radius, \( r_{o} \), in terms of puck radius, \( r \):</p>
+         \[ r_{o} = r\times(\sqrt{8}/2) \]
+         
+         <p>The contact constraint, rolling but no slip:</p>
+         \[ \omega_{1,f} = \omega_{3,f} \;\; \textrm{ and } \;\; \omega_{2,f} = \omega_{4,f} \]
+         \[ \Omega_{f}= (\omega_{1,f} + \omega_{2,f})/2 \]
+         
+         <p>Combining, gives the orbital spin rate after the collision:</p>
+         \[ \Omega_{f}=(\omega_{1,i}+\omega_{2,i}+\omega_{3,i}+\omega_{4,i})/20 \]
+         
+         <p>Symmetry in the collision impulse:</p>
+         \[ \omega_{13,f}-\overline{\omega}_{13,i}=\omega_{24,f}-\overline{\omega}_{24,i} \]
+         \[ 
+         \overline{\omega}_{13,i} \equiv (\omega_{1,i}+\omega_{3,i})/2 
+         \;\; \textrm{ and } \;\;
+         \overline{\omega}_{24,i} \equiv (\omega_{2,i}+\omega_{4,i})/2 
+         \]
+         
+         <!--
+         <p>Non-slip contact requires equal final-spin rates in the opposing pucks:</p>
+         \[ \omega_{Cf}=\omega_{Af} \;\; \textrm{ and } \;\; \omega_{Df}=\omega_{Bf} \]
+         -->
+         
+         <p>Combine to give the spin rates of the 13 and 24 pairs in the four puck system:</p>
+         <!--
+         \[ \omega_{ACf} = \Omega_{f} + (\overline{\omega}_{ACi} - \overline{\omega}_{BDi})/2 \]
+         \[ \omega_{BDf} = \Omega_{f} - (\overline{\omega}_{ACi} - \overline{\omega}_{BDi})/2 \]
+         -->
+         \[ 
+         \omega_{13,f} = \overline{\omega}_{13,i} - 4\Omega_{f} 
+         \;\; \textrm{ and } \;\;
+         \omega_{24,f} = \overline{\omega}_{24,i} - 4\Omega_{f} 
+         \]
+         
+         <span id="d5bfive"></span>
+         <p>As you consider the equations for two, three, and four puck systems, you may have noticed some patterns. 
+         The numbers in the denominator of the \( \Omega_{f} \) equations form a sequence: 6,11,20. And if you use
+         the engine to experiment with 
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.five.js'})">five</a> and 
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.six.js'})">six</a> 
+         puck systems, you would see this sequence extends to 6,11,20,34,54.
+         
+         <p>The steps (5,9,14,20) in this sequence are one less than (bold) values in a range of the <strong>tri</strong>angular-number se<strong>quence</strong> 1,3,<strong>6,10,15,21</strong>,28,36:</p>
+         
+         \[ 
+         T_{k} = \sum_{j=1}^{k}j 
+         \;\; \textrm{ or } \;\;
+         T_{k} = \frac{k(k+1)}{2}
+         \]
+         
+         <p>As a result, the second and third values in the sequence can be expressed as follows: </p>
+         
+         \[  S_{2} = S_{1} + (T_{3}-1) \]
+         \[  S_{3} = S_{1} + (T_{3}-1) + (T_{4}-1) \]
+         
+         <p>More generally: </p>
+         
+         \[  S_{n} = S_{1} + \sum_{k=3}^{n+1} (T_{k}-1) \;\; \textrm{where} \;\; n \geq 2 \]
+         
+         <!--
+         \[  S_{n} = (4-n) + \sum_{k=1}^{n} \frac{k(k+1)}{2}  \]
+         -->
+         
+         <p>For a <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.five.js'})">five-puck</a> system, use \( S_{4} \):</p>
+         \[ 
+         S_{4} = 6 + 5+9+14 = 34
+         \;\; \textrm{ and } \;\;
+         \Omega_{f} = \frac{1}{34}\sum_{j=1}^{5}\omega_{j,\,i} 
+         \]
+         
+         <p>and for the initial conditions of this five-puck case:</p> 
+         \[ \Omega_{f} = \frac{1}{34}(-25+3+3+3+3) = -0.382 \] 
+         
+         <span id="d5bsix"></span>
+         <p>For a <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.six.js'})">six-puck</a> system:</p>
+         \[ 
+         S_{5} = 54
+         \;\; \textrm{ and } \;\;
+         \Omega_{f} = \frac{1}{54}\sum_{j=1}^{6}\omega_{j,\,i} 
+         \]
+         
+         <p>(It's up to the reader to show that for the six-puck system, the coefficient on \( \Omega_{f} \) is 8 in the expressions that follow. 
+         What's the pattern?)</p>
+         
+         <p> And the final spin rates for the odd and even groups:</p>
+         \[ 
+         \omega_{135,f} = \overline{\omega}_{135,i} - 8\Omega_{f} 
+         \;\; \textrm{ and } \;\;
+         \omega_{246,f} = \overline{\omega}_{246,i} - 8\Omega_{f} 
+         \]
+         
+         <p>A calculator for the six-puck system:</p>
+         
+         <table rules="all" class="twoPuckCalculator">
+         <tr>
+         <td><button class="chat" id="runFromSixPuckCalc" onclick="cR.modifyForCalculator('5.b.six');" 
+            title='This runs the 5b.six capture using the initial spin-rate values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
+         <td title="spin rate for puck A"><div class="yellow">\(\omega_{1}\)</div></td>
+         <td title="spin rate for puck B"><div class="green">\(\omega_{2}\)</div></td>
+         <td title="spin rate for puck C"><div class="yellow">\(\omega_{3}\)</div></td>
+         <td title="spin rate for puck D"><div class="green">\(\omega_{4}\)</div></td>
+         <td title="spin rate for puck E"><div class="yellow">\(\omega_{5}\)</div></td>
+         <td title="spin rate for puck F"><div class="green">\(\omega_{6}\)</div></td>
+         <td title="orbit rate">\(\Omega\)</td></tr>
+         <tr>
+         <td style="text-align:right">initial</td>
+         <td><input title="click to edit the initial value for puck A" type="number" class="sixPuckCalculator" id="a_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
+         <td><input title="click to edit the initial value for puck B" type="number" class="sixPuckCalculator" id="b_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial value for puck C" type="number" class="sixPuckCalculator" id="c_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
+         <td><input title="click to edit the initial value for puck D" type="number" class="sixPuckCalculator" id="d_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="click to edit the initial value for puck E" type="number" class="sixPuckCalculator" id="e_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
+         <td><input title="click to edit the initial value for puck F" type="number" class="sixPuckCalculator" id="f_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td title="Orbit"> ------ </td>
+         </tr>
+         <tr style="border-bottom: none">
+         <td style="text-align:right">final</td>
+         <td title="puck A final spin rate"     id="a_6p_final"></td>
+         <td title="puck B final spin rate"     id="b_6p_final"></td>
+         <td title="puck C final spin rate"     id="c_6p_final"></td>
+         <td title="puck D final spin rate"     id="d_6p_final"></td>
+         <td title="puck E final spin rate"     id="e_6p_final"></td>
+         <td title="puck F final spin rate"     id="f_6p_final"></td>
+         <td title="orbit rate after collision" id="orbit_6p"  ></td>
+         </tr>
+         </table>
+         </details> 
+         
+         <br>
+         <hr>
+         <br>
+         <span id="d5a-orbit"></span>
+         Here are <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.orbitingOnSpring.js'})">two pucks</a> in a non-colliding orbit.
+         There is damping in the spring but no translational drag on the pucks. This is similar to the 5a demo, simpler
+         with a more energetic start. One puck starts with \(v_{x}=20\) and \(v_{y}=0\), the other has an equal but opposite initial velocity.
+                  
+         <p>Conservation of angular momentum (where \( S_{o} \) is the final tangential orbit speed, and \( C_{i} \) is 
+         a constant equal to the intial conditions, \( \vec{r_{i}}\times\vec{v_{i}}\)):</p>
+         \[ 
+         mr_{o}S_{o} = m(\vec{r_{i}}\times\vec{v_{i}}) 
+         \;\; \textrm{ or } \;\;
+         S_{o} = C_{i}/r_{o}
+         \]
+         
+         <p>Force balance, centripetal equals spring:</p>
+         \[  \frac{mS_{o}^{2}}{r_{o}} = k(2r_{o} - L)  \]
+         
+         <p>Combining:</p>
+         \[  mC_{i}^2 = k(2r_{o}^{4} - Lr_{o}^{3})  \]
+         
+         <p>Using Newton-Raphson to iteratively solve this quartic equation for \( r_{o} \) gives the "final" row in the table below 
+         (\( \Omega = S_{o} / r_{o}\)):</p>
+                 
+         <table rules="all" class="twoInOrbit">
+            <tr>
+               <td><button class="chat" id="runTwoInOrbit" onclick="cR.modifyForCalculator('5.a.orbitingOnSpring');" 
+                  title='This runs the 5a.orbitingOnSpring capture using the initial conditions in the table.'>Run</button></td>
+               <td title="x component of velocity">\( v_{x} \)</td>
+               <td title="y component of velocity">\( v_{y} \)</td>
+               
+               <td title="orbit speed (mps)">\( S_{o} \)</td>
+               <td title="orbit radius (m)">\( r_{o} \)</td>
+               <td title="orbit rate (radians/s)">\( \Omega \)</td>
+            </tr>
+            <tr>
+               <td title="">initial</td>
+               <td><input title="click to edit the initial vx" type="number" class="twoInOrbit" id="vx_init" max="15" min="-15" autocomplete="off" value="-10"></td>
+               <td><input title="click to edit the initial vy" type="number" class="twoInOrbit" id="vy_init" max="15" min="-15" autocomplete="off" value="0"></td>
+               
+               <td title="" id="">------</td>
+               <td title="" id="">------</td>
+               <td title="" id="">------</td>
+            </tr>
+            <tr>
+               <td title="" id="">final</td>
+               <td title="" id="">------</td>
+               <td title="" id="">------</td>
+               
+               <td title="orbit speed (mps)" id="orbit_speed">------</td>
+               <td title="orbit radius (m)" id="orbit_radius">------</td>
+               <td title="orbit rate (radians/s)" id="orbit_rate">------</td>
+               
+            </tr>
+         </table>
+         
+         <br>
+         <hr>
+         <br>
+         
+         <span id="d5brube"></span>
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.rube.js'})">5b.rube</a> is a Rube Goldberg type variation 
+         (<a href="demo5b.js.html" target="_blank">view</a> the capture).
+         The editing features were used to build this compound 
+         spring-puck group and adjust the spring characteristics (length, spring constant, and damping).
+         <br><br>
+         
+         <span id="d5c"></span>
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5c.js'})">5c</a> is a simple spring pendulum that is tuned to show its two natures: vertical spring bounce and pendulum swing
+         (<a href="demo5c.js.html" target="_blank">view</a> the capture).
+         Give it a little time and you'll see it change back and forth between the two modes.
+         Select the spring (E key, then drag out a box select) to display values for the pendulum period, the spring period, and their ratio. This display is useful for tuning the system
+         to see the modes at ratios near 1, 2, and 5. Note that this ratio is exactly 1.00 for any zero-length spring-mass system hanging still.
+         <br><br>
+         
+         <span id="d5d"></span>
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5d.js'})">5d</a> is like watching dandelion seeds gently land on the ground.
+         Use the right mouse button while holding down the "ctrl" and "Shift" keys to launch a dandelion. The puffy dandelions have high translational drag in contrast to
+         the much lower drag of the pucks dangling underneath. Here is a large-canvas <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5d.fullscreen.js'});">version</a>
+         where the ctrl-Shift-L lock has been applied; just drag and release to shoot. Here's a handy link to <a class="fullScreenLink">fullscreen</a> viewing. 
+         <br><br>
+         This section wouldn't be complete without a dandelion being <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.dandelion.js'});">torqued</a> by two springs. 
+         Here the dandelion has no rotational drag but some translational drag. There's no damping in the springs. Try cursor interactions with this system. 
+         The translational drag, coupled with the spring forces, act to return the puck to center after any displacement.
+         <br><br><hr><br>
+         
+         <span id="d5e"></span>
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.js'})">5e</a> incorporates the revolute joint type of Box2D to produce a wall-mounted pulley and a chain-link loop. 
+         The revolute joint is a sister to the spring in the Box2D family of joints. 
+         Note the "add revolute joint" and "add chain" options under "remove/add items" in the right panel. 
+         <br><br>
+         Revolute joints (and systems using them) can be captured and also replicated using the multi-select features.
+         For example, use box select (alt-key and drag) to select the whole chain-pulley system and then ctrl-v to paste a copy. 
+         <br><br>
+         You can also break the chain, by selecting two links (shift-key and drag) and then
+         ctrl-x to delete the revolute joint (a second ctrl-x will delete the two links). 
+         Reconnect the two links by selecting their ends (turn "COM" off first) and then using the "add revolute joint" option from the "remove/add items" select control.
+         <br><br>
+         Note the wall-mounted pulley was created by "add pin", then enabling "edit walls & pins", then selecting the pin and a puck (with "COM" on), and finally "add revolute" joint to mount the puck on the pin.
+         
+         <br><br>
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5f.js'})">5f</a> applies the revolute joint in producing the chaotic motion of a double-compound pendulum. Try pressing alt-p to visualize the
+         position history of the outer puck.
+         <br><br>
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5g.js'})">5g</a> uses revolute joints in reproducing this scene from <i>How the West Was Won</i>.
+         <br><br>
+         The angle limits for revolute joints can be manually set in a capture. Also try the "add joint limits" option under "remove/add items." This
+         operates on the joints in the multi-select and sets +/- 20 degree limits for joints that are wide open (joint angles near -360, 0, and +360). The connected pucks should
+         be prepared first: (1) lay the chain flat (with gravity on), or (2) push a loop into a circular pattern (use a helper puck, in the center, and increase
+         its radius until the loop is circular).
+         
+         <br><br>
+         <hr><br>
+         
+         <span id="bphoops"></span><a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-par.js'})" title='a game for the curious'>5e.basketball</a> (<strong>Bipartisan Hoops</strong>)
+         has the chain-link loop <a class="scroll-link" href="#" title="" data-scroll-target="d5e">5e</a> repurposed as a hoop net (horizontal lines are springs). 
+         This is a full-screen link; "esc" to return to normal view. 
+         Drag and release to shoot. Use the "b" key to toggle high-resolution aiming on/off (a second-finger touch on a touch screen). 
+         Hold the "ctrl" key down while dragging to position the ball, dandelion, or mascot (triple tapping, with one finger, toggles this ball-in-hand feature on a touch screen).
+         <br><br>
+         For a good score, try a clean bank shot (400 points). 
+         To do so with a mascot (and its rectangular puck) it helps to have a   
+         <a href="https://triquence.org/videos.html?basketball" target="_blank" title="video tips on the clean bank shot">vertical orientation</a>
+         as it bounces off the backboard. Use the "c" key to center your attachment point (inhibiting rotation). 
+         Then use the "ctrl" key to drag to, and push against, the bottom or back walls. Release the "ctrl" key.
+         Now aim your shot and fine tune it with the "b" key.
+         <br><br>
+         In a similar way, on a touch screen, the vertical-bank shot can be done with a third touch point.
+         This works best if the 2nd and 3rd touch points are used together, toggling between a centered and and non-centered attachment, 
+         where ball-in-hand positioning is controlled by the first touch point.
+         <br><br>
+         Scoring is limited to the first two minutes of play. Any shot will stop the on-screen help series.
+         <br><br>
+         Put the word "quiet" in the password field (see next paragraph) for short-and-sweet shot reports (no civics).
+         <br><br>
+         You can still play the '21-'22 version if you can guess the
+         <input required placeholder="password" title="password for the original BH" type="text" class="bphPassword" id="pw_basketball" maxlength="10" minlength="4" autocomplete="off">.
+         Then, from the nickname field below, start it with the "Enter" key.
+         <!-- Here is the <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5e.basketball-pol.js'})" title='a game for the weary'>'21-'22</a> version of the game.  -->
+         <br><br>
+         Your nickname during games and on the leaderboard: <input required placeholder="host" title="your nickname" type="text" enterkeyhint="enter" class="nickNameField" id="nn_basketball" maxlength="10" minlength="2" autocomplete="off">
+         <br><br>
+         
+         <hr><br>
+         
+         <!-- optional technical stuff -->
+         <span id="d5a_soft"></span>
+         Traditional spring models are not native to Box2D 
+         and are developed here as external objects that apply forces to things 
+         modeled in Box2D.
+         Erin Catto uses a <strong>soft-constraints</strong> approach to spring modeling (<strong>distance joints</strong>) in Box2D. Here is his 
+         <!-- https://box2d.org/files/GDC2011/GDC2011_Catto_Erin_Soft_Constraints.pdf -->
+         <a href="GDC2011_Catto_Erin_Soft_Constraints.pdf" target="_blank">presentation</a> on this.
+         When using distance joints, I use the equations on page 45 to translate from <i>k</i> and <i>c</i> to frequency and damping ratio.
+         (see updateB2D_spring method of the Spring prototype in the constructorsAndPrototypes module).
+         <br><br>         
+         Demo <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.soft.js'})">5a.soft</a> contrasts these two spring types: 
+         traditional springs (yellow) on the left, and distance joints (cyan) on the right.
+         The springs, in the first three rows, have decreasing damping as you work down from the top. The third row has no damping and the difference between
+         the traditional spring and distance joint is most apparent there.         
+         <br><br>         
+         Most of the springs at triquence.org, including the cursor spring, 
+         use a default spring-nature setting as they are being instantiated (e.g. when re-animating a capture, pasting a copy of a spring, 
+         or adding a spring using the "remove/add items" select control). 
+         Use <strong>shift-s</strong> to toggle this default setting between a distance joint (soft-constraints) or a traditional spring (Hooke's law). 
+         After changing the default, you can then (you must) re-run a demo, or paste the new spring, to see the change in behavior.
+         <br><br>
+         Any spring having a softConstraints key specified in the capture, will override attempts to
+         use the shift-s feature. You must remove the softConstraints key (edit the capture) to let the spring have a variable nature and respond to
+         the shift-s command. Generally, any new capture will have a softConstraints key specified for each spring. 
+         Note that an alternative to manually editing the capture is to use the <strong>shift-alt-s</strong> command. 
+         This will remove the softConstraints keys for all springs in the live spring map. 
+         Then immediately take a capture.
+         <br><br>
+         The capture for <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.soft.js'})">5a.soft</a>
+         explicitly specifies the spring nature (see "softConstraints" key, set true or false, in the <a href="demo5a.soft.js.html" target="_blank">capture</a>). So, in this case, soft
+         will stay soft, traditional will stay traditional.
+         <br><br>
+         The capture for <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5a.twinkle.js'})">5a.twinkle</a>
+         is another example with softConstraint keys on the springs. If you use the <strong>shift-alt-s</strong> command, while the
+         demo is playing at 60Hz, you'll see the legs start to dance (instability from Hooke's-law springs).
+         <br><br>
+         The advantage of the soft constraints is added
+         stability: strong spring (or strong damping) forces on small masses will be more stable. 
+         But the improvement in stability is small (as implemented here),
+         and it seems that the traditional springs give a better (firmer) feel, especially in compound groups.
+         Also, the distance joint will always lose some energy in trade for stability, even with a damping coefficient of zero.
+         So I continue, for now, to leave the default set to traditional springs, and most of the 
+         springs in the demos without a softConstraints key.
+         <br><br>
+         <hr><br>
+         <span id="d5h"></span><a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5h.js'})">5h</a> is a four-ball (three balls moving) Newton's cradle created with a fixed-length distance joint. 
+         The <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5h.4b1m.js'})">one-ball-moving</a> variation of this cradle can be made with
+         the "f" key; repeatedly press until all the balls are hanging still, then drag one ball out to the side and release. Press the "n" key for a full-screen display.
+         <br><br>
+         The pins are positioned so as to leave a small space between each of the balls when hanging still, needed with Box2D. 
+         Finding cradle configurations that preserve their mode beyond a few swings, 
+         like a 5-ball cradle with 2 moving balls, is difficult with Box2D. 
+         The engine's strength at modeling stacks of objects might be conflicting with the unique characteristics of a cradle...
+         <br><br>
+         
+         <hr><br>
+         
+         <span id="d6"><strong>Demo #6a</strong>, <strong><a onclick="cR.clearState();dS.demoStart(6)">Jello-Madness</a></strong>, 
+         is based on the corresponding <a href="https://pet.triquence.org/?jello" target="_blank">game</a> from the J-term course. 
+         The demo starts with a mildly tangled block 
+         of jello, it's spinning, and the tangle-timer is running. Straighten out the block 
+         and the tangle timer stops. The idea here is to severely tangle up 
+         the block for a game (drag perimeter pucks into the middle using the 
+         right mouse button). Use the capture button to record a good tangle. 
+         Then pass the mouse and keyboard to your friend and see if they can 
+         untangle the mess; they start by clicking the #6 button (or 
+         6 key). The shortest untangle time wins. The right mouse button, the freeze 
+         control (f key), and possibly the gravity control are useful in this 
+         game. Hints: one of the interior pucks is colored differently and also 
+         note the diagonal springs are all yellow.</span>
+         <br><br>
+         
+         Try <a onclick="cR.demoStart_fromCapture(6, {'fileName':'demo6d.js'})">6d</a>, a more severely tangled piece of jello. 
+         Start with a spinning fling, using the right mouse button... 
+         If you're lucky, you can get the whole thing straightened out with one move.
+         <br><br>
+         
+         Here are links to JSON captures of editor-modified versions of 
+         this demo: 
+         <a onclick="cR.demoStart_fromCapture(6, {'fileName':'demo6b.js'})">6b</a> (<a href="demo6b.js.html" target="_blank">view</a> the capture), and 
+         <a onclick="cR.demoStart_fromCapture(6, {'fileName':'demo6c.js'})">6c</a> (<a href="demo6c.js.html" target="_blank">view</a>).
+         To get some practice with pasting and running a capture, open a 
+         view-it link here, copy everything, then paste into the text area under the "U" button (capture). Then 
+         click the #6 button (or "Run" button) to run the capture.
+         <br><br><hr><br>
+         
+         <span id="d7"><strong>Demo #7a</strong> is a small version of <strong><a onclick="cR.clearState();dS.demoStart(7)">Puck 
+         Popper</a></strong>. The object of this game is to be the last 
+         controlled puck remaining (all other player and drone pucks have been 
+         popped). The center black puck is outfitted with the client controls 
+         needed to play the game. Multiple network clients can play (see 
+         <a class="scroll-link" href="#" title="" data-scroll-target="multi">multiplayer</a> topic above). All 
+         network clients should first connect, then the host should click the #7 
+         button.</span> 
+         <p style="margin: 10px 0px 10px 0px;">
+         Your nickname: <input required placeholder="host" title="your nickname during games and on the leaderboard" type="text" enterkeyhint="enter" class="nickNameField" id="nn_popper7" maxlength="10" minlength="2" autocomplete="off">
+         </p>
+         Variations:
+         <ul style="list-style-type:none; margin: 0px 0px 15px 0px;">
+            <li><a onclick="cR.demoStart_fromCapture(7, {'fileName':'demo7b.js'})">7b</a>: two drones</li>
+            <li><a onclick="cR.demoStart_fromCapture(7, {'fileName':'demo7c.js'})">7c</a>: four drones (difficult to shoot your way out of this one)</li>
+            <li><a onclick="cR.demoStart_fromCapture(7, {'fileName':'demo7d.js'})">7d</a>: one drone on a 2-pin path (an easy one)</li>
+            <li><a onclick="cR.demoStart_fromCapture(7, {'fileName':'demo7e.js'})">7e</a>: cannibal inside springy chain</li>
+         </ul>       
+         The w-a-s-d group of keys controls the jet that is used to move your puck.  
+         The "w" key fires the jet. 
+         The "a" and "d" keys rotate the jet clockwise and counterclockwise. 
+         The "s" key is used to turn the jet to a direction opposing the current motion of the puck. 
+         This can be useful in breaking (stopping). Subsequent "s" presses rotate 
+         the jet in 90-degree clockwise steps. Firing the jet, "w", resets this pattern so the flip 
+         operation results with the next "s" press.
+         <br><br>
+         The i-j-k-l group of keys controls your gun.
+         The "i" key shoots bullets. 
+         The "j" and "l" keys rotate the gun clockwise and counterclockwise. 
+         The "k" key rotates the gun in 90-degree clockwise steps 
+         (shift-k steps counterclockwise).
+         <br><br>
+         Holding down the spacebar turns on a 
+         shield that protects you from the bullets of an opponent (you can't 
+         shoot when your shield is up). Target pucks will pop after 10 hits, 
+         client-controlled pucks pop after 20 hits.
+         <br><br>
+         The "friendly fire" checkbox (visible when the "Multiplayer" control is 
+         checked) controls whether bullets from real Puck Popper players can 
+         affect the health of other real players. If unchecked, human bullets can 
+         only impact the drones. In this mode multiple players act as a team to 
+         scrub out those nasty drones. Nice.
+         <br><br>
+         The blue pucks are drones. They try to get you (it's time to start 
+         using the spacebar to turn your puck shields on). The drones follow a 
+         path established by the blue pins. Turn on the editor to see the 
+         navigation path. When the editor is on, you can drag these navigation 
+         pins to change the drone path. These pins can also be copied and deleted 
+         using the features of the editor. 
+         <br><br>
+         The multi-select features of the editor can be used to detach the drone 
+         from the navigation path (delete its spring). First, check that 
+         wall and pin edits are enabled. Box selection (click and drag with the alt key down) is useful for selecting the spring 
+         between the drone and the navigation pin. If you've used the ctrl-q 
+         feature to disable (sleep) the drone's movement and shooting, it will come 
+         to rest over its current pin, making it hard to select both pin and 
+         drone using the shift-key approach. The box selection method allows pin, 
+         drone, and spring to be selected in one action, the box drag. Then 
+         ctrl-x deletes the navigation spring. 
+         <br><br>
+         In a similar way, you can reattach a drone by copying (ctrl-c) the 
+         spring from another drone and pasting (ctrl-s) it onto the free drone and a 
+         blue navigation pin. Remember, ctrl-q toggles drone shooting and navigation on/off, useful
+         when detaching and reattaching them.
+         <br><br>
+         Drones can be copied, to produce a free floating drone: mouse-drag over a drone, then ctrl-v. Attach it
+         to the navigation path using the methods above.
+         <br><br>
+         A single drone, attached to a navigation pin, can be generated by 
+         depressing the shift, d, and p keys together (shift-d-p). The drone and 
+         pin will appear at the current location of the local host's cursor. If 
+         wall/pin edits are enabled, you can then extend this drone's navigation 
+         course by copying and dragging the pin (single-select operation, ctrl-v). 
+         <br><br>
+         Navigation forces are rendered as jets when
+         the editor is off (rendered as springs when the editor is on).
+         <br><br>
+         The drones use raycasting to find puck targets. To hide from the ray, move behind a
+         wall, behind another puck, or beyond the length of the ray.
+         <br><br>
+         After finding a puck, they point their 
+         gun to "lead" the target. This anticipates where the moving-target 
+         puck will be when the bullets arrive. You'll see the gun is angled slightly ahead
+         of the raycast line when the target is moving. The algorithm also accounts for the motion
+         of the drone.
+         <br><br>
+         The controlled pucks are 
+         inelastic and with some drag to make them a bit easier to drive (bullets and regular pucks are elastic and with no drag). 
+         <br><br>
+         Scoring in Puck Popper (demos 7 and 8):
+         <ul>
+            <li>+200 for last puck-player standing</li>
+            <li>+100 for popping client and drone pucks</li>
+            <li>+50 for popping a regular puck</li>
+            <li>+10 for hitting a puck with one of your bullets</li>
+            <li>-10 for getting hit by a bullet</li>
+            <li>-1 for shooting a bullet that expires before it hits another puck</li>
+         </ul>
+         A score summary for each player is reported in the chat panel at the end of the game (one puck left).
+         <br><br>
+         A leaderboard report, the top 25 scores, is displayed below the game-score summary 
+         table. The report consists of two query results, one table sorted by 
+         time, the other by score (click the link to toggle between the two tables). 
+         The backend of the leaderboard, a Google 
+         sheet, is queried depending on the version of the Puck Popper game (e.g. 
+         demo #7 results are reported separate from #8). Custom versions of Puck 
+         Popper, made using the capture feature, are reported separately as 
+         distinguished by a unique identifier in the capture. Game results where 
+         the mouse was used (in the Canvas area) or the drones are "sleeping", 
+         are filtered out of the reports.
+         <br><br>
+         The leaderboard can be queried independently (without playing a game). 
+         From the multiplayer chat field (after connecting) enter "lb" to display example queries.
+         <br><br>
+         From the host page, you can establish a nickname (without connecting to the multiplayer server) by typing
+         the nickname into the chat field before starting demos #7 or #8. That nickname will be used
+         when reporting to the leaderboard.
+         <br><br>
+         A team name can be added to the nickname using the @ sign, e.g. bob@red, where bob is a member of the red team.
+         Team totals, not member scores, are reported to the leaderboard. 
+         Friendly fire is prevented between team members.
+         <br><br><hr><br>
+         
+         <span id="d8"><strong>Demo #8a</strong> is a larger version of the <strong><a onclick="cR.clearState();dS.demoStart(8)">Puck Popper</a></strong> game. This is similar to #7 in that a controlled puck is created for 
+         the local client, each network client, and for each of the four drones (they will try to find you). For more on 
+         the drones refer to <a class="scroll-link" href="#" title="" data-scroll-target="d7">demo #7</a>.
+         In multi-player mode all network clients should first connect, then the 
+         host should click the #8 button.</span>
+         
+         <p style="margin: 10px 0px 10px 0px;">
+         Your nickname: <input required placeholder="host" title="your nickname during games and on the leaderboard" type="text" enterkeyhint="enter" class="nickNameField" id="nn_popper8" maxlength="10" minlength="2" autocomplete="off">
+         </p>
+         
+         To play without drones, use ctrl-q to stop the drone navigation. Use the editor features to select and delete them. Then capture
+         the drone-free course for repeated play.
+         <br><br>
+         The starting position and velocity for each human-controlled puck is fixed (to be the same each time the game starts).
+         These positions can be edited in the startingPosAndVels object of a capture.
+         <br><br>
+         <a onclick="cR.clearState();dS.demoStart(8)">8a</a> is intended to be a template that can be <a class="scroll-link" href="#" title="" data-scroll-target="editorMark">edited</a> and captured for later use.
+         <br><br>
+         Try shooting at the pucks in the spring matrix (jello).
+         The editor's multi-select feature is useful for carving/slicing up the jello. Hold the shift key down, then mouse over pucks in the jello grid.
+         A first ctrl-x will delete selected springs, a second ctrl-x will delete the selected pucks.
+         <br><br>
+         For <a onclick="cR.clearState();dS.demoStart(8)">8a</a>,
+         <a onclick="cR.demoStart_fromCapture(8, {'fileName':'demo8b.js'})">8b</a>, and 
+         <a onclick="cR.demoStart_fromCapture(8, {'fileName':'demo8c.js'})">8c</a>, 
+         the controlled pucks are inelastic and with some drag to make them a bit easier to drive. 
+         Bullets are elastic and with no drag; regular pucks are inelastic and with no drag.
+         <br><br>
+         There are elastic collisions and no drag in 
+         <a onclick="cR.demoStart_fromCapture(8, {'fileName':'demo8d.js'})">8d</a> and 
+         <a onclick="cR.demoStart_fromCapture(8, {'fileName':'demo8e.js'})">8e</a>. 
+         These versions of Puck Popper are the most challenging to play. 
+         This optimizes the capability of the drone pucks to anticipate (and lead) for the motion of the human-controlled pucks. 
+         <a onclick="cR.demoStart_fromCapture(8, {'fileName':'demo8e.js'})">8e</a> has no gun recoil.
+         <br><br><hr><br>
+         
+         <span id="d9"><strong>Demo #9</strong> <a onclick="cR.clearState();dS.demoStart(9)">9a</a> animates the additive mixing of three colors: red, green, and blue. 
+         The blending features of the HTML5 canvas facilitate the color mixing. The globalCompositeOperation attribute is set to a value of 'screen'.</span> 
+         <br><br>
+         The three balls are coupled together with three distance 
+         joints (aka springs, with damping). Each ball is also lightly coupled 
+         to a corresponding stationary pin and has some linear damping (fluid drag).             
+         When "Edit walls & pins" feature is enabled (checked), the pins and 
+         springs are visible.
+         <br><br>
+         Puck-puck collisions are 
+         inhibited by using the collideConnected attribute of the distance joint. 
+         If pucks are copied, they will collide with any pucks not coupled to 
+         them with a distance joint.
+         <br><br>
+         Normal editing and capture features apply here. Use the box-selection 
+         feature (alt key) for an easy way to copy or modify the three-puck 
+         group. To include the pins in copy operations, the "Edit walls & pins" 
+         feature must be enabled. The <a onclick="cR.demoStart_fromCapture(9, {'fileName':'demo9b.js'})">9b</a> version was made with the editor.
+         <br><br>
+         This demo runs most efficiently in Google Chrome. Frame rates will dip below
+         target for other browsers, especially if the "Edit walls & pins" 
+         feature is enabled.
+         <br>&nbsp;
+         
+         <br><hr><br>
+         <span id="EpLReport"></span>
+         EpL is short for Energy, Momentum, and Angular Momentum. On a few of the demos, a realtime table is displayed in the canvas, 
+         overlaying the animation. Toggle this report on/off with ctrl-L. Toggle between the EpL report and the Speed report with ctrl-alt-L
+         (see EpL options in the "remove/add items" menu).
+         All values are in SI units.         
+         <br><br>
+         Near the top of the <strong>EpL</strong> report, a row of system totals are given (cyan). Above that, grand totals are shown for E, L and p, aggregations of the parts: 
+         <div style="margin-left:10px; margin-top:10px;">
+         E = PE + KEt + KEr<br>
+         L = Lo + Ls<br>
+         p = \( \lVert \vec{p} \rVert = \sqrt{ p_{x}^{2} + p_{y}^{2} } \)
+         </div>
+         <br>
+         There is a row for each puck and spring. Starting with the object's name (e.g. p1 for puck1), the remaining columns are:
+         <div style="margin-left:10px; margin-top:10px;">
+         PE: potential energy (joules)<br>
+         KEt: kinetic energy from translation (joules)<br>
+         KEr: kinetic energy from rotation (joules)<br>
+         Lo: orbital angular momentum, \( L_{o} =m(\vec{r}\times\vec{v}) \) (kg-m<sup>2</sup>/sec)<br>
+         Ls: spin angular momentum (kg-m<sup>2</sup>/sec)<br>
+         px: x component of linear momentum (kg-m<sup>2</sup>/sec)<br>
+         py: y component of linear momentum (kg-m<sup>2</sup>/sec)
+         </div>
+         <br>
+         Orbital angular momentum is calculated about the axis marked with a circle (cyan) and cross-hairs. This is often at the system center of mass, but can be cursor dragged
+         to new positions. Use the "E" key to enable pin editing, then drag with the ctrl key down. 
+         Also note the "EpL axis at SCM" option in the "remove/add items" menu. This acts to position the EpL axis at the system center of mass.
+         <br><br>
+         The <strong>Speed</strong> report gives puck speeds and spring lengths (ctrl-alt-L):
+         <div style="margin-left:10px; margin-top:10px;">
+         Speed: translational (meters/sec)<br>
+         Radius: orbit radius (meters)<br>
+         Orbit: orbital speed about specified axis, \( \Omega =\vec{r}\times\vec{v}/r^{2} \) (radians/sec) <br>
+         Spin: rotational speed about the pucks center of mass (radians/sec)<br>
+         Length: un-stretched spring length (meters)<br>
+         Stretch: stretch [positive] or compression [negative] (meters)<br>
+         Total: end-to-end length including stretch (meters)<br>
+         </div>
+         <br>
+         As stated in its documentation, "Box2D uses the symplectic Euler integration scheme. 
+         It does not reproduce parabolic motion of projectiles and has only first-order accuracy."
+         This affects speed and kinetic energy predictions. As a result, you may see some variation in energy totals where a constant total is expect. 
+         This mainly occurs when a puck is strongly accelerated by springs, lesser so with gravity.
+         <br>
+         <br><hr><br>
+         <span id="frameRate"></span>These demos try to run at a <strong>frame rate</strong> that is equal to the refresh rate of your display.
+         This frame rate is reported to the right of the "pause" control. The 
+         value should be about 60fps if your display's refresh rate is set to 60 
+         Hertz. Cell phones will generally not be able to reach 60fps for most of 
+         the demos.
+         <br><br> 
+         
+         Below the "pause" control is a selection control used in establishing a 
+         fixed timestep for the physics-engine (inversely related to framerate).
+         This is automatically set (based on an observation of your framerate) whenever 
+         the page is refreshed.
+         <br><br> 
+         
+         Generally this will get set 
+         to 60 Hertz unless you have a DVI or Display Port connection to a 
+         monitor that can render at higher rates. Note that the longer timestep of the 30 
+         Hertz setting will be unstable in demos that 
+         incorporate springs.<br><br>
+         
+         Direct mouse drag (and rotation) of single or multiple objects will produce instability when
+         editing spring systems at rates of 60 Hz or less. At 100 Hz or higher these operations work
+         the best.
+         <br><br>
+         
+         If you do have high-refresh-rate gear, 
+         try setting your monitor to a refresh rate that the demos can easily 
+         match. If a demo is running slower (fps) than your monitor's refresh 
+         rate, try reducing your monitor's rate (in Windows 10, right click on 
+         the desktop, then "display setting", then "advanced display setting", 
+         then "display adapter properties", then "monitor" tab, then change the 
+         "screen refresh rate"). Then, after you have dialed back your monitor to the point that
+         the demos can match it, set the timestep control to agree with that value (or refresh the
+         page to set it automatically).<br><br> 
+         
+         At the beginning of the timestep select list, you'll 
+         see the option "variable". This lets the physics timestep (framerate) 
+         float along with the refresh rate of your monitor. This can be handy for 
+         observing the fps performance of your system. 
+         Generally it's best to only use this to test. Then set a similar fixed-timestep value.
+         <br><br><hr><br>
+         
+         <!--
+         These Canvas animations works well in Google Chrome and Mozilla Firefox.
+         <a title='show or hide the help on browsers' onclick="uT.toggleElementDisplay('msEdgeBody','block');uT.toggleSpanValue('msEdgeIntro','More','Less')"><span id='msEdgeIntro'>More</span></a> on browsers...
+         <br>
+         <span id='msEdgeBody' style='display:none'>
+         -->
+         <span id="browsers">Overall, Chrome is the best <strong>browser</strong> to use here. (You may want to stop 
+         reading about browsers and simply use Chrome.) However, Firefox is a 
+         close second to Chrome, and, depending on the hardware, I sometimes 
+         prefer its rendering e.g., demo #2 when running on my laptop.</span> 
+         <br><br>
+         Firefox has a "feature" that conflicts slightly with one of the editing 
+         features here. Right-clicking with the shift key down will always bring 
+         up a context menu in Firefox when the click is released, apparently 
+         overriding attempts to disable it. Chrome and Edge do a better job 
+         listening.
+         <br><br>
+         Firefox also has distinctive alt key behaviors. The alt key is used 
+         here to start a box-based selection. If this is played by the book (hold 
+         alt key down, then click and drag the mouse) all goes well. But if you 
+         tap the alt key (down then release) this will trigger the menu bar to be 
+         displayed. Any click and drag operations that follow will appear to be 
+         stuck in box-select mode. To reset this do two complete cycles of the 
+         alt key (down-up-down-up) without any mouse clicks in the middle.
+         <br><br>
+         Microsoft Edge is now based on Chromium (like Chrome). It works very
+         well here, pretty much identical to Chrome.
+         <br><br>
+         MS Internet Explorer is not functional here.
+         <br><br>
+         Testing is very thin on macOS. Chrome looks good there; all the 
+         multiplayer functionality (including WebRTC) works. Safari looks 
+         ok except for some minor rendering issues relating to object borders 
+         and dashed lines. For GhostBall Pool (#3d), Safari doesn't go to fullscreen
+         well; use the full-canvas button instead.
+         <br><br>
+         Testing on the Raspberry Pi showed that Chromium looks good there and the 
+         multiplayer works fine. RPi makes an excellent non-streaming client but is 
+         very underpowered as a host. The right-side alt key is required for box selecting objects.
+         <br><br>
+         A Chromebook makes a good streaming and non-streaming client. As a host 
+         it is somewhat underpowered. The touchpad differs from Windows. 
+         Because of the way this site uses the alt key (for box-based object 
+         selection), you must use a mouse to get right-click features like the 
+         strongest mouse springs.
+         
+         <br><br><hr><br>
+         <span id="codeLinks"></span>Here are the JavaScript <strong>modules</strong> behind this page.
+         <ul style="list-style-type: none; margin: 20px 0px 30px -10px;">
+         
+            <li><a href="Box2D.js.html" target="_blank" title="Box2dWeb">Box2D.js</a>:
+            Box2dWeb physics engine
+            <br><br>
+            </li>
+            
+            
+            <li><a href="gwModule.js.html" target="_blank" title="game window, animate the canvas">gwModule.js</a>:
+            initialize everything and run the animation loop
+            </li> 
+            
+            <li><a href="demoStart.js.html" target="_blank" title="try something new">demoStart.js</a>:
+            start a demo or game
+            </li>
+            
+            <li><a href="eventsHost.js.html" target="_blank" title="host events">eventsHost.js</a>:
+            key, mouse, and touch input from the host client
+            </li>
+            
+            <li><a href="tableActs.js.html" target="_blank" title="make stuff">tableActs.js</a>:
+            add and remove stuff from the table
+            </li>  
+            
+            <li><a href="boxStuff.js.html" target="_blank" title="interact with the engine">boxStuff.js</a>:
+            collision handler and more
+            <br><br>
+            </li>         
+            
+            
+            <li><a href="consAndPros.js.html" target="_blank" title="prototypes for the table objects">consAndPros.js</a>:
+            pucks, springs, walls, etc...
+            </li>
+            
+            <li><a href="clientProto.js.html" target="_blank" title="client prototypes">clientProto.js</a>:
+            prototype for each user/player
+            </li>
+            
+            <li><a href="captureRestore.js.html" target="_blank" title="capture your creations and restore them later">captureRestore.js</a>:
+            capture and restore state
+            </li>
+            
+            <li><a href="multiSelect.js.html" target="_blank" title="select multiple objects for editing and interactions">multiSelect.js</a>:
+            select multiple table objects
+            <br><br>
+            </li> 
+            
+            
+            <li><a href="worldScreen.js.html" target="_blank" title="from screen to world and back">worldScreen.js</a>:
+            relationships between engine and canvas
+            </li>
+            
+            <li><a href="drawFunc.js.html" target="_blank" title="put shapes on the canvas">drawFunc.js</a>:
+            draw circles, squares, and polygons
+            </li>
+            
+            <li><a href="utilities.js.html" target="_blank" title="utilities">utilities.js</a>:
+            miscellaneous handy functions and prototypes
+            </li>
+            
+            <li><a href="pageStuff.js.html" target="_blank" title="more utilities">pageStuff.js</a>:
+            cookies, page scrolling, and more...
+            <br><br>
+            </li>
+            
+            
+            <li><a href="hostAndClient.js.html" target="_blank" title="connections between a host computer and client devices">hostAndClient.js</a>:
+            multiplayer networking (client side)
+            </li>
+            
+            <li><a href="eventsNonHost.js.html" target="_blank" title="non-host network client events">eventsNonHost.js</a>:
+            key, mouse, and touch input from clients
+            </li>
+            
+            <li><a href="server.js.html" target="_blank" title="server-side node.js code that facilitates socket.io and WebRTC (P2P)">server.js</a>:
+            multiplayer networking (server side)
+            <br><br>
+            </li>   
+            
+            
+            <li><a href="puckPopper.js.html" target="_blank" title="Puck Popper game">puckPopper.js</a>:
+            puck popper
+            </li>
+            
+            <li><a href="twoThumbs.js.html" target="_blank" title="Two Thumbs">twoThumbs.js</a>:
+            virtual game pad for puck popper
+            </li>
+            
+            <li><a href="ghostBall.js.html" target="_blank" title="Ghost Ball game">ghostBall.js</a>:
+            ghost-ball pool
+            </li>
+            
+            <li><a href="jelloMadness.js.html" target="_blank" title="Jello Madness game">jelloMadness.js</a>:
+            jello madness
+            </li>
+            
+            <li><a href="bpHoops.js.html" target="_blank" title="Bipartisan Hoops game">bpHoops.js</a>:
+            bipartisan hoops (basketball)
+            </li>
+            
+            <li><a href="monkeyHunt.js.html" target="_blank" title="Monkey Hunt game">monkeyHunt.js</a>:
+            monkey hunt
+            <br><br>
+            </li>
+            
+            
+            <li><a href="leaderBoard.js.html" target="_blank" title="submit game results and request leaderboard reports">leaderBoard.js</a>:
+            leader board (client side)
+            </li>
+            
+            <li><a href="code.js.html" target="_blank" title="code.gs, Google sheet, record submissions and produce reports">code.gs</a>:
+            leader board (server side, Google sheet)
+            <br><br>
+            </li>
+            
+            
+            <li><a href="piEngine.js.html" target="_blank" title="counting to pi">piEngine.js</a>:
+            collision counting to pi
+            </li>
+         </ul>
+         
+         <p>
+         And, the GitHub <a href="https://github.com/m-jim-d" target="_blank">repositories</a> behind this domain.
+         </p>
+         <br>
+         
+         <!-- </span> -->
+         <hr>
+         <div style="text-align: center;">
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>&#8593;</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>&#8593;</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>&#8593;</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>&#8593;</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>&#8593;</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+            <p>&#8593;</p>
+         </div>
+         
+         </div> 
+      </div>
+      <div class="canvas" id="hostCanvasDiv">
+         <canvas id="hostCanvas" width="600" height="600" onclick="document.activeElement.blur();"></canvas>
+         <!-- -->
+      </div>
+
+      <div class="controls" id="controlsDiv">
+         <button class="main" title='stop translation' onclick="eV.freeze();"><u>F</u>reeze</button>
+         <button class="main" title="stop rotation" onclick="eV.stopRotation();"><u>R</u></button>
+         <button class="main" title="reverse the velocity and rotation rate (Ctrl-Backspace)" onclick="eV.reverseDirection();">Reverse</button><br>
+         <p>
+            <input type="checkbox" id="chkCOM_Selection" title='change how objects are selected (use Center Of Mass or not)' autocomplete="off" checked><u>C</u>OM 
+            <input type="checkbox" id="chkGravity" autocomplete="off" title='gravity (or use "g" key)'><u>g</u>
+            <input type="checkbox" id="chkC19"     autocomplete="off" title="Make each drone puck a Coronavirus in Puck Popper.">CV 
+            <br>
+            <div style=" margin: -4px 0px -4px 0px;">
+            <input type="checkbox" id="chkPause" autocomplete="off" title="stop/start the animation"><u>P</u>ause 
+            
+            <span id='fps_wrapper' style='display:inline'>
+            (<span id="fps" title="animation rate in frames per second">0</span>fps)
+            </span>
+            
+            <span id='stepper_wrapper' style='display:none'>
+            <button class="main" id="stepper" title='step the animation by one frame (click or use the "o" key)' onclick="gW.stepAnimation();">Step</button><br>
+            </span>
+            
+            <select id="FrameRate" onChange="gW.setFrameRate();" autocomplete="off" title="physics-engine timestep in milliseconds">
+               <option value="float"       >variable</option>
+               <option value="30"          >33ms (30Hz)</option>
+               <option value="60"  selected>17ms (60Hz)</option>
+               <option value="75"          >13ms (75Hz)</option>
+               <option value="85"          >12ms (85Hz)</option>
+               <option value="100"         >10ms (100Hz)</option>
+               <option value="120"         >&nbsp;&nbsp;8ms (120Hz)</option>
+               <option value="144"         >&nbsp;&nbsp;7ms (144Hz)</option>
+               <option value="240"         >&nbsp;&nbsp;4ms (240Hz)</option>
+               <option value="500"         >&nbsp;&nbsp;2ms (500Hz)</option>
+               <option value="1000"        >&nbsp;&nbsp;1ms (1000Hz)</option>
+            </select>
+            </div>
+         </p>
+         <input type="checkbox" id="chkMultiplayer" autocomplete="off" title="Toggle the left panel between multiplayer features and the demo help."><u>M</u>ultiplayer<br>
+         <div id='clientLinks' style='display:none; margin: 5px 0px 1px 16px;'>
+            <input type="checkbox" checked id="chkStream" autocomplete="off" title="Uncheck to pause all video streams to the clients.">Streams<br>
+            <input type="checkbox"         id="chkLocalCursor" autocomplete="off" title="Render the local cursor when over the canvas element">Local cursor<br>            
+            <input type='checkbox' checked id='chkPlayer' autocomplete='off' title=
+'Request a puck player for the local host 
+when starting demos 7 and 8.'>Host player<br>           
+            <input type='checkbox' checked id='chkFriendlyFire' autocomplete='off' title=
+'Uncheck "Frendly fire" when multiple solo players
+or teams work together to scrub out the drones.
+
+If "Frendly fire" is checked, bullets from humans
+can hit humans and score. Players on a team will
+not be able to score hits on their own team members.
+Hits will score when directed at other teams or 
+solo players.'>Friendly fire<br> 
+            <div style=" margin: 5px 0px 1px 4px;">
+            Client:
+            <a href="#" onClick="window.open('client.html', '_blank', 'width=1240, height=750')" title="Open a client page in a new window.">window</a>,
+            <a href="client.html" target='_blank' title="Open a client page in a new tab.">tab</a>
+            </div>
+         </div>
+         
+         <br>
+         <div id="buttonGroup">
+         <div style="margin: 10px 0px 1px 0px;">Demos and Games:</div> <!-- &nbsp; -->
+         <button class="demos" onclick="dS.demoStart(1, {'scrollCA':false});" id="b1" title="big and little"><u>1</u></button>
+         <button class="demos" onclick="dS.demoStart(2, {'scrollCA':false});" id="b2" title="sound field"><u>2</u></button>
+         <button class="demos" onclick="dS.demoStart(3, {'scrollCA':false});" id="b3" title="order, disorder, and Ghost-Ball Pool"><u>3</u></button><br>
+
+         <button class="demos" onclick="dS.demoStart(4, {'scrollCA':false});" id="b4" title="rectangular pucks and Monkey Hunt"><u>4</u></button>
+         <button class="demos" onclick="dS.demoStart(5, {'scrollCA':false});" id="b5" title="stretchy things"><u>5</u></button>
+         <button class="demos" onclick="dS.demoStart(6, {'scrollCA':false});" id="b6" title="Jello Madness"><u>6</u></button><br>
+
+         <button class="demos" onclick="dS.demoStart(7, {'scrollCA':false});" id="b7" title="Puck Popper (small canvas)"><u>7</u></button>
+         <button class="demos" onclick="dS.demoStart(8, {'scrollCA':false});" id="b8" title="Puck Popper (large canvas)"><u>8</u></button>
+         <button class="demos" onclick="dS.demoStart(9, {'scrollCA':false});" id="b9" title="color mixer"><u>9</u></button>
+         </div>
+         
+         <div id="variationLine"><span id='indexInPlusRow' title='variations on the demos'>9</span><span id='extraDemos'></span></div>
+         
+         <div id="divFullScreen">
+            <!-- Scree<u>n</u> -->
+            <button class="fullScreen" id="btnFullScreen" style="width: 50px;" title="FULL-SCREEN: stretches the canvas rendering to fill the viewport ('v' key; esc for normal view)">
+               <i class="material-icons" style="font-size:30px; color:black">fullscreen</i>
+            </button>
+            <!-- Can<u>v</u>as -->
+            <button class="fullScreen" id="btnFullCanvas" title="FULL-CANVAS: enlarges the canvas and fence to fill the viewport ('n' key; esc or '0' for normal view)">
+               <!-- <i class="material-icons" style="font-size:30px; color:black">fullscreen</i> -->
+               <i class="material-icons" style="font-size:30px; color:black; padding-left:6px; padding-right:6px">aspect_ratio</i>
+            </button>
+         </div>
+        
+         <div id="divEditorChk"><input type="checkbox" id="chkEditor" autocomplete="off" title="change the unchangeable"><u>E</u>dit walls & pins
+         <select id="TableActions" onChange="tA.tableActions();" autocomplete="off" title="for a fresh start">
+            <option value="table-action" selected disabled hidden>remove/add items</option>
+            <option value="clear-table" >remove everything</option>
+            <option value="clear-all-but-walls" >remove all but walls</option>
+            <option value="clear-all-but-fence" >remove all but fence</option>
+            <option value="clear-fence" >remove fence</option>
+            <option value="add-fence" >add fence</option>
+            <option value="puck-circle" >add circular puck</option>
+            <option value="puck-circle-bullet" >add circular bullet</option>
+            <option value="puck-circular-tail" >add puck with tail</option>
+            <option value="puck-rect" >add rectangular puck</option>
+            <option value="puck-rect-bullet" >add rectangular bullet</option>
+            
+            <option value="toggleBulletSelected" title="change non-bullets to bullets and visa-versa">toggle bullets</option>
+            <option value="revealBullets" title="use black color to display bullets">reveal bullets</option>
+            <option value="hideBullets" title="use normal color to display bullets">hide bullets</option>
+            
+            <option value="wall" >add wall</option>
+            <option value="pin" >add pin</option>
+            <option value="spring" title="Create spring between selected objects (shortcut: ctrl-alt-s).">add spring</option>
+            <option value="fixed-length-spring" title="distance joint with fixed length">add fixed-length spring</option>
+            <option value="toggle-spring-visibility" title="toggle visibility of selected springs">spring visibility</option>
+            <option value="add-jello" >add jello (4x4)</option>
+            <option value="add-puck-grid" title="non-colliding pucks">add n.c. puck grid (7x7)</option>
+            <option value="add-npc" >add drone on 2 pins</option>
+            
+            <option value="add-revolute" title="Create joint between selected objects. (shortcut: alt-r)." >add revolute joint</option>
+            <option value="add-revolute-limits" title="Restrict the joint with limits." >add joint limits</option>
+            <option value="toggle-revolute-limits" title="Toggle joint limits." >toggle joint limits</option>
+            
+            <option value="add-chain" >add chain</option>
+            <option value="add-springy-stick" >add worm</option>
+            <option value="add-springy-chain" >add springy chain</option>
+            
+            <option value="add-pyramid" >add pyramid</option>
+            <option value="add-stack" >add stack</option>
+            <!--
+            <option value="add-newtons-cradle-1mb" >1-moving-ball cradle</option>
+            <option value="add-newtons-cradle-3mb" >3-moving-ball cradle</option>
+            <option value="run-newtons-script" >run newton's cradle</option>
+            -->
+            
+            <option value="align-selected-pucks" title="Align the selected group between the two most outlying objects (shortcut: alt-L).">align selected</option>
+            <option value="arc-selected-pucks" title="Arrange the selected group into a semi-circle (shortcut: alt-shift-L).">arc selected</option>
+            <option value="toggle-projectile-forecast" title="toggle (show or hide) a 2.5 second projectile forecast">projectile forecast</option>
+            
+            <option value="toggle-SCM-display" title="toggle (show or hide) a mark indicating the System Center of Mass (all pucks)">toggle display of SCM</option>
+            <option value="toggle-MSC-display" title="toggle (show or hide) a mark indicating the Multi-Select Center.">toggle display of MSC</option>
+            <option value="toggle-E-p-L-report" title="toggle (show or hide) a report for energy, momentum, and angular momentum (shortcut: ctrl-L).">toggle EpL report</option>
+            <option value="toggle-E-p-L-report-type" title="toggle between EpL and Speed reports (shortcut: ctrl-alt-L).">toggle EpL and Speed</option>
+            <option value="Laxis_at_SCM" title="set angular momentum axis at system center of mass.">EpL axis at SCM</option>
+            
+            
+            <option value="bullets-from-pucks" title="bullets from human clients (demos 7 and 8) are fabricated (cannibalized) from the client's puck, shrinking it.">bullets from pucks</option>
+            
+            <option value="shift-capture" title="shift a small-canvas capture to the center of a larger full-screen canvas">shift capture</option>
+            <option value="modify-capture" title="modify the capture for the selected table objects using the JSON in the chat field (shortcut: shift-m)">modify capture</option>
+            <option value="sort-pucks" title="sort pucks by size and rename them">sort pucks</option>
+         </select>
+         </div>
+
+         <button class="main" onclick="cR.saveState();" style="margin-left: 2px; margin-right: -2px;"
+                 title="Capture the state and store in text area and paste buffer ('u' key)"><u>U</u></button>
+         <button class="tight" onclick="cR.clearState();" 
+                 title="Clear out the capture text area">C</button>
+         <button class="main" onclick="cR.runCapture();"  style="margin-left: 1px; margin-right: 1px;"
+                 title=
+'To run a capture: 
+   Use this button (or shift-r).
+   Or, use the corresponding (yellow) number key.
+
+To run and immediately take a capture (a refresh):
+   use this button with the "Shift" key down.
+'><u>R</u>un</button>
+
+         <button class="tight" onclick="cR.fileWriter();" title="Save the capture out to a local file">S</button>
+         <button class="tight" onclick="cR.filePicker();" title="Load a local file to the capture text area">L</button>
+         
+         <button id="button-postToCloud" class="tight" style="margin-left: 1px;" title=
+'POST the current capture to cloud storage.
+To UPDATE an existing cloud capture, use this button with the "Shift" key down.
+To DELETE a cloud capture, use this button with the "Shift" and "Ctrl" keys down.'>P</button>
+         <button class="tight" onclick="cR.postCaptureToCF({'action':'list'});" style="margin-left: -2px; margin-right: -5px;" title=
+'Get a LIST of similar captures from cloud storage (table in left panel).
+For the complete list, use this button with the "Shift" key down.
+Click links in the listing to download and run the capture.'>?</button>
+         <br>
+         
+         <textarea id="jsonCapture" autocomplete="off" title=
+"text area for storing the capture
+    (right-click to toggle size)
+"></textarea><br>
+      </div>
+   </div>
+</div>   
+
+</body>
+</html>
