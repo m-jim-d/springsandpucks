@@ -14,8 +14,8 @@
    <!-- This Open Graph tag controls how a link is displayed if posted on social media -->
    <meta property="og:image" content="https://triquence.org/screenshots/colormixer.png">
 
-   <link href="hostAndClient.css?v=26" rel="stylesheet" type="text/css">  
-   <link href="dialog.css?v=4" rel="stylesheet" type="text/css">  
+   <link href="hostAndClient.css?v=120" rel="stylesheet" type="text/css">  
+   <link href="dialog.css?v=120" rel="stylesheet" type="text/css">  
 
    <!-- Google icon library -->
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -52,43 +52,43 @@
      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
    </script>
 
-   <script src="Box2D.js?v=110"></script>
+   <script src="Box2D.js?v=120"></script>
 
-   <script src="utilities.js?v=110"></script>
-   <script src="pageStuff.js?v=110"></script>
-   <script src="worldScreen.js?v=110"></script>
+   <script src="utilities.js?v=120"></script>
+   <script src="pageStuff.js?v=120"></script>
+   <script src="worldScreen.js?v=120"></script>
    
-   <script src="drawFunc.js?v=110"></script>
-   <script src="consAndPros.js?v=110"></script>
-   <script src="clientProto.js?v=110"></script>
-   <script src="piEngine.js?v=110"></script>
+   <script src="drawFunc.js?v=120"></script>
+   <script src="consAndPros.js?v=120"></script>
+   <script src="clientProto.js?v=120"></script>
+   <script src="piEngine.js?v=120"></script>
    
-   <script src="tableActs.js?v=110"></script>
-   <script src="multiSelect.js?v=110"></script>
-   <script src="gwModule.js?v=110"></script>
+   <script src="tableActs.js?v=120"></script>
+   <script src="multiSelect.js?v=120"></script>
+   <script src="gwModule.js?v=120"></script>
    
-   <script src="demoStart.js?v=110"></script>
-   <script src="eventsHost.js?v=110"></script>
-   <script src="boxStuff.js?v=110"></script>
+   <script src="demoStart.js?v=120"></script>
+   <script src="eventsHost.js?v=120"></script>
+   <script src="boxStuff.js?v=120"></script>
 
    <!-- for testing: load client via script element
    <script src="https://triquence-ca88d70f0e55.herokuapp.com/socket.io/socket.io.js"></script>
    -->
-   <script src="hostAndClient.js?v=110"></script>
-   <script src="eventsNonHost.js?v=110"></script>
+   <script src="hostAndClient.js?v=120"></script>
+   <script src="eventsNonHost.js?v=120"></script>
 
-   <script src="captureRestore.js?v=110"></script>
-   <script src="leaderBoard.js?v=110"></script>
-   <script src="ghostBall.js?v=110"></script>
-   <script src="puckPopper.js?v=110"></script>
-   <script src="jelloMadness.js?v=110"></script>
-   <script src="bpHoops.js?v=110"></script>
-   <script src="monkeyHunt.js?v=110"></script>
+   <script src="captureRestore.js?v=120"></script>
+   <script src="leaderBoard.js?v=120"></script>
+   <script src="ghostBall.js?v=120"></script>
+   <script src="puckPopper.js?v=120"></script>
+   <script src="jelloMadness.js?v=120"></script>
+   <script src="bpHoops.js?v=120"></script>
+   <script src="monkeyHunt.js?v=120"></script>
 
    <!-- put a capture into the page level global: demo_6_fromFile -->
-   <script src="demo6.js?v=110"></script>
+   <script src="demo6.js?v=120"></script>
    <!-- put a capture into the page level global: demo_8_fromFile -->
-   <script src="demo8.js?v=110"></script>
+   <script src="demo8.js?v=120"></script>
    <!--
    <script src="demo2b.js"></script>
    -->
@@ -99,7 +99,7 @@
    <script src="adapter-latest.js?v=2"></script>
 
    <!-- The navigation menu -->
-   <link href="sitemap.css?v=20" rel="stylesheet" type="text/css">   
+   <link href="sitemap.css?v=120" rel="stylesheet" type="text/css">   
 
    <script>
       // Page-level global (for index.html) to facilitate the dynamic loading of captures for various demos.
@@ -252,7 +252,7 @@ to rejoin the room under a new nickname (chat input).
                   <li><a class="scroll-link" href="#" title="" data-scroll-target="multiSelect">multi-select</a></li>
                </ul>
             </li> 
-            <li><a class="scroll-link" data-scroll-target="EpLReport" href="#" title="Energy, Momentum, and Angular Momentum">epl and speed reports</a></li>
+            <li><a class="scroll-link" data-scroll-target="EpLReport" href="#" title="realtime report: energy, momentum, and angular momentum">EpL and speed</a></li>
             <li><a class="scroll-link" data-scroll-target="frameRate" href="#" title="">frame rate</a></li>
             <li><a class="scroll-link" href="#" title="" data-scroll-target="browsers">browsers</a></li>
             <li><a class="scroll-link" href="#" title="" data-scroll-target="codeLinks">the code</a></li>              
@@ -979,45 +979,49 @@ to rejoin the room under a new nickname (chat input).
          <br>         
          <br><hr><br>
          <span id="d5b"></span>
-         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.js'})">5b</a> shows the transfer of angular momentum from spin (Ls) to orbital (Lo). Total
-         angular momentum (L) is conserved in this inelastic collision of three pucks with surface friction.
+         <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.js'})">5b</a> shows the transfer of angular momentum from rotational (Lr) to orbital (Lo). 
+         Total angular momentum (L) is conserved in this inelastic collision of three pucks with surface friction.
          The table below presents a preview of this system's final state using the closed-form derivation below. 
          Edits in the "initial" row will update the preview in the "final" row. 
          Then, click the "Run" button to start the engine with these initial conditions.
-         Use ctrl-alt-L to toggle the live <a class="scroll-link" data-scroll-target="EpLReport" href="#" title="Energy, Momentum, and Angular Momentum">report</a> (on the canvas) between energy-and-momentum and speed. Use ctrl-L to toggle the report on/off.
-         The spin and orbital angular rates, \(\omega\) and \(\Omega\), are in rad/sec.
+         <br><br>
+         Use ctrl-alt-L to toggle the <a class="scroll-link" data-scroll-target="EpLReport" href="#" title="Energy, Momentum, and Angular Momentum">EpL</a> report
+         between the energy-and-momentum and speed versions.
+         Use ctrl-L to toggle the report on/off.
+         Rotational angular speed (\(\omega\)) and orbital angular speed (\(\Omega\)) are in units of radians/second.
+         Translational speed (St) is in units of meters/second.
          
          <br><br>
          <table rules="all" class="threePuckCalculator">
          <tr>
          <td><button class="chat" id="runFromThreePuckCalc" onclick="cR.modifyForCalculator('5.b');" 
-            title='This runs the 5b capture using the initial spin-rate values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
-         <td title="spin rate for puck A">\(\omega_{A}\)</td>
-         <td title="spin rate for puck B">\(\omega_{B}\)</td>
-         <td title="spin rate for puck C">\(\omega_{C}\)</td>
-         <td title="orbit rate">\(\Omega\)</td></tr>
+            title='This runs the 5b capture using the initial rotational-angular-speed values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
+         <td title="puck 1: rotational angular speed"><div class="green">\(\omega_{1}\)</div></td>
+         <td title="puck 2: rotational angular speed"><div class="green">\(\omega_{2}\)</div></td>
+         <td title="puck 3: rotational angular speed"><div class="green">\(\omega_{3}\)</div></td>
+         <td title="all pucks: orbital angular speed">\(\Omega\)</td></tr>
          <tr>
          <td style="text-align:right">initial</td>
-         <td><input title="click to edit the initial spin value for puck A" type="number" class="threePuckCalculator" id="a_init" max="30" min="-30" autocomplete="off" value="5"></td>
-         <td><input title="click to edit the initial spin value for puck B" type="number" class="threePuckCalculator" id="b_init" max="30" min="-30" autocomplete="off" value="25"></td>
-         <td><input title="click to edit the initial spin value for puck B" type="number" class="threePuckCalculator" id="c_init" max="30" min="-30" autocomplete="off" value="-25"></td>
-         <td title="Orbit"> ------ </td>
+         <td><input title="puck 1: initial value" type="number" class="threePuckCalculator" id="a_init" max="30" min="-30" autocomplete="off" value="5"></td>
+         <td><input title="puck 2: initial value" type="number" class="threePuckCalculator" id="b_init" max="30" min="-30" autocomplete="off" value="25"></td>
+         <td><input title="puck 3: initial value" type="number" class="threePuckCalculator" id="c_init" max="30" min="-30" autocomplete="off" value="-25"></td>
+         <td title="all pucks: initial value">&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;</td>
          </tr>
          <tr style="border-bottom: none">
          <td style="text-align:right">final</td>
-         <td title="puck A final spin rate"     id="a_final"></td>
-         <td title="puck B final spin rate"     id="b_final"></td>
-         <td title="puck C final spin rate"     id="c_final"></td>
-         <td title="orbit rate after collision" id="orbit"  ></td>
+         <td title="puck 1: calculated final value" id="a_final"></td>
+         <td title="puck 2: calculated final value" id="b_final"></td>
+         <td title="puck 3: calculated final value" id="c_final"></td>
+         <td title="all pucks: calculated final value" id="orbit"  ></td>
          </tr>
          </table>
          
 
-         \[ L_{spin} = \frac{mr^{2}}{2} \omega  \;\; \textrm{ and } \;\; L_{orbit} = m(\vec{r_{o}}\times\vec{v}) = m r_{o}^{2} \Omega \]
+         \[ L_{rotation} = \frac{mr^{2}}{2} \omega  \;\;\;\; \textrm{} \;\;\;\; L_{orbit} = m(\vec{r_{o}}\times\vec{v}) = m r_{o}^{2} \Omega \]
          
-         <p>Conservation of total angular momentum (spin and orbit):</p>
+         <p>Conservation of total angular momentum (\(i\) for initial, \(f\) for final):</p>
          
-         <p>\[ \frac{mr^{2}}{2}\sum_{A}^{C}(\omega_{i}-\omega_{f})=3mr_{o}^{2}\Omega_{f} \]</p>
+         <p>\[ \frac{mr^{2}}{2}\sum_{j=1}^{3}(\omega_{j, \,i}-\omega_{j, \,f})=3mr_{o}^{2}\Omega_{f} \]</p>
          <!--
          \[ \displaylines{
             \frac{mr^{2}}{2}\left(\omega_{Ai}+\omega_{Bi}+\omega_{Ci}\right) = \\
@@ -1030,46 +1034,46 @@ to rejoin the room under a new nickname (chat input).
          \[ r_{o} = r\times(2\sqrt{3}/3) \]
          
          <p>Contact constraint, no slip and no rolling:</p>
-         \[ \omega_{f} = \Omega_{f} \]
+         \[ \omega_{1,f} = \omega_{2,f} = \omega_{3,f} = \Omega_{f} \]
          
          <p>Combining:</p>
-         \[ \Omega_{f} = \left( \omega_{Ai} +\omega_{Bi} +\omega_{Ci} \right)/11 \]
+         \[ \Omega_{f} = \left( \omega_{1,i} +\omega_{2,i} +\omega_{3,i} \right)/11 \]
          
          <br>
          <span id="d5btwo"></span>
          <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.two.js'})">5b.two</a> also shows a collision and transfer of angular momentum, here for a two puck system
          (refer to the <a class="scroll-link" href="#" title="" data-scroll-target="d5b">5b</a> topic above for help on the preview tables). The closed-form derivation uses conservation of
-         angular momentum, non-slip contact, and the symmetry of the collision impulse, to solve for the three unknowns, \(\omega_{Af}\), \(\omega_{Bf}\), and \(\Omega_{f}\).
+         angular momentum, non-slip contact, and the symmetry of the collision impulse, to solve for the three unknowns, \(\omega_{1,f}\), \(\omega_{2,f}\), and \(\Omega_{f}\).
          
          <br><br>
          <table rules="all" class="twoPuckCalculator">
          <tr>
          <td><button class="chat" id="runFromTwoPuckCalc" onclick="cR.modifyForCalculator('5.b.two');" 
-            title='This runs the 5b.two capture using the initial spin-rate values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
-         <td title="spin rate for puck A">\(\omega_{A}\)</td>
-         <td title="spin rate for puck B">\(\omega_{B}\)</td>
-         <td title="orbit rate">\(\Omega\)</td></tr>
+            title='This runs the 5b.two capture using the initial rotational-angular speed values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
+         <td title="puck 1: rotational angular speed"><div class="yellow">\(\omega_{1}\)</div></td>
+         <td title="puck 2: rotational angular speed"><div class="green">\(\omega_{2}\)</div></td>
+         <td title="all pucks: orbital angular speed">\(\Omega\)</td></tr>
          <tr>
          <td style="text-align:right">initial</td>
-         <td><input title="click to edit the initial spin value for puck A" type="number" class="twoPuckCalculator" id="a_2p_init" max="10" min="-10" autocomplete="off" value="6"></td>
-         <td><input title="click to edit the initial spin value for puck B" type="number" class="twoPuckCalculator" id="b_2p_init" max="10" min="-10" autocomplete="off" value="3"></td>
-         <td title="Orbit"> ------ </td>
+         <td><input title="puck 1: initial value" type="number" class="twoPuckCalculator" id="a_2p_init" max="10" min="-10" autocomplete="off" value="6"></td>
+         <td><input title="puck 2: initial value" type="number" class="twoPuckCalculator" id="b_2p_init" max="10" min="-10" autocomplete="off" value="3"></td>
+         <td title="all pucks: initial value">&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;</td>
          </tr>
          <tr style="border-bottom: none">
          <td style="text-align:right">final</td>
-         <td title="puck A final spin rate"     id="a_2p_final"></td>
-         <td title="puck B final spin rate"     id="b_2p_final"></td>
-         <td title="orbit rate after collision" id="orbit_2p"  ></td>
+         <td title="puck 1: calculated final value"     id="a_2p_final"></td>
+         <td title="puck 2: calculated final value"     id="b_2p_final"></td>
+         <td title="all pucks: calculated final value" id="orbit_2p"  ></td>
          </tr>
          </table>
          
          
          
-         <p>Conservation of total angular momentum (spin and orbit):</p>
+         <p>Conservation of total angular momentum:</p>
          <!--
          <p>\[ \frac{mr^{2}}{2}\left(\omega_{Ai}+\omega_{Bi}\right)=\frac{mr^{2}}{2}\left(\omega_{Af}+\omega_{Bf}\right)+2mr^{2}\Omega_{f} \]</p>
          -->
-         <p>\[ \frac{mr^{2}}{2}\sum_{A}^{B}(\omega_{i}-\omega_{f})=2mr_{o}^{2}\Omega_{f} \]</p>
+         <p>\[ \frac{mr^{2}}{2}\sum_{j=1}^{2}(\omega_{j, \,i}-\omega_{j, \,f})=2mr_{o}^{2}\Omega_{f} \]</p>
          
          <p>Here, the orbit radius, \( r_{o} \), is equal to the puck radius, \( r \):</p>
          \[ r_{o} = r \]
@@ -1083,20 +1087,20 @@ to rejoin the room under a new nickname (chat input).
          } \]
          -->
          \[ 
-            \omega_{Af}-\Omega_{f}=-(\omega_{Bf}-\Omega_{f})
+            \omega_{1,f}-\Omega_{f}=-(\omega_{2,f}-\Omega_{f})
             \;\; \textrm{ or } \;\;
-            \Omega_{f} = (\omega_{Af} + \omega_{Bf})/2  
+            \Omega_{f} = (\omega_{1,f} + \omega_{2,f})/2  
           \]         
          
-         <p>Combining, eliminating \(\omega_{Af}\) and \(\omega_{Bf}\):</p>
-         <p>\[ \Omega_{f}=(\omega_{Ai}+\omega_{Bi})/6 \]</p>
+         <p>Combining, eliminating \(\omega_{1,f}\) and \(\omega_{2,f}\):</p>
+         <p>\[ \Omega_{f}=(\omega_{1,i}+\omega_{2,i})/6 \]</p>
              
          <p>During the collision, the tangential impulse forces are equal and opposite on the two pucks. This causes an equal change in
-         spin-angular momentum, and in this case of equal mass pucks, an equal change in spin rate. 
+         rotational-angular momentum, and in this case of equal mass pucks, an equal change in rotational-angular speed. 
          This is the third constraint needed for a closed-form expression of this three-degrees-of-freedom system:</p>
-         <p>\[ \omega_{Af}-\omega_{Ai}=\omega_{Bf}-\omega_{Bi} \]</p>
+         <p>\[ \omega_{1,f}-\omega_{1,i}=\omega_{2,f}-\omega_{2,i} \]</p>
          
-         <p>Yielding the final spin rates for the two pucks:</p>
+         <p>Yielding the final rotational-angular speed (spin) for the two pucks:</p>
          <!--
          \omega_{Af}=(2\omega_{Ai}-\omega_{Bi})/3
          \;\; \textrm{ and } \;\;
@@ -1104,9 +1108,9 @@ to rejoin the room under a new nickname (chat input).
          -->
          <p>
          \[ 
-         \omega_{Af}=\omega_{Ai}-2\Omega_{f}
+         \omega_{1,f}=\omega_{1,i}-2\Omega_{f}
          \;\; \textrm{ and } \;\;
-         \omega_{Bf}=\omega_{Bi}-2\Omega_{f}
+         \omega_{2,f}=\omega_{2,i}-2\Omega_{f}
          \]
          </p>
          
@@ -1121,62 +1125,65 @@ to rejoin the room under a new nickname (chat input).
          <table rules="all" class="twoPuckCalculator">
          <tr>
          <td><button class="chat" id="runFromFourPuckCalc" onclick="cR.modifyForCalculator('5.b.four');" 
-            title='This runs the 5b.four capture using the initial spin-rate values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
-         <td title="spin rate for puck A">\(\omega_{A}\)</td>
-         <td title="spin rate for puck B">\(\omega_{B}\)</td>
-         <td title="spin rate for puck C">\(\omega_{C}\)</td>
-         <td title="spin rate for puck D">\(\omega_{D}\)</td>
-         <td title="orbit rate">\(\Omega\)</td></tr>
+            title='This runs the 5b.four capture using the initial rotational-angular speed values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
+         <td title="puck 1: rotational angular speed"><div class="yellow">\(\omega_{1}\)</div></td>
+         <td title="puck 2: rotational angular speed"><div class="green">\(\omega_{2}\)</div></td>
+         <td title="puck 3: rotational angular speed"><div class="yellow">\(\omega_{3}\)</div></td>
+         <td title="puck 4: rotational angular speed"><div class="green">\(\omega_{4}\)</div></td>
+         <td title="all pucks: orbital angular speed">\(\Omega\)</td></tr>
          <tr>
          <td style="text-align:right">initial</td>
-         <td><input title="click to edit the initial spin value for puck A" type="number" class="fourPuckCalculator" id="a_4p_init" max="25" min="-25" autocomplete="off" value="6"></td>
-         <td><input title="click to edit the initial spin value for puck B" type="number" class="fourPuckCalculator" id="b_4p_init" max="25" min="-25" autocomplete="off" value="3"></td>
-         <td><input title="click to edit the initial spin value for puck C" type="number" class="fourPuckCalculator" id="c_4p_init" max="25" min="-25" autocomplete="off" value="3"></td>
-         <td><input title="click to edit the initial spin value for puck D" type="number" class="fourPuckCalculator" id="d_4p_init" max="25" min="-25" autocomplete="off" value="3"></td>
-         <td title="Orbit"> ------ </td>
+         <td><input title="puck 1: initial value" type="number" class="fourPuckCalculator" id="a_4p_init" max="25" min="-25" autocomplete="off" value="6"></td>
+         <td><input title="puck 2: initial value" type="number" class="fourPuckCalculator" id="b_4p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="puck 3: initial value" type="number" class="fourPuckCalculator" id="c_4p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="puck 4: initial value" type="number" class="fourPuckCalculator" id="d_4p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td title="all pucks: initial value">&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;</td>
          </tr>
          <tr style="border-bottom: none">
          <td style="text-align:right">final</td>
-         <td title="puck A final spin rate"     id="a_4p_final"></td>
-         <td title="puck B final spin rate"     id="b_4p_final"></td>
-         <td title="puck C final spin rate"     id="c_4p_final"></td>
-         <td title="puck D final spin rate"     id="d_4p_final"></td>
-         <td title="orbit rate after collision" id="orbit_4p"  ></td>
+         <td title="puck 1: calculated final value"     id="a_4p_final"></td>
+         <td title="puck 2: calculated final value"     id="b_4p_final"></td>
+         <td title="puck 3: calculated final value"     id="c_4p_final"></td>
+         <td title="puck 4: calculated final value"     id="d_4p_final"></td>
+         <td title="all pucks: calculated final value" id="orbit_4p"  ></td>
          </tr>
          </table>
          
-         <p>Conservation of total angular momentum (spin and orbit):</p>
-         <p>\[ \frac{mr^{2}}{2}\sum_{A}^{D}(\omega_{i}-\omega_{f})=4mr_{o}^{2}\Omega_{f} \]</p>
+         <p>Conservation of total angular momentum:</p>
+         <p>\[ \frac{mr^{2}}{2}\sum_{j=1}^{4}(\omega_{j, \,i}-\omega_{j, \,f})=4mr_{o}^{2}\Omega_{f} \]</p>
          
          <p>Orbit radius, \( r_{o} \), in terms of puck radius, \( r \):</p>
          \[ r_{o} = r\times(\sqrt{8}/2) \]
          
          <p>The contact constraint, rolling but no slip:</p>
-         \[ \Omega_{f}= (\omega_{ACf} + \omega_{BDf})/2 \]
+         \[ \omega_{1,f} = \omega_{3,f} \;\; \textrm{ and } \;\; \omega_{2,f} = \omega_{4,f} \]
+         \[ \Omega_{f}= (\omega_{1,f} + \omega_{2,f})/2 \]
          
-         <p>Combining, gives the orbital spin rate after the collision:</p>
-         \[ \Omega_{f}=(\omega_{Ai}+\omega_{Bi}+\omega_{Ci}+\omega_{Di})/20 \]
+         <p>Combining, gives the orbital-angular speed after the collision:</p>
+         \[ \Omega_{f}=(\omega_{1,i}+\omega_{2,i}+\omega_{3,i}+\omega_{4,i})/20 \]
          
          <p>Symmetry in the collision impulse:</p>
-         \[ \omega_{ACf}-\overline{\omega}_{ACi}=\omega_{BDf}-\overline{\omega}_{BDi} \]
+         \[ \omega_{13,f}-\overline{\omega}_{13,i}=\omega_{24,f}-\overline{\omega}_{24,i} \]
          \[ 
-         \overline{\omega}_{ACi} \equiv (\omega_{Ai}+\omega_{Ci})/2 
+         \overline{\omega}_{13,i} \equiv (\omega_{1,i}+\omega_{3,i})/2 
          \;\; \textrm{ and } \;\;
-         \overline{\omega}_{BDi} \equiv (\omega_{Bi}+\omega_{Di})/2 
+         \overline{\omega}_{24,i} \equiv (\omega_{2,i}+\omega_{4,i})/2 
          \]
          
+         <!--
          <p>Non-slip contact requires equal final-spin rates in the opposing pucks:</p>
          \[ \omega_{Cf}=\omega_{Af} \;\; \textrm{ and } \;\; \omega_{Df}=\omega_{Bf} \]
+         -->
          
-         <p>Combine to give the AC and BD spin rates in the four puck system:</p>
+         <p>Combine to give the rotational-angular speed of the 13 and 24 pairs in the four puck system:</p>
          <!--
          \[ \omega_{ACf} = \Omega_{f} + (\overline{\omega}_{ACi} - \overline{\omega}_{BDi})/2 \]
          \[ \omega_{BDf} = \Omega_{f} - (\overline{\omega}_{ACi} - \overline{\omega}_{BDi})/2 \]
          -->
          \[ 
-         \omega_{ACf} = \overline{\omega}_{ACi} - 4\Omega_{f} 
+         \omega_{13,f} = \overline{\omega}_{13,i} - 4\Omega_{f} 
          \;\; \textrm{ and } \;\;
-         \omega_{BDf} = \overline{\omega}_{BDi} - 4\Omega_{f} 
+         \omega_{24,f} = \overline{\omega}_{24,i} - 4\Omega_{f} 
          \]
          
          <span id="d5bfive"></span>
@@ -1190,7 +1197,7 @@ to rejoin the room under a new nickname (chat input).
          <p>The steps (5,9,14,20) in this sequence are one less than (bold) values in a range of the <strong>tri</strong>angular-number se<strong>quence</strong> 1,3,<strong>6,10,15,21</strong>,28,36:</p>
          
          \[ 
-         T_{k} = \sum_{i=1}^{k}i 
+         T_{k} = \sum_{j=1}^{k}j 
          \;\; \textrm{ or } \;\;
          T_{k} = \frac{k(k+1)}{2}
          \]
@@ -1212,7 +1219,7 @@ to rejoin the room under a new nickname (chat input).
          \[ 
          S_{4} = 6 + 5+9+14 = 34
          \;\; \textrm{ and } \;\;
-         \Omega_{f} = \frac{1}{34}\sum_{A}^{E}\omega_{i} 
+         \Omega_{f} = \frac{1}{34}\sum_{j=1}^{5}\omega_{j,\,i} 
          \]
          
          <p>and for the initial conditions of this five-puck case:</p> 
@@ -1223,17 +1230,17 @@ to rejoin the room under a new nickname (chat input).
          \[ 
          S_{5} = 54
          \;\; \textrm{ and } \;\;
-         \Omega_{f} = \frac{1}{54}\sum_{A}^{F}\omega_{i} 
+         \Omega_{f} = \frac{1}{54}\sum_{j=1}^{6}\omega_{j,\,i} 
          \]
          
          <p>(It's up to the reader to show that for the six-puck system, the coefficient on \( \Omega_{f} \) is 8 in the expressions that follow. 
          What's the pattern?)</p>
          
-         <p> And the final spin rates for the odd and even groups:</p>
+         <p> And the final rotational-angular speed for the odd and even groups:</p>
          \[ 
-         \omega_{ACEf} = \overline{\omega}_{ACEi} - 8\Omega_{f} 
+         \omega_{135,f} = \overline{\omega}_{135,i} - 8\Omega_{f} 
          \;\; \textrm{ and } \;\;
-         \omega_{BDFf} = \overline{\omega}_{BDFi} - 8\Omega_{f} 
+         \omega_{246,f} = \overline{\omega}_{246,i} - 8\Omega_{f} 
          \]
          
          <p>A calculator for the six-puck system:</p>
@@ -1241,33 +1248,33 @@ to rejoin the room under a new nickname (chat input).
          <table rules="all" class="twoPuckCalculator">
          <tr>
          <td><button class="chat" id="runFromSixPuckCalc" onclick="cR.modifyForCalculator('5.b.six');" 
-            title='This runs the 5b.six capture using the initial spin-rate values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
-         <td title="spin rate for puck A">\(\omega_{A}\)</td>
-         <td title="spin rate for puck B">\(\omega_{B}\)</td>
-         <td title="spin rate for puck C">\(\omega_{C}\)</td>
-         <td title="spin rate for puck D">\(\omega_{D}\)</td>
-         <td title="spin rate for puck E">\(\omega_{E}\)</td>
-         <td title="spin rate for puck F">\(\omega_{F}\)</td>
-         <td title="orbit rate">\(\Omega\)</td></tr>
+            title='This runs the 5b.six capture using the initial rotational-angular speed values from this table. The Speed version of the EpL report is displayed.'>Run</button></td>
+         <td title="puck 1: rotational angular speed"><div class="yellow">\(\omega_{1}\)</div></td>
+         <td title="puck 2: rotational angular speed"><div class="green">\(\omega_{2}\)</div></td>
+         <td title="puck 3: rotational angular speed"><div class="yellow">\(\omega_{3}\)</div></td>
+         <td title="puck 4: rotational angular speed"><div class="green">\(\omega_{4}\)</div></td>
+         <td title="puck 5: rotational angular speed"><div class="yellow">\(\omega_{5}\)</div></td>
+         <td title="puck 6: rotational angular speed"><div class="green">\(\omega_{6}\)</div></td>
+         <td title="all pucks: orbital angular speed">\(\Omega\)</td></tr>
          <tr>
          <td style="text-align:right">initial</td>
-         <td><input title="click to edit the initial spin value for puck A" type="number" class="sixPuckCalculator" id="a_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
-         <td><input title="click to edit the initial spin value for puck B" type="number" class="sixPuckCalculator" id="b_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
-         <td><input title="click to edit the initial spin value for puck C" type="number" class="sixPuckCalculator" id="c_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
-         <td><input title="click to edit the initial spin value for puck D" type="number" class="sixPuckCalculator" id="d_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
-         <td><input title="click to edit the initial spin value for puck E" type="number" class="sixPuckCalculator" id="e_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
-         <td><input title="click to edit the initial spin value for puck F" type="number" class="sixPuckCalculator" id="f_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
-         <td title="Orbit"> ------ </td>
+         <td><input title="puck 1: initial value" type="number" class="sixPuckCalculator" id="a_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
+         <td><input title="puck 2: initial value" type="number" class="sixPuckCalculator" id="b_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="puck 3: initial value" type="number" class="sixPuckCalculator" id="c_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
+         <td><input title="puck 4: initial value" type="number" class="sixPuckCalculator" id="d_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td><input title="puck 5: initial value" type="number" class="sixPuckCalculator" id="e_6p_init" max="25" min="-25" autocomplete="off" value="6"></td>
+         <td><input title="puck 6: initial value" type="number" class="sixPuckCalculator" id="f_6p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+         <td title="all pucks: initial value">&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;</td>
          </tr>
          <tr style="border-bottom: none">
          <td style="text-align:right">final</td>
-         <td title="puck A final spin rate"     id="a_6p_final"></td>
-         <td title="puck B final spin rate"     id="b_6p_final"></td>
-         <td title="puck C final spin rate"     id="c_6p_final"></td>
-         <td title="puck D final spin rate"     id="d_6p_final"></td>
-         <td title="puck E final spin rate"     id="e_6p_final"></td>
-         <td title="puck F final spin rate"     id="f_6p_final"></td>
-         <td title="orbit rate after collision" id="orbit_6p"  ></td>
+         <td title="puck 1: calculated final value"     id="a_6p_final"></td>
+         <td title="puck 2: calculated final value"     id="b_6p_final"></td>
+         <td title="puck 3: calculated final value"     id="c_6p_final"></td>
+         <td title="puck 4: calculated final value"     id="d_6p_final"></td>
+         <td title="puck 5: calculated final value"     id="e_6p_final"></td>
+         <td title="puck 6: calculated final value"     id="f_6p_final"></td>
+         <td title="all pucks: calculated final value"  id="orbit_6p"  ></td>
          </tr>
          </table>
          </details> 
@@ -1280,22 +1287,22 @@ to rejoin the room under a new nickname (chat input).
          There is damping in the spring but no translational drag on the pucks. This is similar to the 5a demo, simpler
          with a more energetic start. One puck starts with \(v_{x}=20\) and \(v_{y}=0\), the other has an equal but opposite initial velocity.
                   
-         <p>Conservation of angular momentum (where \( S_{o} \) is the final tangential orbit speed, and \( C_{i} \) is 
+         <p>Conservation of angular momentum (where \( S_{t} \) is the final orbital translational speed, and \( C_{i} \) is 
          a constant equal to the intial conditions, \( \vec{r_{i}}\times\vec{v_{i}}\)):</p>
          \[ 
-         mr_{o}S_{o} = m(\vec{r_{i}}\times\vec{v_{i}}) 
+         mr_{o}S_{t} = m(\vec{r_{i}}\times\vec{v_{i}}) 
          \;\; \textrm{ or } \;\;
-         S_{o} = C_{i}/r_{o}
+         S_{t} = C_{i}/r_{o}
          \]
          
          <p>Force balance, centripetal equals spring:</p>
-         \[  \frac{mS_{o}^{2}}{r_{o}} = k(2r_{o} - L)  \]
+         \[  \frac{mS_{t}^{2}}{r_{o}} = k(2r_{o} - L)  \]
          
          <p>Combining:</p>
          \[  mC_{i}^2 = k(2r_{o}^{4} - Lr_{o}^{3})  \]
          
          <p>Using Newton-Raphson to iteratively solve this quartic equation for \( r_{o} \) gives the "final" row in the table below 
-         (\( \Omega = S_{o} / r_{o}\)):</p>
+         (\( \Omega = S_{t} / r_{o}\)):</p>
                  
          <table rules="all" class="twoInOrbit">
             <tr>
@@ -1304,9 +1311,9 @@ to rejoin the room under a new nickname (chat input).
                <td title="x component of velocity">\( v_{x} \)</td>
                <td title="y component of velocity">\( v_{y} \)</td>
                
-               <td title="orbit speed (mps)">\( S_{o} \)</td>
+               <td title="orbital translational speed (meters/sec)">\( S_{t} \)</td>
                <td title="orbit radius (m)">\( r_{o} \)</td>
-               <td title="orbit rate (radians/s)">\( \Omega \)</td>
+               <td title="orbital angular speed (radians/sec)">\( \Omega \)</td>
             </tr>
             <tr>
                <td title="">initial</td>
@@ -1322,9 +1329,9 @@ to rejoin the room under a new nickname (chat input).
                <td title="" id="">------</td>
                <td title="" id="">------</td>
                
-               <td title="orbit speed (mps)" id="orbit_speed">------</td>
+               <td title="orbital translational speed (meters/sec)" id="orbit_speed">------</td>
                <td title="orbit radius (m)" id="orbit_radius">------</td>
-               <td title="orbit rate (radians/s)" id="orbit_rate">------</td>
+               <td title="orbital angular speed (radians/sec)" id="orbit_rate">------</td>
                
             </tr>
          </table>
@@ -1690,15 +1697,17 @@ to rejoin the room under a new nickname (chat input).
          
          <br><hr><br>
          <span id="EpLReport"></span>
-         EpL is short for Energy, Momentum, and Angular Momentum. On a few of the demos, a realtime table is displayed in the canvas, 
-         overlaying the animation. Toggle this report on/off with ctrl-L. Toggle between the EpL report and the Speed report with ctrl-alt-L
+         EpL is short for Energy, Momentum, and Angular Momentum. This realtime report (table) can be displayed in the canvas, 
+         overlaying the animation. Toggle the report on/off with ctrl-L. Toggle between the EpL report and the Speed report with ctrl-alt-L
          (see EpL options in the "remove/add items" menu).
          All values are in SI units.         
          <br><br>
-         Near the top of the <strong>EpL</strong> report, a row of system totals are given (cyan). Above that, grand totals are shown for E, L and p, aggregations of the parts: 
+         Near the top of the <strong>EpL</strong> report, is a row of system totals (TOT). Above that, grand totals are shown for E, L and p, aggregations of the parts (AGG): 
          <div style="margin-left:10px; margin-top:10px;">
          E = PE + KEt + KEr<br>
-         L = Lo + Ls<br>
+         L = Lo + Lr<br>
+         Lo \(\equiv L_{orbital} = m(\vec{r_{o}}\times\vec{v}) = m r_{o}^{2} \Omega \) <br>
+         Lr \(\equiv L_{rotational} = m r^{2} \omega /2 \)<br>
          p = \( \lVert \vec{p} \rVert = \sqrt{ p_{x}^{2} + p_{y}^{2} } \)
          </div>
          <br>
@@ -1707,8 +1716,8 @@ to rejoin the room under a new nickname (chat input).
          PE: potential energy (joules)<br>
          KEt: kinetic energy from translation (joules)<br>
          KEr: kinetic energy from rotation (joules)<br>
-         Lo: orbital angular momentum, \( L_{o} =m(\vec{r}\times\vec{v}) \) (kg-m<sup>2</sup>/sec)<br>
-         Ls: spin angular momentum (kg-m<sup>2</sup>/sec)<br>
+         Lo: orbital angular momentum (kg-m<sup>2</sup>/sec)<br>
+         Lr: rotational angular momentum (kg-m<sup>2</sup>/sec)<br>
          px: x component of linear momentum (kg-m<sup>2</sup>/sec)<br>
          py: y component of linear momentum (kg-m<sup>2</sup>/sec)
          </div>
@@ -1719,13 +1728,13 @@ to rejoin the room under a new nickname (chat input).
          <br><br>
          The <strong>Speed</strong> report gives puck speeds and spring lengths (ctrl-alt-L):
          <div style="margin-left:10px; margin-top:10px;">
-         Speed: translational (meters/sec)<br>
-         Radius: orbit radius (meters)<br>
-         Orbit: orbital speed about specified axis, \( \Omega =\vec{r}\times\vec{v}/r^{2} \) (radians/sec) <br>
-         Spin: rotational speed about the pucks center of mass (radians/sec)<br>
-         Length: un-stretched spring length (meters)<br>
-         Stretch: stretch [positive] or compression [negative] (meters)<br>
-         Total: end-to-end length including stretch (meters)<br>
+         St: orbital translational speed, \( S_t = \vec{r}\times\vec{v} \) (meters/sec)<br>
+         Ro: orbit radius (meters)<br>
+         \( \Omega \): orbital angular speed about specified axis, \( \Omega =\vec{r}\times\vec{v}/r^{2} \) (rad/s) <br>
+         \( \omega \): rotational angular speed about the pucks center of mass (rad/s)<br>
+         \( x \): un-stretched spring length (meters)<br>
+         \( \Delta x \): stretch [positive] or compression [negative] (meters)<br>
+         \( x + \Delta x \): end-to-end length (meters)<br>
          </div>
          <br>
          As stated in its documentation, "Box2D uses the symplectic Euler integration scheme. 
@@ -1805,11 +1814,10 @@ to rejoin the room under a new nickname (chat input).
          <br><br>
          MS Internet Explorer is not functional here.
          <br><br>
-         Testing is very thin on macOS. Chrome looks good there; all the 
-         multiplayer functionality (including WebRTC) works. Safari looks 
-         ok except for some minor rendering issues relating to object borders 
-         and dashed lines. For GhostBall Pool (#3d), Safari doesn't go to fullscreen
-         well; use the full-canvas button instead.
+         Testing is very thin on macOS. 
+         Chrome looks good there; all the multiplayer functionality (including WebRTC) works. 
+         Safari looks ok except for some minor rendering issues. 
+         For GhostBall Pool (#3d), Safari doesn't go to fullscreen well; use the full-canvas button instead.
          <br><br>
          Testing on the Raspberry Pi showed that Chromium looks good there and the 
          multiplayer works fine. RPi makes an excellent non-streaming client but is 

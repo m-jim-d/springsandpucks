@@ -2683,30 +2683,31 @@ window.cP = (function() {
             p_total_2d = new wS.Vec2D( px_total, py_total);
             p_total = p_total_2d.length();
             
-            let shortName = puck.name.replace('puck','p');
+            let shortPuckName = puck.name.replace('puck','p');
             
-            m_EpL.reportString += shortName.padStart(5,' ') + " "  + uT.fixed( pe, 2) +
+            m_EpL.reportString += shortPuckName.padStart(4,' ') + " " + uT.fixed( pe, 2) +
                                                               ""  + uT.fixed( ke_translational, 2) + "" + uT.fixed( ke_rotational, 2) + 
-                                                              ""  + uT.fixed( l_orbital, 2)        + "" + uT.fixed( l_spin, 2) + 
-                                                              ""  + uT.fixed( px, 2)               + "" + uT.fixed( py, 2) + "\\";
+                                                              ""  + uT.fixed( l_orbital, 2,8)      + "" + uT.fixed( l_spin, 2) + 
+                                                              ""  + uT.fixed( px, 2,8)             + "" + uT.fixed( py, 2) + "\\";
          });
          
          Spring.applyToAll( spring => {
             pe = spring.potentialEnergy();
-            m_EpL.reportString += spring.name.padStart(5,' ') + " " + uT.fixed( pe, 2) + "\\";
+            let shortSpringName = (spring.name == "local") ? "sH" : spring.name;
+            m_EpL.reportString += shortSpringName.padStart(4,' ') + " " + uT.fixed( pe, 2) + "\\";
             pe_total += pe;
          });
          
          e_total = ke_total + pe_total;
-         let totalsString = "                                " + "\\" +
-                        "[base,cyan]  AGG " + uT.fixed( e_total, 2) + "[base]<-----------E-" + 
-                        "[base,cyan]"       + uT.fixed( l_total, 2) + "[base]<----L-" +  
-                        "[base,cyan]"       + uT.fixed( p_total, 2) + "[base]<----p-\\" +
-                        "           PE    KEt    KEr     Lo     Ls     px     py \\" +
-                        "[base,cyan]total " +  uT.fixed( pe_total, 2) + "" +
+         let totalsString = "                                 " + "\\" +
+                        "[base,cyan] AGG "   + uT.fixed( e_total, 2)   + "[base]<-----------E-" + 
+                        "[base,cyan]"        + uT.fixed( l_total, 2,8) + "[base]<----L-" +  
+                        "[base,cyan]"        + uT.fixed( p_total, 2,8) + "[base]<----p-\\" +
+                        "          PE    KEt    KEr      Lo     Lr      px     py \\" +
+                        "[base,cyan] TOT " +   uT.fixed( pe_total, 2) + "" +
                                                uT.fixed( ke_total_translational, 2) + "" + uT.fixed( ke_total_rotational, 2) + "" +
-                                               uT.fixed( l_total_orbital, 2)        + "" + uT.fixed( l_total_spin, 2) + "" +
-                                               uT.fixed( px_total, 2)               + "" + uT.fixed( py_total, 2) + "[base]\\";
+                                               uT.fixed( l_total_orbital, 2,8)      + "" + uT.fixed( l_total_spin, 2) + "" +
+                                               uT.fixed( px_total, 2,8)             + "" + uT.fixed( py_total, 2) + "[base]\\";
          
          m_EpL.reportString = totalsString + m_EpL.reportString;
       
@@ -2718,7 +2719,7 @@ window.cP = (function() {
          let stillHasSpring = (Object.keys( gW.aT.springMap).length >= 1);
          
          Puck.applyToAll( puck => {
-            let shortName = puck.name.replace('puck','p');
+            let shortPuckName = puck.name.replace('puck','p');
             let puckSpeed_mps = puck.velocity_2d_mps.length();
             
             if (demoHasOrbits && stillHasSpring) {
@@ -2730,24 +2731,25 @@ window.cP = (function() {
                let orbit_angularSpeed_rps = orbit_tangentialSpeed_mps / orbit_radius_m;
                
                orbit_result = uT.fixed( orbit_radius_m, 2) + "" + uT.fixed( orbit_angularSpeed_rps, 2);
-               orbit_title = "Radius  Orbit ";               
+               orbit_title = "    Ro      " + String.fromCharCode(937) + " ";               
             }
             
-            m_EpL.reportString += shortName.padStart(5,' ') + " " + uT.fixed( puckSpeed_mps, 2) + "" + orbit_result + 
+            m_EpL.reportString += shortPuckName.padStart(4,' ') + " " + uT.fixed( puckSpeed_mps, 2) + "" + orbit_result + 
                                   "" + uT.fixed( puck.angularSpeed_rps, 2) + "\\";
          });
          
-         let puckHeader = "\\ \\ \\        Speed " + orbit_title + "  Spin  \\";
+         let puckHeader = "\\ \\ \\          St " + orbit_title + "     " + String.fromCharCode(969) + "  \\";
          
          m_EpL.reportString = puckHeader + m_EpL.reportString;
          
          if (Object.keys( gW.aT.springMap).length >= 1) {
-            let springHeader = "\\       Length Stretch Total\\";
+            let springHeader = "\\           x     " + String.fromCharCode(916) + "x   x+"+String.fromCharCode(916)+"x\\";
             m_EpL.reportString += springHeader;
             
             Spring.applyToAll( spring => {
                let totalLength_m = spring.length_m + spring.stretch_m;
-               m_EpL.reportString += spring.name.padStart(5,' ') + " " + uT.fixed( spring.length_m, 2) + 
+               let shortSpringName = (spring.name == "local") ? "sH" : spring.name;
+               m_EpL.reportString += shortSpringName.padStart(4,' ') + " " + uT.fixed( spring.length_m, 2) + 
                                      "" + uT.fixed( spring.stretch_m, 2) + "" + uT.fixed( totalLength_m, 2) + "\\";
             });
          }
