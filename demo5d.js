@@ -66,12 +66,12 @@ demo_capture = {
       }
    },
    "puckMapData": {
-      "puck0": {
+      "puck1": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck0",
+         "name": "puck1",
          "nameTip_timerLimit_s": 2,
          "nameTip_timer_s": 0,
          "position_2d_m": {
@@ -108,12 +108,12 @@ demo_capture = {
          "half_height_m": null,
          "half_width_m": null
       },
-      "puck1": {
+      "puck2": {
          "bullet": false,
          "atLeastOneHit": false,
          "jello": false,
          "clientName": null,
-         "name": "puck1",
+         "name": "puck2",
          "nameTip_timerLimit_s": 2,
          "nameTip_timer_s": 0,
          "position_2d_m": {
@@ -127,11 +127,11 @@ demo_capture = {
          "color": "brown",
          "shape": "circle",
          "imageID": "dandelion",
-         "imageScale": 2.20, 
+         "imageScale": 2.2,
          "colorSource": false,
          "density": 1.5,
          "linDamp": 7.616311070948205,
-         "angDamp": 1.0,
+         "angDamp": 1,
          "hitLimit": 10,
          "createTail": false,
          "tailPars": null,
@@ -144,7 +144,7 @@ demo_capture = {
          "borderWidth_px": 0,
          "restitution": 0.8530934835937499,
          "restitution_fixed": true,
-         "friction": 1.0,
+         "friction": 1,
          "friction_fixed": true,
          "radius_m": 0.36602500000000016,
          "aspectR": 1,
@@ -212,11 +212,11 @@ demo_capture = {
          "color": "brown",
          "shape": "circle",
          "imageID": "dandelion",
-         "imageScale": 2.20, 
+         "imageScale": 2.2,
          "colorSource": false,
          "density": 1.5,
          "linDamp": 7.616311070948205,
-         "angDamp": 1.0,
+         "angDamp": 1,
          "hitLimit": 10,
          "createTail": false,
          "tailPars": null,
@@ -229,7 +229,7 @@ demo_capture = {
          "borderWidth_px": 0,
          "restitution": 0.8530934835937499,
          "restitution_fixed": true,
-         "friction": 1.0,
+         "friction": 1,
          "friction_fixed": true,
          "radius_m": 0.36602500000000016,
          "aspectR": 1,
@@ -297,11 +297,11 @@ demo_capture = {
          "color": "brown",
          "shape": "circle",
          "imageID": "dandelion",
-         "imageScale": 2.20, 
+         "imageScale": 2.2,
          "colorSource": false,
          "density": 1.5,
          "linDamp": 7.616311070948205,
-         "angDamp": 1.0,
+         "angDamp": 1,
          "hitLimit": 10,
          "createTail": false,
          "tailPars": null,
@@ -314,7 +314,7 @@ demo_capture = {
          "borderWidth_px": 0,
          "restitution": 0.8530934835937499,
          "restitution_fixed": true,
-         "friction": 1.0,
+         "friction": 1,
          "friction_fixed": true,
          "radius_m": 0.36602500000000016,
          "aspectR": 1,
@@ -382,11 +382,11 @@ demo_capture = {
          "color": "brown",
          "shape": "circle",
          "imageID": "dandelion",
-         "imageScale": 2.20, 
+         "imageScale": 2.2,
          "colorSource": false,
          "density": 1.5,
          "linDamp": 7.616311070948205,
-         "angDamp": 1.0,
+         "angDamp": 1,
          "hitLimit": 10,
          "createTail": false,
          "tailPars": null,
@@ -399,7 +399,7 @@ demo_capture = {
          "borderWidth_px": 0,
          "restitution": 0.8530934835937499,
          "restitution_fixed": true,
-         "friction": 1.0,
+         "friction": 1,
          "friction_fixed": true,
          "radius_m": 0.36602500000000016,
          "aspectR": 1,
@@ -467,11 +467,11 @@ demo_capture = {
          "color": "brown",
          "shape": "circle",
          "imageID": "dandelion",
-         "imageScale": 2.20, 
+         "imageScale": 2.2,
          "colorSource": false,
          "density": 1.5,
          "linDamp": 7.616311070948205,
-         "angDamp": 1.0,
+         "angDamp": 1,
          "hitLimit": 10,
          "createTail": false,
          "tailPars": null,
@@ -484,7 +484,7 @@ demo_capture = {
          "borderWidth_px": 0,
          "restitution": 0.8530934835937499,
          "restitution_fixed": true,
-         "friction": 1.0,
+         "friction": 1,
          "friction_fixed": true,
          "radius_m": 0.36602500000000016,
          "aspectR": 1,
@@ -552,11 +552,11 @@ demo_capture = {
          "color": "brown",
          "shape": "circle",
          "imageID": "dandelion",
-         "imageScale": 2.20, 
+         "imageScale": 2.2,
          "colorSource": false,
          "density": 1.5,
          "linDamp": 7.616311070948205,
-         "angDamp": 1.0,
+         "angDamp": 1,
          "hitLimit": 10,
          "createTail": false,
          "tailPars": null,
@@ -569,7 +569,7 @@ demo_capture = {
          "borderWidth_px": 0,
          "restitution": 0.8530934835937499,
          "restitution_fixed": true,
-         "friction": 1.0,
+         "friction": 1,
          "friction_fixed": true,
          "radius_m": 0.36602500000000016,
          "aspectR": 1,
@@ -579,8 +579,8 @@ demo_capture = {
    },
    "pinMapData": {},
    "springMapData": {
-      "s16": {
-         "name": "s16",
+      "s1": {
+         "name": "s1",
          "color": "yellow",
          "visible": true,
          "length_m": 0.65,
@@ -590,12 +590,12 @@ demo_capture = {
          "damper_Ns2pm2": 0.5,
          "navigationForNPC": false,
          "forCursor": false,
-         "p1_name": "puck0",
+         "p1_name": "puck1",
          "spo1_ap_l_2d_m": {
             "x": 0,
             "y": 0
          },
-         "p2_name": "puck1",
+         "p2_name": "puck2",
          "spo2_ap_l_2d_m": {
             "x": 0,
             "y": 0
@@ -603,8 +603,8 @@ demo_capture = {
          "softConstraints": false,
          "collideConnected": true
       },
-      "s17": {
-         "name": "s17",
+      "s2": {
+         "name": "s2",
          "color": "yellow",
          "visible": true,
          "length_m": 0.65,
@@ -627,8 +627,8 @@ demo_capture = {
          "softConstraints": false,
          "collideConnected": true
       },
-      "s18": {
-         "name": "s18",
+      "s3": {
+         "name": "s3",
          "color": "yellow",
          "visible": true,
          "length_m": 0.65,
@@ -651,8 +651,8 @@ demo_capture = {
          "softConstraints": false,
          "collideConnected": true
       },
-      "s19": {
-         "name": "s19",
+      "s4": {
+         "name": "s4",
          "color": "yellow",
          "visible": true,
          "length_m": 0.65,
@@ -675,8 +675,8 @@ demo_capture = {
          "softConstraints": false,
          "collideConnected": true
       },
-      "s20": {
-         "name": "s20",
+      "s5": {
+         "name": "s5",
          "color": "yellow",
          "visible": true,
          "length_m": 0.65,
@@ -699,8 +699,8 @@ demo_capture = {
          "softConstraints": false,
          "collideConnected": true
       },
-      "s21": {
-         "name": "s21",
+      "s6": {
+         "name": "s6",
          "color": "yellow",
          "visible": true,
          "length_m": 0.65,
