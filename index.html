@@ -596,8 +596,8 @@ to rejoin the room under a new nickname (chat input).
          hold shift key down to list all Cloud captures. Click the links in the list to download and run the capture. 
          <strong>Anonymous cloud posts</strong> (using the default nickname of "host") <strong>expire</strong> (self delete) in 3 days.
          <br><br>
-         The "remove/add items" select control has two procedures for modifying an existing capture: "shift capture" and "modify capture."
-         For both of these, you'll need to start with a capture in the capture text area.
+         The "remove/add items" select control has three procedures for making changes to an existing capture: "shift capture," "modify capture," and "sort capture." 
+         For each of these, you'll need to start with a capture in the capture text area.
          <details class="coloredText">
          <summary title="click for more on modifying captures">details...</summary>
             <ul style="margin-top: 4px; margin-bottom: 0px; margin-left: -10px">
@@ -606,6 +606,23 @@ to rejoin the room under a new nickname (chat input).
                <li>The "modify capture" procedure operates on selected elements, editing the capture based on a substitution string in the chat field. 
                For example, starting with a capture of demo 1, put {"color": "brown"} in the chat field (use the "m" key if chat is hidden), 
                select a few pucks, click this option (or shift-m shortcut). The modified capture will automatically run.</li>
+               <li>The "sort capture" procedure sorts the pucks in the capture and renames pucks, springs, and joints with an increasing index.
+                   This provides a nomenclature cleanup, indexes starting at #1 and consecutive.
+                   Here are examples of parameters for the chat-field:
+                  <ul>
+                     <li><strong>{}</strong>
+                         An empty pair of braces, indicating defaults, is equivalent to {"sort":"old-name", "offCanvas":"nodelete"}
+                     <li><strong>{"sort":"area"}</strong> 
+                         Sort the pucks by increasing area.
+                     <li><strong>{"sort":"position"}</strong>
+                         Sort the pucks by increasing x position.
+                     <li><strong>{"sort":"old-name"}</strong>
+                         Sort the pucks by old-name index.
+                     <li><strong>{"offCanvas":"delete"}</strong>
+                         Delete off-canvas pucks.
+                     <li><strong>{"sort":"area", "offCanvas":"delete"}</strong>
+                         This does both.
+                  </ul>              
             </ul>
          </details>
          <br>
@@ -2145,7 +2162,7 @@ solo players.'>Friendly fire<br>
             
             <option value="shift-capture" title="shift a small-canvas capture to the center of a larger full-screen canvas">shift capture</option>
             <option value="modify-capture" title="modify the capture for the selected table objects using the JSON in the chat field (shortcut: shift-m)">modify capture</option>
-            <option value="sort-pucks" title="sort pucks by size and rename them">sort pucks</option>
+            <option value="sort-pucks" title="sort pucks by size and rename them">sort capture</option>
          </select>
          </div>
 

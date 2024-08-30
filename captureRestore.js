@@ -569,7 +569,7 @@ window.cR = (function() {
                canvasDimensions = x_canvas;
             }
             return wS.pointInCanvas( canvasDimensions, p_2d_px);
-         
+           
          } else {
             return true;
          }
