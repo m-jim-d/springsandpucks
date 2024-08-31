@@ -629,6 +629,7 @@ window.cR = (function() {
       // reference the new spring map.
       state_capture.springMapData = newSpringMapData;
       
+      
       // Not all of the original captures have joint maps.
       if (state_capture.jointMapData) {
          let sortedJoints; // array
@@ -639,8 +640,8 @@ window.cR = (function() {
          let filteredJoints = sortedJoints.filter( function( item) {
             //console.log(item[1].jto1_name + ", " + item[1].jto2_name);
             
-            let p1_ok = ((mapFromOldPuckNames[ item[1].jto1_name] in newPuckMapData) || item[1].jto1_name.includes("pin"));
-            let p2_ok = ((mapFromOldPuckNames[ item[1].jto2_name] in newPuckMapData) || item[1].jto2_name.includes("pin"));
+            let p1_ok = ((mapFromOldPuckNames[ item[1].jto1_name] in newPuckMapData) || uT.oneOfTheseV2(["pin","wall"], item[1].jto1_name));
+            let p2_ok = ((mapFromOldPuckNames[ item[1].jto2_name] in newPuckMapData) || uT.oneOfTheseV2(["pin","wall"], item[1].jto2_name));
             let goodJoint = (p1_ok && p2_ok) ? true : false;
             return goodJoint;
          });
@@ -654,9 +655,9 @@ window.cR = (function() {
             // Update the name attribute.
             item[1].name = newName;
             
-            // Update the names of the pucks to which the joint is attached (skip if it's a pin).
-            if ( ! item[1].jto1_name.includes("pin")) item[1].jto1_name = mapFromOldPuckNames[ item[1].jto1_name];
-            if ( ! item[1].jto2_name.includes("pin")) item[1].jto2_name = mapFromOldPuckNames[ item[1].jto2_name];
+            // Update the names of the pucks to which the joint is attached (skip if it's a pin or wall).
+            if ( ! uT.oneOfTheseV2(["pin","wall"], item[1].jto1_name)) item[1].jto1_name = mapFromOldPuckNames[ item[1].jto1_name];
+            if ( ! uT.oneOfTheseV2(["pin","wall"], item[1].jto2_name)) item[1].jto2_name = mapFromOldPuckNames[ item[1].jto2_name];
             
             // Make a new joint map from the array.
             newJointMapData[ newName] = item[1];
@@ -1378,8 +1379,6 @@ window.cR = (function() {
       let action = uT.setDefault( pars.action, "list");
       let actionType = uT.setDefault( pars.actionType, "normal");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null); // key for KV (key-value) storage at Cloudflare 
-      
-      console.log("inside poster v25, key = " + downLoadKey);
       
       let workerURL = "https://triquence.org/captures/submit";
       
