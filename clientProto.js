@@ -129,7 +129,9 @@ window.cT = (function() {
       this.ctrlShiftLock = uT.setDefault( pars.ctrlShiftLock, false);
       // pool-game shot-speed lock
       this.poolShotLocked = uT.setDefault( pars.poolShotLocked, false);
+      this.poolShotLockedSpringStretch_m = uT.setDefault( pars.poolShotLockedSpringStretch_m, 0);
       this.poolShotLockedSpeed_mps = uT.setDefault( pars.poolShotLockedSpeed_mps, 0);
+      this.poolShotLockedEnergy_J = uT.setDefault( pars.poolShotLockedEnergy_J, 0);
       this.poolShotCount = 0;
       this.pocketedBallCount = 0;
       // more ghost-pool related parameters...
@@ -489,6 +491,10 @@ window.cT = (function() {
          // Note that a cursor spring is created using the client's name (this.name).
          this.cursorSpring = new cP.Spring(this.pin, this.selectedBody, 
             Object.assign({}, Client.mouse_springs[this.button], {'spo2_ap_l_2d_m':selectionPoint_l_2d_m, 'color':this.color, 'forCursor':true, 'name':this.name, 'softConstraints':false}) );  
+         
+         // Depending on the mouse button (cursor-spring strength) and mass of selected object, use the speed-lock value to 
+         // update the associated locked stretch and energy values. 
+         if (this.poolShotLocked) gB.updatePoolShotLockedValues( this);
          
          // High drag_c (the default for button 2) was causing instability for right-button manipulation of the inner pucks in a jello grid.
          if ((this.selectedBody.jello) && (this.button == 2)) this.cursorSpring.drag_c = 5.0;

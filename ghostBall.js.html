@@ -818,20 +818,36 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="kd">var</span> <span class="nx">springEnergy_joules</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="nx">client</span><span class="p">.</span><span class="nx">cursorSpring</span><span class="p">.</span><span class="nx">strength_Npm</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span> <span class="nx">dl_x</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
       <span class="c1">// Puck (cue ball) speed after getting the spring energy:  0.5 * m * speed^2 = springEnergy</span>
       <span class="kd">var</span> <span class="nx">cueBallSpeed_mps</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span> <span class="nx">springEnergy_joules</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">/</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">mass_kg</span><span class="p">));</span>
-      <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;energy_joules&#39;</span><span class="o">:</span><span class="nx">springEnergy_joules</span><span class="p">,</span> <span class="s1">&#39;cueBallSpeed_mps&#39;</span><span class="o">:</span><span class="nx">cueBallSpeed_mps</span><span class="p">};</span>
+      <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;energy_joules&#39;</span><span class="o">:</span><span class="nx">springEnergy_joules</span><span class="p">,</span> <span class="s1">&#39;cueBallSpeed_mps&#39;</span><span class="o">:</span><span class="nx">cueBallSpeed_mps</span><span class="p">,</span> <span class="s1">&#39;cursorSpringStretch_m&#39;</span><span class="o">:</span><span class="nx">dl_x</span><span class="p">};</span>
    <span class="p">}</span>
    
-   <span class="kd">function</span> <span class="nx">setPoolShotSpeedValue</span><span class="p">(</span> <span class="nx">client</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span> <span class="o">=</span> <span class="nx">calcPoolShotEandS</span><span class="p">(</span> <span class="nx">client</span><span class="p">).</span><span class="nx">cueBallSpeed_mps</span><span class="p">;</span>
+   <span class="kd">function</span> <span class="nx">setPoolShotLockedValues</span><span class="p">(</span> <span class="nx">client</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// These are energy-related characteristics of a locked shot.</span>
+      <span class="kd">let</span> <span class="nx">poolShotEnergy</span> <span class="o">=</span> <span class="nx">calcPoolShotEandS</span><span class="p">(</span> <span class="nx">client</span><span class="p">);</span>
+      <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span> <span class="o">=</span> <span class="nx">poolShotEnergy</span><span class="p">.</span><span class="nx">cueBallSpeed_mps</span><span class="p">;</span>
+      <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpringStretch_m</span> <span class="o">=</span> <span class="nx">poolShotEnergy</span><span class="p">.</span><span class="nx">cursorSpringStretch_m</span><span class="p">;</span>
+      <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedEnergy_J</span> <span class="o">=</span> <span class="nx">poolShotEnergy</span><span class="p">.</span><span class="nx">energy_joules</span><span class="p">;</span>
+   <span class="p">}</span>
+   
+   <span class="kd">function</span> <span class="nx">updatePoolShotLockedValues</span><span class="p">(</span> <span class="nx">client</span><span class="p">)</span> <span class="p">{</span>
+      <span class="cm">/* This is used AFTER a speed-lock has been set. So, if you release the cursor spring (release a mouse button) </span>
+<span class="cm">      to grab a different puck, or change cursor springs, this will use the speed-lock value to determine corresponding</span>
+<span class="cm">      shot energy and cursor-spring stretch. */</span>
+      <span class="c1">// E = 0.5 * mv^2</span>
+      <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedEnergy_J</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">mass_kg</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span> <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpeed_mps</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+      <span class="c1">// E = kx^2/2, x = (2E/k)^0.5</span>
+      <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedSpringStretch_m</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLockedEnergy_J</span> <span class="o">/</span> <span class="nx">client</span><span class="p">.</span><span class="nx">cursorSpring</span><span class="p">.</span><span class="nx">strength_Npm</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
    <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">togglePoolShotLock</span><span class="p">(</span> <span class="nx">client</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// set the shoot speed and lock it</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">name</span> <span class="o">!=</span> <span class="s1">&#39;Puck&#39;</span><span class="p">))</span> <span class="k">return</span><span class="p">;</span>
+      
+      <span class="c1">// Set the shoot speed and lock it.</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">cursorSpring</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nx">setPoolShotSpeedValue</span><span class="p">(</span> <span class="nx">client</span><span class="p">);</span>
+         <span class="nx">setPoolShotLockedValues</span><span class="p">(</span> <span class="nx">client</span><span class="p">);</span>
          <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
          
-      <span class="c1">// release the speed lock (no cursor spring here, no ball selected)</span>
+      <span class="c1">// Release the speed lock, no cursor spring here, or no ball (puck) selected.</span>
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
          <span class="nx">client</span><span class="p">.</span><span class="nx">poolShotLocked</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
          <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">nameString</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; UNLOCKED shot speed&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
@@ -1718,6 +1734,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="s1">&#39;processCueBallFirstCollision&#39;</span><span class="o">:</span> <span class="nx">processCueBallFirstCollision</span><span class="p">,</span>
       <span class="s1">&#39;contactNormals&#39;</span><span class="o">:</span> <span class="nx">contactNormals</span><span class="p">,</span>
       <span class="s1">&#39;togglePoolShotLock&#39;</span><span class="o">:</span> <span class="nx">togglePoolShotLock</span><span class="p">,</span>
+      <span class="s1">&#39;updatePoolShotLockedValues&#39;</span><span class="o">:</span> <span class="nx">updatePoolShotLockedValues</span><span class="p">,</span>
       <span class="s1">&#39;toggleProjectileForecast&#39;</span><span class="o">:</span> <span class="nx">toggleProjectileForecast</span><span class="p">,</span>
       <span class="s1">&#39;poolShot&#39;</span><span class="o">:</span> <span class="nx">poolShot</span><span class="p">,</span>
       <span class="s1">&#39;drawPoolBallFeatures&#39;</span><span class="o">:</span> <span class="nx">drawPoolBallFeatures</span><span class="p">,</span>

@@ -722,20 +722,36 @@ window.gB = (function() {
       var springEnergy_joules = 0.5 * client.cursorSpring.strength_Npm * Math.pow( dl_x, 2);
       // Puck (cue ball) speed after getting the spring energy:  0.5 * m * speed^2 = springEnergy
       var cueBallSpeed_mps = Math.sqrt( springEnergy_joules * (2.0/client.selectedBody.mass_kg));
-      return {'energy_joules':springEnergy_joules, 'cueBallSpeed_mps':cueBallSpeed_mps};
+      return {'energy_joules':springEnergy_joules, 'cueBallSpeed_mps':cueBallSpeed_mps, 'cursorSpringStretch_m':dl_x};
    }
    
-   function setPoolShotSpeedValue( client) {
-      client.poolShotLockedSpeed_mps = calcPoolShotEandS( client).cueBallSpeed_mps;
+   function setPoolShotLockedValues( client) {
+      // These are energy-related characteristics of a locked shot.
+      let poolShotEnergy = calcPoolShotEandS( client);
+      client.poolShotLockedSpeed_mps = poolShotEnergy.cueBallSpeed_mps;
+      client.poolShotLockedSpringStretch_m = poolShotEnergy.cursorSpringStretch_m;
+      client.poolShotLockedEnergy_J = poolShotEnergy.energy_joules;
+   }
+   
+   function updatePoolShotLockedValues( client) {
+      /* This is used AFTER a speed-lock has been set. So, if you release the cursor spring (release a mouse button) 
+      to grab a different puck, or change cursor springs, this will use the speed-lock value to determine corresponding
+      shot energy and cursor-spring stretch. */
+      // E = 0.5 * mv^2
+      client.poolShotLockedEnergy_J = 0.5 * client.selectedBody.mass_kg * Math.pow( client.poolShotLockedSpeed_mps, 2);
+      // E = kx^2/2, x = (2E/k)^0.5
+      client.poolShotLockedSpringStretch_m = Math.pow( 2.0 * client.poolShotLockedEnergy_J / client.cursorSpring.strength_Npm, 0.5);
    }
    
    function togglePoolShotLock( client) {
-      // set the shoot speed and lock it
+      if (client.selectedBody && (client.selectedBody.constructor.name != 'Puck')) return;
+      
+      // Set the shoot speed and lock it.
       if (client.cursorSpring) {
-         setPoolShotSpeedValue( client);
+         setPoolShotLockedValues( client);
          client.poolShotLocked = true;
          
-      // release the speed lock (no cursor spring here, no ball selected)
+      // Release the speed lock, no cursor spring here, or no ball (puck) selected.
       } else {
          client.poolShotLocked = false;
          gW.messages['help'].newMessage(client.nameString() + " UNLOCKED shot speed", 1.0);
@@ -1622,6 +1638,7 @@ window.gB = (function() {
       'processCueBallFirstCollision': processCueBallFirstCollision,
       'contactNormals': contactNormals,
       'togglePoolShotLock': togglePoolShotLock,
+      'updatePoolShotLockedValues': updatePoolShotLockedValues,
       'toggleProjectileForecast': toggleProjectileForecast,
       'poolShot': poolShot,
       'drawPoolBallFeatures': drawPoolBallFeatures,

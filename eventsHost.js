@@ -187,7 +187,6 @@ window.eV = (function() {
                client.selectionPoint_l_2d_m[ compForCentering] = 0.0;
             }
             
-            console.log("before help message");
             gW.messages['lowHelp'].newMessage('[base,lightgray]attachment points have been [base,yellow]' + helpString, 1.5);
          }
       }
@@ -216,6 +215,10 @@ window.eV = (function() {
       if (mode == 'keydown') {
          if ((client.key_ctrl == "D") && (client.key_shift == "D")) {
             client.ctrlShiftLock = !client.ctrlShiftLock;
+            if ( ! client.ctrlShiftLock) {
+               client.poolShotLocked = false;
+               if (clientName == 'local') gW.dC.comSelection.checked = true;
+            }
             let mS = (client.ctrlShiftLock) ? 'ON':'OFF';
             gW.messages['help'].newMessage( clients[ clientName].nameString() + ' set ctrl-shift LOCK [base,yellow]' + mS + '[base]', 1.0);
          

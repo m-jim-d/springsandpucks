@@ -1990,8 +1990,16 @@ window.cP = (function() {
       this.stretch_m = (this.p1p2_separation_m - this.length_m);
    }
    Spring.prototype.potentialEnergy = function() {
-      // PE = (1/2) * k * x^2
-      return (0.5) * this.strength_Npm * this.stretch_m**2;
+      let pE; // PE = (1/2) * k * x^2
+      if (this.forCursor && gW.clients[this.name].poolShotLocked) {
+         pE = gW.clients[this.name].poolShotLockedEnergy_J;
+      } else {
+         pE = (0.5) * this.strength_Npm * this.stretch_m**2
+      }
+      return pE;
+   }
+   Spring.prototype.cursorOnWallorPin = function() {
+      return (['Wall','Pin'].includes(this.spo2.constructor.name) && this.forCursor);
    }
    Spring.prototype.force_on_pucks = function() {
       /*
@@ -2236,14 +2244,12 @@ window.cP = (function() {
                }
             }
                
-            // Draw a line to indicate the locked-speed value for puck shots.
+            // Draw a line to indicate the spring stretch associated with the locked-speed value for puck shots.
             var readyToShoot = (this.forCursor) && (((gW.clients[this.name].key_ctrl == "D") && (gW.clients[this.name].key_shift == "D")) || (gW.clients[this.name].ctrlShiftLock));
-            if ((readyToShoot) && (gW.clients[this.name].poolShotLocked)) {
+            if ((readyToShoot) && (gW.clients[this.name].poolShotLocked) && (this.spo2.constructor.name == 'Puck')) {
                // normal vector along the spring.
                if ( ! this.p1p2_separation_2d_m.zeroLength()) {
-                  // 1/2*m*v^2 = 1/2*k*x^2
-                  var energyAtLockSpeed_J = 0.5 * gW.clients[this.name].selectedBody.mass_kg * Math.pow( gW.clients[this.name].poolShotLockedSpeed_mps, 2);
-                  var stretchAtLockSpeed_m = Math.pow( 2 * energyAtLockSpeed_J / this.strength_Npm, 0.5);
+                  let stretchAtLockSpeed_m = gW.clients[this.name].poolShotLockedSpringStretch_m;
                   
                   // Don't extend the indicator line past the ghost ball (ghost must be separated enough to show the speed lock segment).  
                   if (stretchAtLockSpeed_m < this.p1p2_separation_m) {
@@ -2692,10 +2698,12 @@ window.cP = (function() {
          });
          
          Spring.applyToAll( spring => {
-            pe = spring.potentialEnergy();
-            let shortSpringName = (spring.name == "local") ? "sH" : spring.name;
-            m_EpL.reportString += shortSpringName.padStart(4,' ') + " " + uT.fixed( pe, 2) + "\\";
-            pe_total += pe;
+            if ( ! spring.cursorOnWallorPin()) {
+               pe = spring.potentialEnergy();
+               let shortSpringName = (spring.name == "local") ? "sH" : spring.name;
+               m_EpL.reportString += shortSpringName.padStart(4,' ') + " " + uT.fixed( pe, 2) + "\\";
+               pe_total += pe;
+            }
          });
          
          e_total = ke_total + pe_total;
@@ -2712,46 +2720,52 @@ window.cP = (function() {
          m_EpL.reportString = totalsString + m_EpL.reportString;
       
       } else if (m_EpL.reportType == "speed") {
-         let orbit_result = "", orbit_title = "", orbit_radius_m; 
+         let orbit_result = "", orbit_title = "", orbit_radius_m, puckRows = ""; 
          
-         // Before displaying the orbit rate, check to see if the current demo (or a capture there of) is in this list.
+         // Before displaying the orbit data, check to see if the current demo (or a capture there of) is in this list.
          let demoHasOrbits = uT.oneOfThese(['4.b','5.b','5.b.two','5.a.orbitingOnSpring'], gW.getDemoVersion());
          let stillHasSpring = (Object.keys( gW.aT.springMap).length >= 1);
          
-         Puck.applyToAll( puck => {
-            let shortPuckName = puck.name.replace('puck','p');
-            let puckSpeed_mps = puck.velocity_2d_mps.length();
-            
-            if (demoHasOrbits && stillHasSpring) {
-               let orbit_radius_2d_m = puck.position_2d_m.subtract( Puck.findCenterOfMass());
-               orbit_radius_m = orbit_radius_2d_m.length();
-               // This cross product is negative if the motion is clockwise.
-               let rCrossV = orbit_radius_2d_m.cross( puck.velocity_2d_mps);
-               let orbit_tangentialSpeed_mps = rCrossV / orbit_radius_m;
-               let orbit_angularSpeed_rps = orbit_tangentialSpeed_mps / orbit_radius_m;
+         if (Object.keys( gW.aT.puckMap).length >= 1) {
+            Puck.applyToAll( puck => {
+               let shortPuckName = puck.name.replace('puck','p');
+               let puckSpeed_mps = puck.velocity_2d_mps.length();
                
-               orbit_result = uT.fixed( orbit_radius_m, 2) + "" + uT.fixed( orbit_angularSpeed_rps, 2);
-               orbit_title = "    Ro      " + String.fromCharCode(937) + " ";               
-            }
+               // For demos with pucks orbiting on springs, include columns for orbit radius and angular speed.
+               if (demoHasOrbits && stillHasSpring) {
+                  let orbit_radius_2d_m = puck.position_2d_m.subtract( Puck.findCenterOfMass());
+                  orbit_radius_m = orbit_radius_2d_m.length();
+                  // This cross product is negative if the motion is clockwise.
+                  let rCrossV = orbit_radius_2d_m.cross( puck.velocity_2d_mps);
+                  let orbit_tangentialSpeed_mps = rCrossV / orbit_radius_m;
+                  let orbit_angularSpeed_rps = orbit_tangentialSpeed_mps / orbit_radius_m;
+                  
+                  orbit_result = uT.fixed( orbit_radius_m, 2) + "" + uT.fixed( orbit_angularSpeed_rps, 2);
+                  orbit_title = "    Ro      " + String.fromCharCode(937) + " ";
+               }
+               
+               puckRows += shortPuckName.padStart(4,' ') + " " + uT.fixed( puckSpeed_mps, 2) + "" + orbit_result + 
+                                     "" + uT.fixed( puck.angularSpeed_rps, 2) + "\\";
+            });
             
-            m_EpL.reportString += shortPuckName.padStart(4,' ') + " " + uT.fixed( puckSpeed_mps, 2) + "" + orbit_result + 
-                                  "" + uT.fixed( puck.angularSpeed_rps, 2) + "\\";
-         });
-         
-         let puckHeader = "\\ \\ \\          St " + orbit_title + "     " + String.fromCharCode(969) + "  \\";
-         
-         m_EpL.reportString = puckHeader + m_EpL.reportString;
+            let puckHeader = "\\ \\ \\          St " + orbit_title + "     " + String.fromCharCode(969) + "  \\";
+            
+            m_EpL.reportString = puckHeader + puckRows;
+         }
          
          if (Object.keys( gW.aT.springMap).length >= 1) {
             let springHeader = "\\           x     " + String.fromCharCode(916) + "x   x+"+String.fromCharCode(916)+"x\\";
-            m_EpL.reportString += springHeader;
-            
+            let springRows = "";
             Spring.applyToAll( spring => {
-               let totalLength_m = spring.length_m + spring.stretch_m;
-               let shortSpringName = (spring.name == "local") ? "sH" : spring.name;
-               m_EpL.reportString += shortSpringName.padStart(4,' ') + " " + uT.fixed( spring.length_m, 2) + 
-                                     "" + uT.fixed( spring.stretch_m, 2) + "" + uT.fixed( totalLength_m, 2) + "\\";
+               if ( ! spring.cursorOnWallorPin()) {
+                  let stretch_m = (spring.forCursor && gW.clients[ spring.name].poolShotLocked) ? gW.clients[ spring.name].poolShotLockedSpringStretch_m : spring.stretch_m;
+                  let totalLength_m = spring.length_m + stretch_m;
+                  let shortSpringName = (spring.name == "local") ? "sH" : spring.name;
+                  springRows += shortSpringName.padStart(4,' ') + " " + uT.fixed( spring.length_m, 2) + 
+                                        "" + uT.fixed( stretch_m, 2) + "" + uT.fixed( totalLength_m, 2) + "\\";
+               }
             });
+            if (springRows != "") m_EpL.reportString += springHeader + springRows;
          }
       }
       
