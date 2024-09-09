@@ -2720,7 +2720,7 @@ window.cP = (function() {
          m_EpL.reportString = totalsString + m_EpL.reportString;
       
       } else if (m_EpL.reportType == "speed") {
-         let orbit_result = "", orbit_title = "", orbit_radius_m, puckRows = ""; 
+         let orbit_result = "", orbit_title = "", orbit_radius_m, puckRows = "", springRows = "";
          
          // Before displaying the orbit data, check to see if the current demo (or a capture there of) is in this list.
          let demoHasOrbits = uT.oneOfThese(['4.b','5.b','5.b.two','5.a.orbitingOnSpring'], gW.getDemoVersion());
@@ -2755,7 +2755,6 @@ window.cP = (function() {
          
          if (Object.keys( gW.aT.springMap).length >= 1) {
             let springHeader = "\\           x     " + String.fromCharCode(916) + "x   x+"+String.fromCharCode(916)+"x\\";
-            let springRows = "";
             Spring.applyToAll( spring => {
                if ( ! spring.cursorOnWallorPin()) {
                   let stretch_m = (spring.forCursor && gW.clients[ spring.name].poolShotLocked) ? gW.clients[ spring.name].poolShotLockedSpringStretch_m : spring.stretch_m;
@@ -2767,6 +2766,8 @@ window.cP = (function() {
             });
             if (springRows != "") m_EpL.reportString += springHeader + springRows;
          }
+         
+         if ((puckRows == "") && (springRows == "")) m_EpL.reportString += "\\ Speed report empty: no pucks, no springs.";
       }
       
       gW.messages['EpLreport'].newMessage( m_EpL.reportString, 0.1);
