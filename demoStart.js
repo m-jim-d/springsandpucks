@@ -1067,7 +1067,7 @@ window.dS = (function() {
             "<a title='2 drones on 4 pins'               " + hL('7.b') + "  onclick=\"cR.demoStart_fromCapture(7, {'fileName':'demo7b.js'})\">&nbsp;b,</a>" +
             "<a title='4 drones on 5 pins'               " + hL('7.c') + "  onclick=\"cR.demoStart_fromCapture(7, {'fileName':'demo7c.js'})\">&nbsp;c,</a>" +
             "<a title='1 drone on 2 pins'                " + hL('7.d') + "  onclick=\"cR.demoStart_fromCapture(7, {'fileName':'demo7d.js'})\">&nbsp;d,</a>" +
-            "<a title='cannibal inside springy chain'    " + hL('7.e') + "  onclick=\"cR.demoStart_fromCapture(7, {'fileName':'demo7e.js'})\">&nbsp;e&nbsp;</a>";
+            "<a title='puck cannibalization inside springy chain'" + hL('7.e') + "  onclick=\"cR.demoStart_fromCapture(7, {'fileName':'demo7e.js'})\">&nbsp;e&nbsp;</a>";
          
       } else if (index == 8) {
          
