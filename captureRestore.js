@@ -1740,10 +1740,9 @@ window.cR = (function() {
             if (runIt) dS.demoStart( index);
          } else {
             // The file is there, but likely the demo_capture assignment is not at the beginning of the file.
-            gW.messages['help'].newMessage("There may be a problem with the capture file: [base,yellow]" + fileName + "[base]" +
-                                        "\\ It may be old, corrupted, or the demo_capture assignment statement is missing.", 7.0);
+            gW.messages['help'].newMessage("File problem: [base,yellow]" + fileName + "[base]" +
+                                        "\\It may be an older version.", 7.0);
          }
-         
       }).fail( function() {
          // Try again...
          gW.messages['help'].newMessage("please wait...", 5.0);
@@ -1762,6 +1761,7 @@ window.cR = (function() {
             filePicker();
          });
       });
+      console.log("After capture-file fetch.");
    }
    
    function scrollCaptureArea() {
