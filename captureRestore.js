@@ -1729,13 +1729,20 @@ window.cR = (function() {
       let fileName = uT.setDefault( pars.fileName, 'null');
       let runIt = uT.setDefault( pars.runIt, true);
       
+      // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.
+      demo_capture = null;
       console.log('fetching ' + fileName + ' from server');
       $.getScript( fileName, function() {
-         // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.
          // Put the capture into the capture input box on the page.
-         gW.dC.json.value = JSON.stringify( demo_capture, null, 3);
-         window.setTimeout( function() { scrollCaptureArea();}, 500);
-         if (runIt) dS.demoStart( index);
+         if (demo_capture) {
+            gW.dC.json.value = JSON.stringify( demo_capture, null, 3);
+            window.setTimeout( function() { scrollCaptureArea();}, 500);
+            if (runIt) dS.demoStart( index);
+         } else {
+            // The file is there, but likely the demo_capture assignment is not at the beginning of the file.
+            gW.messages['help'].newMessage("There may be a problem with the capture file: [base,yellow]" + fileName + "[base]" +
+                                        "\\ It may be old, corrupted, or the demo_capture assignment statement is missing.", 7.0);
+         }
          
       }).fail( function() {
          // Try again...
