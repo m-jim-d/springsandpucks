@@ -1825,14 +1825,20 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="kd">let</span> <span class="nx">fileName</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">fileName</span><span class="p">,</span> <span class="s1">&#39;null&#39;</span><span class="p">);</span>
       <span class="kd">let</span> <span class="nx">runIt</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">runIt</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
       
+      <span class="c1">// Note: demo_capture is a page level global (see declaration in index.html) and is assigned a value, the capture object, in the first line of the loading capture file.</span>
+      <span class="nx"><span class="kc">null</span><span class="p">;</span>
       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;fetching &#39;</span> <span class="o">+</span> <span class="nx">fileName</span> <span class="o">+</span> <span class="s1">&#39; from server&#39;</span><span class="p">);</span>
       <span class="nx">$</span><span class="p">.</span><span class="nx">getScript</span><span class="p">(</span> <span class="nx">fileName</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-         <span class="c1">// Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.</span>
          <span class="c1">// Put the capture into the capture input box on the page.</span>
-         <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">demo_capture</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-         <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">scrollCaptureArea</span><span class="p">();},</span> <span class="mi">500</span><span class="p">);</span>
-         <span class="k">if</span> <span class="p">(</span><span class="nx">runIt</span><span class="p">)</span> <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span> <span class="nx">index</span><span class="p">);</span>
-         
+         <span class="k">if</span> <span class="p">(</span><span class="nx">demo_capture</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span> <span class="nx">demo_capture</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+            <span class="nb">window</span><span class="p">.</span><span class="nx">setTimeout</span><span class="p">(</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">scrollCaptureArea</span><span class="p">();},</span> <span class="mi">500</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">runIt</span><span class="p">)</span> <span class="nx">dS</span><span class="p">.</span><span class="nx">demoStart</span><span class="p">(</span> <span class="nx">index</span><span class="p">);</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// The file is there, but likely the demo_capture assignment is not at the beginning of the file.</span>
+            <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;Problem in file: [base,yellow]&quot;</span> <span class="o">+</span> <span class="nx">fileName</span> <span class="o">+</span> <span class="s2">&quot;[base]&quot;</span> <span class="o">+</span>
+                                        <span class="s2">&quot;\\It may be an older version.&quot;</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">);</span>
+         <span class="p">}</span>
       <span class="p">}).</span><span class="nx">fail</span><span class="p">(</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
          <span class="c1">// Try again...</span>
          <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;please wait...&quot;</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">);</span>
@@ -1851,6 +1857,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="nx">filePicker</span><span class="p">();</span>
          <span class="p">});</span>
       <span class="p">});</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;After capture-file fetch.&quot;</span><span class="p">);</span>
    <span class="p">}</span>
    
    <span class="kd">function</span> <span class="nx">scrollCaptureArea</span><span class="p">()</span> <span class="p">{</span>
