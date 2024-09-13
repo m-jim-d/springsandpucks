@@ -1740,7 +1740,7 @@ window.cR = (function() {
             if (runIt) dS.demoStart( index);
          } else {
             // The file is there, but likely the demo_capture assignment is not at the beginning of the file.
-            gW.messages['help'].newMessage("File problem: [base,yellow]" + fileName + "[base]" +
+            gW.messages['help'].newMessage("Problem in file: [base,yellow]" + fileName + "[base]" +
                                         "\\It may be an older version.", 7.0);
          }
       }).fail( function() {
