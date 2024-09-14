@@ -1,7 +1,7 @@
 demo_capture = {
    "demoIndex": 5,
    "demoVersion": "5.e.basketball",
-   "date": "September 12, 2024",
+   "date": "9/13/2024, 11:01:58 PM",
    "canvasDimensions": {
       "width": 1915,
       "height": 1077
