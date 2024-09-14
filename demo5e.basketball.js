@@ -1,6 +1,6 @@
 demo_capture = {
    "demoIndex": 5,
-   "demoVersion": "5.e.basketball-par",
+   "demoVersion": "5.e.basketball",
    "date": "September 12, 2024",
    "canvasDimensions": {
       "width": 1915,
