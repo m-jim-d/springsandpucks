@@ -1731,7 +1731,9 @@ window.cR = (function() {
       
       // Note: demo_capture is a page level global (see declaration in index.html) and is assigned a value, the capture object, in the first line of the loading capture file.
       demo_capture = null;
-      console.log('fetching ' + fileName + ' from server');
+      
+      console.log('Fetching ' + fileName + ' from server.');
+      
       $.getScript( fileName, function() {
          // Put the capture into the capture input box on the page.
          if (demo_capture) {
@@ -1744,24 +1746,15 @@ window.cR = (function() {
                                         "\\It may be an older version.", 7.0);
          }
       }).fail( function() {
-         // Try again...
-         gW.messages['help'].newMessage("please wait...", 5.0);
-         console.log('attempting second fetch ' + fileName + ' from server');
-         $.getScript( fileName, function() {
-            gW.dC.json.value = JSON.stringify( demo_capture, null, 3);
-            window.setTimeout( function() { scrollCaptureArea();}, 500);
-            if (runIt) dS.demoStart( index);
-
-         }).fail( function() {
-            console.log('capture file not found on server');
-            gW.messages['help'].newMessage("Unable to get this capture file: [base,yellow]" + fileName + "[base]" +
-                                        "\\  from the server. Please try again or " +
-                                        "\\  use the file picker to open a local copy.", 7.0);
-            // One last thing to try, the file picker...
-            filePicker();
-         });
+         console.log('capture file not found on server');
+         gW.messages['help'].newMessage("Unable to get this capture file: [base,yellow]" + fileName + "[base]" +
+                                     "\\  from the server. Please try again or " +
+                                     "\\  use the file picker to open a local copy.", 7.0);
+         // One last thing to try, the file picker...
+         //filePicker();
       });
-      console.log("After capture-file fetch.");
+      
+      //console.log("After capture-file fetch.");
    }
    
    function scrollCaptureArea() {
