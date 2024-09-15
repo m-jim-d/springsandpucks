@@ -1790,6 +1790,9 @@ window.cR = (function() {
       });
       */
       
+      // Switched to ajax (from getScript, see old code above) to have more control over handling the missing-file case. 
+      // The server is returning an html warning-message file if it can't find the named file. 
+      // So, get the text, check it, and then run it (globalEval) if it looks like a capture.
       $.ajax({
          url: fileName,
          dataType: 'text',
