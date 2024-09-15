@@ -1796,7 +1796,13 @@ window.cR = (function() {
          cache: false
          
       }).then(function(response) {
-         $.globalEval( response);
+         // Check to see if the response looks like a capture file.
+         if (response.includes("demoIndex")) {
+            $.globalEval( response);
+         } else {
+            gW.messages['help'].newMessage("File [base,yellow]" + fileName + "[base] not found on server \\(response is not a capture).", 7.0);
+            return;
+         }
          
          // Put the capture into the capture input box on the page.
          if (demo_capture) {
