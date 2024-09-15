@@ -1723,7 +1723,7 @@ window.cR = (function() {
       
       return sameNameAsOriginal;
    }
-      
+   /*   
    // For loading and running a capture from a web page link.
    function demoStart_fromCapture( index, pars) {
       let fileName = uT.setDefault( pars.fileName, 'null');
@@ -1753,6 +1753,64 @@ window.cR = (function() {
          // One last thing to try, the file picker...
          //filePicker();
       });
+      
+      //console.log("After capture-file fetch.");
+   }
+   */
+   
+   // For loading and running a capture from a web page link.
+   function demoStart_fromCapture( index, pars) {
+      let fileName = uT.setDefault( pars.fileName, 'null');
+      let runIt = uT.setDefault( pars.runIt, true);
+      
+      // Note: demo_capture is a page level global (see declaration in index.html) and is assigned a value, the capture object, in the first line of the loading capture file.
+      demo_capture = null;
+      
+      console.log('Fetching ' + fileName + ' from server.');
+      
+      /*
+      $.getScript( fileName, function() {
+         // Put the capture into the capture input box on the page.
+         if (demo_capture) {
+            gW.dC.json.value = JSON.stringify( demo_capture, null, 3);
+            window.setTimeout( function() { scrollCaptureArea();}, 500);
+            if (runIt) dS.demoStart( index);
+         } else {
+            // The file is there, but likely the demo_capture assignment is not at the beginning of the file.
+            gW.messages['help'].newMessage("Problem in file: [base,yellow]" + fileName + "[base]" +
+                                        "\\It may be an older version.", 7.0);
+         }
+      }).fail( function() {
+         console.log('capture file not found on server');
+         gW.messages['help'].newMessage("Unable to get this capture file: [base,yellow]" + fileName + "[base]" +
+                                     "\\  from the server. Please try again or " +
+                                     "\\  use the file picker to open a local copy.", 7.0);
+         // One last thing to try, the file picker...
+         //filePicker();
+      });
+      */
+      
+      $.ajax({
+         url: fileName,
+         dataType: 'text',
+         cache: false
+         
+      }).then(function(response) {
+         $.globalEval( response);
+         
+         // Put the capture into the capture input box on the page.
+         if (demo_capture) {
+            gW.dC.json.value = JSON.stringify( demo_capture, null, 3);
+            window.setTimeout( function() { scrollCaptureArea();}, 500);
+            if (runIt) dS.demoStart( index);
+         } else {
+            // The file is there, but there is a script error. Likely the demo_capture assignment is not at the beginning of the file.
+            gW.messages['help'].newMessage("Script error in file: [base,yellow]" + fileName + "[base]", 7.0);
+         }
+         
+      }).fail(function(jqXHR, textStatus, errorThrown) {
+         gW.messages['help'].newMessage("File [base,yellow]" + fileName + "[base] not found on server.", 7.0);
+      });      
       
       //console.log("After capture-file fetch.");
    }
