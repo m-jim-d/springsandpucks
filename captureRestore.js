@@ -1790,8 +1790,6 @@ window.cR = (function() {
       });
       */
       
-      /*
-      */
       // Switched to ajax (from getScript, see old code above) to have more control over handling the missing-file case. 
       // The Cloudflare server is returning a status of 200 in ".then" and an html warning-message file if it can't find the requested file.
       // So, get the text, check it, and then run it (globalEval) if it looks like a capture.
@@ -1809,7 +1807,8 @@ window.cR = (function() {
          if (response.includes("demoIndex")) {
             $.globalEval( response);
          } else {
-            gW.messages['help'].newMessage("File [base,yellow]" + fileName + "[base] not found on server \\(response is not a capture).", 7.0);
+            gW.messages['help'].newMessage("File [base,yellow]" + fileName + "[base] not found on server.", 7.0);
+            console.log("Response is not a capture, probably an HTML warning message from Cloudflare.");
             return;
          }
          

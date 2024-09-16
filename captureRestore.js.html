@@ -1887,19 +1887,24 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
 <span class="cm">      */</span>
       
       <span class="c1">// Switched to ajax (from getScript, see old code above) to have more control over handling the missing-file case. </span>
-      <span class="c1">// The server is returning an html warning-message file if it can&#39;t find the named file. </span>
+      <span class="c1">// The Cloudflare server is returning a status of 200 in &quot;.then&quot; and an html warning-message file if it can&#39;t find the requested file.</span>
       <span class="c1">// So, get the text, check it, and then run it (globalEval) if it looks like a capture.</span>
+      <span class="c1">// On localhost, a request for a missing file will return a status of 404 from in &quot;.fail&quot;.</span>
       <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
          <span class="nx">url</span><span class="o">:</span> <span class="nx">fileName</span><span class="p">,</span>
          <span class="nx">dataType</span><span class="o">:</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span>
          <span class="nx">cache</span><span class="o">:</span> <span class="kc">false</span>
          
-      <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">}).</span><span class="nx">then</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">,</span> <span class="nx">jqXHR</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;in then, jqXHR.status=&quot;</span> <span class="o">+</span> <span class="nx">jqXHR</span><span class="p">.</span><span class="nx">status</span><span class="p">);</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;in then, textStatus=&quot;</span> <span class="o">+</span> <span class="nx">textStatus</span><span class="p">);</span>
+         
          <span class="c1">// Check to see if the response looks like a capture file.</span>
          <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s2">&quot;demoIndex&quot;</span><span class="p">))</span> <span class="p">{</span>
             <span class="nx">$</span><span class="p">.</span><span class="nx">globalEval</span><span class="p">(</span> <span class="nx">response</span><span class="p">);</span>
          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;File [base,yellow]&quot;</span> <span class="o">+</span> <span class="nx">fileName</span> <span class="o">+</span> <span class="s2">&quot;[base] not found on server \\(response is not a capture).&quot;</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">);</span>
+            <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;File [base,yellow]&quot;</span> <span class="o">+</span> <span class="nx">fileName</span> <span class="o">+</span> <span class="s2">&quot;[base] not found on server.&quot;</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">);</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Response is not a capture, probably an HTML warning message from Cloudflare.&quot;</span><span class="p">);</span>
             <span class="k">return</span><span class="p">;</span>
          <span class="p">}</span>
          
@@ -1913,12 +1918,15 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
             <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;Script error in file: [base,yellow]&quot;</span> <span class="o">+</span> <span class="nx">fileName</span> <span class="o">+</span> <span class="s2">&quot;[base]&quot;</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">);</span>
          <span class="p">}</span>
          
-      <span class="p">}).</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">jqXHR</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">,</span> <span class="nx">errorThrown</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">}).</span><span class="nx">fail</span><span class="p">(</span> <span class="kd">function</span><span class="p">(</span><span class="nx">jqXHR</span><span class="p">,</span> <span class="nx">textStatus</span><span class="p">,</span> <span class="nx">errorThrown</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;in fail, jqXHR.status=&quot;</span> <span class="o">+</span> <span class="nx">jqXHR</span><span class="p">.</span><span class="nx">status</span><span class="p">);</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;in fail, textStatus=&quot;</span> <span class="o">+</span> <span class="nx">textStatus</span><span class="p">);</span>
+         
          <span class="nx">gW</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="s1">&#39;help&#39;</span><span class="p">].</span><span class="nx">newMessage</span><span class="p">(</span><span class="s2">&quot;File [base,yellow]&quot;</span> <span class="o">+</span> <span class="nx">fileName</span> <span class="o">+</span> <span class="s2">&quot;[base] not found on server.&quot;</span><span class="p">,</span> <span class="mf">7.0</span><span class="p">);</span>
-      <span class="p">});</span>      
+      <span class="p">});</span>   
       
-      <span class="c1">//console.log(&quot;After capture-file fetch.&quot;);</span>
    <span class="p">}</span>
+   
    
    <span class="kd">function</span> <span class="nx">scrollCaptureArea</span><span class="p">()</span> <span class="p">{</span>
       <span class="nx">gW</span><span class="p">.</span><span class="nx">dC</span><span class="p">.</span><span class="nx">json</span><span class="p">.</span><span class="nx">scrollTop</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span> 
