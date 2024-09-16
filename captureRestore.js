@@ -1790,6 +1790,8 @@ window.cR = (function() {
       });
       */
       
+      /*
+      */
       // Switched to ajax (from getScript, see old code above) to have more control over handling the missing-file case. 
       // The server is returning an html warning-message file if it can't find the named file. 
       // So, get the text, check it, and then run it (globalEval) if it looks like a capture.
@@ -1798,7 +1800,10 @@ window.cR = (function() {
          dataType: 'text',
          cache: false
          
-      }).then(function(response) {
+      }).then( function(response, textStatus, jqXHR) {
+         console.log("jqXHR.status_T=" + jqXHR.status);
+         console.log("textStatus_T=" + textStatus);
+         
          // Check to see if the response looks like a capture file.
          if (response.includes("demoIndex")) {
             $.globalEval( response);
@@ -1817,12 +1822,15 @@ window.cR = (function() {
             gW.messages['help'].newMessage("Script error in file: [base,yellow]" + fileName + "[base]", 7.0);
          }
          
-      }).fail(function(jqXHR, textStatus, errorThrown) {
+      }).fail( function(jqXHR, textStatus, errorThrown) {
+         console.log("jqXHR.status=" + jqXHR.status);
+         console.log("textStatus=" + textStatus);
+         
          gW.messages['help'].newMessage("File [base,yellow]" + fileName + "[base] not found on server.", 7.0);
-      });      
+      });   
       
-      //console.log("After capture-file fetch.");
    }
+   
    
    function scrollCaptureArea() {
       gW.dC.json.scrollTop = 30; 
