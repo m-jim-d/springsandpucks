@@ -1793,16 +1793,17 @@ window.cR = (function() {
       /*
       */
       // Switched to ajax (from getScript, see old code above) to have more control over handling the missing-file case. 
-      // The server is returning an html warning-message file if it can't find the named file. 
+      // The Cloudflare server is returning a status of 200 in ".then" and an html warning-message file if it can't find the requested file.
       // So, get the text, check it, and then run it (globalEval) if it looks like a capture.
+      // On localhost, a request for a missing file will return a status of 404 from in ".fail".
       $.ajax({
          url: fileName,
          dataType: 'text',
          cache: false
          
       }).then( function(response, textStatus, jqXHR) {
-         console.log("jqXHR.status_T=" + jqXHR.status);
-         console.log("textStatus_T=" + textStatus);
+         console.log("in then, jqXHR.status=" + jqXHR.status);
+         console.log("in then, textStatus=" + textStatus);
          
          // Check to see if the response looks like a capture file.
          if (response.includes("demoIndex")) {
@@ -1823,8 +1824,8 @@ window.cR = (function() {
          }
          
       }).fail( function(jqXHR, textStatus, errorThrown) {
-         console.log("jqXHR.status=" + jqXHR.status);
-         console.log("textStatus=" + textStatus);
+         console.log("in fail, jqXHR.status=" + jqXHR.status);
+         console.log("in fail, textStatus=" + textStatus);
          
          gW.messages['help'].newMessage("File [base,yellow]" + fileName + "[base] not found on server.", 7.0);
       });   
