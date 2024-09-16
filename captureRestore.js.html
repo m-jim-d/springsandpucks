@@ -1819,40 +1819,6 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       
       <span class="k">return</span> <span class="nx">sameNameAsOriginal</span><span class="p">;</span>
    <span class="p">}</span>
-   <span class="cm">/*   </span>
-<span class="cm">   // For loading and running a capture from a web page link.</span>
-<span class="cm">   function demoStart_fromCapture( index, pars) {</span>
-<span class="cm">      let fileName = uT.setDefault( pars.fileName, &#39;null&#39;);</span>
-<span class="cm">      let runIt = uT.setDefault( pars.runIt, true);</span>
-<span class="cm">      </span>
-<span class="cm">      // Note: demo_capture is a page level global (see declaration in index.html) and is assigned a value, the capture object, in the first line of the loading capture file.</span>
-<span class="cm">      demo_capture = null;</span>
-<span class="cm">      </span>
-<span class="cm">      console.log(&#39;Fetching &#39; + fileName + &#39; from server.&#39;);</span>
-<span class="cm">      </span>
-<span class="cm">      $.getScript( fileName, function() {</span>
-<span class="cm">         // Put the capture into the capture input box on the page.</span>
-<span class="cm">         if (demo_capture) {</span>
-<span class="cm">            gW.dC.json.value = JSON.stringify( demo_capture, null, 3);</span>
-<span class="cm">            window.setTimeout( function() { scrollCaptureArea();}, 500);</span>
-<span class="cm">            if (runIt) dS.demoStart( index);</span>
-<span class="cm">         } else {</span>
-<span class="cm">            // The file is there, but likely the demo_capture assignment is not at the beginning of the file.</span>
-<span class="cm">            gW.messages[&#39;help&#39;].newMessage(&quot;Problem in file: [base,yellow]&quot; + fileName + &quot;[base]&quot; +</span>
-<span class="cm">                                        &quot;\\It may be an older version.&quot;, 7.0);</span>
-<span class="cm">         }</span>
-<span class="cm">      }).fail( function() {</span>
-<span class="cm">         console.log(&#39;capture file not found on server&#39;);</span>
-<span class="cm">         gW.messages[&#39;help&#39;].newMessage(&quot;Unable to get this capture file: [base,yellow]&quot; + fileName + &quot;[base]&quot; +</span>
-<span class="cm">                                     &quot;\\  from the server. Please try again or &quot; +</span>
-<span class="cm">                                     &quot;\\  use the file picker to open a local copy.&quot;, 7.0);</span>
-<span class="cm">         // One last thing to try, the file picker...</span>
-<span class="cm">         //filePicker();</span>
-<span class="cm">      });</span>
-<span class="cm">      </span>
-<span class="cm">      //console.log(&quot;After capture-file fetch.&quot;);</span>
-<span class="cm">   }</span>
-<span class="cm">   */</span>
    
    <span class="c1">// For loading and running a capture from a web page link.</span>
    <span class="kd">function</span> <span class="nx">demoStart_fromCapture</span><span class="p">(</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">pars</span><span class="p">)</span> <span class="p">{</span>
@@ -1860,7 +1826,7 @@ body .il { color: #666666 } /* Literal.Number.Integer.Long */
       <span class="kd">let</span> <span class="nx">runIt</span> <span class="o">=</span> <span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span> <span class="nx">pars</span><span class="p">.</span><span class="nx">runIt</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
       
       <span class="c1">// Note: demo_capture is a page level global (see declaration in index.html) and is assigned a value, the capture object, in the first line of the loading capture file.</span>
-      <span class="nx"><span class="kc">null</span><span class="p">;</span>
+      <span class="nx">demo_capture</span>  <span class="o">=</span>  <span class="kc">null</span><span class="p">;</span>
       
       <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Fetching &#39;</span> <span class="o">+</span> <span class="nx">fileName</span> <span class="o">+</span> <span class="s1">&#39; from server.&#39;</span><span class="p">);</span>
       
