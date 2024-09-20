@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 # Publish Pygame physics-engine content.
 # This script produces color HTML files and text files from python source-code files. It also takes care
 # of publishing these files and PDF files to the web-site directory. It issues a warning if the PDFs
@@ -79,7 +81,8 @@ def publish_code_from_here( source_path, target_path):
                     
                     else:
                         # For smaller files, produce a colorized syntax formatted html file
-                        command_line_string = 'pygmentize -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
+                        #command_line_string = 'pygmentize -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
+                        command_line_string = 'pygments3 -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
                         
                     # Run the command (and delete the temporary escaped file, if needed).
                     os.system( command_line_string)

@@ -1730,7 +1730,7 @@ window.cR = (function() {
       let runIt = uT.setDefault( pars.runIt, true);
       
       // Note: demo_capture is a page level global (see declaration in index.html) and is assigned a value, the capture object, in the first line of the loading capture file.
-      demo_capture  =  null;
+      demo_capture = null;
       
       console.log('Fetching ' + fileName + ' from server.');
       

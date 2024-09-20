@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 import os, shutil
 
 # add_page_title feeds off the filename and adds that name to a title tag in the html.
