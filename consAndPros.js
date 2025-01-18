@@ -2754,6 +2754,7 @@ window.cP = (function() {
          }
          
          if (Object.keys( gW.aT.springMap).length >= 1) {
+            // x     Delta_x     x + Delta_x   
             let springHeader = "\\           x     " + String.fromCharCode(916) + "x   x+"+String.fromCharCode(916)+"x\\";
             Spring.applyToAll( spring => {
                if ( ! spring.cursorOnWallorPin()) {

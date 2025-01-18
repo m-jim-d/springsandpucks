@@ -494,7 +494,10 @@ window.gW = (function() {
       messages['score'] =      new uT.HelpMessage({'font':'18px Arial', 'color':'lightgray'});
       messages['help'] =       new uT.HelpMessage({'font':'20px Arial', 'color':'lightgray'});   
       messages['help2'] =      new uT.HelpMessage({'font':'20px Arial', 'color':'lightgray'});
-      messages['EpLreport'] =  new uT.HelpMessage({'font':"17px Courier, 'Courier New', monospace", 'color':'white'});
+      // Greek letters where not rendering with proportional spacing in the EpL report on a Mac Mini. So trying Liberation Mono...
+      //messages['EpLreport'] =  new uT.HelpMessage({'font':"17px Courier, 'Courier New', monospace", 'color':'white'});
+      messages['EpLreport'] =  new uT.HelpMessage({font: "17px 'Liberation Mono', 'Courier New', monospace", color: 'white'});
+      
       messages['win'] =        new uT.HelpMessage({'font':'20px Arial', 'color':'yellow'});
       messages['lowHelp'] =    new uT.HelpMessage({'font':'20px Arial', 'color':'yellow'});
       messages['gameTitle'] =  new uT.HelpMessage({'font':'50px Arial', 'color':'lightgray'});
