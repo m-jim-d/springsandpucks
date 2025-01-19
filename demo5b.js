@@ -1,7 +1,7 @@
 demo_capture = {
    "demoIndex": 5,
    "demoVersion": "5.b",
-   "date": "11/1/2023, 6:39:25 PM",
+   "date": "1/19/2025",
    "capturedAtFrame": 10587,
    "canvasDimensions": {
       "width": 600,
