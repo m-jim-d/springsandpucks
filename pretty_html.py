@@ -1,11 +1,11 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 # Publish Pygame physics-engine content.
 # This script produces color HTML files and text files from python source-code files. It also takes care
 # of publishing these files and PDF files to the web-site directory. It issues a warning if the PDFs
 # are older than the corresponding Word files.
 
-import sys, os, os.path, shutil, cgi
+import sys, os, os.path, shutil
 # This module should be in the same folder.
 import pretty_title
 
@@ -23,7 +23,7 @@ def filecopy_doesnotexist_or_isold( path_to_source, path_to_copy):
     return need_new_copy
             
 def publish_code_from_here( source_path, target_path):
-    print "Source path:", source_path
+    print("Source path:", source_path)
     source_files = os.listdir(source_path)
     for eachname in source_files:
         path_to_source_file = source_path + "\\" + eachname
@@ -61,28 +61,11 @@ def publish_code_from_here( source_path, target_path):
                     # output in that large-file case.
                     
                     source_file_size = os.path.getsize( path_to_source_file)
-                    print "input filesize = ", source_file_size
-                    # For a while I was shifting gears (to txt files) at 50K, but it appears that chrome has fixed the bug where it couldn't render large html files.
-                    # So for now, 500K.
-                    if (source_file_size > 500000):
+                    print("input filesize = ", source_file_size)
                         
-                        # Use cgi.escape to replace the & < > characters in the code file.
-                        inputFile = open( path_to_source_file, 'r')
-                        outputFile = open("temp_escaped.txt", 'w')
-                        for oldLine in inputFile:
-                            outputFile.write( cgi.escape( oldLine))
-                        inputFile.close()
-                        outputFile.close()
-                        
-                        # Produce a simple html file by concatenating these three files. The "beginning" and "end" files wrap the escaped text with a 
-                        # normal html header and css formatting (notice the "pre" in the css). Note I'm imitating the file produced by Notepad++ 
-                        # when NppExport is used to export and produce an html file.
-                        command_line_string = 'type htmlconversion_beginning.txt ' + 'temp_escaped.txt' + ' htmlconversion_end.txt > ' + path_to_html_output_file
-                    
-                    else:
-                        # For smaller files, produce a colorized syntax formatted html file
-                        #command_line_string = 'pygmentize -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
-                        command_line_string = 'pygments3 -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
+                    # Produce a colorized syntax formatted html file
+                    #command_line_string = 'pygmentize -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
+                    command_line_string = 'pygments3 -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
                         
                     # Run the command (and delete the temporary escaped file, if needed).
                     os.system( command_line_string)
@@ -90,7 +73,7 @@ def publish_code_from_here( source_path, target_path):
                     
                     # Look for empty title element and insert the filename.
                     pretty_title.add_page_title( target_path, file_name + file_ext + ".html")
-                    print "HTML file created: ", file_name + file_ext + ".html"
+                    print("HTML file created: ", file_name + file_ext + ".html")
                 
                 
 #--------------------------------------

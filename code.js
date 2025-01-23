@@ -1,7 +1,7 @@
 // Adaptation by James D. Miller (8:02 PM Sat December 1, 2018)
-//    original code by James Kingsley:
+//    original code:
 //    https://blog.elblearning.com/blog/how-to-create-a-leaderboard-elearning-google
-//    Archived link (of the orginal page):
+//    Archived link (of the original page):
 //    https://web.archive.org/web/20201108130226/https://elearningbrothers.com/blog/how-to-create-a-leaderboard-elearning-google/
 
 // m_ indicate global scope (m for module)
