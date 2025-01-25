@@ -1113,17 +1113,22 @@ to rejoin the room under a new nickname (chat input).
          <p>\[ \Omega_{f}=(\omega_{1,i}+\omega_{2,i})/6 \]</p>
              
          <p>During the collision, the tangential impulse forces are equal and opposite on the two pucks. This causes an equal change in
-         rotational-angular momentum, and in this case of equal mass pucks, an equal change in rotational-angular speed. 
+         rotational-angular momentum, and in this case of identical pucks, an equal change in rotational-angular speed. 
          This is the third constraint needed for a closed-form expression of this three-degrees-of-freedom system:</p>
          <p>\[ \omega_{1,f}-\omega_{1,i}=\omega_{2,f}-\omega_{2,i} \]</p>
          
          <p>Yielding the final rotational-angular speed (spin) for the two pucks:</p>
-         <!--
-         \omega_{Af}=(2\omega_{Ai}-\omega_{Bi})/3
-         \;\; \textrm{ and } \;\;
-         \omega_{Bf}=(2\omega_{Bi}-\omega_{Ai})/3 
-         -->
+         <!-- -->
          <p>
+         \[ 
+         \omega_{1,f}=(2\omega_{1,i}-\omega_{2,i})/3
+         \;\; \textrm{ and } \;\;
+         \omega_{2,f}=(2\omega_{2,i}-\omega_{1,i})/3 
+         \]
+         </p>
+         <p>
+         Or, alternately, expressing in terms of \(\Omega_{f}\):
+         <br>
          \[ 
          \omega_{1,f}=\omega_{1,i}-2\Omega_{f}
          \;\; \textrm{ and } \;\;
