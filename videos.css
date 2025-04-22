@@ -118,7 +118,10 @@ img.playButton {
    opacity: 0.7;
 }
 
-
+ul.tighttop {
+   margin-top: -0.6em; 
+   padding-top: 0.0em;
+}
 
 
 
