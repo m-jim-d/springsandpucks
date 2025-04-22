@@ -388,7 +388,7 @@ window.gW = (function() {
    function setFrameRateBasedOnDisplayRate() {
       console.log("fps=" + dC.fps.innerHTML);
       var current_fps = dC.fps.innerHTML;
-      var fps_choices = [60,75,85,100,120,144,240];
+      var fps_choices = [60,75,85,100,120,144,165,240];
       var min_diff = 1000;
       var min_diff_index = null;
       var len = fps_choices.length;
