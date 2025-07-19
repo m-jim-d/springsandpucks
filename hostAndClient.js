@@ -453,7 +453,8 @@ window.hC = (function() {
          nodeString = serverArray[0];  // [0] or [2]
          $('#nodeServer').val( nodeString);
       }
-      if (nodeString.includes("triquence") || nodeString.includes("herokuapp") || nodeString.includes("https://localhost")) {
+      console.log("nodeString = " + nodeString);
+      if (nodeString.includes("triquence") || nodeString.includes("herokuapp") || nodeString.includes("3443")) {
          var urlPrefix = "https://"
       } else {
          var urlPrefix = "http://"
@@ -574,7 +575,10 @@ window.hC = (function() {
       serverArray = ['connect.triquence.org',
                          'triquence-ca88d70f0e55.herokuapp.com',
                          'localhost:3000',
-                         '192.168.1.106:3000',  
+                         'localhost:3443',
+                         '192.168.1.104:3000',  //BeeLink
+                         '192.168.1.104:3443',  //BeeLink
+                         '192.168.1.106:3000',  //NUC
                          '192.168.1.109:3000',  //David's computer
                          '192.168.1.116:3000',  //RPi
                          '192.168.1.117:3000']; //Laptop                 

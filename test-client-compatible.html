@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<!--
+Socket.IO Test Client - Compatible Version
+=========================================
+
+(JDM: This is AI developed and is used for testing with secure-server.js, a socket.io server on node.js.)
+
+This client is designed to test Socket.io connections in various environments.
+It specifically addresses mixed content security policy issues when connecting from HTTPS pages.
+
+Features:
+- Dynamically loads socket.io client from the server
+- Automatically detects page protocol (HTTP/HTTPS) and adjusts connection accordingly
+- Uses the same connection options as the original client (forceNew, auth, withCredentials)
+- Supports connecting to both secure (HTTPS/WSS) and non-secure (HTTP/WS) Socket.io servers
+- Displays connection status and logs messages for debugging
+
+Usage:
+1. Select a server from the dropdown or enter a custom server address
+2. Enter a room name
+3. Click Connect to establish a Socket.io connection
+4. Check the logs for connection status and messages
+
+Note: When accessing this page over HTTPS, you must connect to a secure Socket.io server (WSS)
+to avoid mixed content security policy violations.
+
+Created: July 2025
+-->
+<html>
+<head>
+  <title>Socket.IO Compatible Test</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const connectBtn = document.getElementById('connect');
+      const statusEl = document.getElementById('status');
+      const addressEl = document.getElementById('nodeServer');
+      const roomEl = document.getElementById('roomName');
+      const debugEl = document.getElementById('debug');
+      let socket = null;
+      
+      // Show current page URL info
+      const currentUrl = window.location.href;
+      document.getElementById('page-url').textContent = currentUrl;
+      
+      // Setup server options
+      const serverArray = [
+        "triquence-ca88d70f0e55.herokuapp.com",
+        "localhost:3000",
+        "192.168.1.104:3000",
+        "192.168.1.104:3443"
+      ];
+      
+      // Populate server dropdown
+      const serverSelect = document.getElementById('serverSelect');
+      serverArray.forEach((server, index) => {
+        const option = document.createElement('option');
+        option.value = server;
+        option.textContent = server;
+        serverSelect.appendChild(option);
+      });
+      
+      serverSelect.addEventListener('change', function() {
+        addressEl.value = this.value;
+      });
+      
+      function log(message) {
+        console.log(message);
+        const now = new Date().toLocaleTimeString();
+        debugEl.innerHTML += `<div><strong>[${now}]</strong> ${message}</div>`;
+      }
+      
+      connectBtn.addEventListener('click', function() {
+        // Disconnect existing socket if any
+        if (socket) {
+          socket.disconnect();
+          socket = null;
+        }
+        
+        const roomName = roomEl.value;
+        if (!roomName) {
+          statusEl.textContent = 'Please enter a room name';
+          roomEl.style.borderColor = "red";
+          return;
+        }
+        
+        // Get server URL
+        let nodeString = addressEl.value;
+        if (!nodeString) {
+          nodeString = serverArray[0];
+          addressEl.value = nodeString;
+        }
+        
+        // Determine URL prefix based on server string and current page protocol
+        let urlPrefix;
+        // Get the current page protocol (http: or https:)
+        const pageProtocol = window.location.protocol;
+        
+        // If the page is loaded over HTTPS, always use HTTPS for socket.io
+        if (pageProtocol === 'https:') {
+          urlPrefix = "https://";
+          log("Page is using HTTPS, forcing HTTPS for socket.io connection");
+        } else if (nodeString.includes("triquence") || nodeString.includes("herokuapp") || 
+                  nodeString.includes("localhost:3443") || nodeString.includes("3443") || 
+                  nodeString.includes("https://")) {
+          urlPrefix = "https://";
+          log("Using HTTPS for secure server");
+        } else {
+          urlPrefix = "http://";
+          log("Using HTTP for non-secure server");
+        }
+        
+        const nodeServerURL = urlPrefix + nodeString;
+        log(`Server URL: ${nodeServerURL}`);
+        
+        statusEl.textContent = 'Loading socket.io client...';
+        
+        // Use jQuery to load the socket.io client code - this matches your original approach
+        $.getScript(nodeServerURL + "/socket.io/socket.io.js", function() {
+          log("Socket.io script loaded");
+          
+          // Connect with same options as your original client
+          const connectOptions = {
+            'mode': 'normal',
+            'currentName': null,
+            'nickName': 'tester',
+            'teamName': null
+          };
+          
+          statusEl.textContent = 'Connecting to ' + nodeServerURL;
+          
+          // Create socket with same options as your original client
+          socket = io(nodeServerURL, {
+            'forceNew': true,
+            'auth': connectOptions,
+            'withCredentials': false
+          });
+          
+          // Setup listeners
+          socket.on('connect', function() {
+            statusEl.textContent = 'Connected to ' + nodeServerURL;
+            log('Connected!');
+            roomEl.style.borderColor = "";
+          });
+          
+          socket.on('connect_error', function(err) {
+            statusEl.textContent = 'Error connecting: ' + err;
+            log('Connection error: ' + err);
+          });
+          
+          socket.on('disconnect', function(reason) {
+            statusEl.textContent = 'Disconnected: ' + reason;
+            log('Disconnected: ' + reason);
+          });
+          
+          // Listen for server messages
+          socket.on('userName', function(msg) {
+            log('Received userName: ' + msg);
+          });
+          
+          socket.on('chat', function(msg) {
+            log('Received chat: ' + JSON.stringify(msg));
+          });
+          
+          // Send a test message
+          socket.emit('chat message', 'Hello from test client');
+          
+        }).fail(function(jqxhr, settings, exception) {
+          statusEl.textContent = 'Failed to load socket.io client';
+          log('Error loading socket.io: ' + exception);
+        });
+      });
+    });
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    #debug {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+    #debug div {
+      border-bottom: 1px solid #eee;
+      padding: 3px 0;
+    }
+    .info {
+      background-color: #f8f8f8;
+      padding: 10px;
+      border-left: 4px solid #4CAF50;
+      margin: 10px 0;
+    }
+    button {
+      padding: 8px 12px;
+      margin-right: 5px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    input, select {
+      padding: 8px;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Socket.IO Compatible Test</h1>
+  
+  <div class="section">
+    <h2>Current Page Information</h2>
+    <div class="info">
+      <p><strong>Page URL:</strong> <span id="page-url"></span></p>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>Connection Settings</h2>
+    
+    <div>
+      <label for="serverSelect">Quick Select Server:</label>
+      <select id="serverSelect"></select>
+    </div>
+    
+    <div>
+      <label for="nodeServer">Server Address:</label>
+      <input id="nodeServer" type="text" value="192.168.1.104:3000" placeholder="Server address">
+    </div>
+    
+    <div>
+      <label for="roomName">Room Name:</label>
+      <input id="roomName" type="text" value="test" placeholder="Enter room name">
+    </div>
+    
+    <button id="connect">Connect</button>
+    
+    <p>Status: <span id="status">Not connected</span></p>
+  </div>
+  
+  <div class="section">
+    <h2>Connection Log</h2>
+    <div id="debug"></div>
+  </div>
+</body>
+</html>
