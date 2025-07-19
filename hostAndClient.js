@@ -574,6 +574,7 @@ window.hC = (function() {
    function init_chatFeatures() {
       serverArray = ['connect.triquence.org',
                          'triquence-ca88d70f0e55.herokuapp.com',
+                         'timetocode-test.herokuapp.com',
                          'localhost:3000',
                          'localhost:3443',
                          '192.168.1.104:3000',  //BeeLink
