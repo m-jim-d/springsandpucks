@@ -64,8 +64,8 @@ def publish_code_from_here( source_path, target_path):
                     print("input filesize = ", source_file_size)
                         
                     # Produce a colorized syntax formatted html file
-                    #command_line_string = 'pygmentize -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
-                    command_line_string = 'pygments3 -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
+                    command_line_string = 'pygmentize -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
+                    #command_line_string = 'pygments3 -f html -O full,style=default -l '+ language +' -o "' + path_to_html_output_file + '" "' + path_to_source_file + '"'
                         
                     # Run the command (and delete the temporary escaped file, if needed).
                     os.system( command_line_string)
