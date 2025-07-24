@@ -85,9 +85,9 @@ if (len(sys.argv) > 1):
     if (sys.argv[1] == "all"): doAll = True
 
 # Paths on NUC            
-# Publish the code files from these two folders...
+# Publish the code files (.js, .json) from these two folders:
 exclude_list = ['adapter-latest.js', 'gwModule-withBug.js', 'index3.js', 'jquery-3.1.1.min.js', 'math.min.js', 'scratch_notes.js', 'w3data.js']
 publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\root-50webs", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs")
 
-exclude_list = ['']
+exclude_list = ['package-lock.json', 'package-new.json', 'server-mini.js', 'server_old.js']
 publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\node\\heroku-pet", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs")

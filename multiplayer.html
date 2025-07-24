@@ -185,17 +185,25 @@
 	can go on any computer on your local network. I sometimes have several node 
 	servers running at home and just point the 
 	host and client pages at a particular server's IP address during testing.)</p>
-	<p>(Update: January 25, 2021. Browsers are now requiring equal security 
-	levels (https or http) for both the web server and node server. Therefore, to use a
-	<strong>local</strong> http node server for local-network multiplayer game 
-	play, now requires that the html pages be served locally as http. An 
-	alternative approach is to change the local node server to serve on https, 
-	thereby not conflicting with the https at triquence.org. Also note, to 
-	simply test a local node server using http, have the host and client pages 
-	use 
-	https (triquence.org) while on the same computer as the node server; the node 
-	server can then be referenced using localhost:3000 and yet avoid the 
-	conflict.)</p>
+	
+	<details style="margin-left: 20px; color: rgba(0, 80, 166, 0.664)	">
+		<summary>Update: January 25, 2021.</summary>
+		<p>
+		Browsers are now requiring equal security
+		levels (https or http) for both the web server and node server. Therefore,
+		to use a
+		<strong>local</strong> http node server for local-network multiplayer game
+		play, now requires that the html pages be served locally as http. An
+		alternative approach is to change the local node server to serve on https,
+		thereby not conflicting with the https at triquence.org. Also note, to
+		simply test a local node server using http, have the host and client pages
+		use
+		https (triquence.org) while on the same computer as the node server; the node
+		server can then be referenced using localhost:3000 and yet avoid the
+		conflict.
+		</p>
+	</details>
+
 	<h3>On Windows</h3>
 	<p>Download the node installer for Windows
 	<a href="https://nodejs.org/en/#download">here</a>. Run the installer.</p>
