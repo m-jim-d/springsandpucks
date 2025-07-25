@@ -197,38 +197,79 @@
 			and running a local node server on Windows and Linux, and a remote server on
 			the Linux environment at
 			Heroku. </p>
-		<p>(Note that the local install offers the best performance if the node
-			server is put on the host computer. But that's not absolutely necessary. It
-			can go on any computer on your local network. I sometimes have several node
-			servers running at home and just point the
-			host and client pages at a particular server's IP address during testing.)</p>
 
-		<details style="margin-left: 20px; color: rgba(0, 80, 166, 0.664)	">
-			<summary>Update: January 25, 2021.</summary>
+		<p>Note that the local installation is mainly for development, testing,
+		and experimenting. This page was written before the addition of the
+		<a href="peer2peer.html">WebRTC layer</a>. So originally, the local
+		server offered a better performance and lower latency. But now, with
+		WebRTC, the local server is not necessary for multiplayer usage. The
+		remote server at Heroku automatically signals for WebRTC connections,
+		providing peer-to-peer performance and latency, as good as a local
+		Node.js server. To test the significant improvements with
+		WebRTC, use the shift-p command from a non-host client to choke the
+		WebRTC connection and force all communications to go through the
+		longer route via the Socket.io node server at Heroku.
+		</p>
+
+		<details style="margin-left: 20px;">
+			<summary>Details on requirements for matching security levels. Updated July 25, 2025.</summary>
 			<p>
-				Browsers are now requiring equal security
-				levels (https or http) for both the web server and node server. Therefore,
-				to use a
-				<strong>local</strong> http node server for local-network multiplayer game
-				play, now requires that the html pages be served locally as http. An
-				alternative approach is to change the local node server to serve on https,
-				thereby not conflicting with the https at triquence.org. Also note, to
-				simply test a local node server using http, have the host and client pages
-				use
-				https (triquence.org) while on the same computer as the node server; the node
-				server can then be referenced using localhost:3000 and yet avoid the
-				conflict.
+				Browsers are now requiring matching security levels (both https or
+				both http) for the client pages and the Node.js server.
+			</p>	
+			<h4>Current Recommendation: Use Remote Node.js Server at Heroku</h4>
+			<p>	
+				The repository for the Node.js server is
+				<a
+				href="https://github.com/m-jim-d/springsandpucks-nodejs-server.git">here</a>.
+				The server.js script detects its environment and adjusts the
+				security level accordingly. The remote Node.js server at Heroku
+				(connect.triquence.org) uses the scripts in this repository and
+				serves as http and makes use of the Heroku security layer,
+				serving out as https. The result is matching security, https for the
+				clients and https for the Node.js server.
+			</p>
+			<h4>Local Node.js Server with Self-Signed SSL Credentials</h4>
+			<p>
+				To use the clients at triquence.org with a local Node.js server
+				for local-network multiplayer game play, now requires that
+				Node.js provide SSL credentials and be served as https. If it's
+				not at Heroku, the script will, by default, serve as https and
+				use self-signed SSL credentials. This will require confirmation
+				by the user in the client browser. For example, if your local node server
+				is at https://192.168.1.106:3443, enter that
+				address into the browsers URL box and accept the security
+				warning (click "Advanced" → "Proceed to localhost"). Then,
+				you'll need to enter 192.168.1.106:3443 into the "Server" input
+				box on the main S&P page (the host client) or on the client page
+				for additional players. Then click the "Create" button on the
+				host computer, and "Connect" on the client page. Note this will
+				cause a persistent warning for this address in the client
+				browser, only resolved by closing and opening the browser.
+			</p>
+			<h4>Local Node.js Server without SSL Credentials</h4>
+			<p>
+				A third situation occurs if the client pages are served on http (not
+				https). This could be the case if you've downloaded the S&P site
+				from the <a
+				href="https://github.com/m-jim-d/springsandpucks">repository</a>
+				at GitHub. These files (index.html or client.html) can be served
+				through a local web server or simply opened directly from the
+				file system. Use "run-server.bat prod" to force the node-server
+				to run in production mode (http). This will serve the client
+				pages on http and the node-server on http, matching security
+				levels. Connections must be on port 3000. There will be no
+				security warnings in this case.
 			</p>
 		</details>
 
 		<h3>On Windows</h3>
-		<p>Download the node installer for Windows
+		<p>Download the Node.js installer for Windows
 			<a href="https://nodejs.org/en/#download">here</a>. Run the installer.
 		</p>
-		<p>Download the node-server.zip file from
-			<a href="https://drive.google.com/open?id=0ByxaBWklPKdjQWJaX0tNOVdMRms">here</a>
-			(this works best if you login to Google).
-			Unzip it and copy or move the three files (package.json, server.js, and
+		<p>Download the node-server files 
+			<a href="https://github.com/m-jim-d/springsandpucks-nodejs-server.git">here</a>.
+			Click on the green code button and select "Download ZIP". Unzip it and copy or move the three files (package.json, server.js, and
 			links.html) to a working directory where you wish to keep your node-server
 			content.
 		</p>
