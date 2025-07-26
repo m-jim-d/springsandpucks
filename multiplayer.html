@@ -50,12 +50,12 @@
 		<p>
 			<img width="433" height="862" alt="data flow" class="figure1" src="images/client_nodeserver_dataflow.png"
 				style="float: right">The <a href="index.html">demo</a>
-			page
-			now contains multiplayer functionality. The approach is to collect mouse and
-			keyboard events from the client device and deliver them to the host
-			computer. All rendering is done on the host's screen (everyone must be in one
-			physical room). Client mouse activity is detected when the cursor is over the blank canvas on the client's
-			page.
+			page now contains multiplayer functionality. The approach is to
+			collect mouse and keyboard events from the client device and deliver
+			them to the host computer. All rendering is done on the host's
+			screen (everyone must be in one physical room). Client mouse
+			activity is detected when the cursor is over the blank canvas on the
+			client's page.
 		</p>
 		<p>This is like a game-console experience:
 			social, multiple controllers, and with viewing on one screen. (As of October
@@ -70,9 +70,11 @@
 			you can host multiple rooms on one screen, side by side. Just open the demo
 			(host) page in another browser window and start a new "room" for that second
 			window.</p>
-		<p>The best performance, lowest latency, comes with installing a local node
-			server on the host computer. The installation instructions are short (see section
-			below). This local-node approach is the configuration shown in the diagram. </p>
+		<p>The best performance, lowest latency, comes with installing a local
+		node server on a computer on the local network, close to all the
+		clients. This local-node approach is the configuration shown in the
+		diagram. (See additional discussion in the installation section below.)
+		</p>
 		<p>And if you're wondering about <a href="peer2peer.html">peer-to-peer</a>
 			connections and protocols like WebRTC, that will be introduced at the end of this page.</p>
 		<p>The networking magic is contained mostly in two files for the node server:
@@ -158,26 +160,31 @@
 				entering full-screen mode, the displayed element can be scaled up and
 				down with the ctrl +/- keys.<br></li>
 		</ol>
+
 		<h2>Latency</h2>
 		<p>
-			The Heroku server is in California or on the East coast somewhere. Speed-of-light limitations
-			will be noticeable from the Midwest. You can measure the round-trip time
-			with the ping features in the node-server and client scripts. Type the word
-			"ping" into the chat field and then enter that or click the "chat" button.
-			Here is a screen shot of a test from Minnesota to the Heroku server.
-		<p>
-			<img alt="ping" src="images/ping1.png" />&nbsp;
+			The Heroku server is in California or on the East coast somewhere.
+			Speed-of-light limitations will be noticeable from the Midwest. You
+			can measure the round-trip time with the ping features in the
+			node-server and client scripts. Type the word "ping" into the chat
+			field and then enter that or click the "chat" button. Here is a
+			screen shot of a test from Minnesota to the Heroku server.
+		</p>
+		<img alt="ping" src="images/ping1.png" />&nbsp;
 		<p>
 			And here is a ping test to a node server running on a computer (a Raspberry
 			Pi) on my local network.
+		</p>
 		<p>
 			<img alt="ping" height="90" src="images/ping2.png" width="536" />
+		</p>
 		<p>
 			It takes about 26% of the time (16ms compared to 61ms). You'll notice that
 			reduced latency especially with mouse movements. If you install the local
 			node server, as described below, you may also feel a more continuous, less
 			jumpy rendering (fewer dropped
 			packets).
+		</p>
 		<p>
 			If you enter "ping:host" in the chat field you'll get the time for a
 			round-trip time to the host and back (via the server). That's a four legged
@@ -186,12 +193,15 @@
 			server is at Heroku:<br />
 			<br />
 			<img alt="ping" src="images/ping3.png" />
+		</p>
 		<p>
 			That takes twice as long as the base test and is about what is expected for
 			a trip that's twice as far. This is the more rigorous test in that it
 			travels the actual path to the host. If you divide this number by two you
 			get the best estimate of the latency involved in our one-way communications
 			with the host.
+		</p>
+		
 		<h2>Installation of a Node Server</h2>
 		<p>The following sections provide instructions for installing
 			and running a local node server on Windows and Linux, and a remote server on
@@ -199,8 +209,8 @@
 			Heroku. </p>
 
 		<p>Note that the local installation is mainly for development, testing,
-		and experimenting. This page was written before the addition of the
-		<a href="peer2peer.html">WebRTC layer</a>. So originally, the local
+		and experimenting. This page was originally written before the addition of the
+		<a href="peer2peer.html">WebRTC layer</a>. At that time, the local
 		server offered a better performance and lower latency. But now, with
 		WebRTC, the local server is not necessary for multiplayer usage. The
 		remote server at Heroku automatically signals for WebRTC connections,
