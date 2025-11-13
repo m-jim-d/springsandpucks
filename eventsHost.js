@@ -67,6 +67,7 @@ window.eV = (function() {
          } else {
             client.poolShotLockedSpeed_mps -= 1.0;
          }
+         gB.updatePoolShotLockedValues( client);
          gW.messages['help'].newMessage(client.nameString() + ", shot speed locked: [25px Arial,yellow]" + client.poolShotLockedSpeed_mps.toFixed( 1) + "[base] mps", 1.0);
       }
    }
