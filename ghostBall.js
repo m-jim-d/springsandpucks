@@ -734,6 +734,10 @@ window.gB = (function() {
    }
    
    function updatePoolShotLockedValues( client) {
+      if (!client.selectedBody || (client.selectedBody.constructor.name != 'Puck') || !client.cursorSpring) {
+         return;
+      }
+
       /* This is used AFTER a speed-lock has been set. So, if you release the cursor spring (release a mouse button) 
       to grab a different puck, or change cursor springs, this will use the speed-lock value to determine corresponding
       shot energy and cursor-spring stretch. */
