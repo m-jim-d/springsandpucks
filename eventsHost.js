@@ -61,14 +61,15 @@ window.eV = (function() {
       
       // Adjust pool-shot speed value.         
       if (client.poolShotLocked) {
-         client.poolShotLockedSpeed_mps = Math.round( client.poolShotLockedSpeed_mps);
+         client.poolShotLockedSpeed_mps = Math.round(client.poolShotLockedSpeed_mps);
          if (e.deltaY < 0) {
             client.poolShotLockedSpeed_mps += 1.0;
          } else {
             client.poolShotLockedSpeed_mps -= 1.0;
          }
-         gB.updatePoolShotLockedValues( client);
          gW.messages['help'].newMessage(client.nameString() + ", shot speed locked: [25px Arial,yellow]" + client.poolShotLockedSpeed_mps.toFixed( 1) + "[base] mps", 1.0);
+         // Calculate poolShotLockedSpringStretch_m (used to visualize the strength of the locked shot).
+         if (client.selectedBody) gB.updatePoolShotLockedValues(client);
       }
    }
       

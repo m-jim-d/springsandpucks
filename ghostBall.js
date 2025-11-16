@@ -734,6 +734,7 @@ window.gB = (function() {
    }
    
    function updatePoolShotLockedValues( client) {
+      // If no selected body, exit (need selected-body mass to do energy calculations below).
       if (!client.selectedBody || (client.selectedBody.constructor.name != 'Puck') || !client.cursorSpring) {
          return;
       }
