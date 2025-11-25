@@ -928,6 +928,11 @@ window.cP = (function() {
       // COM angular speed (radians per second)
       this.angularSpeed_rps = this.b2d.GetAngularVelocity();
    }  
+   Puck.prototype.setAngularSpeed = function(angularSpeed_rps) {
+      // COM angular speed (radians per second)
+      this.angularSpeed_rps = angularSpeed_rps;
+      this.b2d.SetAngularVelocity(angularSpeed_rps);
+   }     
    Puck.prototype.angularMomentum_Orbital = function() {
       // separation of the puck center from the axis of angular momentum
       let r_2d_m = this.position_2d_m.subtract( m_EpL.angularAxis_2d_m);

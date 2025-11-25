@@ -217,7 +217,7 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                      <span id="introduction"></span>
                      <p>Topics here:</p>
                      <ul style="margin: 2px 15px 10px 0px;">
-                        <li><a class="scroll-link" href="#" title="" data-scroll-target="buttonsHelp">number buttons</a>
+                        <li><a class="scroll-link" href="#" title="" data-scroll-target="buttonsHelp">controls</a>
                         </li>
                         <li><a class="scroll-link" href="#" title="" data-scroll-target="multi">multiplayer</a>
                            <ul>
@@ -393,9 +393,10 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                </details>
 
                <br>
-               The "<strong>Freeze</strong>" button momentarily stops all puck translation while
-               allowing rotation to continue. The neighboring "<strong>R</strong>" button stops all
-               rotation (use t and shift-t to change the rotation rate of a selected puck).
+               The "<strong>Freeze</strong>" button momentarily stops the translation of all pucks while
+               allowing rotation to continue. The neighboring "<strong>R</strong>" button stops the rotation of all pucks
+               (if multi-selection is used, this applies only to the multi-selected pucks).
+               Use t and shift-t to change the rotation rate of multi-selected pucks only.
                <br>&nbsp;<br>
 
                The "<strong>Reverse</strong>" button (or Ctrl-Backspace) flips the velocity and reverses the rotation
@@ -798,6 +799,7 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                      </ul>
                   </li>
                   <li>t (and shift-t): incrementally change the rotation <strong>rate</strong>.</li>
+                  <li>r: stops puck rotation.</li>
                   <li>"-" and "+" keys: change the <strong>surface friction</strong> (tackiness)</li>
                   <li>"[" and "]" keys: change the <strong>restitution</strong> (elasticity)</li>
                   <li>"&lt;" and "&gt;" keys: change the <strong>damping</strong> (drag) on selected pucks
