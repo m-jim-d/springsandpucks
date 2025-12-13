@@ -473,7 +473,7 @@ window.eV = (function() {
          gW.hostMSelect.applyToAll( msObject => {
             // Populate the p array so you can pass the pucks as parameters.
             p.push( msObject);
-            if (msObject.constructor.name == "Puck") atLeastOnePuck = true;
+            if (msObject.constructor.name.includes("Puck")) atLeastOnePuck = true;
          });
          
          // Check to see if these two objects are already connected by a revolute joint.
@@ -516,27 +516,25 @@ window.eV = (function() {
    }
    
    function freeze() {      
-      cP.Puck.applyToAll( puck => puck.b2d.SetLinearVelocity( new b2DW.Vec2(0.0,0.0)) );
+      cP.applyToAllPucks( puck => puck.b2d.SetLinearVelocity( new b2DW.Vec2(0.0,0.0)) );
    }
    
    function stopRotation() {
       if (gW.hostMSelect.count() > 0) {
          // Use multiselect to act on selected pucks.
          gW.hostMSelect.applyToAll( msObject => {
-            if (msObject.constructor.name == "Puck") {
+            if (msObject.constructor.name.includes("Puck")) {
                msObject.setAngularSpeed(0.0);
             }
          });
       } else {
          // Act on all pucks.
-         cP.Puck.applyToAll( puck => {
-            puck.setAngularSpeed(0.0);
-         });
+         cP.applyToAllPucks( puck => puck.setAngularSpeed(0.0) );
       }
    }
    
    function reverseDirection() {      
-      cP.Puck.applyToAll( puck => {
+      cP.applyToAllPucks( puck => {
          puck.b2d.SetAngularVelocity( -1 * puck.angularSpeed_rps);
          puck.b2d.SetLinearVelocity( wS.b2Vec2_from_Vec2D( puck.velocity_2d_mps.scaleBy( -1)) );
       });

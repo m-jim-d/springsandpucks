@@ -29,7 +29,7 @@
 	</script>
 </head>
 
-<body style=''>
+<body>
 
 	<!-- The navigation menu -->
 	<div id="navDiv"></div>
@@ -46,14 +46,38 @@
 		<ul>
 			<li>December, 2025
 				<ul>
-					<li>Modified the "r" key and "R" button (stop puck rotation) to act on selected pucks. 
+					<li>Added a rectangular momentum-cage demo (under the add/remove items menu).
+						This uses four regular pucks, with fixed angle revolute joints for the cage.
+						The momentum cage is an elastic frictionless frame that is used to contain and constrain the motion of
+						other pucks (internal to the cage). It is useful in demonstrating conservation laws.
+						Unlike walls, which are external to the system (applying external forces), the cage appears in the EpL report as multiple pucks.
+						<ul>
+							<li>add cage (puck bars)
+						</ul>
+					<li>Added multi-fixture pucks (Puck_MultiFix prototype): a single rigid body with multiple fixtures (compound shapes)
+						for building objects like cages without using joints between separate puck bodies. Motivation: improve momentum
+						conservation demos and avoid rotation/artifacts associated with jointed cage assemblies.
+					<li>Added a rectangular cage demo (under add/remove items menu)
+						using a multi-fixture puck for the cage. 
+						The cage appears in the EpL report as part of the system (as a single "pm" puck).
+						<ul>
+							<li>add cage (fixture bars)
+						</ul>
+					<li>Added cloud capture for the fixture-bars add-cage demo
+						<ul>
+							<li>4.a.five-pucks-in-cage
+						</ul>
+				</ul>
+			<li>November, 2025
+				<ul>
+					<li>Modified the "r" key and "R" button (stop puck rotation) to act on selected pucks.
 						If no pucks are selected, these act as before, on all pucks.
 					<li>Added several new captures to the cloud-capture set.
+						These captures contrast with versions that use walls (walls are external to the system in the EpL reports).
+						They use large rectangular pucks (included in the system) that replace the walls used in the corresponding original captures.
+						Without walls applying external forces, momentum is conserved, as is evident in the EpL report.
 						These are accessed via the question-mark button, bottom of the right-side panel.
-						Click the button with the shift key down for the complete list.
-						These new captures illustrate the effect of walls (external to the system) in the EpL and speed reports.
-						They have large rectangular pucks (included in the system) that replace the walls in the corresponding original
-						captures.
+						(Click the button with the shift key down for the complete list).
 						<ul>
 							<li>4.a.four-bars-nowalls-v1
 							<li>4.a.four-bars-nowalls-v2

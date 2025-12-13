@@ -145,6 +145,8 @@ window.tA = (function() {
       // Delete pucks, references to them, and their representation in the b2d world.
       cP.Puck.deleteAll();  // this also resets the jello array...
       
+      cP.Puck_MultiFix.deleteAll();  // delete all multi-fixture pucks.
+
       // Clean out the old springs.
       cP.Spring.deleteAll();
       // Clean out the old joints.
@@ -337,6 +339,265 @@ window.tA = (function() {
       } else if (tableAction == "add-revolute") { 
          eV.addRevoluteJoint();
          
+      } else if (tableAction == "add-cage") { 
+         // Create a rigid cage of four slender rectangular pucks with revolute joints at corners.
+         // Joints have 90-degree angle limits enabled.
+         let pucks = [];
+         let joints = [];
+         
+         // Slender puck dimensions
+         let half_width_m = 2.70;   // long dimension (horizontal bars)
+         let half_height_m = 0.2;  // slender thickness
+         
+         // Internal puck dimensions
+         let internalPuckSize = 0.24;  // half-width (x dimension)
+         let internalPuckHalfHeight = internalPuckSize;  // keep it square
+         
+         // Internal puck vertical clearance (gap) as fraction of interior cage height
+         let internalPuckGapFraction = 0.01;  // 0.050 is 5% gap total (2.5% top + 2.5% bottom), 95% puck
+         
+         // Interior cage height (space between inner surfaces of top/bottom bars)
+         // interiorHeight = puckHeight / (1 - gapFraction)
+         let interiorHeight_m = (2 * internalPuckHalfHeight) / (1 - internalPuckGapFraction);
+         
+         // The joints are at bar centers. The interior space is:
+         // - From cage center to top bar inner surface = cageOffset_y - half_height_m
+         // - So total interior = 2 * (cageOffset_y - half_height_m)
+         // We need: 2 * (cageOffset_y - half_height_m) = interiorHeight_m
+         // Therefore: cageOffset_y = interiorHeight_m/2 + half_height_m
+         
+         // Vertical bars: sized to span from bottom bar to top bar (joint to joint)
+         // Joint-to-joint vertical distance = 2 * cageOffset_y
+         // Vertical bar half_width = cageOffset_y (so it reaches from one joint to the other)
+         let cageOffset_y = interiorHeight_m / 2 + half_height_m;
+         let verticalBar_half_width_m = cageOffset_y;
+         
+         // Horizontal distance to vertical bar centers
+         let cageOffset_x = half_width_m;
+         
+         let velocity_2d_m = new wS.Vec2D(0.0, 0.0);
+         let groupIndex = -1;  // negative so cage pucks don't collide with each other
+         
+         // Horizontal bar parameters (long bars on top/bottom) - inelastic
+         let puckPars = {
+            'shape': 'rect', 
+            'radius_m': half_width_m,
+            'half_width_m': half_width_m,
+            'half_height_m': half_height_m,
+            'color': 'DarkSlateGray', 
+            'borderColor': 'white', 
+            'borderWidth_px': 3,
+            'groupIndex': groupIndex,
+            'restitution': 0.0, 
+            'restitution_fixed': true,
+            'friction': 0.0,
+            'friction_fixed': true
+         };
+         
+         // Vertical bar parameters (short bars on left/right) - elastic
+         let verticalPuckPars = Object.assign({}, puckPars, {
+            'half_width_m': verticalBar_half_width_m,
+            'restitution': 1.0
+         });
+         
+         // Create four pucks forming a short rectangular cage (wide, not tall)
+         // Bottom puck (horizontal)
+         let bottomPos = placement_2d_m.add(new wS.Vec2D(0, -cageOffset_y));
+         pucks[0] = new cP.Puck(bottomPos, velocity_2d_m, Object.assign({}, puckPars, {'angle_r': 0}));
+         
+         // Top puck (horizontal)
+         let topPos = placement_2d_m.add(new wS.Vec2D(0, cageOffset_y));
+         pucks[2] = new cP.Puck(topPos, velocity_2d_m, Object.assign({}, puckPars, {'angle_r': 0}));
+         
+         // Right puck (vertical, short)
+         let rightPos = placement_2d_m.add(new wS.Vec2D(cageOffset_x, 0));
+         pucks[1] = new cP.Puck(rightPos, velocity_2d_m, Object.assign({}, verticalPuckPars, {'angle_r': Math.PI/2}));
+         
+         // Left puck (vertical, short)
+         let leftPos = placement_2d_m.add(new wS.Vec2D(-cageOffset_x, 0));
+         pucks[3] = new cP.Puck(leftPos, velocity_2d_m, Object.assign({}, verticalPuckPars, {'angle_r': Math.PI/2}));
+         
+         // Create revolute joints at corners with 90-degree limits
+         // Vertical bars are rotated 90°, so their local x-axis points UP in world space
+         // +half_width in local = top of bar (world +y), -half_width = bottom (world -y)
+         
+         // Joint 0: bottom-right corner (bottom puck right end to right puck bottom end)
+         // Right puck bottom = local -verticalBar_half_width_m (points down in world)
+         joints[0] = new cP.Joint(pucks[0], pucks[1], {
+            'jto1_ap_l_2d_m': new wS.Vec2D(half_width_m, 0),
+            'jto2_ap_l_2d_m': new wS.Vec2D(-cageOffset_y, 0),
+            'visible': true
+         });
+         joints[0].setLimits(90, 90);
+         joints[0].setEnableLimit(true);
+         
+         // Joint 1: top-right corner (right puck top end to top puck right end)
+         // Right puck top = local +cageOffset_y (points up in world)
+         joints[1] = new cP.Joint(pucks[1], pucks[2], {
+            'jto1_ap_l_2d_m': new wS.Vec2D(cageOffset_y, 0),
+            'jto2_ap_l_2d_m': new wS.Vec2D(half_width_m, 0),
+            'visible': true
+         });
+         joints[1].setLimits(-90, -90);
+         joints[1].setEnableLimit(true);
+         
+         // Joint 2: top-left corner (top puck left end to left puck top end)
+         // Left puck top = local +cageOffset_y (points up in world)
+         joints[2] = new cP.Joint(pucks[2], pucks[3], {
+            'jto1_ap_l_2d_m': new wS.Vec2D(-half_width_m, 0),
+            'jto2_ap_l_2d_m': new wS.Vec2D(cageOffset_y, 0),
+            'visible': true
+         });
+         joints[2].setLimits(90, 90);
+         joints[2].setEnableLimit(true);
+         
+         // Joint 3: bottom-left corner (left puck bottom end to bottom puck left end)
+         // Left puck bottom = local -cageOffset_y (points down in world)
+         joints[3] = new cP.Joint(pucks[3], pucks[0], {
+            'jto1_ap_l_2d_m': new wS.Vec2D(-cageOffset_y, 0),
+            'jto2_ap_l_2d_m': new wS.Vec2D(-half_width_m, 0),
+            'visible': true
+         });
+         joints[3].setLimits(-90, -90);
+         joints[3].setEnableLimit(true);
+
+         // Add five small square pucks inside the cage on a horizontal line
+         // Interior horizontal space = 2 * (cageOffset_x - half_height_m - internalPuckSize)
+         let interiorWidth_m = 2 * (cageOffset_x - half_height_m - internalPuckSize);
+         let numInternalPucks = 5;
+         let internalSpacing = interiorWidth_m / (numInternalPucks - 1);  // spacing between internal pucks
+         
+         let internalPuckPars = {
+            'shape': 'rect',
+            'half_width_m': internalPuckSize,
+            'half_height_m': internalPuckHalfHeight,
+            'color': 'lightgray',
+            'borderColor': 'white',
+            'borderWidth_px': 1,
+            'restitution': 1.0,
+            'restitution_fixed': true,
+            'friction': 0.0,
+            'friction_fixed': true
+         };
+         
+         // Speed for the moving puck (far right, moving in -x direction)
+         let movingPuckSpeed = 1.0;  // m/s
+         
+         // Calculate masses: internal pucks are square, cage pucks are slender rectangles
+         // Mass is proportional to area (assuming uniform density)
+         let internalPuckMass = (2 * internalPuckSize) * (2 * internalPuckHalfHeight);  // area of internal puck
+         let horizontalBarMass = (2 * half_width_m) * (2 * half_height_m);  // area of horizontal bar
+         let verticalBarMass = (2 * verticalBar_half_width_m) * (2 * half_height_m);  // area of vertical bar
+         let totalCageMass = 2 * horizontalBarMass + 2 * verticalBarMass;
+         
+         // Momentum of moving internal puck: p = m * v (in -x direction)
+         // Cage must have equal and opposite momentum: totalCageMass * cageVelocity = internalPuckMass * movingPuckSpeed
+         let cageVelocity_x = (internalPuckMass * movingPuckSpeed) / totalCageMass;
+         
+         // Update cage pucks to have velocity in +x direction
+         for (let i = 0; i < 4; i++) {
+            pucks[i].velocity_2d_mps = new wS.Vec2D(cageVelocity_x, 0.0);
+            pucks[i].b2d.SetLinearVelocity(pucks[i].velocity_2d_mps);
+         }
+         
+         // Create five internal pucks: 4 stationary grouped in center, 1 moving at far right
+         // Far right position: just inside the right vertical bar
+         let farRightX = cageOffset_x - half_height_m - internalPuckSize;
+         
+         // Group stationary pucks closer together in the center
+         let stationarySpacing = internalPuckSize * 2.5;  // tight spacing between stationary pucks
+         let numStationary = numInternalPucks - 1;
+         let groupWidth = (numStationary - 1) * stationarySpacing;
+         let groupStartX = -groupWidth / 2;  // center the group
+         
+         // Create stationary pucks grouped in center
+         for (let i = 0; i < numStationary; i++) {
+            let xPos = groupStartX + i * stationarySpacing;
+            let puckPos = placement_2d_m.add(new wS.Vec2D(xPos, 0));
+            new cP.Puck(puckPos, new wS.Vec2D(0, 0), internalPuckPars);
+         }
+         
+         // Far right puck (moving in -x direction)
+         let rightInternalPos = placement_2d_m.add(new wS.Vec2D(farRightX, 0));
+         new cP.Puck(rightInternalPos, new wS.Vec2D(-movingPuckSpeed, 0), internalPuckPars);
+
+         cP.EpL.turnDisplayOn({'angularAxis_2d_m': cP.Puck.findCenterOfMass()});
+
+      } else if (tableAction == "add-cage-multifix") { 
+         // Create a rigid cage using a single multi-fixture body (Puck_MultiFix).
+         // This is more stable than the jointed version for conservation law demonstrations.
+         
+         // Cage dimensions
+         let legLength_m = 5.40;      // full length of horizontal bars
+         let legThickness_m = 0.04;   // thickness of all bars
+         
+         // Internal puck dimensions
+         let internalPuckSize = 0.24;  // half-width and half-height (square)
+         
+         // Interior cage height (space between inner surfaces of top/bottom bars)
+         let internalPuckGapFraction = 0.5;
+         let interiorHeight_m = (2 * internalPuckSize) / (1 - internalPuckGapFraction);
+         let interiorWidth_m = legLength_m - legThickness_m;
+         let aspectRatio = interiorHeight_m / interiorWidth_m;
+         
+         // Internal pucks
+         let numInternalPucks = 5;
+         let movingPuckSpeed = 1.0;
+         let internalPuckShape = 'rect';  // 'circle' or 'rect' (rect is square here)
+         let cageDensity = 1.5;
+         
+         // Create the multi-fixture cage using factory function
+         let cage = cP.createCage(placement_2d_m, new wS.Vec2D(0, 0), {
+            cageShape: 'rect',
+            color: 'lightgray',
+            legLength_m: legLength_m,
+            legThickness_m: legThickness_m,
+            aspectRatio: aspectRatio,
+            density: cageDensity
+         });
+         
+         // Create internal pucks with insideCage reference for momentum balancing
+         let internalPuckPars = {
+            shape: internalPuckShape,
+            radius_m: internalPuckSize,
+            half_width_m: internalPuckSize,
+            half_height_m: internalPuckSize,
+            color: 'DarkSlateGray',
+            borderColor: 'lightgray',
+            borderWidth_px: 3,
+            restitution: 1.0,
+            restitution_fixed: true,
+            friction: 0.0,
+            friction_fixed: true,
+            density: cageDensity,
+            insideCage: cage.name
+         };
+         
+         // Interior width for puck placement (subtract bar thickness and puck size from each side)
+         let puckPlacementWidth_m = interiorWidth_m - 2 * internalPuckSize;
+         
+         // Group stationary pucks in center
+         let stationarySpacing = internalPuckSize * 2.5;
+         let groupWidth = (numInternalPucks - 2) * stationarySpacing;
+         let groupStartX = -groupWidth / 2;
+         
+         // Create stationary internal pucks
+         for (let i = 0; i < numInternalPucks - 1; i++) {
+            let xPos = groupStartX + i * stationarySpacing;
+            let puckPos = placement_2d_m.add(new wS.Vec2D(xPos, 0));
+            new cP.Puck(puckPos, new wS.Vec2D(0, 0), internalPuckPars);
+         }
+         
+         // Far right puck (moving in -x direction relative to cage)
+         let farRightX = (interiorWidth_m / 2) - internalPuckSize;
+         let rightInternalPos = placement_2d_m.add(new wS.Vec2D(farRightX, 0));
+         new cP.Puck(rightInternalPos, new wS.Vec2D(-movingPuckSpeed, 0), internalPuckPars);
+         
+         // Balance cage momentum with internal pucks (total system momentum = 0)
+         cP.balanceCageMomentum();
+
+         cP.EpL.turnDisplayOn({'angularAxis_2d_m': cP.Puck.findCenterOfMass()});
+
       } else if (tableAction == "add-revolute-limits") { 
          if (gW.hostMSelect.count() >= 2) {
             let noMatchCount = 0;

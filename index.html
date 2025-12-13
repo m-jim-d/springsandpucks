@@ -15,7 +15,7 @@
    <!-- This Open Graph tag controls how a link is displayed if posted on social media -->
    <meta property="og:image" content="https://triquence.org/screenshots/colormixer.png">
 
-   <link href="hostAndClient.css?v=130" rel="stylesheet" type="text/css">
+   <link href="hostAndClient.css?v=138" rel="stylesheet" type="text/css">
    <link href="dialog.css?v=130" rel="stylesheet" type="text/css">
 
    <!-- Google icon library -->
@@ -2518,17 +2518,20 @@ solo players.'>Friendly fire<br>
                   <option value="clear-all-but-fence">remove all but fence</option>
                   <option value="clear-fence">remove fence</option>
                   <option value="add-fence">add fence</option>
+                  <option value="add-cage" title="cage made from puck bars and fixed-angle revolute joints">add cage (puck bars)</option>
+                  <option value="add-cage-multifix" title="cage made from a single body and bars with multiple fixtures">add cage (fixture bars)</option>
+               
                   <option value="puck-circle">add circular puck</option>
                   <option value="puck-circle-bullet">add circular bullet</option>
                   <option value="puck-circular-tail">add puck with tail</option>
                   <option value="puck-rect">add rectangular puck</option>
                   <option value="puck-rect-bullet">add rectangular bullet</option>
-
+               
                   <option value="toggleBulletSelected" title="change non-bullets to bullets and visa-versa">toggle
                      bullets</option>
                   <option value="revealBullets" title="use black color to display bullets">reveal bullets</option>
                   <option value="hideBullets" title="use normal color to display bullets">hide bullets</option>
-
+               
                   <option value="wall">add wall</option>
                   <option value="pin">add pin</option>
                   <option value="spring" title="Create spring between selected objects (shortcut: ctrl-alt-s).">add
@@ -2540,54 +2543,54 @@ solo players.'>Friendly fire<br>
                   <option value="add-jello">add jello (4x4)</option>
                   <option value="add-puck-grid" title="non-colliding pucks">add n.c. puck grid (7x7)</option>
                   <option value="add-npc">add drone on 2 pins</option>
-
+               
                   <option value="add-revolute" title="Create joint between selected objects. (shortcut: alt-r).">add
                      revolute joint</option>
                   <option value="add-revolute-limits" title="Restrict the joint with limits.">add joint limits</option>
                   <option value="toggle-revolute-limits" title="Toggle joint limits.">toggle joint limits</option>
-
+               
                   <option value="add-chain">add chain</option>
                   <option value="add-springy-stick">add worm</option>
                   <option value="add-springy-chain">add springy chain</option>
-
+               
                   <option value="add-pyramid">add pyramid</option>
                   <option value="add-stack">add stack</option>
                   <!--
-            <option value="add-newtons-cradle-1mb" >1-moving-ball cradle</option>
-            <option value="add-newtons-cradle-3mb" >3-moving-ball cradle</option>
-            <option value="run-newtons-script" >run newton's cradle</option>
-            -->
-
+                  <option value="add-newtons-cradle-1mb" >1-moving-ball cradle</option>
+                  <option value="add-newtons-cradle-3mb" >3-moving-ball cradle</option>
+                  <option value="run-newtons-script" >run newton's cradle</option>
+                  -->
+               
                   <option value="align-selected-pucks"
                      title="Align the selected group between the two most outlying objects (shortcut: alt-L).">align
                      selected</option>
-                  <option value="arc-selected-pucks"
-                     title="Arrange the selected group into a semi-circle (shortcut: alt-shift-L).">arc selected
+                  <option value="arc-selected-pucks" title="Arrange the selected group into a semi-circle (shortcut: alt-shift-L).">arc
+                     selected
                   </option>
-                  <option value="toggle-projectile-forecast"
-                     title="toggle (show or hide) a 2.5 second projectile forecast">projectile forecast</option>
-
+                  <option value="toggle-projectile-forecast" title="toggle (show or hide) a 2.5 second projectile forecast">projectile
+                     forecast</option>
+               
                   <option value="toggle-SCM-display"
                      title="toggle (show or hide) a mark indicating the System Center of Mass (all pucks)">toggle
                      display of SCM</option>
-                  <option value="toggle-MSC-display"
-                     title="toggle (show or hide) a mark indicating the Multi-Select Center.">toggle display of MSC
+                  <option value="toggle-MSC-display" title="toggle (show or hide) a mark indicating the Multi-Select Center.">toggle
+                     display of MSC
                   </option>
                   <option value="toggle-E-p-L-report"
                      title="toggle (show or hide) a report for energy, momentum, and angular momentum (shortcut: ctrl-L).">
                      toggle EpL report</option>
-                  <option value="toggle-E-p-L-report-type"
-                     title="toggle between EpL and Speed reports (shortcut: ctrl-alt-L).">toggle EpL and Speed</option>
+                  <option value="toggle-E-p-L-report-type" title="toggle between EpL and Speed reports (shortcut: ctrl-alt-L).">toggle
+                     EpL and Speed</option>
                   <option value="Laxis_at_SCM" title="set angular momentum axis at system center of mass.">EpL axis at
                      SCM</option>
-
-
+               
+               
                   <option value="bullets-from-pucks"
                      title="bullets from human clients (demos 7 and 8) are fabricated (cannibalized) from the client's puck, shrinking it.">
                      bullets from pucks</option>
-
-                  <option value="shift-capture"
-                     title="shift a small-canvas capture to the center of a larger full-screen canvas">shift capture
+               
+                  <option value="shift-capture" title="shift a small-canvas capture to the center of a larger full-screen canvas">shift
+                     capture
                   </option>
                   <option value="modify-capture"
                      title="modify the capture for the selected table objects using the JSON in the chat field (shortcut: shift-m)">
@@ -2620,9 +2623,7 @@ For the complete list, use this button with the "Shift" key down.
 Click links in the listing to download and run the capture.'>?</button>
             <br>
 
-            <textarea id="jsonCapture" autocomplete="off" title="text area for storing the capture
-    (right-click to toggle size)
-"></textarea><br>
+            <textarea id="jsonCapture" autocomplete="off" title="text area for storing the capture (right-click to toggle size)"></textarea><br>
          </div>
       </div>
    </div>

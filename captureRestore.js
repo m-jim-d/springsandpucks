@@ -61,8 +61,8 @@ window.cR = (function() {
       demo area when the json capture is restored. 
 
       Also have to avoid the client related addons: jet, gun, and shield. 
-      These have references back their pucks, this too causes circular issues 
-      for stringify. 
+      These have references back to their pucks, this too causes circular issues 
+      for stringify.
 
       Also remove keys like spo1 and spo2 (in Springs object) mainly to keep 
       the wordiness down; many keys are not needed in the reconstruction 
@@ -172,7 +172,8 @@ window.cR = (function() {
                            'globalCompositeOperation':x_ctx.globalCompositeOperation,
                            'EpL': {'display':cP.EpL.displayReport, 'reportType':cP.EpL.reportType, 'COM':cP.EpL.COM, 'angularAxis_2d_m':cP.EpL.angularAxis_2d_m},
                            'wallMapData':gW.aT.wallMap, 
-                           'puckMapData':gW.aT.puckMap, 
+                           'puckMapData':gW.aT.puckMap,
+                           'puckMapData_MultiFix':gW.aT.puckMap_MultiFix,
                            'pinMapData':gW.aT.pinMap, 
                            'springMapData':gW.aT.springMap,
                            'jointMapData':gW.aT.jointMap,
@@ -300,6 +301,17 @@ window.cR = (function() {
             }
          }
       }
+
+      // Remove some non-editable Puck_MultiFix keys
+      var multiFixKeys = ['mass_kg','inertia_kgm2','deleted','selectionPoint_l_2d_m',
+                          'sprDamp_force_2d_N','nonCOM_2d_N',
+                          'parsAtBirth','fixtures','position_2d_px'];
+      for (var pmf_key in tableState_copy.puckMapData_MultiFix) {
+         var puck_mf = tableState_copy.puckMapData_MultiFix[ pmf_key];
+         for (var key of multiFixKeys) {
+            delete puck_mf[ key];
+         }
+      }
       
       // Remove some non-editable pin keys.  
       var pinKeys = ['radius_m'];
@@ -396,6 +408,15 @@ window.cR = (function() {
          document.execCommand('copy');
          window.getSelection().removeAllRanges(); // this is necessary for the blur method to work in MS Edge.
          gW.dC.json.blur();
+         
+         // Warn user if capture includes general-type multi-fixture pucks (cages are supported).
+         let hasGeneralMultiFix = false;
+         for (var pmf_key in gW.aT.puckMap_MultiFix) {
+            if (gW.aT.puckMap_MultiFix[pmf_key].type == 'general') hasGeneralMultiFix = true;
+         }
+         if (hasGeneralMultiFix) {
+            gW.messages['help'].newMessage("Warning: general-type multi-fixture pucks are not included in captures.", 3.0);
+         }
       }
 
       return table_JSON;
@@ -819,6 +840,7 @@ window.cR = (function() {
          shifter('puckMapData');
          shifter('pinMapData');
          shifter('wallMapData');
+         if (state_capture['puckMapData_MultiFix']) shifter('puckMapData_MultiFix');
          
          // Write out the updated capture.
          state_capture.demoVersion += '.' + Math.floor((Math.random() * 1000) + 1);
@@ -838,7 +860,7 @@ window.cR = (function() {
          let state_capture = loadJSON( gW.dC.json);
          if ( ! state_capture) return; // must be error in json
          demoIndex = parseInt( state_capture.demoIndex);
-         dS.demoStart( demoIndex, {'scrollCA':false});
+         dS.demoStart( demoIndex, {'scrollCA':false, 'fromCapture':true});
          
          // If shift key is down and using a button (not keyboard), after starting the demo from the capture, 
          // immediately grab a capture before the engine changes state. This is an easy way to update
@@ -1138,6 +1160,36 @@ window.cR = (function() {
             
             if (puck.jello) jM.addPuck( newPuck);
          }
+      }
+      
+      // Rebuild the multi-fixture pucks (cages, etc.)
+      if (state_data.puckMapData_MultiFix) {
+         for (var pmf_key in state_data.puckMapData_MultiFix) {
+            var puck_mf = state_data.puckMapData_MultiFix[ pmf_key];
+            
+            // Use factory function based on type
+            if (puck_mf.type == 'cage') {
+               cP.createCage( puck_mf.position_2d_m, puck_mf.velocity_2d_mps, {
+                  cageShape: puck_mf.cageShape,
+                  legLength_m: puck_mf.legLength_m,
+                  legThickness_m: puck_mf.legThickness_m,
+                  aspectRatio: puck_mf.aspectRatio,
+                  density: puck_mf.density,
+                  angle_r: puck_mf.angle_r,
+                  angularSpeed_rps: puck_mf.angularSpeed_rps,
+                  color: puck_mf.color,
+                  borderColor: puck_mf.borderColor,
+                  borderWidth_px: puck_mf.borderWidth_px,
+                  linDamp: puck_mf.linDamp,
+                  angDamp: puck_mf.angDamp,
+                  balanceOnRestore: puck_mf.balanceOnRestore,
+                  name: puck_mf.name
+               });
+            }
+            // Future: else if (puck_mf.type == 'general') { ... }
+         }
+         // Auto-balance cage momentum with internal pucks after restore
+         cP.balanceCageMomentum({silent: true});
       }
       
       // For the count-to-pi demos (note: this enabled boolean is set above, before instantiation).

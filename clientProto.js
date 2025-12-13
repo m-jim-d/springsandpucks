@@ -572,7 +572,7 @@ window.cT = (function() {
             objReport += dimensionsReport;
          }
          
-         if (this.selectedBody.constructor.name == "Puck") {
+         if (this.selectedBody.constructor.name.includes("Puck")) {
             let rF = (this.selectedBody.restitution_fixed) ? " (fixed)" : "";
             let fF = (this.selectedBody.friction_fixed) ? " (fixed)" : "";
             objReport += "\\  restitution = " + this.selectedBody.restitution.toFixed(3) + rF + ", surface friction = " + this.selectedBody.friction.toFixed(3) + fF +

@@ -365,6 +365,7 @@ window.dS = (function() {
       var scrollHelp = uT.setDefault( pars.scrollHelp, true);
       var restartLoop = uT.setDefault( pars.restartLoop, true);
       var logThis = uT.setDefault( pars.logThis, true);
+      var fromCapture = uT.setDefault( pars.fromCapture, false);
       
       aT.collisionCount = 0;
       aT.collisionInThisStep = false;
@@ -534,13 +535,20 @@ window.dS = (function() {
       });
       
       if (index == 0) {
-         cR.clearState();
+         if (!fromCapture) cR.clearState();
          c.pauseErase = false;
          c.displaySCM = false;
          if (document.fullscreenElement) eVN.changeFullScreenMode( canvas, 'off');
          pS.scroll('scroll-to-very-top');
-         dC.extraDemos.innerHTML = " reset";         
-         gW.messages['help'].newMessage("The zero key triggers a complete reset.\\   For a stronger reset, try reloading the page.", 3.0);         
+         dC.extraDemos.innerHTML = " reset";
+         
+         // If there's a zero-based capture, restore it; otherwise show reset message.
+         if ((state_capture) && (state_capture.demoIndex == 0)) {
+            cR.restoreFromState( state_capture);
+            gW.messages['help'].newMessage("Running a zero-based capture.\\   Consider editing it to run under a different index.", 3.0);
+         } else {
+            gW.messages['help'].newMessage("The zero key triggers a complete reset.\\   For a stronger reset, try reloading the page.", 3.0);
+         }         
                   
          // Normally, the "0" demo is kept blank for observing the framerate.
          

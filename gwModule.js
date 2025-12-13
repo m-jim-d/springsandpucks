@@ -64,6 +64,7 @@ window.gW = (function() {
    var aT = {};
   
    aT.puckMap = {}; // keyed by puck name.
+   aT.puckMap_MultiFix = {}; // keyed by multi-fixture puck name.
    
    aT.pinMap = {};  // keyed by pin name.
    
@@ -815,9 +816,7 @@ window.gW = (function() {
       });
       
       // Sum up all the forces and apply them to the pucks.
-      cP.Puck.applyToAll( puck => {
-         puck.applyForces( c.deltaT_s); 
-      });
+      cP.applyToAllPucks( puck => puck.applyForces( c.deltaT_s) );
       
       //////////////////////////////////////////////////////////////////////////////////////////////////////
       // Step the physics engine (calculate the resulting state of the objects)
@@ -854,6 +853,10 @@ window.gW = (function() {
             puck.updateState();
          }
          puck.draw( ctx, c.deltaT_s);
+      });
+      cP.Puck_MultiFix.applyToAll( puck_mF => {
+         puck_mF.updateState();
+         puck_mF.draw( ctx);
       });
       
       // Select all springs where both ends are connected to pucks/pins in the multiselect map.

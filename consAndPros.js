@@ -326,6 +326,9 @@ window.cP = (function() {
       
       this.tempInhibitExtForce = false;
       
+      // For pucks inside a cage - holds the cage name for momentum balancing on restore
+      this.insideCage = uT.setDefault( pars.insideCage, null);
+      
       this.nonCOM_2d_N = [];
       
       this.sprDamp_force_2d_N = new wS.Vec2D(0.0,0.0);
@@ -437,7 +440,8 @@ window.cP = (function() {
       // mass-weighted center of all pucks (COM)
       let com_2d_m = new wS.Vec2D(0,0);
       let mass_total_kg = 0;
-      Puck.applyToAll( puck => {
+      // Include both Puck and Puck_MultiFix objects in the system COM calculation.
+      applyToAllPucks( puck => {
          com_2d_m = com_2d_m.add( puck.position_2d_m.scaleBy( puck.mass_kg));
          mass_total_kg += puck.mass_kg;
       });
@@ -448,7 +452,7 @@ window.cP = (function() {
       // The inherited drawing functions aren't available here, so using dF.
       
       // draw circle and cross hairs at SCM if more than one puck
-      if (Object.keys( gW.aT.puckMap).length > 1) {
+      if ((Object.keys( gW.aT.puckMap).length + Object.keys( gW.aT.puckMap_MultiFix).length) > 1) {
          let center_2d_px = wS.screenFromWorld( Puck.findCenterOfMass());
          dF.drawMark( drawingContext, center_2d_px);
       }
@@ -554,7 +558,9 @@ window.cP = (function() {
       this loop, for the first element in the array, does the following:
       parsForNewBirth.angle_r = this.angle_r;
       */
-      var parsToCopy = ['angle_r','angularSpeed_rps','friction','restitution','linDamp','angDamp','bullet_restitution','jello'];
+      var parsToCopy = ['color','border_color','borderWidth_px',
+                        'angle_r','angleLine','angularSpeed_rps',
+                        'friction','restitution','linDamp','angDamp','bullet_restitution','jello'];
       for (var i = 0, len = parsToCopy.length; i < len; i++) {
          parsForNewBirth[ parsToCopy[i]] = this[ parsToCopy[i]];
       }
@@ -1234,6 +1240,354 @@ window.cP = (function() {
       this.impulse_2d_Ns = new wS.Vec2D(0.0,0.0);
    }
 
+
+
+   // Multi-fixture puck (for rigid compound shapes like cages)
+   function Puck_MultiFix( position_2d_m, velocity_2d_mps, pars) {
+      dFM.DrawingFunctions.call(this); // inherit
+      this.parsAtBirth = pars;
+      
+      let result = assignName( pars.name, Puck_MultiFix.nameIndex, "puck_mf", "puckMap_MultiFix");
+      this.name = result.name;
+      Puck_MultiFix.nameIndex = result.index;
+      gW.aT.puckMap_MultiFix[this.name] = this;
+      
+      this.position_2d_m = wS.Vec2D_check( position_2d_m);
+      this.velocity_2d_mps = wS.Vec2D_check( velocity_2d_mps);
+      
+      this.borderWidth_px = uT.setDefault( pars.borderWidth_px, 1);
+      
+      this.density = uT.setDefault( pars.density, 1.5);
+      this.restitution = uT.setDefault( pars.restitution, 1.0);
+      this.friction = uT.setDefault( pars.friction, 0.0);
+      this.linDamp = uT.setDefault( pars.linDamp, 0.0);
+      this.angDamp = uT.setDefault( pars.angDamp, 0.0);
+      
+      this.angle_r = uT.setDefault( pars.angle_r, 0);
+      this.angularSpeed_rps = uT.setDefault( pars.angularSpeed_rps, 0);
+      
+      this.groupIndex = uT.setDefault( pars.groupIndex, 0);
+      this.categoryBits = uT.setDefault( pars.categoryBits, 0x0001);
+      this.maskBits = uT.setDefault( pars.maskBits, 0xFFFF);
+      
+      // Array of fixture definitions: each has shape, dimensions, offset, angle, color, borderColor
+      this.fixtures = uT.setDefault( pars.fixtures, []);
+      
+      // Type identifier for capture/restore (e.g., 'cage', 'general')
+      this.type = uT.setDefault( pars.type, 'general');
+      this.cageShape = uT.setDefault( pars.cageShape, null);  // 'rect', 'triangle', etc.
+      
+      // Cage geometry parameters (for capture/restore)
+      this.legLength_m = uT.setDefault( pars.legLength_m, null);
+      this.legThickness_m = uT.setDefault( pars.legThickness_m, null);
+      this.aspectRatio = uT.setDefault( pars.aspectRatio, null);
+      this.color = uT.setDefault( pars.color, null);
+      this.borderColor = uT.setDefault( pars.borderColor, null);
+      
+      // Control auto-balancing of momentum on restore (set to false to disable)
+      this.balanceOnRestore = uT.setDefault( pars.balanceOnRestore, true);
+      
+      this.deleted = false;
+      this.selectionPoint_l_2d_m = new wS.Vec2D(0,0);
+      
+      // Force accumulators (simplified)
+      this.sprDamp_force_2d_N = new wS.Vec2D(0.0,0.0);
+      this.nonCOM_2d_N = [];
+      
+      this.b2d = null;
+      this.create_Box2d_Puck_MultiFix();
+      gW.tableMap.set(this.b2d, this);
+   }
+   Puck_MultiFix.prototype = Object.create( dFM.DrawingFunctions.prototype);
+   Puck_MultiFix.prototype.constructor = Puck_MultiFix;
+   Puck_MultiFix.nameIndex = 0;
+   Puck_MultiFix.applyToAll = function( doThis) {
+      for (var puckName in gW.aT.puckMap_MultiFix) {
+         var puck_mF = gW.aT.puckMap_MultiFix[ puckName];
+         doThis( puck_mF);
+      }
+   }
+   Puck_MultiFix.deleteAll = function() {
+      Puck_MultiFix.applyToAll( puck_mF => {
+         gW.tableMap.delete( puck_mF.b2d);
+         if (puck_mF.b2d) gW.b2d.world.DestroyBody( puck_mF.b2d);
+      });
+      gW.aT.puckMap_MultiFix = {};
+      Puck_MultiFix.nameIndex = 0;
+   }
+   Puck_MultiFix.prototype.create_Box2d_Puck_MultiFix = function() {
+      var bodyDef = new b2DW.BodyDef;
+      bodyDef.type = b2DW.Body.b2_dynamicBody;
+      
+      // Create the body
+      this.b2d = gW.b2d.world.CreateBody( bodyDef);
+      
+      // Create a fixture for each element in the fixtures array
+      for (var i = 0; i < this.fixtures.length; i++) {
+         var fix = this.fixtures[i];
+         var fixDef = new b2DW.FixtureDef;
+         fixDef.density = this.density;
+         fixDef.restitution = uT.setDefault( fix.restitution, this.restitution);
+         fixDef.friction = uT.setDefault( fix.friction, this.friction);
+         fixDef.filter.groupIndex = this.groupIndex;
+         fixDef.filter.categoryBits = this.categoryBits;
+         fixDef.filter.maskBits = this.maskBits;
+         
+         // Rectangular fixture with local offset and rotation
+         fixDef.shape = new b2DW.PolygonShape;
+         var offset = uT.setDefault( fix.offset_2d_m, new wS.Vec2D(0,0));
+         var angle_r = uT.setDefault( fix.angle_r, 0);
+         fixDef.shape.SetAsOrientedBox( fix.half_width_m, fix.half_height_m, offset, angle_r);
+         
+         this.b2d.CreateFixture( fixDef);
+      }
+      
+      // Set the state: position and velocity
+      this.b2d.SetPosition( this.position_2d_m);
+      this.b2d.SetLinearVelocity( this.velocity_2d_mps);
+      this.b2d.SetAngle( this.angle_r);
+      this.b2d.SetAngularVelocity( this.angularSpeed_rps);
+      
+      // Use the mass and moment of inertia calculated by box2d
+      this.mass_kg = this.b2d.GetMass();
+      this.inertia_kgm2 = this.b2d.GetInertia();
+      
+      this.b2d.SetLinearDamping( this.linDamp);
+      this.b2d.SetAngularDamping( this.angDamp);
+   }
+   Puck_MultiFix.prototype.updateState = function() {
+      this.position_2d_m = wS.Vec2D_from_b2Vec2( this.b2d.GetPosition());
+      this.velocity_2d_mps = wS.Vec2D_from_b2Vec2( this.b2d.GetLinearVelocity());
+      this.angle_r = this.b2d.GetAngle();
+      this.angularSpeed_rps = this.b2d.GetAngularVelocity();
+   }
+   Puck_MultiFix.prototype.applyForces = function( deltaT_s) {
+      // Gravity force
+      var g_force_2d_N = Puck.g_2d_mps2.scaleBy( this.mass_kg);
+      
+      var forces_2d_N = g_force_2d_N;
+      forces_2d_N.addTo( this.sprDamp_force_2d_N);
+      
+      // Apply force to COM
+      this.b2d.ApplyForce( forces_2d_N, this.position_2d_m);
+      
+      // Apply any non-COM forces
+      for (var j = 0; j < this.nonCOM_2d_N.length; j++) {
+         this.b2d.ApplyForce( this.nonCOM_2d_N[j].force_2d_N, this.nonCOM_2d_N[j].point_w_2d_m);
+      }
+      
+      // Reset aggregate forces
+      this.sprDamp_force_2d_N = new wS.Vec2D(0.0,0.0);
+      this.nonCOM_2d_N = [];
+   }
+   Puck_MultiFix.prototype.draw = function( drawingContext) {
+      this.position_2d_px = wS.screenFromWorld( this.position_2d_m);
+      
+      // Iterate through all fixtures and draw each polygon
+      for (var fixture = this.b2d.m_fixtureList; fixture; fixture = fixture.m_next) {
+         var vertices = fixture.m_shape.m_vertices;
+         var poly_2d_px = [];
+         for (var i = 0; i < vertices.length; i++) {
+            var worldPoint = this.b2d.GetWorldPoint( vertices[i]);
+            poly_2d_px.push( wS.screenFromWorld( wS.Vec2D_from_b2Vec2( worldPoint)));
+         }
+         
+         // Get fixture-specific colors from the fixtures array (match by index)
+         var fixIndex = 0;
+         for (var f = this.b2d.m_fixtureList; f != fixture; f = f.m_next) fixIndex++;
+         var fixDef = this.fixtures[ this.fixtures.length - 1 - fixIndex]; // fixtures are added in reverse order in b2d
+         
+         var fillColor = uT.setDefault( fixDef.color, 'SteelBlue');
+         var borderColor = uT.setDefault( fixDef.borderColor, 'DarkSlateGray');
+         
+         this.drawPolygon( drawingContext, poly_2d_px, 
+            {'borderColor':borderColor, 'borderWidth_px':this.borderWidth_px, 'fillColor':fillColor});
+      }
+   }
+   Puck_MultiFix.prototype.deleteThisOne = function() {
+      this.deleted = true;
+      gW.tableMap.delete( this.b2d);
+      gW.b2d.world.DestroyBody( this.b2d);
+      delete gW.aT.puckMap_MultiFix[ this.name];
+      // ...and from the multi-select map.
+      gW.hostMSelect.removeOne( this);
+   }
+   Puck_MultiFix.prototype.worldPoint = function( localPoint_2d) {
+      return wS.Vec2D_from_b2Vec2( this.b2d.GetWorldPoint( localPoint_2d));
+   }
+   Puck_MultiFix.prototype.draw_MultiSelectPoint = function( drawingContext) {
+      var selectionPoint_2d_px;
+      if ( ! gW.dC.comSelection.checked) {
+         selectionPoint_2d_px = wS.screenFromWorld( this.b2d.GetWorldPoint( this.selectionPoint_l_2d_m));
+      } else {
+         selectionPoint_2d_px = this.position_2d_px;
+      }
+      this.drawCircle( drawingContext, selectionPoint_2d_px, {'borderColor':'black', 'borderWidth_px':1, 'fillColor':'yellow', 'radius_px':5});
+   }   
+   Puck_MultiFix.prototype.angularMomentum_Orbital = function() {
+      let r_2d_m = this.position_2d_m.subtract( m_EpL.angularAxis_2d_m);
+      return this.mass_kg * r_2d_m.cross( this.velocity_2d_mps);
+   }
+   Puck_MultiFix.prototype.angularMomentum_Spin = function() {
+      return this.inertia_kgm2 * this.angularSpeed_rps;
+   }
+   Puck_MultiFix.prototype.energyKinetic_rotational = function() {
+      return (0.5) * this.inertia_kgm2 * this.angularSpeed_rps**2;
+   }
+   Puck_MultiFix.prototype.energyKinetic_translational = function() {
+      return (0.5) * this.mass_kg * this.velocity_2d_mps.length_squared();
+   }
+   Puck_MultiFix.prototype.potentialEnergy = function() {
+      let pe = (gW.getG_ON()) ? this.mass_kg * gW.getG_mps2() * this.position_2d_m.y : 0;
+      return pe;
+   }
+   Puck_MultiFix.prototype.setAngularSpeed = function( angularSpeed_rps) {
+      this.angularSpeed_rps = angularSpeed_rps;
+      this.b2d.SetAngularVelocity( angularSpeed_rps);
+   }
+   Puck_MultiFix.prototype.interpret_editCommand = function( command, sf = null) {
+      gW.messages['help2'].newMessage("Editing features are not set up for multi-fixture pucks. \\Cage characteristics can be changed by editing a capture", 2.5);
+   }
+
+
+
+   // Helper to iterate over both puck maps
+   function applyToAllPucks( doThis) {
+      Puck.applyToAll( doThis);
+      Puck_MultiFix.applyToAll( doThis);
+   }
+   
+   // Build fixtures array for a rectangular cage
+   function buildRectCageFixtures( pars) {
+      let legLength_m = uT.setDefault( pars.legLength_m, 1.20);  // full length of horizontal legs
+      let legThickness_m = uT.setDefault( pars.legThickness_m, 0.06);  // thickness of all legs
+      let aspectRatio = uT.setDefault( pars.aspectRatio, 0.77);  // height/width ratio of interior
+      let color = uT.setDefault( pars.color, 'SteelBlue');
+      let borderColor = uT.setDefault( pars.borderColor, 'DarkSlateGray');
+      let barRestitution = uT.setDefault( pars.barRestitution, 1.0);
+      
+      // Interior dimensions derived from leg length and aspect ratio
+      let interiorWidth_m = legLength_m - legThickness_m;  // subtract thickness of vertical legs
+      let interiorHeight_m = interiorWidth_m * aspectRatio;
+      
+      // Bar half-dimensions for Box2D
+      let horzBar_halfLength = legLength_m / 2;
+      let horzBar_halfThick = legThickness_m / 2;
+      let vertBar_halfLength = (interiorHeight_m + legThickness_m) / 2;  // vertical legs span interior + top/bottom bar thickness
+      let vertBar_halfThick = legThickness_m / 2;
+      
+      // Offsets from center
+      let horzBar_offset_y = interiorHeight_m / 2 + horzBar_halfThick;
+      let vertBar_offset_x = legLength_m / 2 - vertBar_halfThick;
+      
+      let fixtures = [
+         // Top horizontal bar
+         {half_width_m: horzBar_halfLength, half_height_m: horzBar_halfThick, 
+          offset_2d_m: new wS.Vec2D(0, horzBar_offset_y), angle_r: 0,
+          color: color, borderColor: borderColor, restitution: barRestitution},
+         // Bottom horizontal bar
+         {half_width_m: horzBar_halfLength, half_height_m: horzBar_halfThick, 
+          offset_2d_m: new wS.Vec2D(0, -horzBar_offset_y), angle_r: 0,
+          color: color, borderColor: borderColor, restitution: barRestitution},
+         // Left vertical bar
+         {half_width_m: vertBar_halfThick, half_height_m: vertBar_halfLength, 
+          offset_2d_m: new wS.Vec2D(-vertBar_offset_x, 0), angle_r: 0,
+          color: color, borderColor: borderColor, restitution: barRestitution},
+         // Right vertical bar
+         {half_width_m: vertBar_halfThick, half_height_m: vertBar_halfLength, 
+          offset_2d_m: new wS.Vec2D(vertBar_offset_x, 0), angle_r: 0,
+          color: color, borderColor: borderColor, restitution: barRestitution}
+      ];
+      return fixtures;
+   }
+   
+   // Factory function to create cage-type Puck_MultiFix objects
+   function createCage( position_2d_m, velocity_2d_mps, pars) {
+      let cageShape = uT.setDefault( pars.cageShape, 'rect');
+      
+      let fixtures;
+      if (cageShape == 'rect') {
+         fixtures = buildRectCageFixtures( pars);
+      } else if (cageShape == 'triangle') {
+         // Future: fixtures = buildTriangleCageFixtures( pars);
+         fixtures = [];
+      } else {
+         fixtures = [];
+      }
+      
+      let cagePars = {
+         type: 'cage',
+         cageShape: cageShape,
+         fixtures: fixtures,
+         density: uT.setDefault( pars.density, 1.5),
+         friction: uT.setDefault( pars.friction, 0.0),
+         restitution: uT.setDefault( pars.restitution, 1.0),
+         borderWidth_px: uT.setDefault( pars.borderWidth_px, 0),
+         angle_r: uT.setDefault( pars.angle_r, 0),
+         angularSpeed_rps: uT.setDefault( pars.angularSpeed_rps, 0),
+         linDamp: uT.setDefault( pars.linDamp, 0.0),
+         angDamp: uT.setDefault( pars.angDamp, 0.0),
+         // Store cage geometry for capture/restore
+         legLength_m: uT.setDefault( pars.legLength_m, 1.20),
+         legThickness_m: uT.setDefault( pars.legThickness_m, 0.06),
+         aspectRatio: uT.setDefault( pars.aspectRatio, 0.77),
+         color: uT.setDefault( pars.color, 'SteelBlue'),
+         borderColor: uT.setDefault( pars.borderColor, 'DarkSlateGray'),
+         balanceOnRestore: pars.balanceOnRestore
+      };
+      
+      return new Puck_MultiFix( position_2d_m, velocity_2d_mps, cagePars);
+   }
+
+
+
+   // Balance cage momentum with internal pucks using insideCage attribute
+   // Called from table action and after capture restore
+   function balanceCageMomentum( pars) {
+      pars = uT.setDefault( pars, {});
+      let silent = uT.setDefault( pars.silent, false);
+      
+      // Build a map of cage names to their internal pucks
+      let cagePucks = {};  // cageName -> [puck, puck, ...]
+      Puck.applyToAll( puck => {
+         if (puck.insideCage) {
+            if (!cagePucks[puck.insideCage]) {
+               cagePucks[puck.insideCage] = [];
+            }
+            cagePucks[puck.insideCage].push(puck);
+         }
+      });
+      
+      // For each cage with internal pucks, balance momentum (if balanceOnRestore is true)
+      let balancedCount = 0;
+      for (let cageName in cagePucks) {
+         let cage = gW.aT.puckMap_MultiFix[cageName];
+         if (cage && cage.type == 'cage' && (cage.balanceOnRestore !== false)) {
+            let pucks = cagePucks[cageName];
+            
+            // Calculate total momentum of internal pucks
+            let puckMomentum_2d = new wS.Vec2D(0, 0);
+            for (let puck of pucks) {
+               puckMomentum_2d.addTo( puck.velocity_2d_mps.scaleBy( puck.mass_kg));
+            }
+            
+            // Set cage velocity to balance: cage momentum = -puck momentum
+            let cageVelocity = puckMomentum_2d.scaleBy( -1.0 / cage.mass_kg);
+            cage.velocity_2d_mps = cageVelocity;
+            cage.b2d.SetLinearVelocity( cageVelocity);
+            balancedCount++;
+         }
+      }
+      
+      if (!silent) {
+         if (balancedCount > 0) {
+            gW.messages['help'].newMessage('Balanced ' + balancedCount + ' cage(s) with internal pucks.', 2.0);
+         } else {
+            gW.messages['help'].newMessage('No cages with insideCage pucks found.', 2.0);
+         }
+      }
+      return balancedCount;
+   }
 
 
    // Static spring anchors (no collisions)
@@ -2053,7 +2407,7 @@ window.cP = (function() {
          movements are calculated in the physics engine.
          */
          
-         if (this.spo1.constructor.name == "Puck") {
+         if (this.spo1.constructor.name.includes("Puck")) {
             this.spo1.nonCOM_2d_N.push({'force_2d_N': spring_force_on_1_2d_N.scaleBy( +1), 'point_w_2d_m': this.spo1_ap_w_2d_m});   
             /*
             The following vector is used for aiming the NPC's navigation jets. (Note 
@@ -2065,7 +2419,7 @@ window.cP = (function() {
             */
             if ((this.spo2.constructor.name == "Pin") && (this.spo2.NPC)) this.spo1.navSpringOnly_force_2d_N = spring_force_on_1_2d_N.scaleBy( +1);
          }
-         if (this.spo2.constructor.name == "Puck") {
+         if (this.spo2.constructor.name.includes("Puck")) {
             this.spo2.nonCOM_2d_N.push({'force_2d_N': spring_force_on_1_2d_N.scaleBy( -1), 'point_w_2d_m': this.spo2_ap_w_2d_m});   
             // (see explanation in spo1 block above)
             if ((this.spo1.constructor.name == "Pin") && (this.spo1.NPC)) this.spo2.navSpringOnly_force_2d_N = spring_force_on_1_2d_N.scaleBy( -1);
@@ -2082,11 +2436,11 @@ window.cP = (function() {
          
          var damper_force_on_1_2d_N = v_relative_alongNormal_2d_mps.scaleBy( this.damper_Ns2pm2);
          // This damper force acts in opposite directions for each of the two pucks. 
-         if (this.spo1.constructor.name == "Puck") {
+         if (this.spo1.constructor.name.includes("Puck")) {
             // Again, notice the negative sign here, opposite to the spring force.
             this.spo1.nonCOM_2d_N.push({'force_2d_N': damper_force_on_1_2d_N.scaleBy( -1), 'point_w_2d_m': this.spo1_ap_w_2d_m});
          }
-         if (this.spo2.constructor.name == "Puck") {
+         if (this.spo2.constructor.name.includes("Puck")) {
             this.spo2.nonCOM_2d_N.push({'force_2d_N': damper_force_on_1_2d_N.scaleBy( +1), 'point_w_2d_m': this.spo2_ap_w_2d_m});   
          }
       }
@@ -2103,10 +2457,10 @@ window.cP = (function() {
       NET damping force, on each puck COM, applied by all the individual springs. 
       This aggregate is reset (zeroed) after the movements are calculated. 
       */
-      if (this.spo1.constructor.name == "Puck") {
+      if (this.spo1.constructor.name.includes("Puck")) {
          this.spo1.sprDamp_force_2d_N.addTo( this.spo1.velocity_2d_mps.scaleBy( -1 * this.drag_c));
       }
-      if (this.spo2.constructor.name == "Puck") {
+      if (this.spo2.constructor.name.includes("Puck")) {
          this.spo2.sprDamp_force_2d_N.addTo( this.spo2.velocity_2d_mps.scaleBy( -1 * this.drag_c));
       }
    }
@@ -2671,7 +3025,7 @@ window.cP = (function() {
          let e_total = 0, pe = 0;
          let p_total_2d, p_total = 0, px_total = 0, px, py_total = 0, py;
          
-         Puck.applyToAll( puck => {
+         applyToAllPucks( puck => {
             let l_orbital = puck.angularMomentum_Orbital();
             let l_spin = puck.angularMomentum_Spin();
             l_total_spin += l_spin;
@@ -2694,7 +3048,7 @@ window.cP = (function() {
             p_total_2d = new wS.Vec2D( px_total, py_total);
             p_total = p_total_2d.length();
             
-            let shortPuckName = puck.name.replace('puck','p');
+            let shortPuckName = (puck.constructor.name == "Puck_MultiFix") ? puck.name.replace('puck_mf','pm') : puck.name.replace('puck','p');
             
             m_EpL.reportString += shortPuckName.padStart(4,' ') + " " + uT.fixed( pe, 2) +
                                                               ""  + uT.fixed( ke_translational, 2) + "" + uT.fixed( ke_rotational, 2) + 
@@ -2731,9 +3085,10 @@ window.cP = (function() {
          let demoHasOrbits = uT.oneOfThese(['4.b','5.b','5.b.two','5.a.orbitingOnSpring'], gW.getDemoVersion());
          let stillHasSpring = (Object.keys( gW.aT.springMap).length >= 1);
          
-         if (Object.keys( gW.aT.puckMap).length >= 1) {
-            Puck.applyToAll( puck => {
-               let shortPuckName = puck.name.replace('puck','p');
+         if ((Object.keys( gW.aT.puckMap).length + Object.keys( gW.aT.puckMap_MultiFix).length) >= 1) {
+            applyToAllPucks( puck => {
+               let shortPuckName = (puck.constructor.name == "Puck_MultiFix") ? puck.name.replace('puck_mf','pm') : (puck.name.replace('puck','p') || 'p');
+               
                let puckSpeed_mps = puck.velocity_2d_mps.length();
                
                // For demos with pucks orbiting on springs, include columns for orbit radius and angular speed.
@@ -2855,10 +3210,16 @@ window.cP = (function() {
    return {
       // object prototypes
       'Puck': Puck,
+      'Puck_MultiFix': Puck_MultiFix,
       'Joint': Joint,
       'Spring': Spring,
       'Wall': Wall,
       'Pin': Pin,
+
+      // helper functions
+      'applyToAllPucks': applyToAllPucks,
+      'createCage': createCage,
+      'balanceCageMomentum': balanceCageMomentum,
 
       // general object containers
       'EpL': m_EpL,
