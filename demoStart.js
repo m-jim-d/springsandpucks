@@ -790,11 +790,14 @@ window.dS = (function() {
             "<a title='conservation of angular momentum...' " + hL('4.b') + " onclick=\"cR.demoStart_fromCapture(4, {'fileName':'demo4b.js'})\">&nbsp;b,</a>" +
             "<a title='no surface friction or y momentum' "   + hL('4.c') + " onclick=\"cR.demoStart_fromCapture(4, {'fileName':'demo4c.js'})\">&nbsp;c,</a>" +
             "<a title='little moves big' "                    + hL('4.d') + " onclick=\"cR.demoStart_fromCapture(4, {'fileName':'demo4d.js'})\">&nbsp;d&nbsp;</a>" +
-            "<a title='get that monkey' "                     + hL('4.e') + " onclick=\"cR.demoStart_fromCapture(4, {'fileName':'demo4e.monkeyhunt.js'})\">&nbsp;e&nbsp;</a>";
+            "<a title='get that monkey' "                     + hL('4.e') + " onclick=\"cR.demoStart_fromCapture(4, {'fileName':'demo4e.monkeyhunt.js'})\">&nbsp;e&nbsp;</a>" +
+            "<a title='five pucks in cage' "                  + hL('4.f') + " onclick=\"cR.demoStart_fromCapture(4, {'fileName':'demo4f.js'})\">&nbsp;f&nbsp;</a>";
          
          if (scrollHelp) {
             if ( c.demoVersion.includes('4.e.monkeyhunt') ) {
                pS.scroll('hunt');
+            } else if ( c.demoVersion.includes('4.f')) {
+               pS.scroll('fiveincage');
             } else {
                pS.scroll('d4');
             }   
