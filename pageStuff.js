@@ -138,7 +138,10 @@ window.pS = (function() {
       const workerURL = 'https://triquence.org/logger';
       const payload = { mode: mode, eventDesc: eventDescription };
 
-      if (navigator.sendBeacon) {
+      const isLocalhost =
+         location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+      if (!isLocalhost && navigator.sendBeacon) {
          const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
          navigator.sendBeacon(workerURL, blob);
          return;
@@ -149,9 +152,10 @@ window.pS = (function() {
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify(payload),
          keepalive: true,
+         credentials: 'omit',
       }).catch(() => { });
    }
-
+   
    function openNav() {
       m_navMenu.style.height = "100%";
    }
