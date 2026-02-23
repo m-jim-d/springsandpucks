@@ -138,15 +138,6 @@ window.pS = (function() {
       const workerURL = 'https://triquence.org/logger';
       const payload = { mode: mode, eventDesc: eventDescription };
 
-      const isLocalhost =
-         location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-
-      if (!isLocalhost && navigator.sendBeacon) {
-         const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
-         navigator.sendBeacon(workerURL, blob);
-         return;
-      }
-
       fetch(workerURL, {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
