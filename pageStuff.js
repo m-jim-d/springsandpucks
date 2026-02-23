@@ -135,7 +135,7 @@ window.pS = (function() {
    }
 
    function logEntry(eventDescription, mode = 'normal') {
-      const workerURL = 'https://triquence.org/logger';
+      const workerURL = 'https://triquence.org/pvent';
       const payload = { mode: mode, eventDesc: eventDescription };
 
       fetch(workerURL, {
