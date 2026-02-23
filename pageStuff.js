@@ -435,7 +435,7 @@ window.pS = (function() {
       for (let key in m_keyMap) m_keyStates[ m_keyMap[ key]] = 'U';
       
       // Take note...
-      if (logPage) logEntry( pageDesc);
+      //if (logPage) logEntry( pageDesc);
       
       if (navMenu) {
          // put the navigation menu into the div
