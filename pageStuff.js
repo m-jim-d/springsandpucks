@@ -120,7 +120,7 @@ window.pS = (function() {
       return false;
    }
    
-   function logEntry( eventDescription, mode='normal') {
+   function logEntry_old( eventDescription, mode='normal') {
       // If this page is coming from the production server...
       var pageURL = window.location.href;
       if (pageURL.includes("triquence")) {
@@ -133,7 +133,25 @@ window.pS = (function() {
          console.log("Event = " + eventDescription);
       }
    }
-   
+
+   function logEntry(eventDescription, mode = 'normal') {
+      const workerURL = 'https://triquence.org/logger';
+      const payload = { mode: mode, eventDesc: eventDescription };
+
+      if (navigator.sendBeacon) {
+         const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+         navigator.sendBeacon(workerURL, blob);
+         return;
+      }
+
+      fetch(workerURL, {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(payload),
+         keepalive: true,
+      }).catch(() => { });
+   }
+
    function openNav() {
       m_navMenu.style.height = "100%";
    }
