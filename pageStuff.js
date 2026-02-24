@@ -120,7 +120,7 @@ window.pS = (function() {
       return false;
    }
    
-   function logEntry_old( eventDescription, mode='normal') {
+/*    function logEntry_old( eventDescription, mode='normal') {
       // If this page is coming from the production server...
       var pageURL = window.location.href;
       if (pageURL.includes("triquence")) {
@@ -132,7 +132,7 @@ window.pS = (function() {
       } else {
          console.log("Event = " + eventDescription);
       }
-   }
+   } */
 
    function logEntry(eventDescription, mode = 'normal') {
       const workerURL = 'https://triquence.org/pvent';
@@ -435,7 +435,7 @@ window.pS = (function() {
       for (let key in m_keyMap) m_keyStates[ m_keyMap[ key]] = 'U';
       
       // Take note...
-      //if (logPage) logEntry( pageDesc);
+      if (logPage) logEntry( pageDesc);
       
       if (navMenu) {
          // put the navigation menu into the div
