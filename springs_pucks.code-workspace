@@ -2,6 +2,9 @@
     "folders": [
         {
             "path": "."
+        },
+        {
+            "path": "../github-website/springsandpucks"
         }
     ],
     "settings": {

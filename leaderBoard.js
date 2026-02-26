@@ -304,7 +304,8 @@ window.lB = (function() {
       var npcSleep = peopleClients[ nR]['npcSleep'];
       var virtualGamePad = peopleClients[ nR]['virtualGamePad'];
       var index = peopleClients[ nR]['randomIndex'];
-      
+
+
       let outputMode;
       if (mode == "reportOnly") {
          mode = "report";
@@ -314,23 +315,41 @@ window.lB = (function() {
          outputMode = mode;
       }
                                        
-      // The "Deployment ID" in this URL is found via the "Tools/Script editor/Select a project..." interface for the spreadsheet. Pick "Manage deployments" from the "Deploy" select element, upper right.
-      // The "Deployment ID" does not give general access to the account. It only allows the web user to submit parameters to the doGet function in the spreadsheet project's script.
-      var sheetURL = 'https://script.google.com/macros/s/AKfycbw-MubGpT943K31y6df19zwraGf0GBMuKk9TlOd3yImYO5BSbDxeWTysuYqye0d4mQ_og/exec';
-      // AJAX
-      var xhttp = new XMLHttpRequest();
-      xhttp.open('GET', sheetURL + '?mode=' + mode + 
-                                   '&userName=' + userName + '&score=' + userScore +  '&gameVersion=' + gameVersion + 
-                                   '&winTime=' + winner +    '&mouse=' + mouse +      '&npcSleep=' + npcSleep +
-                                   '&nPeople=' + n_people +  '&nDrones=' + n_drones + '&frMonitor=' + frameRate_monitor + '&hzPhysics=' + frameRate_physics + 
-                                   '&virtualGamePad=' + virtualGamePad + '&noFriendlyFire=' + noFriendlyFire + '&editorUsage=' + editorUsage +
-                                   '&index=' + index, true);
-      xhttp.send();
-      xhttp.onreadystatechange = function () {
-         // If there is a response from the spreadsheet:
-         if (this.readyState == 4 && this.status == 200) {
-            // lbResp is short for leaderBoardResponse
-            var lbResp = JSON.parse( this.responseText);
+      const workerURL = 'https://triquence.org/leaderboard';
+      const postObject = {
+         mode: mode,
+         userName: userName,
+         score: userScore,
+         gameVersion: gameVersion,
+         winTime: winner,
+         mouse: mouse,
+         npcSleep: npcSleep,
+         nPeople: n_people,
+         nDrones: n_drones,
+         frMonitor: frameRate_monitor,
+         hzPhysics: frameRate_physics,
+         virtualGamePad: virtualGamePad,
+         noFriendlyFire: noFriendlyFire,
+         editorUsage: editorUsage,
+         index: index
+      };
+
+      fetch( workerURL, {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify( postObject)
+      })
+      .then( function( response) {
+         if ( ! response.ok) {
+            console.log("leaderboard: response NOT ok (CF worker)");
+            return null;
+         }
+         return response.json();
+      })
+      .then( function( lbResp) {
+         if ( ! lbResp) return;
             
             if (lbResp.result == 'report') {
                /*
@@ -361,8 +380,10 @@ window.lB = (function() {
                if (nR == n_soloAndTeam-1) reportMode = 'report'; // Do a final submission, and ask for a report from the spreadsheet.
                sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage);
             }
-         }
-      }
+      })
+      .catch( function() {
+         console.log("leaderboard: fetch failed (CF worker)");
+      });
    }
    
    function submitScoresThenReport() {
