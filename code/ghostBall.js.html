@@ -833,6 +833,11 @@ body .il { color: #666 } /* Literal.Number.Integer.Long */
 <span class="w">   </span><span class="p">}</span>
 <span class="w">   </span>
 <span class="w">   </span><span class="kd">function</span><span class="w"> </span><span class="nx">updatePoolShotLockedValues</span><span class="p">(</span><span class="w"> </span><span class="nx">client</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// If no selected body, exit (need selected-body mass to do energy calculations below).</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">selectedBody</span><span class="p">.</span><span class="kr">constructor</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;Puck&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="nx">client</span><span class="p">.</span><span class="nx">cursorSpring</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="k">return</span><span class="p">;</span>
+<span class="w">      </span><span class="p">}</span>
+
 <span class="w">      </span><span class="cm">/* This is used AFTER a speed-lock has been set. So, if you release the cursor spring (release a mouse button) </span>
 <span class="cm">      to grab a different puck, or change cursor springs, this will use the speed-lock value to determine corresponding</span>
 <span class="cm">      shot energy and cursor-spring stretch. */</span>

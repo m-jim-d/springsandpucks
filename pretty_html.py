@@ -24,6 +24,7 @@ def filecopy_doesnotexist_or_isold( path_to_source, path_to_copy):
             
 def publish_code_from_here( source_path, target_path):
     print("Source path:", source_path)
+    os.makedirs( target_path, exist_ok=True)
     source_files = os.listdir(source_path)
     for eachname in source_files:
         path_to_source_file = source_path + "\\" + eachname
@@ -87,7 +88,7 @@ if (len(sys.argv) > 1):
 # Paths on NUC            
 # Publish the code files (.js, .json) from these two folders:
 exclude_list = ['adapter-latest.js', 'gwModule-withBug.js', 'index3.js', 'jquery-3.1.1.min.js', 'math.min.js', 'scratch_notes.js', 'w3data.js']
-publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\root-50webs", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs")
+publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\root-50webs", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\code")
 
 exclude_list = ['package-lock.json', 'package-new.json', 'server-mini.js', 'server_old.js']
-publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\node\\heroku-pet", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs")
+publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\node\\heroku-pet", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\code")

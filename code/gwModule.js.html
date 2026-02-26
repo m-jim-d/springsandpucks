@@ -163,6 +163,7 @@ body .il { color: #666 } /* Literal.Number.Integer.Long */
 <span class="w">   </span><span class="kd">var</span><span class="w"> </span><span class="nx">aT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
 <span class="w">  </span>
 <span class="w">   </span><span class="nx">aT</span><span class="p">.</span><span class="nx">puckMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"> </span><span class="c1">// keyed by puck name.</span>
+<span class="w">   </span><span class="nx">aT</span><span class="p">.</span><span class="nx">puckMap_MultiFix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"> </span><span class="c1">// keyed by multi-fixture puck name.</span>
 <span class="w">   </span>
 <span class="w">   </span><span class="nx">aT</span><span class="p">.</span><span class="nx">pinMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w">  </span><span class="c1">// keyed by pin name.</span>
 <span class="w">   </span>
@@ -914,9 +915,7 @@ body .il { color: #666 } /* Literal.Number.Integer.Long */
 <span class="w">      </span><span class="p">});</span>
 <span class="w">      </span>
 <span class="w">      </span><span class="c1">// Sum up all the forces and apply them to the pucks.</span>
-<span class="w">      </span><span class="nx">cP</span><span class="p">.</span><span class="nx">Puck</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span><span class="w"> </span><span class="nx">puck</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="nx">puck</span><span class="p">.</span><span class="nx">applyForces</span><span class="p">(</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">deltaT_s</span><span class="p">);</span><span class="w"> </span>
-<span class="w">      </span><span class="p">});</span>
+<span class="w">      </span><span class="nx">cP</span><span class="p">.</span><span class="nx">applyToAllPucks</span><span class="p">(</span><span class="w"> </span><span class="nx">puck</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">puck</span><span class="p">.</span><span class="nx">applyForces</span><span class="p">(</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">deltaT_s</span><span class="p">)</span><span class="w"> </span><span class="p">);</span>
 <span class="w">      </span>
 <span class="w">      </span><span class="c1">//////////////////////////////////////////////////////////////////////////////////////////////////////</span>
 <span class="w">      </span><span class="c1">// Step the physics engine (calculate the resulting state of the objects)</span>
@@ -953,6 +952,10 @@ body .il { color: #666 } /* Literal.Number.Integer.Long */
 <span class="w">            </span><span class="nx">puck</span><span class="p">.</span><span class="nx">updateState</span><span class="p">();</span>
 <span class="w">         </span><span class="p">}</span>
 <span class="w">         </span><span class="nx">puck</span><span class="p">.</span><span class="nx">draw</span><span class="p">(</span><span class="w"> </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">deltaT_s</span><span class="p">);</span>
+<span class="w">      </span><span class="p">});</span>
+<span class="w">      </span><span class="nx">cP</span><span class="p">.</span><span class="nx">Puck_MultiFix</span><span class="p">.</span><span class="nx">applyToAll</span><span class="p">(</span><span class="w"> </span><span class="nx">puck_mF</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="nx">puck_mF</span><span class="p">.</span><span class="nx">updateState</span><span class="p">();</span>
+<span class="w">         </span><span class="nx">puck_mF</span><span class="p">.</span><span class="nx">draw</span><span class="p">(</span><span class="w"> </span><span class="nx">ctx</span><span class="p">);</span>
 <span class="w">      </span><span class="p">});</span>
 <span class="w">      </span>
 <span class="w">      </span><span class="c1">// Select all springs where both ends are connected to pucks/pins in the multiselect map.</span>
