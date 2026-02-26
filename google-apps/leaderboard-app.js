@@ -1,13 +1,14 @@
 // Adaptation by James D. Miller (8:02 PM Sat December 1, 2018)
-//    original code:
+//    original code by James Kingsley:
 //    https://blog.elblearning.com/blog/how-to-create-a-leaderboard-elearning-google
-//    Archived link (of the original page):
+//    Archived link (of the orginal page):
 //    https://web.archive.org/web/20201108130226/https://elearningbrothers.com/blog/how-to-create-a-leaderboard-elearning-google/
 
 // m_ indicate global scope (m for module)
 var m_doc = SpreadsheetApp.getActiveSpreadsheet();
 var m_sheet = m_doc.getSheetByName('games');
-var m_nColumns = 14; // number of columns in the games sheet
+var m_nColumns = 15; // number of columns in the games sheet
+var m_nQueryLimit = 25;
 
 /*
 Refer to the client-side code for composing an HTTP Get request (e.g. submitScoresThenReport).
@@ -17,7 +18,7 @@ The "Deployment ID" does not give general access to your account. It only allows
 to the doGet function below.
 
 To deploy an update to this script (without changing the URL for the app) do the following:
-  save it (ctrl-s) / Deploy / Manage deployments / click the edit icon / select new version / click Deploy in the pop-up
+  save it (ctrl-s) / Deploy / Manage deployments / click the edit icon / select "New version" / click Deploy in the pop-up
 */
 
 // Handle HTTP GET request:
@@ -25,7 +26,8 @@ function doGet( e) {
     return addGameResult(e.parameter['mode'], e.parameter['userName'], e.parameter['score'], e.parameter['gameVersion'], 
                          e.parameter['winTime'], e.parameter['mouse'], e.parameter['npcSleep'], 
                          e.parameter['nPeople'], e.parameter['nDrones'], e.parameter['frMonitor'], e.parameter['hzPhysics'], 
-                         e.parameter['virtualGamePad'], e.parameter['noFriendlyFire'], e.parameter['index'], false);
+                         e.parameter['virtualGamePad'], e.parameter['noFriendlyFire'], e.parameter['editorUsage'],
+                         e.parameter['index'], false);
 }
 
 // This test function doesn't require publishing and/or calling from a web page. It presents
@@ -35,7 +37,7 @@ function doGet( e) {
 // You might have to comment out the locking stuff during debugging. Generally not.
 function testDoGet() {
     // Call with debug parameter set to true.
-    var summaryFromAdd = addGameResult('report', 'PeteBoy', 29600, '7.a', 
+    var summaryFromAdd = addGameResult('report', 'bill', 29600, '7.a', 
                                         5.1, 'x', 'x', 
                                         1, 3, 60, 60, 
                                         'x', '', 12345, true);
@@ -70,7 +72,7 @@ function testDoGet() {
 
 // Add the new submission (make a new row) and return the list of the best submissions.
 function addGameResult( mode, userName, score, gameVersion, winTime, mouse, npcSleep, nPeople, nDrones, frMonitor, 
-                        hzPhysics, virtualGamePad, noFriendlyFire, index, debug) {
+                        hzPhysics, virtualGamePad, noFriendlyFire, editorUsage, index, debug) {
     
     // A script lock, one that locks out all but one invocation. Forces one-at-a-time (wait your turn) operation.
     // http://googleappsdeveloper.blogspot.co.uk/2011/10/concurrency-and-google-apps-script.html
@@ -82,12 +84,15 @@ function addGameResult( mode, userName, score, gameVersion, winTime, mouse, npcS
         var timeNow = new Date(); // create a timestamp
         var nextRow = m_sheet.getLastRow() + 1; // locate next empty row
         
-        // Create an array of the new data to facilitate the write.
-        var row = [[userName, score, timeNow, gameVersion, winTime, mouse, npcSleep, nPeople, nDrones, frMonitor, 
-                    hzPhysics, virtualGamePad, noFriendlyFire, index]];
-        
         // Put the new data into the row.
-        m_sheet.getRange(nextRow, 1, 1, m_nColumns).setValues(row);
+        if (userName == "reportOnly") {
+          m_nQueryLimit = 50;
+        } else {
+          // Create an array of the new data to facilitate the write.
+          var row = [[userName, score, timeNow, gameVersion, winTime, mouse, npcSleep, nPeople, nDrones, frMonitor, 
+                      hzPhysics, virtualGamePad, noFriendlyFire, editorUsage, index]];
+          m_sheet.getRange(nextRow, 1, 1, m_nColumns).setValues(row);
+        }
         
         // If the user is asking for a leaderboard report.
         if (mode == 'report') {
@@ -104,7 +109,7 @@ function addGameResult( mode, userName, score, gameVersion, winTime, mouse, npcS
                 "userScore": score,
                 "winTime": winTime,
                 "users": bestSubmissions_score,
-                "version": "v1.1"
+                "version": "v1.2"
             };
 
             // Next, sort by winTime, and get the lowest times for the specified version of the game.
@@ -152,12 +157,11 @@ function addGameResult( mode, userName, score, gameVersion, winTime, mouse, npcS
     }
 }
 
-// Get the best submissions (by score or time), up to a count of nQueryLimit.
+// Get the best submissions (by score or time), up to a count of m_nQueryLimit.
 function getBestSubmissions( gameVersion, secondSortColumn) {
     var colMap =       {'score':2,     'version':4,    'winTime':5};
     var ascendingMap = {'score':false, 'version':true, 'winTime':true};
     var thirdSortColumn = (secondSortColumn == 'score') ? "winTime" : "score";
-    const nQueryLimit = 25;
     
     // Get a range starting in second row, first column.
     // Considering the header row, the number of rows and colums in the range.
@@ -176,11 +180,12 @@ function getBestSubmissions( gameVersion, secondSortColumn) {
     
     var bestSubmissions = [];
     var userCounter = 0;
-    // Count up to nQueryLimit in the group, for rows that have: 
+    // Count up to m_nQueryLimit in the group, for rows that have: 
     // (1) a user name and, (2) a value in the secondary sort column, and (3) no mouse or npcSleep usage.
     for (var row = 0, len = userData.length; row < len; row++) {
-        if ((userData[row][3] == gameVersion) && (userData[row][0] != '') && 
-            (userData[row][ colMap[ secondSortColumn]-1] != '') && (userData[row][5] == '') && (userData[row][6] == '')) {
+        if ( (userData[row][3] == gameVersion) && (userData[row][0] != '') && 
+             (userData[row][ colMap[ secondSortColumn]-1] != '') ) {
+             // && (userData[row][5] == '') && (userData[row][6] == '')
 
             userCounter += 1;
             var user = {};
@@ -196,11 +201,12 @@ function getBestSubmissions( gameVersion, secondSortColumn) {
             user.hzPhysics = userData[row][10];
             user.virtualGamePad = userData[row][11];            
             user.noFriendlyFire = userData[row][12];
-            user.index = userData[row][13];
+            user.editorUsage = userData[row][13];
+            user.index = userData[row][14];
                         
             // Add this user to the array
             bestSubmissions.push(user);
-            if (userCounter == nQueryLimit) break;
+            if (userCounter == m_nQueryLimit) break;
         }
     }
     return bestSubmissions;
@@ -252,7 +258,7 @@ function findUserRank( userName, score, recordTime, gameVersion) {
 function setup() {  
     // An array of labels
     var row = [["name", "score", "timestamp", "game version", "win time", "mouse", "sleep", "players", "drones", "fr monitor", 
-                "fr physics", "game pad", "no friendly fire", "index"]];
+                "fr physics", "game pad", "no friendly fire", "editor usage", "index"]];
     
     // Initialize the header row
     m_sheet.getRange(1, 1, 1, m_nColumns).setValues(row);

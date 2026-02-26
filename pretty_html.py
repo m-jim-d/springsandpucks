@@ -90,5 +90,11 @@ if (len(sys.argv) > 1):
 exclude_list = ['adapter-latest.js', 'gwModule-withBug.js', 'index3.js', 'jquery-3.1.1.min.js', 'math.min.js', 'scratch_notes.js', 'w3data.js']
 publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\root-50webs", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\code")
 
+exclude_list = ['']
+publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\cf-workers", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\code")
+
+exclude_list = ['']
+publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\google-apps", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\code")
+
 exclude_list = ['package-lock.json', 'package-new.json', 'server-mini.js', 'server_old.js']
 publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\node\\heroku-pet", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\code")
