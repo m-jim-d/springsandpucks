@@ -1,6 +1,51 @@
-## Springs & Pucks
+# Springs & Pucks
 
-Physics-engine animations of puck and spring systems on an HTML canvas.
+Physics-engine simulations of pucks and spring systems on an HTML canvas, with interactive gameplay, state capture/restore, and optional peer-to-peer multiplayer.
+
+Live site: **[triquence.org](https://triquence.org)**
+
+---
+
+## The three pillars of this project
+
+### 1. Physics simulations (browser-side)
+
+The core of the project runs entirely in the browser. It uses [Box2D](https://github.com/kripken/box2d.js/) (Box2dWeb) to simulate rigid bodies, springs, joints, and gravity. The host page (`index.html`) renders onto an HTML5 Canvas and provides an editor UI for building, manipulating, and playing with puck/spring systems. Demos range from simple collision showcases to multi-puck games.
+
+### 2. State captures and storage
+
+The capture/restore system lets you snapshot the current simulation state as compact JSON, then reload it later. Captures can be saved:
+
+- **Locally** — in the browser, via the capture UI
+- **In the cloud** — via a Cloudflare Worker that stores captures in **Cloudflare KV**
+
+Predefined demo states are checked-in as `demo*.js` files and loaded by the demo-selector UI.
+
+### 3. Multiplayer and leaderboard
+
+- **P2P multiplayer:** Clients connect to the host via a Node.js / Socket.io signaling server. Client input events (mouse, keyboard, touch) are relayed to the host where all physics runs. WebRTC data channels are optionally used for direct peer-to-peer delivery after the initial signaling handshake.
+- **Leaderboard:** Game results are submitted from the browser through a Cloudflare Worker that proxies to a Google Apps Script, which writes to a Google Sheet.
+
+---
+
+## Repository layout
+
+```
+springsandpucks/          ← this repo (static website)
+  index.html              ← host/main page
+  client.html             ← multiplayer client page
+  *.js                    ← engine, game, and demo modules
+  demo*.js                ← captured demo states
+  cf-workers/             ← Cloudflare Worker source
+  google-apps/            ← Google Apps Script source
+  socket-io/              ← Node.js + Socket.io server
+    server.js
+    package.json
+```
+
+The static site can be served from GitHub Pages (or any static host). The server-side pieces are optional — the simulations and demos work without them.
+
+---
 
 ## The main code: runs in the browser
 
@@ -59,139 +104,49 @@ The `<head>` of `index.html` loads scripts in a deliberate order so later module
 
 The canonical list of modules + nicknames is maintained in `gwModule.js`.
 
-This repo is primarily a static website, but the full project also includes optional server-side pieces for:
+If you only want the animations and demos, you can treat this as a fully static site — no server setup required.
 
-- **Leaderboard submissions** (Cloudflare Worker + Google Apps Script + Google Sheet)
-- **Event logging** (Cloudflare Worker + Google Apps Script + Google Sheet)
-- **Capture storage** (Cloudflare Worker + Cloudflare KV)
-- **Multiplayer / signaling** (Node.js + Socket.io server, deployable to Heroku)
+## Optional server-side components
 
-If you only want the animations and demos, you can treat this as a static site.
+| Component | Purpose | Where |
+|-----------|---------|-------|
+| `cf-workers/leaderboard.js` | Proxies score submissions → Google Sheet | Cloudflare Workers |
+| `cf-workers/pvent.js` | Proxies event log entries → Google Sheet | Cloudflare Workers |
+| `cf-workers/captures.js` | Save/load captures in Cloudflare KV | Cloudflare Workers |
+| `google-apps/leaderboard-app.js` | Writes/queries leaderboard rows | Google Apps Script |
+| `google-apps/pager-app.js` | Writes event log rows | Google Apps Script |
+| `socket-io/server.js` | Multiplayer signaling + chat relay | Node.js (Heroku or local) |
 
-## Repositories / folders involved
+Workers sit between the browser and the Apps Script web apps to: keep Apps Script URLs out of the published source, centralize CORS handling, and allow lightweight transformation/guards at the edge.
 
-This workspace typically contains multiple sibling folders (not all are part of this GitHub repo):
+## Quick start
 
-- **`github-website/springsandpucks/`**
-  - This GitHub repo.
-  - Documentation files like `README.md` and `ARCHITECTURE.md` live here.
-- **`root-50webs/`**
-  - The working website content folder on the author machine.
-  - Contains the Cloudflare Worker source in `root-50webs/cf-workers/`.
-  - Contains Google Apps Script source in `root-50webs/google-apps/`.
-- **`node/heroku-pet/`**
-  - Node/Express/Socket.io server (multi-player + signaling).
+### Just the demos (static)
 
-## Key server-side components (high level)
+Open `index.html` directly in a browser, or serve the repo root with any static file server:
 
-### Cloudflare Workers (`root-50webs/cf-workers/`)
+```bash
+npx serve .
+# then open http://localhost:3000
+```
 
-- **`leaderboard.js`**
-  - Accepts browser `POST` JSON.
-  - Proxies the request to a Google Apps Script web app using an upstream `GET` with query parameters.
-  - Reads the upstream URL from the Worker environment variable `LEADERBOARD_SHEET_URL`.
-  - Implements CORS preflight (`OPTIONS`) and returns `Access-Control-Allow-*` headers.
+### Socket.io server (multiplayer)
 
-- **`pvent.js`**
-  - Event logger endpoint.
-  - Accepts browser `POST` JSON with `{ mode, eventDesc }`.
-  - Proxies to Google Apps Script using upstream `GET`.
-  - Reads the upstream URL from `PVENT_SHEET_URL`.
-  - Adds a `____L____` prefix to `eventDesc` when the incoming `Origin` looks like local/dev.
+```bash
+cd socket-io
+npm install
+npm start
+```
 
-- **`captures.js`**
-  - A small API for saving and retrieving “captures” (snapshots of state) in **Cloudflare KV**.
-  - Exposes `POST .../submit` with actions like `postOne`, `updateOne`, `deleteOne`, `downLoadOne`, `list`.
-  - Uses KV binding `CKV`.
-  - Applies an allowlist-based CORS policy (origin must be in an approved list).
+Check `https://localhost:3443/status` (dev) or `http://localhost:3000/status` (production).  
+In dev mode, accept the self-signed certificate warning in your browser.
 
-### Google Apps Script (`root-50webs/google-apps/`)
+For deployment details — Workers, Apps Script, Heroku — see [`RUNBOOK.md`](./RUNBOOK.md).
 
-- **`leaderboard-app.js`**
-  - Google Apps Script “web app” that writes game results to a sheet (named `games`) and optionally returns a report.
-  - Entry point is `doGet(e)`.
-  - Uses `LockService` to serialize updates.
-  - Returns JSON via `ContentService`.
+## Further reading
 
-- **`pager-app.js`**
-  - Google Apps Script “web app” that logs events to a sheet (named `log`).
-  - Entry point is `doGet(e)`.
-  - Uses `LockService`.
-  - Returns JSON via `ContentService`.
-
-These Apps Script web apps are intentionally called via Cloudflare Workers to avoid direct client-to-Google Apps Script coupling and to keep the Apps Script deployment URL out of the published website source.
-
-### Socket.io server (`node/heroku-pet/server.js`)
-
-This Node server provides real-time multiplayer functionality:
-
-- Room creation/joining (host + clients)
-- Chat
-- WebRTC signaling relay (`signaling message`)
-- Control messages to host / room / specific client
-- Idle timeout handling to avoid long-lived abandoned connections
-
-It runs:
-
-- **In production (Heroku):** plain HTTP (Heroku terminates SSL)
-- **In development:** HTTPS with self-signed certificates (auto-generated)
-
-## Running locally
-
-### Static site
-
-You can open the HTML pages directly, but many browser features (module loading, fetch, some CORS scenarios) behave better if you serve locally.
-
-Use any static file server you like.
-
-### Socket.io server
-
-From `node/heroku-pet/`:
-
-- Install dependencies:
-  - `npm install`
-- Start:
-  - `npm start`
-
-Then open the server status endpoint:
-
-- `http://localhost:3000/status` (production-like)
-- or `https://localhost:3443/status` (typical dev mode)
-
-Note: in dev mode you will need to accept the browser warning for the self-signed cert.
-
-## Deploying
-
-### Cloudflare Workers
-
-The Workers expect environment variables/bindings to be configured in the Cloudflare dashboard (or via Wrangler if you use it):
-
-- **`leaderboard` Worker**
-  - `LEADERBOARD_SHEET_URL` (Text or Secret)
-- **`pvent` Worker**
-  - `PVENT_SHEET_URL` (Text or Secret)
-- **`captures` Worker**
-  - KV binding: `CKV`
-
-Variables are scoped per-Worker and per-environment (Preview vs Production).
-
-### Google Apps Script
-
-Deploy each script as a **Web App** so it has a stable `/exec` URL.
-When you update script code, deploy a **new version** inside the existing deployment so the URL stays the same.
-
-## Generated code browsing (`root-50webs/code/`)
-
-The author’s workflow includes a script (`root-50webs/pretty_html.py`) that generates syntax-highlighted HTML views of `*.js` and `*.json` files into `root-50webs/code/`.
-
-This is used by the website to link to readable “code pages” like `code/captures.js.html`.
-
-## More details
-
-See [`ARCHITECTURE.md`](./ARCHITECTURE.md) for:
-
-- A component diagram-style overview
-- Detailed request flows (browser -> worker -> apps script)
-- CORS and environment variable notes
-- Deployment and security notes
-- Client-side module map and runtime data flow
+| Document | Contents |
+|----------|---------|
+| [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Component diagram, data flows, module map, CORS notes |
+| [`USER-MANUAL.md`](./USER-MANUAL.md) | Keyboard shortcuts, mouse/touch controls, game rules |
+| [`RUNBOOK.md`](./RUNBOOK.md) | Step-by-step deployment and configuration guide |

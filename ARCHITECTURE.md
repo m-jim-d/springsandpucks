@@ -1,342 +1,293 @@
-## Architecture
+# Architecture
 
-This project is a static website (HTML/JS) augmented by optional server-side components.
+Springs & Pucks is a static website with optional server-side services. All physics, rendering, and gameplay run in the browser. The server-side components exist only for persistence and real-time connectivity.
 
-At a high level:
+```
+┌─────────────────────────────────────────────────────┐
+│                    Browser                          │
+│  index.html / client.html                           │
+│  Box2D physics · Canvas rendering · Game logic      │
+│  Capture/restore · Leaderboard UI · Multiplayer UI  │
+└────────┬──────────┬───────────────┬─────────────────┘
+         │fetch     │fetch          │WebSocket
+         ▼          ▼               ▼
+  ┌─────────────┐  ┌───────────┐  ┌──────────────────┐
+  │  CF Worker  │  │ CF Worker │  │  Node.js +       │
+  │ leaderboard │  │ captures  │  │  Socket.io       │
+  │  + pvent    │  │  (KV)     │  │  (Heroku/local)  │
+  └──────┬──────┘  └───────────┘  └──────────────────┘
+         │GET
+         ▼
+  ┌─────────────────┐
+  │ Google Apps     │
+  │ Script Web App  │
+  │ (Google Sheets) │
+  └─────────────────┘
+```
 
-- The **browser** runs the physics engine, UI, and gameplay.
-- Some features need persistence or real-time connectivity.
-- Those are handled by:
-  - **Cloudflare Workers** (edge endpoints)
-  - **Google Apps Script web apps** (write to Google Sheets)
-  - **Cloudflare KV** (store “captures”)
-  - **Node.js + Socket.io** (multiplayer + signaling)
+---
 
-This document covers:
-
-- The **browser-side architecture** (the core of the repo)
-- The optional server-side architecture and how it integrates with the website
-
-## Browser-side architecture (primary)
+## Pillar 1 — Physics simulations (browser-side)
 
 ### Entry points
 
-- **Host page:** `index.html`
-  - Runs the physics simulation and renders the main canvas.
-  - Contains the help panel, demo navigation, and (optionally) the multiplayer host UI.
-- **Client page:** `client.html`
-  - Used by additional players in multiplayer mode.
-  - Connects to the host via the Node/Socket.io server, and optionally via WebRTC.
+| Page | Role |
+|------|------|
+| `index.html` | Host page: runs physics, renders canvas, shows help/demo panel |
+| `client.html` | Client page: blank canvas for input; optionally shows video stream from host |
 
-### Module pattern and naming
+### Module pattern
 
-Most project JS files attach a module object to the global `window` namespace using a short nickname.
+All project JS files use an IIFE that attaches a singleton to `window` under a short nickname. There are no ES modules — load order in `<script>` tags is the dependency mechanism.
 
-Examples:
+| File | Nickname | Role |
+|------|----------|------|
+| `utilities.js` | `uT` | Utility helpers; must load first |
+| `pageStuff.js` | `pS` | Page-level UI, dialogs, scroll |
+| `worldScreen.js` | `wS` | `Vec2D`, meters↔pixels coordinate transforms |
+| `drawFunc.js` | `dF` / `dFM` | Canvas rendering helpers |
+| `consAndPros.js` | `cP` | Constructors and prototypes for Puck, Pin, Spring, Wall |
+| `clientProto.js` | `cT` | Client-side player/client model |
+| `piEngine.js` | `pE` | Optional π-by-collisions counting engine |
+| `tableActs.js` | `tA` | Table/world actions (add, remove, arrange objects) |
+| `multiSelect.js` | `mS` | Multi-select box and group operations |
+| `gwModule.js` | `gW` | Central game-window controller, animation loop, Air Table |
+| `demoStart.js` | `dS` | Demo selection, initialization, full-screen helpers |
+| `eventsHost.js` | `eV` | All mouse/keyboard/touch input for host page |
+| `boxStuff.js` | `bS` | Extra Box2D shape/body helpers |
+| `hostAndClient.js` | `hC` | Socket.io + WebRTC client, chat, room join |
+| `eventsNonHost.js` | `eVN` | Input handlers for network clients |
+| `captureRestore.js` | `cR` | Capture/restore state (JSON snapshots) |
+| `leaderBoard.js` | `lB` | Leaderboard display, submission, report |
+| `ghostBall.js` | `gB` | Ghost Ball Pool game module |
+| `puckPopper.js` | `pP` | Puck Popper game module |
+| `jelloMadness.js` | `jM` | Jello Madness game module |
+| `bpHoops.js` | `bpH` | Bipartisan Hoops game module |
+| `monkeyHunt.js` | `mH` | Monkey Hunt game module |
+| `demo*.js` | — | Captured demo state files (JSON wrapped in JS) |
 
-- `window.gW` = game window / main engine controller
-- `window.wS` = world/screen coordinate transforms (`Vec2D`, meters<->pixels)
-- `window.eV` = host input event handlers
-- `window.hC` = host/client networking (Socket.io + WebRTC)
-- `window.cR` = capture/restore
-- `window.lB` = leaderboard
+The canonical nickname list is maintained near the top of `gwModule.js`.
 
-The canonical list of file -> nickname mappings is maintained near the top of `gwModule.js`.
+### Script load-order constraints
 
-### Script load order (`index.html`)
+- `uT` must be first — every module calls `uT.setDefault(...)`.
+- `wS` must precede all modules that use `Vec2D` or coordinate transforms.
+- `mS` must precede `gW` — `gW.init()` instantiates `mS.SelectBox` and `mS.MultiSelect`.
+- `gW` must precede the game/demo modules and `eV`, which receive references from `gW`.
 
-`index.html` uses plain `<script>` tags (not ESM imports), so load order is the dependency mechanism.
+### Initialization sequence (host page)
 
-The key ordering constraints are:
+`$(document).ready(...)` in `index.html` runs:
 
-- `utilities.js` (`uT`) must load early because most modules call `uT.setDefault(...)`.
-- `worldScreen.js` (`wS`) defines `Vec2D` and coordinate transforms that other modules depend on.
-- `multiSelect.js` (`mS`) must load before `gwModule.js` because `gwModule.js` instantiates `new mS.SelectBox(...)` and `new mS.MultiSelect()`.
-- `gwModule.js` (`gW`) is the central coordinator; it expects the object model modules and helpers to already exist.
+```
+pS.init(...)       → page UI, logging, scroll history
+gW.init()          → physics world, animation loop start
+hC.init_chatFeatures() → multiplayer/chat UI wiring
+```
 
-### Page initialization sequence
+### Animation loop (per frame)
 
-In `index.html`, jQuery `$(document).ready(...)` runs:
+`gW` drives everything with `requestAnimationFrame`:
 
-- `pS.init({ "pageDesc": "SP: Main", ... })`
-- `gW.init()`
-- `hC.init_chatFeatures()`
+1. Read host input state (`eV`) and queued network client input (`gW.clients`)
+2. Step Box2D world (or `pE` for the π engine)
+3. Run game/demo logic (scoring, state transitions)
+4. Render canvas (draw pucks, springs, walls, overlays)
+5. Update DOM overlay messages
 
-Conceptually:
+The central state is `gW.aT` (the **Air Table** — pucks, pins, springs, joints, walls) and `gW.clients` (connected players).
 
-- **`pS`** bootstraps page UI concerns (scrolling, dialogs, page logging).
-- **`gW`** bootstraps the physics + rendering world and starts the animation.
-- **`hC`** bootstraps multiplayer/chat UI and wiring.
+### Coordinates (`wS`)
 
-### Runtime loop (host)
+Box2D operates in meters; the canvas uses pixels. `worldScreen.js` provides:
 
-The host page is driven by the `gW` animation loop (using `requestAnimationFrame`). The typical per-frame responsibilities are:
+- `Vec2D` — 2D vector with math helpers
+- `wS.screenFromWorld(v)` / `wS.worldFromScreen(v)` — bidirectional transforms
+- `wS.pxPerMeter` — the current scale factor
+- Touch/pointer helpers for raw-screen → canvas-element space mapping
 
-- Read input state (host local input and/or network client input)
-- Step the physics world (Box2D-based for most demos; some special cases use a separate engine like `pE`)
-- Update game/demo logic
-- Render the canvas
-- Update overlay UI messages
+### Input handling (`eV`)
 
-The core state container is the **Air Table** `gW.aT` (pucks/pins/springs/joints/walls) plus the `gW.clients` map.
+`eventsHost.js` owns all host-page events. `gW.init()` calls `eV.initializeModule(...)`, passing canvas, context, controls, and the Air Table. This avoids global lookups inside `eV`. A unified input model handles mouse, keyboard, and touch with shared modes: spring-drag, direct-move (ball-in-hand), fine-positioning, multi-select, and game-specific actions.
 
-### Coordinates and geometry (`wS`)
+---
 
-`worldScreen.js` provides:
-
-- `Vec2D` (2D vector proto with math helpers)
-- Scalar conversions: meters <-> pixels
-- Mapping functions: `screenFromWorld(...)` and `worldFromScreen(...)`
-- Touchscreen related helpers (raw screen -> element space mappings)
-
-This module is the glue between Box2D’s “world units” and the canvas pixel coordinate system.
-
-### Input handling (`eV` for host)
-
-`eventsHost.js` centralizes browser event handling for the host page.
-
-Patterns used:
-
-- `eV.initializeModule(...)` receives core references from `gW` (canvas, context, document controls, maps, etc.)
-- A single input model is used across mouse and touch, with special modes for:
-  - direct movement (“puck in hand”)
-  - fine move positioning
-  - multi-select editing
-  - demo/game specific actions
-
-This design is why `gW` passes key references to `eV` rather than `eV` looking everything up globally.
-
-### Multiplayer client/host logic (`hC`)
-
-`hostAndClient.js` is loaded on both host and client pages.
-
-- It determines mode by checking whether the URL contains `client`.
-- It owns:
-  - Socket.io connection
-  - room join flow (host vs client)
-  - chat
-  - WebRTC setup for optional video stream + data channel
-  - name/nickname/teamname logic
-
-It also uses Google Charts in the browser (loaded in `index.html`) for nickname-related leaderboard queries.
+## Pillar 2 — State captures and storage
 
 ### Capture/restore (`cR`)
 
-`captureRestore.js` implements a compact JSON representation of the current demo/game state.
+`captureRestore.js` serializes the current simulation to compact JSON:
 
-Key design points:
+- Source data: `gW.aT` (objects) + `gW.clients` (players)
+- `json_scrubber(...)` strips Box2D native objects, circular refs, and transient fields
+- Restoration recreates all Box2D bodies/fixtures from the "data only" snapshot
 
-- Captures are built from `gW.aT` and `gW.clients`.
-- A custom `json_scrubber(...)` removes:
-  - Box2D objects
-  - circular references
-  - bulky transient fields not needed for restoration
-- Restoration recreates the Box2D objects from the captured “data only” structures.
+Captures serve multiple purposes:
+- Predefined demos (`demo*.js` files are captured states wrapped as JS assignments)
+- User-edited snapshots
+- Cloud storage (saved/loaded via the Cloudflare Worker)
+- Multiplayer state sync
 
-Captures are used for:
+### Cloud capture storage (`cf-workers/captures.js`)
 
-- demo variations
-- user edits
-- persistence/sharing
-- loading predefined demo states (`demo*.js` files)
+The browser POSTs to a Cloudflare Worker endpoint that reads/writes **Cloudflare KV**:
 
-### Leaderboard (`lB`)
+| Action | Operation |
+|--------|-----------|
+| `postOne` | Store a new capture under a key |
+| `updateOne` | Overwrite an existing capture |
+| `deleteOne` | Remove a capture |
+| `downLoadOne` | Retrieve a capture |
+| `list` | List available capture keys |
 
-`leaderBoard.js` is responsible for:
+CORS is allowlist-based — requests from approved origins receive their own origin in `Access-Control-Allow-Origin`.
 
-- formatting leaderboard results for display
-- creating score/time tables per game mode
-- integrating leaderboard output into the chat/game report
-- coordinating submission + report retrieval
+---
 
-On the backend it is supported by the `leaderboard` Cloudflare Worker + Apps Script.
+## Pillar 3 — Multiplayer and leaderboard
 
-## Components
+### Multiplayer architecture
 
-### 1) Static website (client)
+```
+Client browser          Host browser
+(client.html)           (index.html)
+     │                       │
+     │   mouse/keyboard       │
+     │   events               │
+     └──────► Socket.io ──────┘
+              server      (relayed as
+             (Heroku)      control messages)
+     │                       │
+     └──── WebRTC ───────────┘
+        (after signaling, optional
+         direct P2P data channel)
+```
 
-- Runs fully in the browser.
-- Calls server-side endpoints using `fetch()`.
-- Responsible for:
-  - physics simulation
-  - rendering
-  - gameplay
-  - optionally submitting results/logging events
-  - optionally saving/restoring “captures”
-  - optionally connecting to the multiplayer server
+All physics runs on the **host**. Clients send raw input events; the host applies them to its simulation. Optional WebRTC bypasses the server for lower latency after the initial signaling handshake.
 
-### 2) Cloudflare Workers (`root-50webs/cf-workers/`)
+### Socket.io server (`socket-io/server.js`)
 
-Workers are used as simple API/proxy endpoints.
+| Feature | Detail |
+|---------|--------|
+| Environment | HTTP on Heroku (Heroku terminates SSL); HTTPS with auto-generated self-signed cert in dev |
+| CORS | `origin: "*"` on the Socket.io instance; Express also sets `Access-Control-Allow-*` |
+| Identity | Each socket gets a short network name (`u123`) on connect |
+| Rooms | One host per room; multiple clients |
+| Idle timeout | Clients without activity are disconnected; host socket gets extended grace period |
 
-Reasons for using Workers:
+**Socket.io message types:**
 
-- Provide a stable endpoint under your domain (e.g. `https://triquence.org/...`).
-- Centralize **CORS** handling.
-- Keep Google Apps Script deployment URLs out of the published client source.
-- Provide a small place to add guardrails / transformations.
+| Event | Direction | Purpose |
+|-------|-----------|---------|
+| `roomJoin` | client→server | Host or client joins/creates a room |
+| `chat message` | any→room | Chat broadcast |
+| `control message` | any→target | Game control (start/stop/restart) |
+| `client-mK-event` | client→host | Mouse/keyboard input relay |
+| `signaling message` | peer↔peer | WebRTC offer/answer/ICE relay |
 
-#### a) `leaderboard.js`
+### Leaderboard
 
-- **Incoming:** browser `POST` with JSON payload containing score data.
-- **Outgoing:** `GET` to a Google Apps Script `/exec` URL with querystring parameters.
-- **Config:** Worker environment variable `LEADERBOARD_SHEET_URL`.
-- **CORS:**
-  - Handles `OPTIONS` (preflight) with `204`.
-  - Allows `POST, OPTIONS`.
+Game results flow: **browser → CF Worker (`leaderboard.js`) → Google Apps Script → Google Sheet**
 
-#### b) `pvent.js`
+The Worker translates the browser's `POST` JSON into a `GET` with querystring params toward Apps Script, then returns the Apps Script JSON response (which may include a sorted leaderboard report) back to the browser with CORS headers.
 
-- **Incoming:** browser `POST` with JSON `{ mode, eventDesc }`.
-- **Outgoing:** `GET` to Google Apps Script logger.
-- **Config:** `PVENT_SHEET_URL`.
-- **Local/dev marker:**
-  - If the incoming `Origin` looks like local/dev (`localhost`, `192.168.*`, `bee`), prefix `eventDesc` with `____L____`.
-- **CORS:** `OPTIONS` preflight supported.
+`google-apps/leaderboard-app.js` uses `LockService` to serialize concurrent writes and can return sorted "best of" rows from the `games` sheet.
 
-#### c) `captures.js`
+### Event logging
 
-- **Incoming:** browser `POST` to `.../submit` with JSON payload.
-- **Storage:** Cloudflare KV binding `CKV`.
-- **Supported actions** (from `postObject.action`):
-  - `postOne`
-  - `updateOne`
-  - `deleteOne`
-  - `downLoadOne`
-  - `list`
-- **CORS:** allowlist-based. If request `Origin` is not in the approved list, it falls back to `https://triquence.org`.
+Analytics/event logging flows: **browser → CF Worker (`pvent.js`) → Google Apps Script → Google Sheet**
 
-### 3) Google Apps Script (`root-50webs/google-apps/`)
+Dev/local requests (detected by `Origin` containing `localhost`, `192.168.*`, or `bee`) are tagged with `____L____` prefix in `eventDesc` so they're distinguishable in the log sheet.
 
-These scripts are deployed as **Google Apps Script Web Apps**.
+---
 
-Important characteristics:
-
-- Entry point is `doGet(e)` (these scripts accept query params).
-- Uses `LockService` to prevent concurrent writes from corrupting the sheet.
-- Responds with JSON using `ContentService.createTextOutput(...).setMimeType(JSON)`.
-
-#### a) `leaderboard-app.js`
-
-- Writes new records to the spreadsheet sheet named `games`.
-- Supports:
-  - adding a record
-  - returning a “report” containing best submissions
-- Sorting/reporting:
-  - Sorts sheet ranges by version and score or win time.
-  - Builds arrays of “best submissions” up to a query limit.
-
-#### b) `pager-app.js`
-
-- Writes a timestamp + human-readable string + description to the `log` sheet.
-- Inserts a blank row just below the header and writes into it.
-
-### 4) Multiplayer server (Node.js + Socket.io) (`node/heroku-pet/server.js`)
-
-This server provides real-time connectivity for multiplayer, chat, and WebRTC signaling.
-
-Key design points:
-
-- **Environment detection:**
-  - Production (Heroku) uses HTTP (Heroku terminates SSL).
-  - Development uses HTTPS with self-signed certificates.
-- **CORS:**
-  - Socket.io configured with permissive CORS (`origin: "*"`).
-  - Express middleware also sets `Access-Control-Allow-*` headers.
-- **Connection model:**
-  - Server assigns a unique network name like `u123` per socket.
-  - Tracks nicknames and team names.
-  - Supports rooms with a single host.
-- **Message types:**
-  - chat messages (`chat message`, `chat message but not me`)
-  - control messages (`control message`)
-  - WebRTC signaling relay (`signaling message`)
-  - game input relays (`client-mK-event`)
-  - room join flow (`roomJoin`) with host/client roles
-- **Idle timeout:**
-  - Disconnects idle clients to avoid abandoned sockets.
-  - Host socket gets extensions while other clients remain.
-
-## Request / data flows
+## Data flows
 
 ### A) Leaderboard submission
 
-1. **Browser** builds a JSON payload and `POST`s to the Worker endpoint.
-2. **Cloudflare Worker (`leaderboard.js`)**:
-   - parses JSON
-   - builds an upstream `GET` URL to Apps Script using query parameters
-   - calls `fetch()` to Apps Script
-3. **Google Apps Script (`leaderboard-app.js`)**:
-   - writes row(s) to the sheet
-   - optionally sorts and returns a report JSON
-4. **Worker** returns the Apps Script response to the browser with CORS headers.
+```
+Browser
+  POST /leaderboard  {score, game, player, ...}
+    ↓
+CF Worker (leaderboard.js)
+  GET https://<apps-script>/exec?score=...&game=...
+    ↓
+Google Apps Script (leaderboard-app.js)
+  write row → games sheet
+  sort & build report
+    ↑
+CF Worker adds CORS headers, returns to browser
+```
 
-### B) Event logging
+### B) Capture save/load
 
-1. **Browser** `POST`s `{ mode, eventDesc }` to `pvent` Worker.
-2. **Worker (`pvent.js`)**:
-   - optionally prefixes local/dev logs with `____L____`
-   - forwards to Apps Script with upstream `GET`
-3. **Apps Script (`pager-app.js`)**:
-   - inserts a new log entry in the `log` sheet
-4. **Worker** returns response.
+```
+Browser
+  POST /captures/submit  {action:"postOne", key:"...", capture:{...}}
+    ↓
+CF Worker (captures.js)
+  KV.put(key, JSON.stringify(capture))
+    ↑
+  returns {ok:true}
+```
 
-### C) Capture storage
+### C) Multiplayer input relay
 
-1. **Browser** `POST`s to `.../submit` with action + key + capture.
-2. **Worker (`captures.js`)** performs KV reads/writes/deletes/lists.
-3. **Worker** returns JSON to browser.
+```
+Client browser
+  socket.emit("client-mK-event", {x, y, keys, ...})
+    ↓
+Socket.io server
+  relay to host socket in same room
+    ↓
+Host browser (gW animation loop)
+  dequeue client events → apply to physics world
+```
 
-### D) Multiplayer / signaling
-
-1. **Browser** connects to Socket.io server.
-2. **Server** assigns a network name and associates the socket with a room.
-3. **Server** relays:
-   - chat messages to room
-   - control messages to host / room / specific user
-   - signaling messages between peers (used by WebRTC)
+---
 
 ## Deployment boundaries
 
-- **Static website:** GitHub Pages or any static host.
-- **Cloudflare Workers:** deployed in Cloudflare, fronted by your domain.
-- **Google Apps Script:** deployed inside a Google account, backed by Google Sheets.
-- **Socket.io server:** deployed to Heroku (or run locally for development).
+| Tier | Hosting |
+|------|---------|
+| Static site | GitHub Pages (or any CDN / static host) |
+| Cloudflare Workers | Cloudflare edge (deployed per-Worker, fronted by your domain) |
+| Google Apps Script | Google's infrastructure, backed by Google Sheets |
+| Socket.io server | Heroku (production) or localhost (development) |
 
-## Configuration and secrets
+---
 
-### Worker environment variables
+## CORS summary
 
-- `LEADERBOARD_SHEET_URL` is set on the **leaderboard Worker**.
-- `PVENT_SHEET_URL` is set on the **pvent Worker**.
+| Worker | Policy |
+|--------|--------|
+| `leaderboard.js` | Permissive (`Access-Control-Allow-Origin: *`) |
+| `pvent.js` | Permissive (`Access-Control-Allow-Origin: *`) |
+| `captures.js` | Allowlist — echoes requesting origin if approved, else falls back to `https://triquence.org` |
 
-These are scoped **per Worker** and **per environment** (Preview vs Production).
+All Workers handle `OPTIONS` preflight with `204`.
 
-### Text vs Secret
+---
 
-- **Text variables** are visible in the Cloudflare UI after saving.
-- **Secret variables** must be re-entered to view/change later.
+## Configuration
 
-The values are still strings at runtime either way.
+| Variable | Worker | Notes |
+|----------|--------|-------|
+| `LEADERBOARD_SHEET_URL` | `leaderboard` | URL of the Apps Script `/exec` endpoint |
+| `PVENT_SHEET_URL` | `pvent` | URL of the pager Apps Script `/exec` endpoint |
+| KV binding `CKV` | `captures` | Cloudflare KV namespace for capture storage |
 
-## CORS approach
+Variables are scoped per-Worker and per-environment (Preview vs Production). Text variables are visible in the Cloudflare UI; Secret variables must be re-entered to change.
 
-- `leaderboard.js` and `pvent.js` use permissive CORS (`Access-Control-Allow-Origin: *`).
-- `captures.js` uses an allowlist (approved origins) and responds with `Access-Control-Allow-Origin` set to the requesting origin when approved.
-
-When debugging browser issues:
-
-- Ensure `OPTIONS` preflight is handled (`204` is used here).
-- Ensure the Worker returns CORS headers on **all** responses (success and error).
+---
 
 ## Operational notes
 
-- Apps Script endpoints are called with `GET` and query parameters (by design in this project).
-- Apps Script uses locking; requests may block briefly under contention.
-- For the Socket.io server, idle timers may disconnect clients that leave tabs open.
+- Apps Script uses `LockService`; requests may queue briefly under concurrent load.
+- Apps Script endpoints are called via `GET` with querystring params (by design — `doGet(e)` entry point).
+- Socket.io idle timers will disconnect stale clients; this is intentional to avoid zombie sockets on Heroku's free tier.
+- Animation loop lag can occasionally accumulate after tab switches or full-screen transitions. The loop is auto-restarted in those cases; it can also be manually restarted with `p` (pause) then `p` again (resume).
 
-## Where to look next
+---
 
-- Worker code: `root-50webs/cf-workers/`
-- Apps Script code: `root-50webs/google-apps/`
-- Socket.io server: `node/heroku-pet/server.js`
+See [`RUNBOOK.md`](./RUNBOOK.md) for step-by-step deployment instructions.
