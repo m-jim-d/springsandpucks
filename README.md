@@ -188,7 +188,7 @@ This is used by the website to link to readable “code pages” like `code/capt
 
 ## More details
 
-See `ARCHITECTURE.md` for:
+See [`ARCHITECTURE.md`](./ARCHITECTURE.md) for:
 
 - A component diagram-style overview
 - Detailed request flows (browser -> worker -> apps script)

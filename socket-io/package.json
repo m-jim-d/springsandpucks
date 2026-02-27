@@ -1,0 +1,14 @@
+{
+  "name": "socket-io_for_springs-and-pucks",
+  "version": "1.0.0",
+  "description": "S&P: node.js with socket.io.",
+  "engines": {},
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "selfsigned": "^2.4.1",
+    "socket.io": "^4.0.0"
+  }
+}

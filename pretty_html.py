@@ -96,5 +96,5 @@ publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\cf-w
 exclude_list = ['']
 publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\google-apps", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\code")
 
-exclude_list = ['package-lock.json', 'package-new.json', 'server-mini.js', 'server_old.js']
-publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\node\\heroku-pet", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\code")
+exclude_list = ['']
+publish_code_from_here("C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\socket-io", "C:\\Users\\Jim\\Documents\\webcontent\\root-50webs\\code")
