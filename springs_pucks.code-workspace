@@ -5,6 +5,9 @@
         },
         {
             "path": "../github-website/springsandpucks"
+        },
+        {
+            "path": "../node/heroku-pet"
         }
     ],
     "settings": {
