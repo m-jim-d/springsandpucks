@@ -73,7 +73,7 @@ window.dS = (function() {
    
    function demoVersionIndex( demoVersion) {
       var parts = demoVersion.split(".");
-      return parts[0];
+      return Number(parts[0]);
    }
    
    /*

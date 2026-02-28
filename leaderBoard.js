@@ -80,7 +80,7 @@ window.lB = (function() {
          rankString += "<br class='score'>";
          // Build the toggle link that swaps the time-sorted and score-sorted tables.
          // (Note the use of the escape \ to get three levels of quotations in the following string.) 
-         let scoreOrTime_string = ([3,4,5].includes( gW.getDemoIndex())) ? 'time':'score';
+         let scoreOrTime_string = ([3,4,5].includes( dS.demoVersionIndex( gameVersion))) ? 'time':'score';
          leaderBoardReportHTML = "Leader Board Report: " + gameVersion + "&nbsp;&nbsp;&nbsp;(" + 
               "<a title = 'toggle between low-time and high-score based queries' " + 
                  "onclick=\"uT.toggleElementDisplay('" + timeCell_id +  "','block'); " + 
@@ -95,7 +95,7 @@ window.lB = (function() {
       let timeTable  = leaderBoardTable( "winTime", lbResp.timeSortedResults, gameVersion);
       
       // For ghost-ball pool and the projectile games, make the score-sorted table the default.
-      if ([3,4,5].includes( gW.getDemoIndex())) {
+      if ([3,4,5].includes( dS.demoVersionIndex( gameVersion))) {
          leaderBoardReportHTML += 
             "<table><tr>" + 
             "<td id='" + scoreCell_id + "' style='vertical-align:text-top; display:block'>" + scoreTable + "</td>" + 
@@ -111,8 +111,13 @@ window.lB = (function() {
       
       // Find the most recent game report element (in the chat panel).
       let gameReportElement = document.getElementById("gR" + hC.gb.gameReportCounter);
-      // Append the leader-board report to the game report.
-      gameReportElement.innerHTML = gameReportElement.innerHTML + "<br>" + leaderBoardReportHTML;
+      // If this is a report-only query (no preceding game summary), replace instead of appending
+      // so the placeholder "Please wait..." doesn't display after the report is ready.
+      if (outputMode == "reportOnly") {
+         gameReportElement.innerHTML = leaderBoardReportHTML;
+      } else {
+         gameReportElement.innerHTML += "<br><br>" + leaderBoardReportHTML;
+      }
       
       // Send this, the combo of the game summary and leader-board report, to everyone else in the 
       // room so they can see it in their chat panel.
@@ -183,7 +188,7 @@ window.lB = (function() {
                                          "\nh: direct movement of puck (ball in hand) \nc: edits to the capture \nd: host deleted something";
           
       // Ghost-ball pool and projectile games
-      if ([3,4,5].includes( gW.getDemoIndex())) {
+      if ([3,4,5].includes( dS.demoVersionIndex( gameVersion))) {
          var tableString = "<table class='" + tableClass + "'><tr align='right'>" +
             "<td class='leaderboardHeader'></td>" +
             "<td class='leaderboardHeader' title='client name \n or \nnickname (client name)'>name</td>" +
@@ -195,7 +200,7 @@ window.lB = (function() {
             "<td class='leaderboardHeader' title='" +editColumnTitle+ "'>edit</td>" +
             "</tr>";
       // Jello Madness      
-      } else if (gW.getDemoIndex() == 6) {
+      } else if (dS.demoVersionIndex( gameVersion) == 6) {
          var tableString = "<table class='" + tableClass + "'><tr align='right'>" +
             "<td class='leaderboardHeader'></td>" +
             "<td class='leaderboardHeader' title='client name \n or \nnickname (client name)'>name</td>" +
@@ -206,7 +211,7 @@ window.lB = (function() {
             "<td class='leaderboardHeader' title='" +editColumnTitle+ "'>edit</td>" +
             "</tr>";
       // Puck Popper      
-      } else if ([7,8].includes( gW.getDemoIndex())) {
+      } else if ([7,8].includes( dS.demoVersionIndex( gameVersion))) {
          var tableString = "<table class='" + tableClass + "'><tr align='right'>" +
             "<td class='leaderboardHeader'></td>" +
             "<td class='leaderboardHeader' title='client name \n or \nnickname (client name)'>name</td>" +
@@ -247,7 +252,7 @@ window.lB = (function() {
          }
          
          // Ghost-ball pool and projectile games
-         if ([3,4,5].includes( gW.getDemoIndex())) {
+         if ([3,4,5].includes( dS.demoVersionIndex( gameVersion))) {
             tableString += "<tr align='right' " + rowStyle + ">" + 
                "<td class='leaderboardIndex'>" + rowIndex + "</td>" +
                "<td class='leaderboardName'                        >" + score['userName'].replace('(host)','(h)') + "</td>" +
@@ -259,7 +264,7 @@ window.lB = (function() {
                "<td class='leaderboardScore edits'                 >" + score['editorUsage'] + "</td>" +
                "</tr>";
          // Jello Madness
-         } else if (gW.getDemoIndex() == 6) {
+         } else if (dS.demoVersionIndex( gameVersion) == 6) {
             tableString += "<tr align='right' " + rowStyle + ">" + 
                "<td class='leaderboardIndex'>" + rowIndex + "</td>" +
                "<td class='leaderboardName'                        >" + score['userName'].replace('(host)','(h)') + "</td>" +
