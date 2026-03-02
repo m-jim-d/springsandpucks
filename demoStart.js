@@ -690,9 +690,8 @@ window.dS = (function() {
       } else if (index == 3) {
          
          cP.Puck.restitution_gOn =  0.7;
-         cP.Puck.friction_gOn =  0.6;
-         
          cP.Puck.restitution_gOff = 1.0;
+         cP.Puck.friction_gOn =  0.6;
          cP.Puck.friction_gOff = 0.0;
          
          v_init_2d_mps = new wS.Vec2D(0.0, 2.0); 
@@ -755,9 +754,8 @@ window.dS = (function() {
          
       } else if (index == 4) {
          cP.Puck.restitution_gOn =  0.7;
-         cP.Puck.friction_gOn =  0.6;
-         
          cP.Puck.restitution_gOff = 1.0;
+         cP.Puck.friction_gOn =  0.6;
          cP.Puck.friction_gOff = 0.0;
                  
          if ((state_capture) && (state_capture.demoIndex == 4)) {
@@ -806,9 +804,8 @@ window.dS = (function() {
       } else if (index == 5) {
          
          cP.Puck.restitution_gOn =  0.7;
-         cP.Puck.friction_gOn =  0.6;
-         
          cP.Puck.restitution_gOff = 1.0;
+         cP.Puck.friction_gOn =  0.6;
          cP.Puck.friction_gOff = 0.0;
 
          v_init_2d_mps = new wS.Vec2D(0.0,0.0);         

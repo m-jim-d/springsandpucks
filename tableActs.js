@@ -598,6 +598,58 @@ window.tA = (function() {
 
          cP.EpL.turnDisplayOn({'angularAxis_2d_m': cP.Puck.findCenterOfMass()});
 
+      } else if (tableAction == "add-cage-triangle") { 
+         // Create a triangular cage using buildTriangleCageFixtures via createCage.
+         // Equilateral at legLength_m=4.0: height = 4.0*sqrt(3)/2 ≈ 3.46m, fits in ~6m canvas.
+         let legLength_m = 4.00;
+         let legThickness_m = 0.04;
+         let cageDensity = 1.5;
+         
+         let cage = cP.createCage(placement_2d_m, new wS.Vec2D(0, 0), {
+            cageShape: 'triangle',
+            color: 'lightgray',
+            legLength_m: legLength_m,
+            legThickness_m: legThickness_m,
+            density: cageDensity
+         });
+         
+         // Single internal puck near the bottom center
+         let internalPuckSize = 0.24;
+         let internalPuckPars = {
+            shape: 'circle',
+            radius_m: internalPuckSize,
+            color: 'DarkSlateGray',
+            borderColor: 'lightgray',
+            borderWidth_px: 3,
+            restitution: 1.0,
+            restitution_fixed: true,
+            friction: 0.0,
+            friction_fixed: true,
+            density: cageDensity,
+            insideCage: cage.name
+         };
+         
+         // Periodic 3-bounce medial orbit: puck bounces between the midpoints of all three edges.
+         // For an equilateral triangle this is perfectly symmetric.
+         // Body-local coords have centroid at origin; centroidY = overallHeight/3.
+         let overallHeight_m = legLength_m * Math.sqrt(3)/2;
+         let centroidY_m = overallHeight_m / 3;
+         // Start puck at mid-base, just above inner surface of base bar
+         let puckX = 0;
+         let puckY = -centroidY_m + legThickness_m / 2 + 0.24;
+         // Mid-right-leg local coords: midpoint of vRight=(L/2,-centroidY) to vApex=(0,2*centroidY)
+         //   midRight = (L/4, centroidY/2)
+         // Direction from (0,-centroidY) to (L/4, centroidY/2):
+         let dvx = legLength_m / 4;
+         let dvy = centroidY_m / 2 - (-centroidY_m);  // = 3/2 * centroidY
+         let dlen = Math.sqrt(dvx*dvx + dvy*dvy);
+         let speed = 1.5;
+         new cP.Puck(placement_2d_m.add(new wS.Vec2D(puckX, puckY)), new wS.Vec2D(speed*dvx/dlen, speed*dvy/dlen), internalPuckPars);
+         
+         cP.balanceCageMomentum();
+         
+         cP.EpL.turnDisplayOn({'angularAxis_2d_m': cP.Puck.findCenterOfMass()});
+
       } else if (tableAction == "add-revolute-limits") { 
          if (gW.hostMSelect.count() >= 2) {
             let noMatchCount = 0;

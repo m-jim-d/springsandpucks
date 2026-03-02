@@ -451,8 +451,8 @@ window.cP = (function() {
    Puck.drawSystemCenterOfMass = function( drawingContext) {
       // The inherited drawing functions aren't available here, so using dF.
       
-      // draw circle and cross hairs at SCM if more than one puck
-      if ((Object.keys( gW.aT.puckMap).length + Object.keys( gW.aT.puckMap_MultiFix).length) > 1) {
+      // draw circle and cross hairs at SCM if more than one puck, or if any multi-fixture body is present
+      if ((Object.keys( gW.aT.puckMap_MultiFix).length > 0) || (Object.keys( gW.aT.puckMap).length > 1)) {
          let center_2d_px = wS.screenFromWorld( Puck.findCenterOfMass());
          dF.drawMark( drawingContext, center_2d_px);
       }
@@ -1251,8 +1251,10 @@ window.cP = (function() {
       this.name = result.name;
       Puck_MultiFix.nameIndex = result.index;
       gW.aT.puckMap_MultiFix[this.name] = this;
-      
+            
       this.position_2d_m = wS.Vec2D_check( position_2d_m);
+      // Control auto-balancing of momentum on restore (set to false to disable)
+      this.balanceOnRestore = uT.setDefault( pars.balanceOnRestore, true);
       this.velocity_2d_mps = wS.Vec2D_check( velocity_2d_mps);
       
       this.borderWidth_px = uT.setDefault( pars.borderWidth_px, 1);
@@ -1283,9 +1285,6 @@ window.cP = (function() {
       this.aspectRatio = uT.setDefault( pars.aspectRatio, null);
       this.color = uT.setDefault( pars.color, null);
       this.borderColor = uT.setDefault( pars.borderColor, null);
-      
-      // Control auto-balancing of momentum on restore (set to false to disable)
-      this.balanceOnRestore = uT.setDefault( pars.balanceOnRestore, true);
       
       this.deleted = false;
       this.selectionPoint_l_2d_m = new wS.Vec2D(0,0);
@@ -1356,7 +1355,7 @@ window.cP = (function() {
       this.b2d.SetAngularDamping( this.angDamp);
    }
    Puck_MultiFix.prototype.updateState = function() {
-      this.position_2d_m = wS.Vec2D_from_b2Vec2( this.b2d.GetPosition());
+      this.position_2d_m = wS.Vec2D_from_b2Vec2( this.b2d.GetWorldCenter());
       this.velocity_2d_mps = wS.Vec2D_from_b2Vec2( this.b2d.GetLinearVelocity());
       this.angle_r = this.b2d.GetAngle();
       this.angularSpeed_rps = this.b2d.GetAngularVelocity();
@@ -1441,6 +1440,15 @@ window.cP = (function() {
       let pe = (gW.getG_ON()) ? this.mass_kg * gW.getG_mps2() * this.position_2d_m.y : 0;
       return pe;
    }
+   Puck_MultiFix.prototype.setPosition = function( com_2d_m) {
+      this.position_2d_m = com_2d_m;
+      this.position_2d_px = wS.screenFromWorld( com_2d_m);
+      // b2d.SetPosition takes the body origin, not the COM.
+      // comOffset = GetWorldCenter - GetPosition (constant for a given angle).
+      var comOffset = wS.Vec2D_from_b2Vec2( this.b2d.GetWorldCenter()).subtract(
+                      wS.Vec2D_from_b2Vec2( this.b2d.GetPosition()));
+      this.b2d.SetPosition( com_2d_m.subtract( comOffset));
+   }
    Puck_MultiFix.prototype.setAngularSpeed = function( angularSpeed_rps) {
       this.angularSpeed_rps = angularSpeed_rps;
       this.b2d.SetAngularVelocity( angularSpeed_rps);
@@ -1455,6 +1463,52 @@ window.cP = (function() {
    function applyToAllPucks( doThis) {
       Puck.applyToAll( doThis);
       Puck_MultiFix.applyToAll( doThis);
+   }
+   
+   // Build fixtures array for a triangular cage (isosceles triangle, apex up)
+   function buildTriangleCageFixtures( pars) {
+      let legLength_m = uT.setDefault( pars.legLength_m, 1.20);   // outer base length
+      let legThickness_m = uT.setDefault( pars.legThickness_m, 0.06);
+      // aspectRatio = overall height / overall base length.
+      // For equilateral: sqrt(3)/2 ≈ 0.866.
+      let aspectRatio = uT.setDefault( pars.aspectRatio, Math.sqrt(3)/2);
+      let color = uT.setDefault( pars.color, 'SteelBlue');
+      let borderColor = uT.setDefault( pars.borderColor, 'DarkSlateGray');
+      let barRestitution = uT.setDefault( pars.barRestitution, 1.0);
+      
+      let halfThick = legThickness_m / 2;
+      let overallHeight_m = legLength_m * aspectRatio;
+      
+      // Three outer vertices of the triangle (body-local coords, centroid at origin).
+      // Centroid of a triangle is at 1/3 height from base.
+      let centroidY = overallHeight_m / 3;
+      let vApex  = {x:  0,                  y:  overallHeight_m - centroidY};  //  2/3 height above base
+      let vRight = {x:  legLength_m / 2,    y: -centroidY};
+      let vLeft  = {x: -legLength_m / 2,    y: -centroidY};
+      
+      // Helper: build one bar fixture from vertex A to vertex B.
+      function barFixture(vA, vB) {
+         let cx = (vA.x + vB.x) / 2;
+         let cy = (vA.y + vB.y) / 2;
+         let dx = vB.x - vA.x;
+         let dy = vB.y - vA.y;
+         let edgeLen = Math.sqrt(dx*dx + dy*dy);
+         // angle of the bar axis (Box2D SetAsOrientedBox angle = rotation of the box)
+         let angle_r = Math.atan2(dy, dx);
+         return {
+            half_width_m: edgeLen / 2,
+            half_height_m: halfThick,
+            offset_2d_m: new wS.Vec2D(cx, cy),
+            angle_r: angle_r,
+            color: color, borderColor: borderColor, restitution: barRestitution
+         };
+      }
+      
+      return [
+         barFixture(vLeft,  vRight),   // bottom bar (left to right)
+         barFixture(vRight, vApex),    // right diagonal
+         barFixture(vApex,  vLeft)     // left diagonal
+      ];
    }
    
    // Build fixtures array for a rectangular cage
@@ -1505,12 +1559,23 @@ window.cP = (function() {
    function createCage( position_2d_m, velocity_2d_mps, pars) {
       let cageShape = uT.setDefault( pars.cageShape, 'rect');
       
+      // Resolve the actual aspectRatio that the builder will use, so it gets stored in the capture.
+      let legLength_m_resolved = uT.setDefault( pars.legLength_m, 1.20);
+      let legThickness_m_resolved = uT.setDefault( pars.legThickness_m, 0.06);
+      let aspectRatio_resolved;
+      if (cageShape == 'rect') {
+         aspectRatio_resolved = uT.setDefault( pars.aspectRatio, 0.77);
+      } else if (cageShape == 'triangle') {
+         aspectRatio_resolved = uT.setDefault( pars.aspectRatio, Math.sqrt(3)/2);
+      } else {
+         aspectRatio_resolved = uT.setDefault( pars.aspectRatio, 1.0);
+      }
+      
       let fixtures;
       if (cageShape == 'rect') {
          fixtures = buildRectCageFixtures( pars);
       } else if (cageShape == 'triangle') {
-         // Future: fixtures = buildTriangleCageFixtures( pars);
-         fixtures = [];
+         fixtures = buildTriangleCageFixtures( pars);
       } else {
          fixtures = [];
       }
@@ -1528,9 +1593,9 @@ window.cP = (function() {
          linDamp: uT.setDefault( pars.linDamp, 0.0),
          angDamp: uT.setDefault( pars.angDamp, 0.0),
          // Store cage geometry for capture/restore
-         legLength_m: uT.setDefault( pars.legLength_m, 1.20),
-         legThickness_m: uT.setDefault( pars.legThickness_m, 0.06),
-         aspectRatio: uT.setDefault( pars.aspectRatio, 0.77),
+         legLength_m: legLength_m_resolved,
+         legThickness_m: legThickness_m_resolved,
+         aspectRatio: aspectRatio_resolved,
          color: uT.setDefault( pars.color, 'SteelBlue'),
          borderColor: uT.setDefault( pars.borderColor, 'DarkSlateGray'),
          balanceOnRestore: pars.balanceOnRestore

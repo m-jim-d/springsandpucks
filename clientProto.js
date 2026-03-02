@@ -517,11 +517,15 @@ window.cT = (function() {
    }
    Client.prototype.moveSBtoPosition = function(theBody, pos_2d_m) {
       // move Selected Body to Position
-      theBody.position_2d_m = pos_2d_m;
-      theBody.position_2d_px = wS.screenFromWorld( theBody.position_2d_m);
-      theBody.b2d.SetPosition( pos_2d_m);
+      if (theBody.constructor.name == "Puck_MultiFix") {
+         theBody.setPosition( pos_2d_m);
+      } else {
+         theBody.position_2d_m = pos_2d_m;
+         theBody.position_2d_px = wS.screenFromWorld( theBody.position_2d_m);
+         theBody.b2d.SetPosition( pos_2d_m);
+      }
       // If it's a puck, freeze it, for more predictable put-it-here behavior.
-      if (theBody.constructor.name == "Puck") {
+      if ((theBody.constructor.name == "Puck") || (theBody.constructor.name == "Puck_MultiFix")) {
          theBody.velocity_2d_mps = new wS.Vec2D(0.0,0.0);
          theBody.b2d.SetLinearVelocity( new wS.Vec2D(0.0,0.0));
          theBody.angularSpeed_rps = 0.0;
@@ -600,7 +604,16 @@ window.cT = (function() {
       // a rotation with the editor.
       if (theBody.constructor.name != "Pin") {
          theBody.angle_r += delta_angle_r;
-         theBody.b2d.SetAngle( theBody.angle_r);
+         if (theBody.constructor.name == "Puck_MultiFix") {
+            // SetAngle rotates about the body origin, not the COM. For asymmetric multi-fixture
+            // bodies the COM is offset from the origin, so save the COM before rotating and
+            // reposition afterward to keep the COM fixed in place.
+            var com_before = theBody.position_2d_m;
+            theBody.b2d.SetAngle( theBody.angle_r);
+            theBody.setPosition( com_before);
+         } else {
+            theBody.b2d.SetAngle( theBody.angle_r);
+         }
       }
    }
    Client.prototype.rotateToCursorPosition = function() {
