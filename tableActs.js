@@ -621,6 +621,7 @@ window.tA = (function() {
             color: 'DarkSlateGray',
             borderColor: 'lightgray',
             borderWidth_px: 3,
+            angleLine: false,
             restitution: 1.0,
             restitution_fixed: true,
             friction: 0.0,
