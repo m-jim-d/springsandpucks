@@ -6,7 +6,7 @@ Live site: **[triquence.org](https://triquence.org)**
 
 ---
 
-## The three pillars of this project
+## Three main parts of this project
 
 ### 1. Physics simulations (browser-side)
 
