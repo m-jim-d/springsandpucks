@@ -6,7 +6,7 @@ Live site: **[triquence.org](https://triquence.org)**
 
 ---
 
-## Three main parts of this project
+## Overview
 
 ### 1. Physics simulations (browser-side)
 
