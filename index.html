@@ -1564,6 +1564,7 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                            <td title="all pucks: calculated final value" id="orbit_6p"></td>
                         </tr>
                      </table>
+
                   </details>
 
                   <br>
@@ -1587,14 +1588,21 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                   \]
 
                   <p>Force balance, centripetal equals spring:</p>
-                  \[ \frac{mS_{t}^{2}}{r_{o}} = k(2r_{o} - L) \]
+                  \[ \frac{mS_{t}^{2}}{r_{o}} = k(2r_{o} - l) \]
 
                   <p>Combining:</p>
-                  \[ mC_{i}^2 = k(2r_{o}^{4} - Lr_{o}^{3}) \]
+                  \[ mC_{i}^2 = k(2r_{o}^{4} - lr_{o}^{3}) \]
 
                   <p>Using Newton-Raphson to iteratively solve this quartic equation for \( r_{o} \) gives the "final"
                      row in the table below
                      (\( \Omega = S_{t} / r_{o}\)):</p>
+
+                  <p>
+                     Real-time report:<br> 
+                     <label><input type="radio" id="reportType-5a-speed" name="reportType-5a" value="speed" checked onchange="cP.EpL.reportType = this.value;"> speed</label>
+                     &nbsp;
+                     <label><input type="radio" id="reportType-5a-EpL" name="reportType-5a" value="EpL" onchange="cP.EpL.reportType = this.value;"> energy and momentum</label>
+                  </p>
 
                   <table rules="all" class="twoInOrbit">
                      <tr>
@@ -1602,35 +1610,61 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                               onclick="cR.modifyForCalculator('5.a.orbitingOnSpring');"
                               title='This runs the 5a.orbitingOnSpring capture using the initial conditions in the table.'>Run</button>
                         </td>
-                        <td title="x component of velocity">\( v_{x} \)</td>
-                        <td title="y component of velocity">\( v_{y} \)</td>
+                        
+                        <td title="spring length (m)">\( l_{s} \)</td>
+                        <td title="spring strength (N/m)">\( k_{s} \)</td>
+                        <td title="v_x for puck1 (m/s)">\( v_{x} \)</td>
+                        <td title="v_y for puck1 (m/s)">\( v_{y} \)</td>
 
                         <td title="orbital translational speed (meters/sec)">\( S_{t} \)</td>
                         <td title="orbit radius (m)">\( r_{o} \)</td>
                         <td title="orbital angular speed (radians/sec)">\( \Omega \)</td>
+                        <td title="total energy (J)">\( E \)</td>
+                        <td title="total angular momentum (kg m^2/s)">\( L \)</td>
                      </tr>
                      <tr>
                         <td title="">initial</td>
+                        <td><input title="click to edit the spring length" type="number" class="twoInOrbit" id="springLength_init"
+                              max="10.0" min="0.0" autocomplete="off" value="2.5"></td>
+                        <td><input title="click to edit the spring strength" type="number" class="twoInOrbit" id="springStrength_init"
+                              max="20" min="1" autocomplete="off" value="5"></td>
                         <td><input title="click to edit the initial vx" type="number" class="twoInOrbit" id="vx_init"
                               max="15" min="-15" autocomplete="off" value="-10"></td>
                         <td><input title="click to edit the initial vy" type="number" class="twoInOrbit" id="vy_init"
                               max="15" min="-15" autocomplete="off" value="0"></td>
 
-                        <td title="" id="">------</td>
-                        <td title="" id="">------</td>
-                        <td title="" id="">------</td>
+                        <td title="" id="">-----</td>
+                        <td title="" id="">-----</td>
+                        <td title="" id="">-----</td>
+                        <td title="total initial energy (J)" id="energy_init">-----</td>
+                        <td title="total initial angular momentum (kg m^2/s)" id="momentum_init">-----</td>
                      </tr>
                      <tr>
                         <td title="" id="">final</td>
-                        <td title="" id="">------</td>
-                        <td title="" id="">------</td>
+                        <td title="spring length (m)" id="springLength_final">-----</td>
+                        <td title="" id="">-----</td>
+                        <td title="" id="">-----</td>
+                        <td title="" id="">-----</td>
 
-                        <td title="orbital translational speed (meters/sec)" id="orbit_speed">------</td>
-                        <td title="orbit radius (m)" id="orbit_radius">------</td>
-                        <td title="orbital angular speed (radians/sec)" id="orbit_rate">------</td>
+                        <td title="orbital translational speed (meters/sec)" id="orbit_speed">-----</td>
+                        <td title="orbit radius (m)" id="orbit_radius">-----</td>
+                        <td title="orbital angular speed (radians/sec)" id="orbit_rate">-----</td>
+                        <td title="total final energy (J)" id="energy_final">-----</td>
+                        <td title="total final angular momentum (kg m^2/s)" id="momentum_final">-----</td>
 
                      </tr>
                   </table>
+
+                  <p>For the special case of a zero-length spring (\( l_s = 0 \)), the quartic simplifies, giving the closed-form solution:</p>
+                  \[ r_o = \left(\frac{mC_i^2}{2k}\right)^{1/4} \]
+
+                  <p>Using the current calculator values (\( l_s = 0 \)):
+                     \( r_o = \) <span id="zero_orbit_radius">-----</span> m,
+                     \( S_t = \) <span id="zero_orbit_speed">-----</span> m/s,
+                     \( \Omega = \) <span id="zero_orbit_rate">-----</span> rad/s,
+                     \( E = \) <span id="zero_energy">-----</span> J,
+                     \( L = \) <span id="zero_momentum">-----</span> kg&thinsp;m²/s
+                  </p>
 
                   <br>
                   <hr>

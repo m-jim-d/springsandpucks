@@ -698,10 +698,10 @@ window.cR = (function() {
    
    // This is the default modification function used by modifyForCalculator.
    let settingsForDemos = function( state_capture, demoName) {
-      // Use the speed version of the EpL report.
-      state_capture['EpL']['reportType'] = 'speed';
       
       if (demoName == '5.a.orbitingOnSpring') {
+         state_capture['EpL']['reportType'] = $('input[name="reportType-5a"]:checked').val();
+         
          let vx_init_mps = Number( $('#vx_init').val());
          let vy_init_mps = Number( $('#vy_init').val());
          
@@ -709,6 +709,17 @@ window.cR = (function() {
          state_capture['puckMapData']['puck1']['velocity_2d_mps'].y = vy_init_mps;
          state_capture['puckMapData']['puck2']['velocity_2d_mps'].x = -vx_init_mps; 
          state_capture['puckMapData']['puck2']['velocity_2d_mps'].y = -vy_init_mps; 
+
+         let spring_length_m = Number( $('#springLength_init').val());
+         state_capture['springMapData']['s1']['length_m'] = spring_length_m;
+         state_capture['springMapData']['s1']['strength_Npm'] = Number( $('#springStrength_init').val());
+         
+         let com_y = (state_capture['puckMapData']['puck1']['position_2d_m'].y +
+                      state_capture['puckMapData']['puck2']['position_2d_m'].y) / 2;
+         let puck_radius_m = state_capture['puckMapData']['puck1']['radius_m'];
+         let separation_m = Math.max( spring_length_m, 3 * puck_radius_m);
+         state_capture['puckMapData']['puck1']['position_2d_m'].y = com_y - separation_m / 2;
+         state_capture['puckMapData']['puck2']['position_2d_m'].y = com_y + separation_m / 2;
       
       } else if (demoName == '5.b.two') {
          let a_init = Number( $('#a_2p_init').val());

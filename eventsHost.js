@@ -1507,9 +1507,8 @@ window.eV = (function() {
             let puck_A_mass_kg = puck_A.density * Math.PI * puck_A.radius_m ** 2;
             let l_total = 2 * puck_A_mass_kg * rXv;
             
-            let spring = state_capture['springMapData']['s1'];
-            let spring_k = spring['strength_Npm'];
-            let spring_l_m = spring['length_m'];
+            let spring_k = Number( $('#springStrength_init').val());
+            let spring_l_m = Number( $('#springLength_init').val());
             
             //console.log("rXv = " + rXv);
             //console.log("l_total = " + l_total);
@@ -1517,14 +1516,42 @@ window.eV = (function() {
             let testFunction = function( r) {
                return ( spring_k*(2*r - spring_l_m) - (puck_A_mass_kg * rXv**2 / r**3)  );
             }
-            let orbit_r_m = uT.keepGuessing( testFunction, 50);
+            // This initial guess was suggested by Claude AI (see special case below where spring length l=0)
+            let initialGuess_r_m = (puck_A_mass_kg * rXv**2 / (2 * spring_k)) ** (1/4); 
+            //let initialGuess_r_m = 2.5; // Or, simply start in the middle of observed range.
+            let orbit_r_m = uT.keepGuessing( testFunction, initialGuess_r_m);
             
             let orbit_speed_mps = rXv / orbit_r_m;
             let orbit_rate_rps = orbit_speed_mps / orbit_r_m;
             
+            let spring_stretch_init = 2 * r_A_2d_m.length() - spring_l_m;
+            let energy_init = puck_A_mass_kg * velocity_A_2d_mps.length_squared() + 0.5 * spring_k * spring_stretch_init**2;
+            let momentum_init = l_total;
+            
+            let spring_stretch_final = 2 * orbit_r_m - spring_l_m;
+            let energy_final = puck_A_mass_kg * orbit_speed_mps**2 + 0.5 * spring_k * spring_stretch_final**2;
+            let momentum_final = l_total;
+            
             $('#orbit_speed').html( Math.abs(orbit_speed_mps).toFixed(2));
             $('#orbit_radius').html( orbit_r_m.toFixed(2));
             $('#orbit_rate').html( orbit_rate_rps.toFixed(2));
+            $('#energy_init').html( energy_init.toFixed(2));
+            $('#momentum_init').html( momentum_init.toFixed(2));
+            $('#springLength_final').html( (2 * orbit_r_m).toFixed(2));
+            $('#energy_final').html( energy_final.toFixed(2));
+            $('#momentum_final').html( momentum_final.toFixed(2));
+            
+            // Special case of a zero-length spring.
+            let zero_r_m = (puck_A_mass_kg * rXv**2 / (2 * spring_k)) ** (1/4);
+            let zero_speed_mps = rXv / zero_r_m;
+            let zero_rate_rps = zero_speed_mps / zero_r_m;
+            let zero_energy = puck_A_mass_kg * zero_speed_mps**2 + 0.5 * spring_k * (2 * zero_r_m)**2;
+            let zero_momentum = l_total;
+            $('#zero_orbit_radius').html( zero_r_m.toFixed(2));
+            $('#zero_orbit_speed').html( Math.abs(zero_speed_mps).toFixed(2));
+            $('#zero_orbit_rate').html( zero_rate_rps.toFixed(2));
+            $('#zero_energy').html( zero_energy.toFixed(2));
+            $('#zero_momentum').html( zero_momentum.toFixed(2));
         } 
         cR.modifyForCalculator("5.a.orbitingOnSpring", {"okToRunCapture":false, "theFunction":modificationFunction});
       }

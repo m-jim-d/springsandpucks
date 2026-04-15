@@ -381,9 +381,13 @@ button.clientLastRow {
 } 
 
 input[type=checkbox] {
-            vertical-align: middle;
-            position: relative;
-            bottom: 1px;
+   vertical-align: middle;
+   position: relative;
+   bottom: 1px;
+}
+input[type=radio] {
+   margin-top: -1px;         
+   vertical-align: middle;
 }
 
 /* keep the size of Firefox buttons similar to those in Chrome */
@@ -443,6 +447,9 @@ table.twoInOrbit td, table.twoPuckCalculator td, table.threePuckCalculator td, t
    background-color: #f4f3f1;
    padding: 3px 3px;
    text-align: center;
+}
+#orbit_speed, #orbit_radius, #orbit_rate, #energy_init, #energy_final, #momentum_init, #momentum_final {
+   text-align: right;
 }
 div.green {
    color: white;
