@@ -739,6 +739,19 @@ window.cR = (function() {
          state_capture['puckMapData']['puck3']['angularSpeed_rps'] = c_init;               
          state_capture['puckMapData']['puck4']['angularSpeed_rps'] = d_init;               
          
+      } else if (demoName == '5.b.five') {
+         let a_init = Number( $('#a_5p_init').val());
+         let b_init = Number( $('#b_5p_init').val());
+         let c_init = Number( $('#c_5p_init').val());
+         let d_init = Number( $('#d_5p_init').val());
+         let e_init = Number( $('#e_5p_init').val());
+         
+         state_capture['puckMapData']['puck1']['angularSpeed_rps'] = a_init;
+         state_capture['puckMapData']['puck2']['angularSpeed_rps'] = b_init;               
+         state_capture['puckMapData']['puck3']['angularSpeed_rps'] = c_init;               
+         state_capture['puckMapData']['puck4']['angularSpeed_rps'] = d_init;               
+         state_capture['puckMapData']['puck5']['angularSpeed_rps'] = e_init;               
+         
       } else if (demoName == '5.b.six') {
          let a_init = Number( $('#a_6p_init').val());
          let b_init = Number( $('#b_6p_init').val());
@@ -779,6 +792,7 @@ window.cR = (function() {
          '5.a.orbitingOnSpring': 'demo5a.orbitingOnSpring.js',
          '5.b.two': 'demo5b.two.js',
          '5.b.four': 'demo5b.four.js',
+         '5.b.five': 'demo5b.five.js',
          '5.b.six': 'demo5b.six.js',
          '5.b': 'demo5b.js',
       };

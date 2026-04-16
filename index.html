@@ -16,7 +16,7 @@
    <meta property="og:image" content="https://triquence.org/screenshots/colormixer.png">
 
    <link href="hostAndClient.css?v=138" rel="stylesheet" type="text/css">
-   <link href="dialog.css?v=230" rel="stylesheet" type="text/css">
+   <link href="dialog.css?v=231" rel="stylesheet" type="text/css">
 
    <!-- Google icon library -->
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -52,43 +52,43 @@
    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
    </script>
 
-   <script src="Box2D.js?v=230"></script>
+   <script src="Box2D.js?v=231"></script>
 
-   <script src="utilities.js?v=230"></script>
-   <script src="pageStuff.js?v=230"></script>
-   <script src="worldScreen.js?v=230"></script>
+   <script src="utilities.js?v=231"></script>
+   <script src="pageStuff.js?v=231"></script>
+   <script src="worldScreen.js?v=231"></script>
 
-   <script src="drawFunc.js?v=230"></script>
-   <script src="consAndPros.js?v=230"></script>
-   <script src="clientProto.js?v=230"></script>
-   <script src="piEngine.js?v=230"></script>
+   <script src="drawFunc.js?v=231"></script>
+   <script src="consAndPros.js?v=231"></script>
+   <script src="clientProto.js?v=231"></script>
+   <script src="piEngine.js?v=231"></script>
 
-   <script src="tableActs.js?v=230"></script>
-   <script src="multiSelect.js?v=230"></script>
-   <script src="gwModule.js?v=230"></script>
+   <script src="tableActs.js?v=231"></script>
+   <script src="multiSelect.js?v=231"></script>
+   <script src="gwModule.js?v=231"></script>
 
-   <script src="demoStart.js?v=230"></script>
-   <script src="eventsHost.js?v=230"></script>
-   <script src="boxStuff.js?v=230"></script>
+   <script src="demoStart.js?v=231"></script>
+   <script src="eventsHost.js?v=231"></script>
+   <script src="boxStuff.js?v=231"></script>
 
    <!-- for testing: load client via script element
    <script src="https://triquence-ca88d70f0e55.herokuapp.com/socket.io/socket.io.js"></script>
    -->
-   <script src="hostAndClient.js?v=230"></script>
-   <script src="eventsNonHost.js?v=230"></script>
+   <script src="hostAndClient.js?v=231"></script>
+   <script src="eventsNonHost.js?v=231"></script>
 
-   <script src="captureRestore.js?v=230"></script>
-   <script src="leaderBoard.js?v=230"></script>
-   <script src="ghostBall.js?v=230"></script>
-   <script src="puckPopper.js?v=230"></script>
-   <script src="jelloMadness.js?v=230"></script>
-   <script src="bpHoops.js?v=230"></script>
-   <script src="monkeyHunt.js?v=230"></script>
+   <script src="captureRestore.js?v=231"></script>
+   <script src="leaderBoard.js?v=231"></script>
+   <script src="ghostBall.js?v=231"></script>
+   <script src="puckPopper.js?v=231"></script>
+   <script src="jelloMadness.js?v=231"></script>
+   <script src="bpHoops.js?v=231"></script>
+   <script src="monkeyHunt.js?v=231"></script>
 
    <!-- put a capture into the page level global: demo_6_fromFile -->
-   <script src="demo6.js?v=230"></script>
+   <script src="demo6.js?v=231"></script>
    <!-- put a capture into the page level global: demo_8_fromFile -->
-   <script src="demo8.js?v=230"></script>
+   <script src="demo8.js?v=231"></script>
    <!--
    <script src="demo2b.js"></script>
    -->
@@ -99,7 +99,7 @@
    <script src="adapter-latest.js?v=2"></script>
 
    <!-- The navigation menu -->
-   <link href="sitemap.css?v=230" rel="stylesheet" type="text/css">
+   <link href="sitemap.css?v=231" rel="stylesheet" type="text/css">
 
    <script>
       // Page-level global (for index.html) to facilitate the dynamic loading of captures for various demos.
@@ -1490,6 +1490,55 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                      <p>and for the initial conditions of this five-puck case:</p>
                      \[ \Omega_{f} = \frac{1}{34}(-25+3+3+3+3) = -0.382 \]
 
+                     <!-- Five Puck Calculator -->
+                     <p>A calculator for the five-puck system:</p>
+                     <table rules="all" class="threePuckCalculator">
+                        <tr>
+                           <td><button class="chat" id="runFromFivePuckCalc" onclick="cR.modifyForCalculator('5.b.five');"
+                                 title='This runs the 5b.five capture using the initial rotational-angular-speed values from this table.'>Run</button>
+                           </td>
+                           <td title="puck 1: rotational angular speed">
+                              <div class="green">\(\omega_{1}\)</div>
+                           </td>
+                           <td title="puck 2: rotational angular speed">
+                              <div class="green">\(\omega_{2}\)</div>
+                           </td>
+                           <td title="puck 3: rotational angular speed">
+                              <div class="green">\(\omega_{3}\)</div>
+                           </td>
+                           <td title="puck 4: rotational angular speed">
+                              <div class="green">\(\omega_{4}\)</div>
+                           </td>
+                           <td title="puck 5: rotational angular speed">
+                              <div class="green">\(\omega_{5}\)</div>
+                           </td>
+                           <td title="all pucks: orbital angular speed">\(\Omega\)</td>
+                        </tr>
+                        <tr>
+                           <td style="text-align:right">initial</td>
+                           <td><input title="puck 1: initial value" type="number" class="fivePuckCalculator"
+                                 id="a_5p_init" max="25" min="-25" autocomplete="off" value="-25"></td>
+                           <td><input title="puck 2: initial value" type="number" class="fivePuckCalculator"
+                                 id="b_5p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+                           <td><input title="puck 3: initial value" type="number" class="fivePuckCalculator"
+                                 id="c_5p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+                           <td><input title="puck 4: initial value" type="number" class="fivePuckCalculator"
+                                 id="d_5p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+                           <td><input title="puck 5: initial value" type="number" class="fivePuckCalculator"
+                                 id="e_5p_init" max="25" min="-25" autocomplete="off" value="3"></td>
+                           <td title="all pucks: initial value">&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;</td>
+                        </tr>
+                        <tr style="border-bottom: none">
+                           <td style="text-align:right">final</td>
+                           <td title="puck 1: calculated final value" id="a_5p_final"></td>
+                           <td title="puck 2: calculated final value" id="b_5p_final"></td>
+                           <td title="puck 3: calculated final value" id="c_5p_final"></td>
+                           <td title="puck 4: calculated final value" id="d_5p_final"></td>
+                           <td title="puck 5: calculated final value" id="e_5p_final"></td>
+                           <td title="all pucks: calculated final value" id="orbit_5p"></td>
+                        </tr>
+                     </table>
+
                      <span id="d5bsix"></span>
                      <p>For a <a onclick="cR.demoStart_fromCapture(5, {'fileName':'demo5b.six.js'})">six-puck</a>
                         system:</p>
@@ -1509,7 +1558,7 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                      \;\; \textrm{ and } \;\;
                      \omega_{246,f} = \overline{\omega}_{246,i} - 8\Omega_{f}
                      \]
-
+                     
                      <p>A calculator for the six-puck system:</p>
 
                      <table rules="all" class="twoPuckCalculator">

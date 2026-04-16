@@ -1626,6 +1626,28 @@ window.eV = (function() {
       $('input.fourPuckCalculator').on('change focus', {"message":"fromInputEvent"}, calcFourPucks);
       $('#runFromFourPuckCalc').on('click', {"message":"fromRunEvent"}, calcFourPucks);
       
+      // Calculator for inelastic five-puck system.
+      function calcFivePucks( event) {
+         //if (event.data.message) console.log("message=" + event.data.message);
+         
+         let a_init = Number( $('#a_5p_init').val());
+         let b_init = Number( $('#b_5p_init').val());
+         let c_init = Number( $('#c_5p_init').val());
+         let d_init = Number( $('#d_5p_init').val());
+         let e_init = Number( $('#e_5p_init').val());
+         
+         let orbit_rps = (a_init + b_init + c_init + d_init + e_init)/34;
+         $('#orbit_5p').html( orbit_rps.toFixed(2));
+         
+         $('#a_5p_final').html( orbit_rps.toFixed(2));
+         $('#b_5p_final').html( orbit_rps.toFixed(2));
+         $('#c_5p_final').html( orbit_rps.toFixed(2));
+         $('#d_5p_final').html( orbit_rps.toFixed(2));
+         $('#e_5p_final').html( orbit_rps.toFixed(2));
+      }
+      $('input.fivePuckCalculator').on('change focus', {"message":"fromInputEvent"}, calcFivePucks);
+      $('#runFromFivePuckCalc').on('click', {"message":"fromRunEvent"}, calcFivePucks);
+      
       // Calculator for inelastic six-puck system.
       function calcSixPucks( event) {
          //if (event.data.message) console.log("message=" + event.data.message);
