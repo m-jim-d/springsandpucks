@@ -1494,21 +1494,18 @@ window.eV = (function() {
             // r_o * s_t = rXv
             
             let puck_A = state_capture['puckMapData']['puck1'];
-            let puck_B = state_capture['puckMapData']['puck2'];
             
-            let position_A_2d_m = wS.Vec2D_from_b2Vec2( puck_A['position_2d_m']);
-            let position_B_2d_m = wS.Vec2D_from_b2Vec2( puck_B['position_2d_m']);
-            let com_2d_m = position_A_2d_m.add( position_B_2d_m).scaleBy(0.5);
+            let velocity_A_2d_mps = new wS.Vec2D( vx_init_mps, vy_init_mps); 
             
-            let velocity_A_2d_mps = new wS.Vec2D( vx_init_mps, vy_init_mps); // wS.Vec2D_from_b2Vec2( puck_A['velocity_2d_mps']);
-            
-            let r_A_2d_m = position_A_2d_m.subtract( com_2d_m);
+            let spring_l_m = Number( $('#springLength_init').val());
+            let puck_radius_m = puck_A['radius_m'];
+            let separation_m = Math.max( spring_l_m, 3 * puck_radius_m);
+            let r_A_2d_m = new wS.Vec2D( 0, -separation_m / 2);
             let rXv = r_A_2d_m.cross( velocity_A_2d_mps);
             let puck_A_mass_kg = puck_A.density * Math.PI * puck_A.radius_m ** 2;
             let l_total = 2 * puck_A_mass_kg * rXv;
             
             let spring_k = Number( $('#springStrength_init').val());
-            let spring_l_m = Number( $('#springLength_init').val());
             
             //console.log("rXv = " + rXv);
             //console.log("l_total = " + l_total);
