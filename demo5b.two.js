@@ -45,7 +45,7 @@ demo_capture = {
          "categoryBits": 1,
          "maskBits": 65535,
          "angle_r": 0,
-         "angularSpeed_rps": 10,
+         "angularSpeed_rps": 6.0,
          "angleLine": "stripe",
          "borderWidth_px": 0,
          "restitution": 0.0,
