@@ -3146,8 +3146,9 @@ window.cP = (function() {
       } else if (m_EpL.reportType == "speed") {
          let orbit_result = "", orbit_title = "", orbit_radius_m, puckRows = "", springRows = "";
          
-         // Before displaying the orbit data, check to see if the current demo (or a capture there of) is in this list.
-         let demoHasOrbits = uT.oneOfThese(['4.b','5.b','5.b.two','5.a.orbitingOnSpring'], gW.getDemoVersion());
+         // Before displaying the orbit data, check to see if the current demo (or a capture there of) has a match in this substring list.
+         let subStringList = ['4.b','5.b','5.a.orbitingOnSpring','5.a.two-in-orbit','5.a.orbit-small-big','5.a.springtriangle','5.a.twoTackyAndSpring'];
+         let demoHasOrbits = uT.oneOfThese(subStringList, gW.getDemoVersion());
          let stillHasSpring = (Object.keys( gW.aT.springMap).length >= 1);
          
          if ((Object.keys( gW.aT.puckMap).length + Object.keys( gW.aT.puckMap_MultiFix).length) >= 1) {
