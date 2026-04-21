@@ -722,6 +722,8 @@ window.cR = (function() {
          state_capture['puckMapData']['puck2']['position_2d_m'].y = com_y + separation_m / 2;
       
       } else if (demoName == '5.b.two') {
+         state_capture['EpL']['reportType'] = "speed";
+         
          let a_init = Number( $('#a_2p_init').val());
          let b_init = Number( $('#b_2p_init').val());
          
@@ -742,6 +744,8 @@ window.cR = (function() {
          state_capture['puckMapData']['puck4']['angularSpeed_rps'] = d_init;               
          
       } else if (demoName == '5.b.five') {
+         state_capture['EpL']['reportType'] = "speed";
+
          let a_init = Number( $('#a_5p_init').val());
          let b_init = Number( $('#b_5p_init').val());
          let c_init = Number( $('#c_5p_init').val());
@@ -755,6 +759,8 @@ window.cR = (function() {
          state_capture['puckMapData']['puck5']['angularSpeed_rps'] = e_init;               
          
       } else if (demoName == '5.b.six') {
+         state_capture['EpL']['reportType'] = "speed";
+
          let a_init = Number( $('#a_6p_init').val());
          let b_init = Number( $('#b_6p_init').val());
          let c_init = Number( $('#c_6p_init').val());
@@ -771,6 +777,8 @@ window.cR = (function() {
          state_capture['puckMapData']['puck6']['angularSpeed_rps'] = f_init;               
          
       } else if (demoName == '5.b') {
+         state_capture['EpL']['reportType'] = "speed";
+
          let a_init = Number( $('#a_init').val());
          let b_init = Number( $('#b_init').val());
          let c_init = Number( $('#c_init').val());
