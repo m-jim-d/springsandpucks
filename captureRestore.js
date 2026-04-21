@@ -729,6 +729,8 @@ window.cR = (function() {
          state_capture['puckMapData']['puck2']['angularSpeed_rps'] = b_init; 
          
       } else if (demoName == '5.b.four') {
+         state_capture['EpL']['reportType'] = "speed";
+
          let a_init = Number( $('#a_4p_init').val());
          let b_init = Number( $('#b_4p_init').val());
          let c_init = Number( $('#c_4p_init').val());
