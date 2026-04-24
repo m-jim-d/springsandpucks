@@ -4,7 +4,7 @@ demo_capture = {
    "date": "12/13/2025, 3:45:41 PM",
    "capturedAtFrame": 5051,
    "canvasDimensions": {
-      "width": 600,
+      "width": 685,
       "height": 600
    },
    "gravity": false,
