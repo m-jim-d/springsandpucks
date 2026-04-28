@@ -170,7 +170,8 @@ window.cR = (function() {
                            'comSelection':gW.dC.comSelection.checked,
                            'fullScreenDemo':gW.getFullScreenDemo(),
                            'globalCompositeOperation':x_ctx.globalCompositeOperation,
-                           'EpL': {'display':cP.EpL.displayReport, 'reportType':cP.EpL.reportType, 'COM':cP.EpL.COM, 'angularAxis_2d_m':cP.EpL.angularAxis_2d_m},
+                           'EpL': {'display':cP.EpL.displayReport, 'reportType':cP.EpL.reportType, 'COM':cP.EpL.COM, 'angularAxis_2d_m':cP.EpL.angularAxis_2d_m,
+                                  ...(cP.EpL.displayReport && (gW.get_displaySCM() || gW.get_captureDSCM()) ? {'DSCM':true} : {'DSCM':false})},
                            'wallMapData':gW.aT.wallMap, 
                            'puckMapData':gW.aT.puckMap,
                            'puckMapData_MultiFix':gW.aT.puckMap_MultiFix,
@@ -928,6 +929,7 @@ window.cR = (function() {
    
    function clearState() {
       // Reset the capture state...
+      gW.set_captureDSCM( false);
       gW.dC.json.value = '';
       // Reset the highlight styles in the row below the number buttons.
       var highlightedLinkInPlusRow = document.getElementById( gW.getDemoVersion().slice(0,3));
@@ -1319,6 +1321,11 @@ window.cR = (function() {
             } else {
                cP.EpL.turnDisplayOn({});
             }
+         }
+
+         // display system center of mass for all pucks
+         if (state_data.EpL.hasOwnProperty('DSCM')) {
+            gW.set_captureDSCM( state_data.EpL.DSCM);
          }
       }
       

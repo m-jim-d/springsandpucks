@@ -121,7 +121,8 @@ window.gW = (function() {
    
    c.drawSyncImage = false;
    
-   c.displaySCM = false; // System Center of Mass for all pucks
+   c.displaySCM = false;   // System Center of Mass for all pucks
+   c.captureDSCM = false;   // DSCM from a restored capture (takes priority while capture is active)
    c.displayMSC = false; // Multi-Select Center
    
    // Client map keyed by client name.
@@ -923,7 +924,7 @@ window.gW = (function() {
       }
       
       // Draw mark for SCM
-      if (c.displaySCM) cP.Puck.drawSystemCenterOfMass( ctx);
+      if (c.displaySCM || c.captureDSCM) cP.Puck.drawSystemCenterOfMass( ctx);
       
       if ( (['3.d','4.e','5.e'].includes( c.demoVersion.slice(0,3))) || [7,8].includes( c.demoIndex) ) {
          messages['score'].displayIt( c.deltaT_s, ctx);
@@ -1066,6 +1067,8 @@ window.gW = (function() {
       
       'get_displaySCM': function() { return c.displaySCM; },
       'set_displaySCM': function( val) { c.displaySCM = val; },
+      'get_captureDSCM': function() { return c.captureDSCM; },
+      'set_captureDSCM': function( val) { c.captureDSCM = val; },
       
       'get_displayMSC': function() { return c.displayMSC; },
       'set_displayMSC': function( val) { c.displayMSC = val; },

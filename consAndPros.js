@@ -3039,6 +3039,7 @@ window.cP = (function() {
       'angularAxis_2d_m': new wS.Vec2D(1.75,1.75),
       'pinName': null,
       'COM': false,
+      'DSCM': false
    };
    m_EpL.toggle = function( pars={}) { 
       let angularAxis_2d_m = uT.setDefault( pars.angularAxis_2d_m, m_EpL.angularAxis_2d_m);

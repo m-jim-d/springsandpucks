@@ -498,6 +498,8 @@ window.dS = (function() {
       // reset the pi stuff back to defaults
       c.piCalcs = {'clacks':false, 'usePiEngine':false};
       
+      gW.set_captureDSCM( false);
+      
       // These message resets shut down any lingering messages from prior demos.
       gW.messages['help'].resetMessage();
       gW.messages['help'].loc_px = {'x':15,'y':30}; // The help location for all the non-game demos.
