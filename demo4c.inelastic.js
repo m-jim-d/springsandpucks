@@ -14,7 +14,12 @@ demo_capture = {
    "EpL": {
       "display": true,
       "reportType": "EpL",
-      "COM": true
+      "COM": true,
+      "angularAxis_2d_m": {
+         "x": 2.8138888888888904,
+         "y": 2.4999999999999996
+      },
+      "DSCM": true
    },
    "wallMapData": {},
    "puckMapData": {
