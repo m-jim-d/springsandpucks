@@ -30,10 +30,10 @@ demo_capture = {
          "name": "puck1",
          "position_2d_m": {
             "x": 7.8,
-            "y": 3
+            "y": 0.75
          },
          "velocity_2d_mps": {
-            "x": -20,
+            "x": -8,
             "y": 0
          },
          "color": "DarkSlateGray",
@@ -58,7 +58,7 @@ demo_capture = {
          "borderWidth_px": 0,
          "restitution": 0.7,
          "restitution_fixed": true,
-         "friction": 1.0,
+         "friction": 1,
          "friction_fixed": true,
          "radius_m": 0.5,
          "aspectR": 1,
@@ -74,10 +74,10 @@ demo_capture = {
          "name": "puck2",
          "position_2d_m": {
             "x": 7.8,
-            "y": 5.5
+            "y": 7.75
          },
          "velocity_2d_mps": {
-            "x": 20,
+            "x": 8,
             "y": 0
          },
          "color": "DarkSlateGray",
@@ -102,7 +102,7 @@ demo_capture = {
          "borderWidth_px": 0,
          "restitution": 0.7,
          "restitution_fixed": true,
-         "friction": 1.0,
+         "friction": 1,
          "friction_fixed": true,
          "radius_m": 0.5,
          "aspectR": 1,
@@ -116,11 +116,11 @@ demo_capture = {
          "name": "s1",
          "color": "white",
          "visible": true,
-         "length_m": 2.5,
-         "strength_Npm": 5,
-         "unstretched_width_m": 0.1569214188360501,
+         "length_m": 7,
+         "strength_Npm": 11,
+         "unstretched_width_m": 0.15,
          "drag_c": 0,
-         "damper_Ns2pm2": 0.8,
+         "damper_Ns2pm2": 1.5,
          "navigationForNPC": false,
          "forCursor": false,
          "p1_name": "puck1",

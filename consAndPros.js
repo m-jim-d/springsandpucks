@@ -267,9 +267,12 @@ window.cP = (function() {
       
       // Dimensions
       this.radius_m = uT.setDefault( pars.radius_m, 1.0);
+      this.lastAboveMin_radius_m = null;
       this.aspectR = uT.setDefault( pars.aspectR, 1.0);
       this.half_height_m = uT.setDefault( pars.half_height_m, null);
       this.half_width_m = uT.setDefault( pars.half_width_m, null);
+      this.lastAboveMin_half_height_m = null;
+      this.lastAboveMin_half_width_m = null;
       
       if (this.shape == 'circle') {
          this.radius_px = wS.px_from_meters( this.radius_m);
@@ -413,6 +416,7 @@ window.cP = (function() {
    Puck.g_2d_mps2 = null;
    Puck.hostPars = {'radius_m':0.30, 'color':'black', 'colorSource':true, 'clientName':'local', 'hitLimit':20, 'bullet_restitution':0.85, 'linDamp':1.0};
    Puck.minRadius_px = 9; // limits cannibalization
+   Puck.minHalfDim_px = 3; // minimum half-width/height for rectangular pucks (keeps them selectable)
    Puck.applyToAll = function ( doThis) {
       for (var puckName in gW.aT.puckMap) {
          var puck = gW.aT.puckMap[ puckName];
@@ -787,14 +791,14 @@ window.cP = (function() {
          
          this.half_width_px = wS.px_from_meters( this.half_width_m);
          // Don't let it get too skinny because it becomes hard to select.
-         if (this.half_width_px < 3) {
-            this.half_width_px = 3;
+         if (this.half_width_px < Puck.minHalfDim_px) {
+            this.half_width_px = Puck.minHalfDim_px;
             this.half_width_m = wS.meters_from_px( this.half_width_px);
          }
          
          this.half_height_px = wS.px_from_meters( this.half_height_m);
-         if (this.half_height_px < 3) {
-            this.half_height_px = 3;
+         if (this.half_height_px < Puck.minHalfDim_px) {
+            this.half_height_px = Puck.minHalfDim_px;
             this.half_height_m = wS.meters_from_px( this.half_height_px);
          }
          
@@ -870,8 +874,37 @@ window.cP = (function() {
             } else if (height_factor != 1.0) { 
                width_factor = height_factor;
             }
+            let minRadius_m = wS.meters_from_px( Puck.minRadius_px);
+            if (width_factor < 1.0) {
+               // Shrinking: save radius if currently above the minimum.
+               if (this.radius_m > minRadius_m) this.lastAboveMin_radius_m = this.radius_m;
+            } else if (width_factor > 1.0) {
+               // Growing from minimum: restore saved radius instead of scaling.
+               if ((this.radius_m <= minRadius_m) && this.lastAboveMin_radius_m) {
+                  this.radius_m = this.lastAboveMin_radius_m;
+                  width_factor = 1.0;
+                  height_factor = 1.0;
+               }
+            }
             this.b2d.CreateFixture( this.define_fixture({'radius_scaling':width_factor}));
          } else {
+            let minDim_m = wS.meters_from_px( Puck.minHalfDim_px);
+            if (width_factor < 1.0) {
+               if (this.half_width_m > minDim_m) this.lastAboveMin_half_width_m = this.half_width_m;
+            } else if (width_factor > 1.0) {
+               if ((this.half_width_m <= minDim_m) && this.lastAboveMin_half_width_m) {
+                  this.half_width_m = this.lastAboveMin_half_width_m;
+                  width_factor = 1.0;
+               }
+            }
+            if (height_factor < 1.0) {
+               if (this.half_height_m > minDim_m) this.lastAboveMin_half_height_m = this.half_height_m;
+            } else if (height_factor > 1.0) {
+               if ((this.half_height_m <= minDim_m) && this.lastAboveMin_half_height_m) {
+                  this.half_height_m = this.lastAboveMin_half_height_m;
+                  height_factor = 1.0;
+               }
+            }
             this.b2d.CreateFixture( this.define_fixture({'width_scaling':width_factor, 'height_scaling':height_factor}));
          }
          
@@ -2083,6 +2116,7 @@ window.cP = (function() {
       this.color = uT.setDefault( pars.color, "red");
       this.visible = uT.setDefault( pars.visible, true);
       this.length_m = uT.setDefault( pars.length_m, 0.0);
+      this.lastNonzeroLength_m = null;
       this.stretch_m = uT.setDefault( pars.stretch_m, 0.0);
       this.strength_Npm = uT.setDefault( pars.strength_Npm, 0.5);  // 60.0
       this.unstretched_width_m = uT.setDefault( pars.unstretched_width_m, 0.025);
@@ -2350,10 +2384,21 @@ window.cP = (function() {
       // First, the special case of the pinned puck that is using a zero length spring. Give
       // it a little length to start with, otherwise the zero will always scale to zero (it will never
       // get longer). 
+      // And keep track of the last nonzero length as the base for scaling. This allows springs 
+      // to be adjusted to zero length and then returned to their original length at the start of the 
+      // edit.
       if (command=='shorter' || command=='taller') {
-         if (this.length_m == 0.0) this.length_m = 0.1;
-         this.length_m *= length_factor;
-         if (this.length_m < 0.1) this.length_m = 0.0;
+         if (command == 'shorter') {
+            if (this.length_m > 0.0) this.lastNonzeroLength_m = this.length_m;
+            this.length_m *= length_factor;
+            if (this.length_m < 0.1) this.length_m = 0.0;
+         } else { // taller
+            if (this.length_m == 0.0) {
+               this.length_m = this.lastNonzeroLength_m || 0.1;
+            } else {
+               this.length_m *= length_factor;
+            }
+         }
          gW.messages['help'].newMessage("spring: [base,yellow]" + this.name + "[base] length = " + this.length_m.toFixed(3), 0.5);
          
       } else if (command=='thinner' || command=='wider') {

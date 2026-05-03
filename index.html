@@ -1623,7 +1623,7 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                      pucks</a> in a non-colliding orbit.
                   There is damping in the spring but no translational drag on the pucks. This is similar to the 5a demo,
                   simpler
-                  with a more energetic start. One puck starts with \(v_{x}=20\) and \(v_{y}=0\), the other has an equal
+                  with a more energetic start. One puck starts with \(v_{x}=-8\) and \(v_{y}=0\), the other has an equal
                   but opposite initial velocity.
 
                   <p>Conservation of angular momentum (where \( S_{t} \) is the final orbital translational speed, and
@@ -1647,9 +1647,9 @@ to rejoin the room under a new nickname (chat input).">Create</button>
 
                   <p>
                      Real-time report:<br> 
-                     <label><input type="radio" id="reportType-5a-speed" name="reportType-5a" value="speed" checked onchange="cP.EpL.reportType = this.value;"> speed</label>
+                     <label><input type="radio" id="reportType-5a-speed" name="reportType-5a" value="speed" checked onchange="cP.EpL.reportType = this.value; this.blur();"> speed</label>
                      &nbsp;
-                     <label><input type="radio" id="reportType-5a-EpL" name="reportType-5a" value="EpL" onchange="cP.EpL.reportType = this.value;"> energy and momentum</label>
+                     <label><input type="radio" id="reportType-5a-EpL" name="reportType-5a" value="EpL" onchange="cP.EpL.reportType = this.value; this.blur();"> energy and momentum</label>
                   </p>
 
                   <table rules="all" class="twoInOrbit">
@@ -1673,11 +1673,11 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                      <tr>
                         <td title="">initial</td>
                         <td><input title="click to edit the spring length" type="number" class="twoInOrbit" id="springLength_init"
-                              max="10.0" min="0.0" autocomplete="off" value="2.5"></td>
+                              max="10.0" min="0.0" autocomplete="off" value="7.0"></td>
                         <td><input title="click to edit the spring strength" type="number" class="twoInOrbit" id="springStrength_init"
-                              max="20" min="1" autocomplete="off" value="5"></td>
+                              max="20" min="1" autocomplete="off" value="11"></td>
                         <td><input title="click to edit the initial vx" type="number" class="twoInOrbit" id="vx_init"
-                              max="15" min="-15" autocomplete="off" value="-10"></td>
+                              max="15" min="-15" autocomplete="off" value="-8"></td>
                         <td><input title="click to edit the initial vy" type="number" class="twoInOrbit" id="vy_init"
                               max="15" min="-15" autocomplete="off" value="0"></td>
 
