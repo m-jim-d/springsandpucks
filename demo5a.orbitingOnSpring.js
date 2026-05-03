@@ -3,7 +3,7 @@ demo_capture = {
    "demoVersion": "5.a.orbitingOnSpring",
    "date": "4/14/2026",
    "canvasDimensions": {
-      "width": 1531,
+      "width": 1200,
       "height": 859
    },
    "gravity": false,
