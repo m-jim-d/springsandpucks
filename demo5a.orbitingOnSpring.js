@@ -29,7 +29,7 @@ demo_capture = {
          "clientName": null,
          "name": "puck1",
          "position_2d_m": {
-            "x": 7.8,
+            "x": 6.25,
             "y": 0.75
          },
          "velocity_2d_mps": {
@@ -73,7 +73,7 @@ demo_capture = {
          "clientName": null,
          "name": "puck2",
          "position_2d_m": {
-            "x": 7.8,
+            "x": 6.25,
             "y": 7.75
          },
          "velocity_2d_mps": {
