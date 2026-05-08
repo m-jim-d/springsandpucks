@@ -929,7 +929,7 @@ window.cR = (function() {
    
    function clearState() {
       // Reset the capture state...
-      gW.set_captureDSCM( false);
+      gW.set_captureDSCM( null);
       gW.dC.json.value = '';
       // Reset the highlight styles in the row below the number buttons.
       var highlightedLinkInPlusRow = document.getElementById( gW.getDemoVersion().slice(0,3));

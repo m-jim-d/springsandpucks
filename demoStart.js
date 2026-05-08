@@ -498,7 +498,7 @@ window.dS = (function() {
       // reset the pi stuff back to defaults
       c.piCalcs = {'clacks':false, 'usePiEngine':false};
       
-      gW.set_captureDSCM( false);
+      gW.set_captureDSCM( null);
       
       // These message resets shut down any lingering messages from prior demos.
       gW.messages['help'].resetMessage();
