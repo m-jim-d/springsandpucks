@@ -134,6 +134,7 @@
                </ul>
             </li>
             <li><a class="scroll-link" data-scroll-target="jelloMadness" href="#">jello madness</a></li>
+            <li><a class="scroll-link" data-scroll-target="eplreport" href="#">EpL report</a></li>
          </ul>
          </div>
       </div>
@@ -1312,7 +1313,217 @@
    </tr>
 
    
+
+   <tr>
+   <td class="sectionbreak" colspan="2"><a name="eplreport"></a><span class="sectionbreak" title="Energy, Momentum and Speed">EpL</span></td>
+   </tr>
    
+   <tr>
+   <td class="indent" colspan="2">
+      <p>
+         EpL is short for Energy, Momentum, and Angular Momentum. 
+         This realtime data table can be displayed in the canvas, overlaying the animation. 
+         All values are in SI units.
+      </p>
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="iqMXuXOKj-k">
+         <img class="frameCapture" src="screenshots/epl-report_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+      
+      <p><strong class="title_2">The Layout</strong></p>
+      
+      <p>
+         The EpL report displays the quantitative state of each 
+         puck and spring in the system.
+         
+         The first clip shows an example of the main EpL report (energy and momentum).
+         Individual states are at the bottom; totals and grand aggregates are at the top.
+         <br><br>
+         <strong>ctrl-L</strong> to toggle EpL on/off.
+         <strong>ctrl-shift-L</strong> toggles between the normal Energy & Momentum version and the Speed version of the EpL report.
+         <br><br>
+         The second clip shows the Speed version of the EpL report: 
+         translational speed, orbital and rotational angular speed,
+         and spring state (length and stretch).
+         <br><br>
+         EpL-related tasks are in the "remove/add items" menu; EpL options are saved in each capture.
+      </p>
+      <!-- 
+      YouTube Title: 
+         The EpL Report - Energy, Momentum, and Angular Momentum | Springs & Pucks
+
+      YouTube Description text:
+         The EpL (Energy, Momentum & Angular Momentum) report is a real-time
+         data table overlaid on the Springs & Pucks simulation canvas. This
+         video shows the main EpL report — individual puck and spring states
+         at the bottom, totals and aggregates at the top. Also shown: the
+         Speed version, displaying translational speed, orbital and
+         rotational angular speeds, and spring length and stretch. Use ctrl-L
+         to toggle the report on/off; ctrl-shift-L to switch between
+         versions.
+
+         Try it live:
+         https://triquence.org/?5b
+
+         More on the EpL report:
+         https://triquence.org/videos.html?eplreport
+
+         Full EpL series playlist:
+         https://www.youtube.com/playlist?list=PLTMmJ3C3RoL_9uFOQalRfSTfC8HETIDzU
+      -->
+   </td>
+   </tr>
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="mfJQx_9NcDA">
+         <img class="frameCapture" src="screenshots/epl-linear_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+   
+      <p><strong class="title_2">Linear Momentum</strong></p>
+      
+      <p>This series of clips primarily shows linear systems in collisions, 
+         conserving linear momentum as shown in the EpL report.
+         There is some emphasis given to the effects of walls on the systems, 
+         demonstrating how their external forces can change the linear momentum of the system. 
+         For comparison, some demos use large pucks as substitutes for walls.
+         <br><br>
+         The image to the right shows a triangular shaped momentum cage, 
+         with initial linear-motion conditions that produce orbital behavior.
+         <br><br> 
+         In the final clip, rotation motion is converted into orbital motion.
+         Box2D's perfect accounting of angular momentum, 
+         conserved across the messy collisions in this system, 
+         motivated the closed-form calculators in the next video.
+      </p>
+      <!-- 
+      YouTube Title: 
+         Linear Momentum in Puck Collisions | Springs & Pucks
+
+      YouTube Description text: 
+         Linear momentum conserved through puck collisions, as tracked by the EpL report.
+
+         Includes demos showing how walls exert external forces that change
+         system momentum, with large pucks used as wall substitutes for
+         comparison. A triangular momentum cage is initialized with
+         translational motion, producing orbital behavior. The final clip
+         converts rotational motion into orbital motion — Box2D's precise
+         angular momentum accounting across messy collisions motivated the
+         closed-form calculators shown in the next video. 
+
+         Try it live: https://triquence.org/?5b
+
+         More on the EpL report: https://triquence.org/videos.html?eplreport
+
+         Full EpL series playlist:
+         https://www.youtube.com/playlist?list=PLTMmJ3C3RoL_9uFOQalRfSTfC8HETIDzU
+      -->
+   </td>
+   </tr>		
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="ybhjgnFOIJQ">
+         <img class="frameCapture" src="screenshots/epl-angular_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+   
+      <p><strong class="title_2">Angular Momentum</strong></p>
+      
+      <p>These systems are composed of inelastic tacky pucks, pulled together into collisions and held in contact by springs.
+         All systems are initialized with rotational motion, 
+         showing final states having a mixture of rotational, orbital, and rolling motion.
+         <br><br> 
+         The closed-form calculators in this video (left panel) predict the final state of the system after the collision.
+         The predictions are compared to the Box2D simulation as displayed in the EpL report.
+         <br><br> 
+         The video starts with a 3-puck system. Odd-number systems cannot roll on each other and 
+         end in pure orbital motion, with orbital and rotational angular speeds equal.
+         This is an elegant confirmation of the closed-form expressions and the Box2D simulation: 
+         an odd-number system initialized with zero net angular momentum will come to a complete stop,
+         with no help from external forces (very cool).
+      </p>
+      <!---
+      YouTube Title: 
+         Angular Momentum: Puck Collisions & Closed-Form Predictions | Springs & Pucks
+
+      YouTube Description text:
+         Inelastic tacky pucks pulled into collision and held by springs, initialized
+         with rotational motion. 
+         
+         Final states show mixtures of rotational, orbital, and rolling motion.
+         Closed-form calculators (left panel) predict the post-collision state;
+         results are compared to Box2D via the EpL report. Highlight: odd-number
+         puck systems end in pure orbital motion. An odd-number system
+         initialized with zero net angular momentum comes to a complete stop —
+         no external forces required.  
+         
+         Try it live:
+         https://triquence.org/?5b
+
+         More on the EpL report:
+         https://triquence.org/videos.html?eplreport
+
+         Full EpL series playlist:
+         https://www.youtube.com/playlist?list=PLTMmJ3C3RoL_9uFOQalRfSTfC8HETIDzU
+      -->
+   </td>
+   </tr>		
+   
+   <tr>
+   <td class="indent" colspan="2">
+      <div class="video-container" data-videoID="nb0y9jUja9U">
+         <img class="frameCapture" src="screenshots/epl-nco_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+      </div>
+   
+      <p><strong class="title_2">Orbits Without Collisions</strong></p>
+      
+      <p>This is a non-colliding two-puck system, coupled by a damped spring.
+         This system is initialized with translational motion, no rotation.
+         Conservation of angular momentum and a force balance yield a quartic equation.
+         This is solved iteratively by the calculator, for final-state predictions and 
+         comparisons to the EpL Speed report.
+         <br><br> 
+         For the special case of a zero-length spring, the quartic simplifies giving a closed-form expression.
+         The corresponding prediction is shown in the paragraph below the iterative calculator.
+         <br><br> 
+         The spring is shortened to zero length for comparison to the closed-form solution.
+         System energy increases as this work (shortening the spring) is done. 
+         The timestep is shortened to improve the precision of Box2D's modeling of system energy.
+      </p>
+      <!---
+      YouTube Title: 
+         Orbits Without Collisions | Springs & Pucks
+
+      YouTube Description text:
+         A non-colliding two-puck system coupled by a damped spring, initialized with
+         translational motion and no rotation. 
+         
+         Conservation of angular momentum and a force balance yield a quartic
+         equation, solved iteratively by the calculator and compared to the EpL
+         Speed report. For a zero-length spring, the quartic simplifies to a
+         closed-form expression. The spring is then shortened to zero length in
+         the simulation, confirming the closed-form prediction — with the
+         timestep reduced to improve the precision of Box2D's modeling of system
+         energy.     
+         
+         Try it live:
+         https://triquence.org/?5a.orbitingOnSpring
+
+         More on the EpL report:
+         https://triquence.org/videos.html?eplreport
+
+         Full EpL series playlist:
+         https://www.youtube.com/playlist?list=PLTMmJ3C3RoL_9uFOQalRfSTfC8HETIDzU
+      -->      
+   </td>
+   </tr>		
+
+   
+
    <tr>
    <td class="sectionbreak" colspan="2"><a name="fullscreenview"></a><span class="sectionbreak" title="favorites">sundries</span></td>
    </tr>
