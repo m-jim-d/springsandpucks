@@ -2,7 +2,9 @@
 
 Physics-engine simulations of pucks and spring systems on an HTML canvas, with interactive gameplay, state capture/restore, and optional peer-to-peer multiplayer.
 
-Live site: **[triquence.org](https://triquence.org)**
+- **Cloudflare Pages (main site):** [triquence.org](https://triquence.org)
+- **GitHub Pages:** [m-jim-d.github.io/springsandpucks](https://m-jim-d.github.io/springsandpucks/)
+- **Firebase Hosting:** [ttcorg-64150.web.app](https://ttcorg-64150.web.app/)
 
 ---
 
