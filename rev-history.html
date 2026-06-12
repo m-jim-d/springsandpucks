@@ -44,6 +44,16 @@
 		</div>
 		<p><strong>Next:</strong> video on team play and the leaderboard report</p>
 		<ul>
+			<li>June, 2026
+				<ul>
+					<li>Improved puck-tail (sound-field) rendering for high-refresh-rate displays:
+						<ul>
+							<li>Ring emission now fires at 60Hz cadence regardless of display refresh rate, using a frame-counting gate.
+							<li>Ring expansion is synchronized to emission frames only, preventing interleaved-grid flicker on 120Hz and 165Hz displays.
+							<li>Expansion uses actual elapsed time (deltaT_s &times; framesBetweenPings_limit), keeping wave speed physically correct for both fixed and variable timestep modes.
+							<li>Rainbow hue stepping moved into the emission block so color cycling matches the ping cadence.
+						</ul>
+				</ul>
 			<li>May, 2026
 				<ul>
 					<li>Added an <a href="videos.html?eplreport">EpL section</a> to the videos page, with four new videos:

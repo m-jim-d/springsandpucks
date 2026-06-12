@@ -245,7 +245,8 @@ window.cR = (function() {
       var simplePuckKeys =  ['disableJet','noRecoil','bullet_restitution','hitLimit','cannibalize'];
       
       // Remove these from the tail of any puck.
-      var puckTailKeys = ['firstPoint_2d_m','initial_radius_m','values','markerPingTimer_s','pingColor'];
+      var puckTailKeys = ['firstPoint_2d_m','initial_radius_m','values','markerPingTimer_s','pingColor','waveSpeed_mps',
+                          'framesBetweenPings_limit','framesBetweenPings_count','pendingMarkerPing'];
       
       // Remove these from clients depending on whether NPC or Human
       var NPC_clientPuckKeys = ['angleLine'];

@@ -136,7 +136,7 @@ demo_capture = {
                "steppingKey": "hue",
                "stepping": true
             },
-            "machSwitch": false,
+            "machSwitch": true,
             "machValue": 1,
             "markerPingTimerLimit_s": 1
          },

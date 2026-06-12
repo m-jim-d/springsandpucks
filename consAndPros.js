@@ -45,7 +45,12 @@ window.cP = (function() {
       this.initial_radius_m = uT.setDefault( pars.initial_radius_m, 1.0);
       
       // ppf: pixels per frame
+      // Adjustments to keep tail behavior similar to the 60Hz case.
       this.propSpeed_ppf_px = uT.setDefault( pars.propSpeed_ppf_px, 1);
+      this.waveSpeed_mps = wS.meters_from_px(this.propSpeed_ppf_px) * 60; // 60 fps assumed in pars.propSpeed_ppf_px
+      this.framesBetweenPings_limit = Math.round(gW.getFrameRate()/60.0);
+      this.framesBetweenPings_count = 0;
+      
       this.length_limit =     uT.setDefault( pars.length_limit, 25);
       
       this.color =            uT.setDefault( pars.color, 'lightgray');
@@ -65,67 +70,111 @@ window.cP = (function() {
       // The wait (time in seconds) before making a pure white color ping.
       this.markerPingTimerLimit_s = uT.setDefault( pars.markerPingTimerLimit_s, 1.0);
       this.markerPingTimer_s = 0.0;
+      this.pendingMarkerPing = false;
       
       this.values = [];
    }
    PuckTail.prototype = Object.create( dFM.DrawingFunctions.prototype); // Inherit methods
    PuckTail.prototype.constructor = PuckTail; // Rename the constructor (after inheriting)
    PuckTail.prototype.machCalc = function( puckSpeed_mps) {
-      var waveSpeed_mps = wS.meters_from_px(this.propSpeed_ppf_px) * gW.getFrameRate();
-      var mach =  puckSpeed_mps / waveSpeed_mps;
+      var mach =  puckSpeed_mps / this.waveSpeed_mps;
       return mach;
    }
    PuckTail.prototype.speedFromMach = function() {
-      var waveSpeed_mps = wS.meters_from_px(this.propSpeed_ppf_px) * gW.getFrameRate();
-      var puckSpeed_mps = waveSpeed_mps * this.machValue;
+      var puckSpeed_mps = this.waveSpeed_mps * this.machValue;
       return puckSpeed_mps;
    }
    PuckTail.prototype.update = function( drawingContext, newPoint_2d_m, deltaT_s) {
       var lineColor;
+      var emittedThisFrame = false;
       
-      if (this.rainbow) {
-         // hue,   saturation, lightness
-         // 0-360, 0-100%,     0-100%
-         this.pingColor = this.hsl.colorString();
-         this.hsl.step();
-         
-      } else {
-         this.pingColor = this.color;
-      }
-         
-      // Color one ring specially so to see it propagation better.
+      // Color one ring specially to see its propagation better.
       this.markerPingTimer_s += deltaT_s;
       if ((this.markerPingTimer_s > this.markerPingTimerLimit_s) && !this.rainbow) {
-         this.pingColor = 'white';
-         this.markerPingTimer_s = 0.0;
+         this.pendingMarkerPing = true;
       }
+
+      if (this.framesBetweenPings_count >= this.framesBetweenPings_limit) {
+         // Emit a new ring at the 60Hz-equivalent cadence (every framesBetweenPings_limit frames).
+         
+         if (this.rainbow) {
+            // hue,   saturation, lightness
+            // 0-360, 0-100%,     0-100%
+            this.pingColor = this.hsl.colorString();
+            this.hsl.step();
+         } else {
+            this.pingColor = this.color;
+         }
+
+         if (this.pendingMarkerPing) {
+            this.pingColor = 'white';
+            this.markerPingTimer_s = 0.0;
+            this.pendingMarkerPing = false;
+         }
+         // Ping out a new ring (at 60Hz cadence). Each value is a position vector and radius.         
+         this.values.push({'p_2d_px':wS.screenFromWorld( newPoint_2d_m), 'r_px':wS.px_from_meters(this.initial_radius_m), 'color':this.pingColor});
+         this.framesBetweenPings_count = 0;
+         emittedThisFrame = true;
       
-      // This is a reminder that an adjustable emit frequency doesn't render well. 
-      // Best to emit once per frame as is done in the single line that follows.
-      
-      // Ping out a new ring (once per frame). Each value is a position vector and radius.
-      this.values.push({'p_2d_px':wS.screenFromWorld( newPoint_2d_m), 'r_px':wS.px_from_meters(this.initial_radius_m), 'color':this.pingColor});
-      
-      // Remove the oldest value if needed.
-      if (this.values.length > this.length_limit) {
-         this.values.shift();
+         // Remove the oldest value if needed.
+         if (this.values.length > this.length_limit) {
+            this.values.shift();
+         }
       }
       
       // Loop through the tail.
       for (var t = 0, len = this.values.length; t < len; t++) {
+         // Expand the radius of each ping (like sound waves propagating). 
+
+         /*
+         Why expansion only happens on the emitted frame:
          
-         // Expand the radius of the ping (like a sound wave propagating). Note: doing this addition in pixels (not meters)
-         // to yield a more consistent and pleasing rendering.
-         this.values[t].r_px += this.propSpeed_ppf_px;
+         If you expand rings every frame (using deltaT_s), then on intermediate
+         frames (where no new ring is born), the existing rings move to positions
+         that are between where consecutive rings sit. The eye sees rings
+         alternating between two interleaved grids — one frame they're aligned
+         with the "correct" positions, the next frame they're in the gaps. At
+         120Hz this creates a 60Hz flicker between the two states, making the
+         rings look blurry or indistinct.
          
+         By expanding only on the frame a new ring is emitted, all rings jump in
+         lockstep at the same moment the newest ring appears. The invariant is:
+         
+            On every emission frame, ring N moves outward by exactly one
+            inter-ring gap — landing where ring N+1 was — while a fresh ring
+            appears at the center.
+         
+         On the non-emission frames, nothing moves. The image is static and
+         identical to the previous frame. The display still refreshes at
+         120/165Hz (so moving pucks remain smooth), but the ring pattern holds
+         perfectly still between pings, preserving the clean concentric
+         appearance.
+         
+         In short: discrete synchronized updates keep all rings on the same
+         spatial grid at all times, while continuous per-frame updates would put
+         them off-grid half the time.
+         */
+
+         if (emittedThisFrame) {
+            // Expand radius by the distance sound travels in one ping interval.
+            // Using (deltaT_s * framesBetweenPings_limit) as the time step ensures
+            // expansion matches the spacing between consecutive rings, so each ring
+            // lands where its neighbor was — giving coherent concentric circles
+            // regardless of display refresh rate.
+            let timeSincePing_s = deltaT_s * this.framesBetweenPings_limit;
+            this.values[t].r_px += wS.px_from_meters(this.waveSpeed_mps * timeSincePing_s);
+         }
+
          // Draw the sound circle (make the 'white' marker ring even more visible, using red, if single stepping).
          if (gW.getSingleStep() && (this.values[t].color == 'white')) {
-            lineColor = 'red'; //#008080 cyan yellow magenta orange
+            lineColor = 'red';
          } else {
             lineColor = this.values[t].color;
          } 
          this.drawCircle( drawingContext, this.values[t].p_2d_px, {'radius_px':this.values[t].r_px, 'borderColor':lineColor, 'borderWidth_px':2, 'fillColor':'noFill'});
       }
+
+      this.framesBetweenPings_count++;
    }
 
 
