@@ -46,13 +46,7 @@
 		<ul>
 			<li>June, 2026
 				<ul>
-					<li>Improved puck-tail (sound-field) rendering for high-refresh-rate displays:
-						<ul>
-							<li>Ring emission now fires at 60Hz cadence regardless of display refresh rate, using a frame-counting gate.
-							<li>Ring expansion is synchronized to emission frames only, preventing interleaved-grid flicker on 120Hz and 165Hz displays.
-							<li>Expansion uses actual elapsed time (deltaT_s &times; framesBetweenPings_limit), keeping wave speed physically correct for both fixed and variable timestep modes.
-							<li>Rainbow hue stepping moved into the emission block so color cycling matches the ping cadence.
-						</ul>
+					<li>Improved puck-tail (sound-field) rendering on high-refresh-rate displays (e.g. 120Hz, 165Hz): ring emission is locked to a 60Hz cadence and expansion is synchronized to each emission, giving clean concentric circles at any frame rate.
 				</ul>
 			<li>May, 2026
 				<ul>

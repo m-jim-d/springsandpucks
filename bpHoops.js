@@ -47,14 +47,14 @@ window.bpH = (function() {
                     '\\ \\[20px Arial](Source: "The Rise of Independent Voters" by Rhodes Cook in a 2012 Bipartisan Policy Center report)' +
                     '\\ \\[30px Arial]Hmm, vaguely familiar, Monkey Hunt?'
    var m_nameMap = {
-      'trump2':   {'name':'Donald', 'title':'   (former President of the United States, Donald Trump)'}, 
-      'biden2':   {'name':'Joe',    'title':'   (President of the United States, Joe Biden)'}, 
-      'harris':   {'name':'Kamala', 'title':'   (Vice President of the United States, Kamala Harris)'}, 
-      'pence':    {'name':'Mike',   'title':'   (former Vice President of the United States, Mike Pence)'}, 
-      'pelosi':   {'name':'Nancy',  'title':'   (Speaker of the United States House of Representatives, Nancy Pelosi)'}, 
-      'schumer':  {'name':'Chuck',  'title':'   (Majority Leader of the United States Senate, Chuck Schumer)'}, 
-      'mcconnell':{'name':'Mitch',  'title':'   (Minority Leader of the United States Senate, Mitch McConnell)'}, 
-      'mccarthy': {'name':'Kevin',  'title':'   (Minority Leader of the United States House of Representatives, Kevin McCarthy)'},
+      'R1':       {'name':'R1-name', 'title':'   (R1 description)'}, 
+      'R2':       {'name':'R2-name', 'title':'   (R2 description)'}, 
+      'R3':       {'name':'R3-name', 'title':'   (R3 description)'}, 
+      'R4':       {'name':'R4-name', 'title':'   (R4 description)'}, 
+      'D1':       {'name':'D1-name', 'title':'   (D1 description)'}, 
+      'D2':       {'name':'D2-name', 'title':'   (D2 description)'}, 
+      'D3':       {'name':'D3-name', 'title':'   (D3 description)'}, 
+      'D4':       {'name':'D4-name', 'title':'   (D4 description)'}, 
       
       'elephant-1': {'name':'Republican',  
          'title':'\\[30px Arial]"The Republican Party was founded in 1854 by former members of the Whig Party\\[30px Arial]who opposed the expansion of slavery into the western territories."\\ \\[20px Arial](Source: "History of the Republican Party" at www.gop.com)'},
@@ -78,8 +78,8 @@ window.bpH = (function() {
          'title': monkeyText},
    };
 
-   var m_democratNames = ['biden2','harris','schumer','pelosi','donkey-1','donkey-2','donkey-3','donkey-4'];
-   var m_republicanNames = ['trump2','pence','mcconnell','mccarthy','elephant-1','elephant-2','elephant-3','elephant-4'];
+   var m_democratNames = ['D1','D2','D4','D3','donkey-1','donkey-2','donkey-3','donkey-4'];
+   var m_republicanNames = ['R1','R2','R3','R4','elephant-1','elephant-2','elephant-3','elephant-4'];
    var m_independentNames = ['monkey-1'];
    
    var m_numberNames = {0:'Zero',1:'One',2:'Two',3:'Three',4:'Four',5:'Five',6:'Six',7:'Seven',8:'Eight',9:'Nine'};
