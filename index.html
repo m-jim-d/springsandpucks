@@ -2233,12 +2233,13 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                   <br>
                   <br>
                   <hr><br>
-                  <span id="frameRate"></span>These demos try to run at a <strong>frame rate</strong> that is equal to
-                  the refresh rate of your display.
-                  This frame rate is reported to the right of the "pause" control. The
-                  value should be about 60fps if your display's refresh rate is set to 60
-                  Hertz. Cell phones will generally not be able to reach 60fps for most of
-                  the demos.
+                  
+                  
+                  <span id="frameRate"></span>These demos try to run at a <strong>frame rate</strong> 
+                  that is equal to the refresh rate of your display.
+                  This frame rate is reported to the right of the "pause" control. 
+                  The value should be about 60fps if your display's refresh rate is set to 60 Hertz. 
+                  Cell phones will generally be able to reach 60fps for most of the demos.
                   <br><br>
 
                   Below the "pause" control is a selection control used in establishing a
@@ -2247,41 +2248,31 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                   the page is refreshed.
                   <br><br>
 
-                  Generally this will get set
-                  to 60 Hertz unless you have a DVI or Display Port connection to a
-                  monitor that can render at higher rates. Note that the longer timestep of the 30
-                  Hertz setting will be unstable in demos that
-                  incorporate springs.<br><br>
-
-                  Direct mouse drag (and rotation) of single or multiple objects will produce instability when
-                  editing spring systems at rates of 60 Hz or less. At 100 Hz or higher these operations work
-                  the best.
+                  Generally this timestep control will get set to 17ms (60Hz) unless you have a 
+                  Display Port (or equivalent HDMI or USB) connection to a monitor that can render at higher rates. 
+                  Note that the longer timestep of the 30 Hertz setting may lead 
+                  to instability in demos with springs.
                   <br><br>
 
-                  If you do have high-refresh-rate gear,
-                  try setting your monitor to a refresh rate that the demos can easily
-                  match. If a demo is running slower (fps) than your monitor's refresh
-                  rate, try reducing your monitor's rate (in Windows 10, right click on
+                  If you do have high-refresh-rate gear, try setting your monitor to a refresh rate 
+                  that the demos can easily match. 
+                  If a demo is running slower (fps) than your monitor's refresh
+                  rate, try reducing your monitor's rate (in Windows 11, right click on
                   the desktop, then "display setting", then "advanced display setting",
-                  then "display adapter properties", then "monitor" tab, then change the
-                  "screen refresh rate"). Then, after you have dialed back your monitor to the point that
+                  then ... change the "screen refresh rate"). 
+                  Then, after you have dialed back your monitor to the point that
                   the demos can match it, set the timestep control to agree with that value (or refresh the
-                  page to set it automatically).<br><br>
+                  page to set it automatically).
+                  <br><br>
 
-                  At the beginning of the timestep select list, you'll
-                  see the option "variable". This lets the physics timestep (framerate)
-                  float along with the refresh rate of your monitor. This can be handy for
-                  observing the fps performance of your system.
+                  At the beginning of the timestep select list, you'll see the option "variable". 
+                  This lets the physics timestep float along with the refresh rate (framerate) of your monitor. 
+                  This can be handy for observing the fps performance of your system.
                   Generally it's best to only use this to test. Then set a similar fixed-timestep value.
                   <br><br>
                   <hr><br>
 
-                  <!--
-         These Canvas animations works well in Google Chrome and Mozilla Firefox.
-         <a title='show or hide the help on browsers' onclick="uT.toggleElementDisplay('msEdgeBody','block');uT.toggleSpanValue('msEdgeIntro','More','Less')"><span id='msEdgeIntro'>More</span></a> on browsers...
-         <br>
-         <span id='msEdgeBody' style='display:none'>
-         -->
+
                   <span id="browsers">Overall, Chrome is the best <strong>browser</strong> to use here. (You may want to
                      stop
                      reading about browsers and simply use Chrome.) However, Firefox is a
@@ -2313,8 +2304,9 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                   For GhostBall Pool (#3d), Safari doesn't go to fullscreen well; use the full-canvas button instead.
                   <br><br>
                   Testing on the Raspberry Pi showed that Chromium looks good there and the
-                  multiplayer works fine. RPi makes an excellent non-streaming client but is
-                  very underpowered as a host. The right-side alt key is required for box selecting objects.
+                  multiplayer works fine. 
+                  RPi makes an excellent non-streaming client (all but the RPi5 are underpowered as a host). 
+                  The right-side alt key is required for box selecting objects.
                   <br><br>
                   A Chromebook makes a good streaming and non-streaming client. As a host
                   it is somewhat underpowered. The touchpad differs from Windows.
