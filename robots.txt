@@ -1,0 +1,7 @@
+User-agent: *
+
+# Strict block on all game graphics
+Disallow: /images/
+
+# Explicit permission for chosen search snippet image
+Allow: /screenshots/epl-report_550w.png
