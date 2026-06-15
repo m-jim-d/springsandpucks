@@ -2239,36 +2239,31 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                   that is equal to the refresh rate of your display.
                   This frame rate is reported to the right of the "pause" control. 
                   The value should be about 60fps if your display's refresh rate is set to 60 Hertz. 
-                  Cell phones will generally be able to reach 60fps for most of the demos.
+                  Most cell phones can reach 60fps on the simpler demos.
                   <br><br>
 
-                  Below the "pause" control is a selection control used in establishing a
-                  fixed timestep for the physics-engine (inversely related to framerate).
-                  This is automatically set (based on an observation of your framerate) whenever
+                  Below the "pause" control is a selection control that sets a
+                  fixed timestep for the physics engine (inversely related to simulation frame rate).
+                  This is automatically set (based on your monitor's detected refresh rate) whenever
                   this page is loaded/reloaded.
                   <br><br>
 
                   Generally this timestep control will get set to 17ms (60Hz) unless you have a 
-                  Display Port (or equivalent HDMI or USB) connection to a monitor that can render at higher rates. 
-                  Note that the longer timestep of the 30 Hertz setting may lead 
-                  to instability in demos with springs.
+                  DisplayPort (or equivalent HDMI or USB-C) connection to a monitor that can render at higher rates. 
+                  Note that the 30Hz setting may lead to instability in demos with springs.
                   <br><br>
 
-                  If you do have high-refresh-rate gear, try setting your monitor to a refresh rate 
-                  that the demos can easily match. 
-                  If a demo is running slower (fps) than your monitor's refresh
-                  rate, try reducing your monitor's rate (in Windows 11, right click on
-                  the desktop, then "display setting", then "advanced display setting",
-                  then ... change the "screen refresh rate"). 
-                  Then, after you have dialed back your monitor to the point that
-                  the demos can match it, set the timestep control to agree with that value (or reload the
-                  page to set it automatically).
+                  High-refresh-rate monitors can outpace the demos. If that's happening — due to a
+                  demanding demo, limited hardware, or both — reduce your monitor's refresh rate until
+                  the demos can match it. In Windows 11: right-click the desktop → "Display settings"
+                  → "Advanced display" → "Screen refresh rate". Then set the timestep control to agree
+                  with that rate, or simply reload the page.
                   <br><br>
 
                   At the beginning of the timestep select list, you'll see the option "variable". 
-                  This lets the physics timestep float along with the refresh rate (framerate) of your monitor. 
-                  This can be handy for observing the fps performance of your system.
-                  Generally it's best to only use this to test. Then set a similar fixed-timestep value.
+                  This lets the physics timestep (1/frame rate) track the refresh rate of your monitor. 
+                  This can be handy for observing your system's fps.
+                  Generally it's best to only use this to test. Then set a matching fixed-timestep value.
                   <br><br>
                   <hr><br>
 
