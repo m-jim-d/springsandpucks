@@ -48,6 +48,16 @@ window.cP = (function() {
       // Adjustments to keep tail behavior similar to the 60Hz case.
       this.propSpeed_ppf_px = uT.setDefault( pars.propSpeed_ppf_px, 1);
       this.waveSpeed_mps = wS.meters_from_px(this.propSpeed_ppf_px) * 60; // 60 fps assumed in pars.propSpeed_ppf_px
+      // Frames   Display Hz   Effective Ping Hz
+      // ------   ----------   -----------------
+      // 1        60           60
+      // 1        75           75
+      // 1        85           85
+      // 2        120          60
+      // 2        144          72
+      // 3        165          55
+      // 4        240          60
+      // 6        360          60
       this.framesBetweenPings_limit = Math.round(gW.getFrameRate()/60.0);
       this.framesBetweenPings_count = 0;
       

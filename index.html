@@ -958,13 +958,13 @@ to rejoin the room under a new nickname (chat input).">Create</button>
 
                <span id="d2"><strong>Demo #2</strong> <a onclick="cR.clearState();dS.demoStart(2)">2a</a> is a
                   sound-field simulation where
-                  two of the pucks are emitting at 60Hz (or the refresh rate of your
-                  computer and monitor). The width of the canvas represents 6 meters.
-                  Every second a single wave is colored white (contrasting) so you can
-                  see that waves are propagating out from the puck. The propagation speed
-                  can be changed in the capture (propSpeed_ppf_px). The set of waves are
+                  two of the pucks emit waves (pings) at approximately 60Hz.
+                  The width of the canvas represents 6 meters.
+                  One wave each second is colored white (contrasting) so you can
+                  see that waves are propagating out from the puck. The wave speed
+                  can be changed in the capture (propSpeed_ppf_px). The waves are
                   stored in a FIFO buffer. The set size can be changed in the capture
-                  (length_limit). This gives the appearance of a tail as the puck is
+                  (length_limit). This creates a trailing effect as the puck is
                   dragged. If you fling the puck so it moves faster than the wave speed (Mach > 1)
                   you will see a shock-wave.</span>
                <br><br>
