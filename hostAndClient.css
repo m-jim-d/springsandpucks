@@ -150,7 +150,7 @@ span.gameBullet {
    */
 }
 
-p.title {
+h1.title {
    color:black; /* #5d8989 #008080 */
    text-align: center;
    font-size: 175%;
