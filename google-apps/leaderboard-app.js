@@ -181,7 +181,9 @@ function getBestSubmissions( gameVersion, secondSortColumn) {
     var bestSubmissions = [];
     var userCounter = 0;
     // Count up to m_nQueryLimit in the group, for rows that have: 
-    // (1) a user name and, (2) a value in the secondary sort column, and (3) no mouse or npcSleep usage.
+    // (1) a user name and, (2) a value in the secondary sort column.
+    // Note: mouse and npcSleep rows are NOT excluded here; they are shown in the report and flagged
+    // in the m/sl columns. (Ranking excludes them separately, in findUserRank.)
     for (var row = 0, len = userData.length; row < len; row++) {
         if ( (userData[row][3] == gameVersion) && (userData[row][0] != '') && 
              (userData[row][ colMap[ secondSortColumn]-1] != '') ) {

@@ -1,0 +1,740 @@
+<!-- leaderboard-help.html -->
+<!doctype html>
+<html lang="en" id="helpScroller">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="leaderboard, scoring, team play, and tournament help for triquence.org">
+
+    <title>Tourney Setup &amp; Scoring</title>
+
+    <link rel="canonical" href="https://triquence.org/leaderboard-help" />
+
+    <link href="ttc-disc.css" rel="stylesheet" type="text/css">
+    <!-- The navigation menu -->
+    <link href="sitemap.css" rel="stylesheet" type="text/css">
+
+    <style type="text/css">
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px 10px;
+            text-align: left;
+            vertical-align: top;
+            background-color: white;
+            color: black;
+        }
+        th {
+            background-color: transparent;
+            color: black;
+            border-bottom: 2px solid #ccc;
+        }
+        /* consistent width for the leading (points) column */
+        th:first-child, td:first-child { width: 90px; }
+        /* wider leading column for the games table (keeps names to two lines) */
+        table.games th:first-child, table.games td:first-child { width: 165px; }
+        /* remove the outer frame, keeping only internal gridlines */
+        tr th:first-child, tr td:first-child { border-left: none; }
+        tr th:last-child, tr td:last-child { border-right: none; }
+        thead tr:first-child th { border-top: none; }
+        tbody tr:last-child td { border-bottom: none; }
+        table {
+            border-collapse: collapse;
+            width: auto;
+            max-width: 100%;
+            margin: 14px 0;
+        }
+        /* the games table has long descriptions, so let it use full width */
+        table.games { width: 100%; clear: both; }
+        div.pageblock h2 {
+            margin-top: 34px;
+            background-color: #e8e3dc;
+            border-radius: 5px;
+            padding: 2px 4px;
+            font-size: 105%;
+            text-transform: lowercase;
+            clear: both;
+        }
+        h3 {
+            margin-top: 22px;
+            margin-bottom: 4px;
+            clear: both;
+        }
+        /* allow a subsection to wrap alongside a tall floated figure */
+        h3.flow { clear: none; }
+        /* indent section content, like td.indent on the videos page */
+        div.pageblock div.body-indent { padding-left: 15px; }
+        /* pull the section bands back out to the full-left edge */
+        div.pageblock div.body-indent h2 { margin-left: -15px; }
+        code, .kbd {
+            background-color: #eef1f4;
+            border: 1px solid #d0d7de;
+            border-radius: 4px;
+            padding: 1px 6px;
+            color: black;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.92em;
+            white-space: nowrap;
+        }
+        .pts {
+            white-space: nowrap;
+            font-weight: bold;
+        }
+        /* let bold text inside links follow the link color (incl. white-on-black hover),
+           overriding the global "strong { color: black }" rule */
+        div.pageblock a strong { color: inherit; }
+        .note {
+            background-color: #f0f1f3;
+            border-left: 4px solid #6c757d;
+            color: black;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        /* an upbeat "easy path" callout, distinct from the neutral .note */
+        .tip {
+            background-color: #eaf5ea;
+            border-left: 4px solid #3c9a3c;
+            color: black;
+            padding: 15px;
+            margin: 20px 0;
+            /* start below any floated figure rather than wrapping its background around it */
+            clear: both;
+        }
+        .tip strong { font-size: 1.05em; }
+        .toc {
+            margin: 20px 0;
+        }
+        .toc ul { margin: 6px 0; }
+        figure.shot {
+            margin: 16px 0;
+        }
+        figure.shot img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        figure.shot figcaption {
+            font-size: 0.88em;
+            color: #555;
+            margin-top: 5px;
+        }
+        /* the inline-SVG diagram: keep the caption under the drawing, not at the page margin */
+        figure.shot.diagram { max-width: 720px; }
+        figure.shot.diagram figcaption { text-align: center; }
+        /* keep the game-canvas screenshots modest in size */
+        figure.shot.game { max-width: 320px; }
+        figure.shot.right {
+            float: right;
+            max-width: 240px;
+            margin: 0 0 12px 20px;
+        }
+        /* let an explicit width attribute on the image override the 240px default;
+           display:table shrink-wraps the figure to the image (not the caption) */
+        figure.shot.right:has(img[width]) {
+            max-width: none;
+            display: table;
+            min-width: 230px;
+        }
+        figure.shot.right:has(img[width]) figcaption {
+            display: table-caption;
+            caption-side: bottom;
+        }
+    </style>
+
+    <!-- The navigation menu -->
+    <script src="jquery-3.7.1.min.js?v=3"></script>
+    <link href="sitemap.css?v=130" rel="stylesheet" type="text/css">
+
+    <script src="utilities.js?v=130"></script>
+    <script src="pageStuff.js?v=130"></script>
+
+    <script>
+        // After the page loads (and canvas element is defined)....
+        $(document).ready( function() {
+            pS.init({"pageDesc":"SP: Game Help", "scrollAdjust":-13});
+        });
+    </script>
+
+</head>
+
+<body>
+
+<!-- The navigation menu -->
+<div id="navDiv"></div>
+<img class="menuicon" id="opener" src="assets/ui/menu-icon.svg" alt="" style="cursor:pointer;">
+
+<div class="pageblock">
+    <div class="title_line">
+        <h1>Tournament &amp; Leaderboard Guide</h1>
+        <span class="float_right">(<a href="javascript:history.go(-1)">return</a>)&nbsp;&nbsp;(<a href="index.html">springs & pucks</a>)</span>
+    </div>
+
+    <div class="body-indent">
+    <p>
+        This page collects information players may need for a Springs &amp; Pucks tournament.<br>
+        It may look like a lot, but running a tournament can be simple &mdash; the
+        <a class="scroll-link" data-scroll-target="tournament" href="#">easy way</a> is just three steps.
+    </p>
+
+    <div class="toc">
+        <p style="margin-bottom:5px">Topics here:</p>
+        <ul>
+            <li><a class="scroll-link" data-scroll-target="devices" href="#">devices and play modes</a></li>
+            <li><a class="scroll-link" data-scroll-target="setup" href="#">set your nickname and team</a></li>
+            <li><a class="scroll-link" data-scroll-target="start" href="#">starting a game</a></li>
+            <li><a class="scroll-link" data-scroll-target="scoring" href="#">scoring for each game</a></li>
+            <li><a class="scroll-link" data-scroll-target="team" href="#">team play</a></li>
+            <li><a class="scroll-link" data-scroll-target="leaderboard" href="#">the leaderboard</a></li>
+            <li><a class="scroll-link" data-scroll-target="tournament" href="#">custom captures for a tournament</a></li>
+            <li><a class="scroll-link" data-scroll-target="checklist" href="#">quick tournament checklist</a></li>
+        </ul>
+    </div>
+    
+    <p>Additional resources:</p>
+    <ul>
+        <li>The left panel on the main <a href="index.html" target="_blank">S&P</a> page has context help that scrolls to the relevant sections when you start games and demos.</li>
+        <li>For the controls reference, see the <a href="mouseandkeys.html" target="_blank">Mice, Keys, and Touch</a> page.</li>
+        <li>The <a href="videos.html" target="_blank">Videos</a> page offers a walkthrough documenting the physics sandbox and the games.</li>
+        <li>The Two-Thumbs cell-phone gamepad is discussed in the <a href="index.html?twoThumbs" target="_blank">S&P</a> and <a href="multiplayer.html" target="_blank">Multiplayer</a> pages.</li>
+    </ul>
+
+    <h2 id="devices">Devices and Play Modes</h2>
+    <p>A <strong>tournament</strong> is simply an organized session where players compete on the same game course and compare scores on the leaderboard.
+        Competitors can be <strong>individual players</strong> or <strong>teams</strong>, and a single tournament can mix both.</p>
+    <p>
+        The <a href="index.html" target="_blank"><strong>host</strong></a> is the computer that runs the physics engine and displays to the audience. 
+        It collects mouse/keyboard input from the host player and connected clients.
+    </p>
+    <p>
+        The <a href="client.html" target="_blank"><strong>client</strong></a> collects input from an additional player and sends it to the host. 
+        It can run in mouse/keyboard mode or gamepad mode.
+        The Two-Thumbs <strong>gamepad</strong> is only available on a <strong>client</strong>, which must have a <strong>touch screen</strong>.
+    </p>
+    <p>
+        The host has a <strong>host-player</strong> option under the Multiplayer options (right panel).
+        <strong>Uncheck</strong> it if the host is not playing &mdash; do this when all players are using the gamepad.
+    </p>    
+
+    <ul>
+        <li><strong>Solo (single player)</strong>
+            <ul>
+                <li><strong>keyboard</strong> &mdash; the player is on the <strong>host</strong> computer, a single device.</li>
+                <li><strong>gamepad</strong> &mdash; two devices are needed (host and client), and the <strong>host-player</strong> option should be <strong>unchecked</strong>.</li>
+            </ul>
+        </li>
+        <li><strong>Team mode</strong> &mdash; one <strong>host</strong> and one or more <strong>clients</strong>. One member of a team may play on the host using a keyboard.</li>
+    </ul>
+    <figure class="shot diagram">
+        <svg viewBox="0 0 720 250" role="img" aria-label="Diagram of solo, team, and solo-with-gamepad device setups" style="width:100%; height:auto; max-width:720px;">
+            <style>
+                .dev-title { font: bold 14px Helvetica, Arial, sans-serif; fill: #000; }
+                .dev-lbl   { font: 13px Helvetica, Arial, sans-serif; fill: #000; }
+                .dev-sub   { font: 11px Helvetica, Arial, sans-serif; fill: #555; }
+                .host-box  { fill: #e8e3dc; stroke: #999; stroke-width: 1.5; }
+                .cli-box   { fill: #f3f0ec; stroke: #999; stroke-width: 1.5; }
+                .link      { stroke: #999; stroke-width: 2; }
+                .divider   { stroke: #ddd; stroke-width: 1; }
+            </style>
+
+            <line class="divider" x1="240" y1="10" x2="240" y2="240" />
+            <line class="divider" x1="480" y1="10" x2="480" y2="240" />
+
+            <!-- Panel 1: solo (default) -->
+            <text class="dev-title" x="120" y="26" text-anchor="middle">solo keyboard</text>
+            <rect class="host-box" x="45" y="60" width="150" height="56" rx="7" />
+            <text class="dev-lbl" x="120" y="84" text-anchor="middle">Host computer</text>
+            <text class="dev-sub" x="120" y="102" text-anchor="middle">player</text>
+            <text class="dev-sub" x="120" y="160" text-anchor="middle">single device</text>
+            <text class="dev-sub" x="120" y="176" text-anchor="middle">(no gamepad)</text>
+
+            <!-- Panel 2: solo + gamepad -->
+            <text class="dev-title" x="360" y="26" text-anchor="middle">solo gamepad</text>
+            <rect class="host-box" x="290" y="50" width="140" height="46" rx="7" />
+            <text class="dev-lbl" x="360" y="78" text-anchor="middle">Host</text>
+            <line class="link" x1="360" y1="96" x2="360" y2="150" />
+            <rect class="cli-box" x="317" y="150" width="86" height="52" rx="7" />
+            <text class="dev-lbl" x="360" y="172" text-anchor="middle">Client</text>
+            <text class="dev-sub" x="360" y="190" text-anchor="middle">gamepad</text>
+            <text class="dev-sub" x="360" y="226" text-anchor="middle">two devices, host player off</text>
+
+            <!-- Panel 3: team -->
+            <text class="dev-title" x="600" y="26" text-anchor="middle">team</text>
+            <rect class="host-box" x="530" y="50" width="140" height="46" rx="7" />
+            <text class="dev-lbl" x="600" y="78" text-anchor="middle">Host</text>
+            <line class="link" x1="600" y1="96" x2="555" y2="150" />
+            <line class="link" x1="600" y1="96" x2="645" y2="150" />
+            <rect class="cli-box" x="512" y="150" width="86" height="52" rx="7" />
+            <text class="dev-lbl" x="555" y="172" text-anchor="middle">Client</text>
+            <text class="dev-sub" x="555" y="190" text-anchor="middle">gamepad</text>
+            <rect class="cli-box" x="602" y="150" width="86" height="52" rx="7" />
+            <text class="dev-lbl" x="645" y="172" text-anchor="middle">Client</text>
+            <text class="dev-sub" x="645" y="190" text-anchor="middle">keyboard</text>
+            <text class="dev-sub" x="600" y="226" text-anchor="middle">three devices, host player optional</text>
+        </svg>
+        <figcaption>Devices for solo and team play.</figcaption>
+    </figure>
+
+    <h2 id="setup">Set Your Nickname and Team</h2>
+    <p>
+        Your nickname is the name that appears during games and on the leaderboard.
+    </p>
+    <ul>
+        <li>Type it into the <strong>chat/nickname</strong> field (in the Multiplayer panel) <em>before</em> clicking
+            "Create" (host) / "Connect" (client), or before starting a game.
+            Optionally, use the <strong>nickname</strong> field in the help text (left panel) for most games.</li>
+        <li>Names must be <strong>2 to 10 characters</strong>, letters and numbers only (plus the <code>@</code> team
+            separator).</li>
+        <li>To add a team, append <code>@teamname</code>, for example <code>bob@red</code> (see
+            <a class="scroll-link" data-scroll-target="team" href="#">Team play</a>).</li>
+        <li>Type <code>noname</code> in the chat field (then Create / Connect / Chat) to go back to being anonymous.</li>
+        <li>The host does <em>not</em> need to connect to the server to establish a nickname &mdash; it takes effect when
+            starting or restarting a game.</li>
+    </ul>
+    <figure class="shot">
+        <img src="assets/ui/host-connection-controls.png" width="550" alt="Server, Room, and nickname fields with the Create button">
+        <figcaption>Use the <span class="kbd">m</span> key or check the <strong>Multiplayer</strong> checkbox 
+            to see these fields in the left panel.</figcaption>
+    </figure>
+
+    <h2 id="start">Starting a Game</h2>
+    <figure class="shot right">
+        <img src="assets/ui/number-buttons-and-letter-links.png" width="170" alt="Demo number buttons with lettered game links">
+        <figcaption>The 7 demo group is selected using the button, then the c variant is selected with the link.</figcaption>
+    </figure>
+    <p>
+        On the main <a href="index.html">Springs &amp; Pucks</a> page, games are accessed though the numbered buttons and variant links below them (right panel) or
+        corresponding help-text links (left-panel).
+        For example, the Puck Popper game has variants 7a&ndash;7e and 8a&ndash;8e.
+    </p>
+    <p>
+        <strong>Multiplayer order matters:</strong> the host creates the room first, all network clients connect, and
+        then the host starts the game (clicks the demo button). Use the <span class="kbd">v</span> key for a full-screen
+        view of the <strong></strong>canvas</strong> (the game window/play area), and <span class="kbd">esc</span> to return.
+    </p>
+    <table class="games">
+        <thead>
+            <tr><th>Game</th><th>Demo</th><th>How to start / play</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Ghost-Ball Pool</strong><br>(9-ball, 8-ball, rotation)</td>
+                <td>3d</td>
+                <td>Select the cue ball and drag the ghost ball to aim; release to shoot (release over the cue ball to
+                    cancel, <span class="kbd">alt</span> to reverse). Tap <span class="kbd">z</span> while aiming to set
+                    shot speed. Restart with the <span class="kbd">3</span> key.
+                    <p>Note that the 8-ball and rotation variants are started from links in the help (left) panel.</p>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Monkey Hunt</strong></td>
+                <td>4e</td>
+                <td>Click the ball and drag to aim (farther = faster); release to shoot the falling monkey. Use
+                    <span class="kbd">b</span> (or a second finger) for fine aiming. Best in full-screen.</td>
+            </tr>
+            <tr>
+                <td><strong>Bipartisan Hoops</strong><br>(basketball)</td>
+                <td>5e</td>
+                <td>Drag and release to shoot at the hoop. <span class="kbd">b</span> toggles high-resolution aiming;
+                    <span class="kbd">ctrl</span>-drag for ball-in-hand positioning; <span class="kbd">c</span> centers
+                    the attachment point for vertical bank shots.</td>
+            </tr>
+            <tr>
+                <td><strong>Jello Madness</strong></td>
+                <td>6a</td>
+                <td>Untangle the spinning block of jello as fast as possible. The right mouse button, freeze
+                    (<span class="kbd">f</span>), and gravity (<span class="kbd">g</span>) controls all help. Shortest
+                    untangle time wins.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Puck Popper</strong> <br> (small canvas)</td>
+                <td>7</td>
+                <td>Be the last puck standing. A group of games (7a&ndash;7e), started from the lettered
+                    links under the number buttons. Jet: <span class="kbd">w a s d</span>; gun:
+                    <span class="kbd">i j k l</span>; hold <span class="kbd">spacebar</span> for a shield. The
+                    <span class="kbd">?</span> key finds your puck.
+                    Cell phones can use the
+                    <a href="index.html?twoThumbs" target="_blank">Two-Thumbs</a> virtual gamepad from the client page.
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Puck Popper</strong> <br> (large canvas)</td>
+                <td>8</td>
+                <td>Same controls as the 7 group of games, on a larger course (8a&ndash;8e).</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="note">
+        <strong>Puck Popper controls:</strong> The jet's <span class="kbd">w</span> fires, <span class="kbd">a</span>/
+        <span class="kbd">d</span> rotate, and <span class="kbd">s</span> flips the jet to oppose your motion (braking).
+        The gun's <span class="kbd">i</span> shoots, <span class="kbd">j</span>/<span class="kbd">l</span> rotate, and
+        <span class="kbd">k</span> steps in 90&deg; increments. Target pucks pop after 10 hits; controlled pucks pop
+        after 20 hits (you can't shoot while your shield is up).
+    </div>
+    <div class="note">
+        <strong>Fine aiming with the <span class="kbd">b</span> key:</strong> In the pool game this fine-control is
+        automatic. In the other games, press <span class="kbd">b</span> to toggle fine-control of the mouse cursor,
+        moving it in small, damped increments for precise aiming and delicate shot angles; press it again to return to
+        normal cursor movement. It is especially useful for the two projectile games (Monkey Hunt and Bipartisan
+        Hoops). On a touch screen, a momentary second-finger touch does the same thing.
+    </div>
+
+    <h2 id="scoring">Scoring for Each Game</h2>
+    <p>
+        During play, a <strong>live score</strong> for each player is shown in the <strong>upper-left corner</strong> of
+        the canvas, updating in real time as points are earned or lost. This lets everyone track their standing as the
+        game unfolds.
+    </p>
+    <p>
+        At the end of a game a <strong>score summary</strong> is shown in the chat panel, followed by the leaderboard
+        report. Toggle between the help panel and the chat/leaderboard panel with the <span class="kbd">m</span> key.
+    </p>
+
+    <h3>Ghost-Ball Pool (9-ball, 8-ball, rotation)</h3>
+    <figure class="shot game right">
+        <img src="assets/ui/pool-shot.png" alt="Ghost-ball aiming with alignment lines in the pool game">
+        <figcaption>Aiming with the ghost ball: object-ball path (yellow) and cue-ball path (white).</figcaption>
+    </figure>
+    <table>
+        <thead><tr><th>Points</th><th>Event</th></tr></thead>
+        <tbody>
+            <tr><td class="pts">+50</td><td>win</td></tr>
+            <tr><td class="pts">+15</td><td>pocket a ball</td></tr>
+            <tr><td class="pts">-5</td><td>take a shot</td></tr>
+            <tr><td class="pts">-10</td><td>wrong object ball &mdash; not in your group (8-ball), or not the low ball (9-ball / rotation)</td></tr>
+            <tr><td class="pts">-20</td><td>scratch the cue ball</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Monkey Hunt</h3>
+    <figure class="shot game right">
+        <img src="assets/ui/monkey-hunt-shot.png" alt="Aiming line and projectile forecast toward the falling monkey">
+        <figcaption>The line-of-sight aim and the projectile forecast arc.</figcaption>
+    </figure>
+    <table>
+        <thead><tr><th>Points</th><th>Event</th></tr></thead>
+        <tbody>
+            <tr><td class="pts">+25</td><td>hit the monkey</td></tr>
+            <tr><td class="pts">+100</td><td>push the monkey outside (through the right window)</td></tr>
+        </tbody>
+    </table>
+    <p>A perfect game is 600 points; the <span class="kbd">b</span> fine-adjust aiming helps you reach it.</p>
+
+    <h3>Bipartisan Hoops (basketball)</h3>
+    <figure class="shot game right">
+        <img src="assets/ui/bb-hoops-shot.png" alt="Shot forecast arc toward the hoop with shot speed and energy readout">
+        <figcaption>Shot forecast with the shot-speed and energy readout.</figcaption>
+    </figure>
+    <table>
+        <thead><tr><th>Points</th><th>Event</th></tr></thead>
+        <tbody>
+            <tr><td class="pts">+100</td><td>shot rattles in</td></tr>
+            <tr><td class="pts">+200</td><td>swish shot</td></tr>
+            <tr><td class="pts">+300</td><td>bank shot that rattles in</td></tr>
+            <tr><td class="pts">+400</td><td>clean bank shot</td></tr>
+            <tr><td class="pts">+500</td><td>trick shot &mdash; any shot aiming to the right (v_x > 0), e.g. from behind the backboard.</td></tr>
+            <tr><td class="pts">+900</td><td>super tricky shot &mdash; a trick shot that also hits the right wall</td></tr>
+            <tr><td class="pts">+200</td><td>fling bonus</td></tr>
+        </tbody>
+    </table>
+    <p>Scoring is limited to the first two minutes of play. Any shot stops the on-screen help series.</p>
+
+    <h3>Jello Madness</h3>
+    <figure class="shot game right">
+        <img src="assets/ui/jello-madness.png" alt="Tangled cube of pucks connected by springs in Jello Madness">
+        <figcaption>The 6a jello tangle.</figcaption>
+    </figure>
+    <p>
+        This game is scored on <strong>time only</strong> &mdash; the seconds needed to untangle the jello (separate the
+        pucks). There is no point score; the shortest time wins.
+    </p>
+                
+    <p>For solo play, the 6a demo starts with a mildly tangled block of jello, it's spinning, and the tangle-timer is running. 
+       Straighten out the block and the tangle timer stops. 
+       6d is a more challenging tangle.
+       The right mouse button, the freeze control (f key), and possibly the gravity control are useful in this game. 
+       Hints: one of the interior pucks is colored differently and the diagonal springs are all yellow.
+       <br><br>
+       The multiplayer idea here is to create a tangled capture of the block (or an edited version of it) and share
+       it with another team. The opponent team does the same. Both teams play using the capture provided by their opponent.
+       <br><br>
+       Part of the fun/challenge is the editing and tangling process.
+       Edit the spring lengths/strengths and puck sizes to create an altered version (or you can even add pucks to the grid).
+       Tangling is generally done best by dragging perimeter pucks into the middle using the right mouse button.
+       The capture name should reference your team name.
+       <br><br>
+       Players load the capture provided by their opponent and then restart the timer by clicking the #6 button (or 6 key).
+       In addition, there should be one capture, provided by the tournament coordinator, that all teams will play.
+    </p>
+
+    <h3>Puck Popper (demo groups 7 and 8)</h3>
+    <figure class="shot game right">
+        <img src="assets/ui/puck-popper.png" alt="Puck Popper arena with pucks aiming and firing bullets">
+        <figcaption>Drone pucks (blue) aim and fire; be the last one standing.</figcaption>
+    </figure>
+    <p>
+        Tell the controlled pucks apart by the color of each puck's <strong>jet tube</strong>: the host's is
+        <strong>tomato red</strong> (or as specified in the capture), and each client's tube matches the color shown on
+        that client's page. You can also locate your own puck by pressing the <span class="kbd">?</span> (question mark)
+        key.
+    </p>
+    <p>
+        Similar to Jello Madness, Puck Popper lends itself well to producing altered courses that you can post for other teams to try.
+        In addition, there should be one capture that all teams will play.
+        The <a href="videos.html" target="_blank">video page</a> has content on creating custom captures, including the
+        <a href="videos.html?editorStuff" target="_blank">editing</a>, 
+        <a href="videos.html?editorExamples" target="_blank">let's build one</a>, and
+        <a href="videos.html?capture" target="_blank">state capture</a> sections.
+        The video on <a href="videos.html?changingDronePath" target="_blank">changing the drone path</a> is particularly useful for making a custom course.
+    </p>
+    <table>
+        <thead><tr><th>Points</th><th>Event</th></tr></thead>
+        <tbody>
+            <tr><td class="pts">+200</td><td>last puck-player standing (win)</td></tr>
+            <tr><td class="pts">+100</td><td>popping a client or drone puck</td></tr>
+            <tr><td class="pts">+50</td><td>popping a regular puck</td></tr>
+            <tr><td class="pts">+10</td><td>hitting a puck with one of your bullets</td></tr>
+            <tr><td class="pts">-10</td><td>getting hit by a bullet</td></tr>
+            <tr><td class="pts">-1</td><td>a bullet that expires before hitting another puck</td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="team">Team Play</h2>
+    <p>
+        Team play allows you to group multiple players together for scoring purposes in a tournament. 
+        Players in a team work together to clear the drones in Puck Popper or take turns in one of the other games.
+    </p>
+    <ul>
+        <li>Add a team by appending <code>@teamname</code> to your nickname, e.g. <code>bob@red</code>.</li>
+        <li><strong>Team totals</strong> (not individual member scores) are reported to the leaderboard.</li>
+        <li><strong>Friendly fire is prevented between team members</strong> in Puck Popper.</li>
+        <li>The <strong>"Friendly fire"</strong> checkbox (shown when Multiplayer is checked) controls whether human
+            bullets can affect other human players.
+            <ul>
+                <li>With it unchecked, human bullets only affect the drones, so all players cooperate to clear the drones (scoring is resolved by teams).</li>
+                <li>With it checked, inter-team bullets can not hit a team member, however teams can shoot at other teams.</li>
+            </ul>
+        </li>
+        <li>In the game score summary, a team row shows the team name and its member count, e.g.
+            <code>red (cnt:3)</code>.</li>
+        <li>The team's results will appear on multiple leaderboard entries &mdash; one per game played. See the
+            repeated <code>green (cnt:2)</code> entries in the leaderboard image below.</li>
+    </ul>
+
+    <h2 id="leaderboard">The Leaderboard</h2>
+    <figure class="shot right">
+        <img src="assets/ui/leaderboard-example.png" width="500" alt="Game summary and top-25 leaderboard report for a Puck Popper game">
+        <figcaption>A game summary followed by the top-25 leaderboard report.</figcaption>
+    </figure>
+    <p>
+        After completing a game, a leaderboard report of the <strong>top 25 results</strong>
+        is displayed below the game-score summary in the chat panel. 
+    </p>
+    <p>
+        The leaderboard report can be sorted to show lowest times or highest scores. The default sort is by time. 
+        Click the word "score" or "time" in the report to switch between the two sort types.
+        Rows matching your just-finished game are highlighted.
+        Jello Madness reports on a time basis only.
+    </p>
+
+    <h3 class="flow">Reading the columns</h3>
+    <table>
+        <thead><tr><th>Column</th><th>Meaning</th></tr></thead>
+        <tbody>
+            <tr><td><strong>name</strong></td><td>client name, or nickname (client name)</td></tr>
+            <tr><td><strong>time</strong></td><td>seconds to finish/win the game</td></tr>
+            <tr><td><strong>score</strong></td><td>point total (see scoring above)</td></tr>
+            <tr><td><strong>p / d</strong></td><td>number of human players / drones</td></tr>
+            <tr><td><strong>fps / ipt</strong></td><td>monitor frame rate / physics timestep rate</td></tr>
+            <tr><td><strong>vp</strong></td><td>virtual gamepad (Two-Thumbs) was used</td></tr>
+            <tr><td><strong>nf</strong></td><td>friendly fire was prevented during the game</td></tr>
+            <tr><td><strong>m / sl</strong></td><td>mouse usage / drones were sleeping</td></tr>
+            <tr><td><strong>edit</strong></td><td>editor usage during the game (wall/pin edits, attribute changes, etc.)</td></tr>
+        </tbody>
+    </table>
+    <p>
+        Hovering over a column header in the leaderboard report shows a tooltip explaining that column. This is
+        especially useful for interpreting the string of letters in the <strong>edit</strong> column.
+    </p>
+
+    <h3 class="flow">Querying the leaderboard directly</h3>
+    <p>
+        The host can query the leaderboard without playing a game. From the multiplayer chat field (after connecting), type
+        <code>lb</code> to see example queries, then submit one such as:
+    </p>
+    <ul>
+        <li><code>lb::current</code> &mdash; the current game version</li>
+        <li><code>lb::7.a</code> &mdash; a specific game version</li>
+        <li><code>lb::4.e.monkeyhunt</code> &mdash; a named game</li>
+    </ul>
+
+    <div class="note">
+        What affects your <strong>ranking</strong>: In Puck Popper, a result where the
+        <strong>mouse</strong> was used in the canvas area (<strong>m</strong> column) or the
+        <strong>drones were sleeping</strong> (<span class="kbd">ctrl-q</span>, <strong>sl</strong> column) still appears
+        in the report, but is <strong>flagged</strong> and excluded from the ranking (it doesn't count
+        toward the "highest human score" placement).
+        The mouse flag applies only to Puck Popper &mdash; the other games are played with the mouse (or touch).
+        Each Puck Popper version reports separately (example: demo 7.a results are kept apart from 8.a and 7.b).
+    </div>
+
+    <h2 id="tournament">Custom Captures for a Tournament</h2>
+    <p>
+        A tournament often runs on a single, agreed-upon course (as defined in a capture). Each capture carries a unique identifier, its
+        <code>demoVersion</code> name. The leaderboard reports each name <strong>separately</strong>, so a
+        uniquely named capture gives your tournament its own dedicated board.
+    </p>
+
+    <div class="tip">
+        <strong>The easy way &mdash; start here.</strong>
+        You don't need everything below to run a tournament. The simplest version is just three steps:
+        <ol style="margin:8px 0 0;">
+            <li>Start a game and that produces a capture (example 7.b).</li>
+            <li>In the capture text area, edit its <code>demoVersion</code> name to something unique
+                (e.g. <code>7.b.tourney-abc</code>).</li>
+            <li>Have everyone do the same: edit the name, then run that capture &mdash; scores automatically land on your group's own leaderboard.</li>
+        </ol>
+        <br>
+        The controls and four sharing methods below are just extra options; explore them when you're ready.
+    </div>
+
+    <figure class="shot right">
+        <img src="assets/ui/capture-controls.png" width="280" alt="Capture controls: U, C, Run, S, L, P buttons and the capture text area">
+        <figcaption>Capture controls.</figcaption>
+    </figure>
+    <ul>
+        <li>Capture controls
+            <ul>
+                <li><strong>U</strong> &mdash; take a capture (stores it in the text area and paste buffer); shortcut <span class="kbd">u</span></li>
+                <li><strong>C</strong> &mdash; clear out the capture text area</li>
+                <li><strong>Run</strong> &mdash; re-animate the pasted capture; shortcut <span class="kbd">shift-r</span> (or the matching yellow number key). Shift-click to run and immediately re-capture (a refresh)</li>
+                <li><strong>S</strong> &mdash; save the capture out to a local file</li>
+                <li><strong>L</strong> &mdash; load a local file into the capture text area</li>
+                <li><strong>P</strong> &mdash; post the capture to cloud storage (shift-click to update an existing one; ctrl-shift-click to delete)</li>
+                <li><strong>?</strong> &mdash; list similar captures from cloud storage (shift-click for the complete list); click a listed link to download and run it</li>
+            </ul>
+        </li>
+    </ul>
+
+    <p>There are four ways to share a capture for a tournament:</p>
+    <ol>
+        <li><strong>Share by name.</strong> Starting from a capture-based version (e.g.
+            <code>7.b</code>), edit its <code>demoVersion</code> name to something unique, such as
+            <code>7.b.tourney-abc</code>. 
+            Share that name with the other players so they can run that capture using that same name (editing the <code>demoVersion</code> value in the capture) 
+            and automatically report to the same dedicated board.<br>
+            (The <em>a</em> versions (e.g. <code>7.a</code>) are scripted and have no capture. See method #3.)
+        </li>
+        <li><strong>Share via the cloud.</strong> Same as above, but after renaming, <strong>post</strong> the capture
+            to cloud storage with the <strong>P</strong> button and tell everyone it is available in the cloud
+            captures.
+            (The posting process rejects a capture that is identical to the base one, 
+            so you must change something &mdash; editing the date is enough to post successfully.)<br>
+            To retrieve it, other players:
+            <ul>
+                <li>click the corresponding demo-group number button (e.g. <code>7</code>),</li>
+                <li>then query for that group's cloud captures with the <strong>?</strong> button,</li>
+                <li>then click on the tournament-capture link in the list in the left panel.</li>
+            </ul>
+        </li>
+        <li><strong>Starting from an <em>a</em> base (scripted) demo.</strong> The <em>a</em> versions (e.g. <code>7.a</code>) run from a
+            script, so there is no capture to work with yet. First produce one: click <strong>Run</strong> with the
+            <span class="kbd">shift</span> key down to run the scripted start and immediately grab a capture into the
+            text area. Then edit its <code>demoVersion</code> name and post it as in method #2.</li>
+        <li><strong>Share by file.</strong> Save the capture to a local file with the <strong>S</strong> button and send
+            that file to the other players, who load it with the <strong>L</strong> button. Alternatively, copy the
+            file's contents and paste them directly into the capture text area. As with the other methods, everyone
+            then runs the same course under the shared <code>demoVersion</code> name.</li>
+    </ol>
+
+    <p>A few more notes:</p>
+    <ul>
+        <li>The capture's identifier (<code>demoVersion</code> name) determines which leaderboard the scores go to, so
+            a uniquely named capture keeps tournament results apart from the standard demos.</li>
+        <li>However the capture is shared, each player loads it and runs the same course (the <span class="kbd">Run</span>
+            button, or <span class="kbd">shift-r</span>).</li>
+        <li>Query that tournament's board with <code>lb::&lt;its-version-name&gt;</code> or
+            <code>lb::current</code> while it is loaded.</li>
+        <li>For Puck Popper, the starting position and velocity of each client-controlled puck is fixed and editable in the
+            capture's <code>startingPosAndVels</code> object. 
+            The host's controlled puck (and starting position) can be found in the <code>pucks</code> array by searching for <code>"clientName": "local"</code>.
+            These values are useful for giving all players a fair start.</li>
+    </ul>
+
+    <h2 id="checklist">Quick Tournament Checklist</h2>
+    <ul>
+        <li>Host: open the main page, check <strong>Multiplayer</strong>, enter a room name, set your nickname, click
+            <strong>Create</strong>.</li>
+        <li>Players: open the <a href="client.html" target="_blank">client</a> page, enter the same room name, set your
+            nickname (add <code>@yourteam</code> if playing in teams), click <strong>Connect</strong>.</li>
+        <li>Agree on the game/course and, for a dedicated board, load the tournament <strong>capture</strong>.</li>
+        <li>For <strong>Puck Popper</strong>:
+            <ul>
+                <li>Decide the <strong>Friendly fire</strong> setting before starting.</li>
+                <li>Don't use the mouse in the canvas and don't put the drones to sleep
+                    (<span class="kbd">ctrl-q</span>) &mdash; otherwise the result is flagged and excluded from the ranking.</li>
+            </ul>
+        </li>
+        <li>Host starts the game once everyone is connected; use full-screen (<span class="kbd">v</span>) for a clean
+            view.</li>
+        <li>After the game, press <span class="kbd">m</span> to toggle the left panel between the leaderboard report and help.</li>
+    </ul>
+
+    <p>For the complete list of mouse, keyboard, and touch commands, see the
+        <a href="mouseandkeys.html" target="_blank">Mice, Keys, and Touch</a> reference.</p>
+
+    <p>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+        .<br>
+    </p>
+        
+    </div>
+</div>
+
+</body>
+</html>
+

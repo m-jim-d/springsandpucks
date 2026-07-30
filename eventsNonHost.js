@@ -472,6 +472,23 @@ window.eVN = (function() {
          }
       }, {capture: false}); //"false" makes this fire in the bubbling phase (not capturing phase).
       
+      // Clear all tracked key states when the page loses focus (e.g. Greenshot region capture
+      // grabs focus with ctrl-shift held, so the keyup events never reach the page and the
+      // modifier keys would otherwise stay stuck "down").
+      function resetClientKeyStates() {
+         for (let code in keyMap) {
+            mK[keyMap[code]] = 'U';
+         }
+         for (let code in keyMap_cso) {
+            mK_cso[keyMap_cso[code]] = 'U';
+         }
+         handle_sending_mK_data( mK);
+      }
+      window.addEventListener("blur", resetClientKeyStates, {capture: false});
+      document.addEventListener("visibilitychange", function() {
+         if (document.hidden) resetClientKeyStates();
+      }, {capture: false});
+      
       // Video stream checkbox.
       dC.chkRequestStream = document.getElementById('chkRequestStream');
       dC.chkRequestStream.checked = false; 

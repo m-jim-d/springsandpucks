@@ -1306,6 +1306,22 @@ window.eV = (function() {
          
       }, {capture: false}); //This "false" makes this fire in the bubbling phase (not capturing phase).
       
+      // Clear all tracked key states when the page loses focus (e.g. Greenshot region capture
+      // grabs focus with ctrl-shift held, so the keyup events never reach the page and the
+      // modifier keys would otherwise stay stuck "down").
+      function resetLocalKeyStates() {
+         for (let code in keyMap) {
+            clients['local'][keyMap[code]] = 'U';
+         }
+         // Mirror the shift/ctrl keyup cleanup so no cursor spring is left attached.
+         gW.hostMSelect.resetCenter();
+         clients['local'].modifyCursorSpring('detach');
+      }
+      window.addEventListener("blur", resetLocalKeyStates, {capture: false});
+      document.addEventListener("visibilitychange", function() {
+         if (document.hidden) resetLocalKeyStates();
+      }, {capture: false});
+      
       
       // Gravity toggle
       dC.gravity = document.getElementById('chkGravity');

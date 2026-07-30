@@ -1772,6 +1772,20 @@ window.cR = (function() {
       }
    }
 
+   // Returns true if the textarea capture differs from the file capture,
+   // ignoring differences in the demoVersion field.
+   function captureDiffersFromFile( textAreaString, fileObject) {
+      try {
+         let textObject = JSON.parse( textAreaString);
+         // Neutralize demoVersion so edits to it don't count as an edit.
+         textObject.demoVersion = fileObject.demoVersion;
+         return JSON.stringify( textObject, null, 3) != JSON.stringify( fileObject, null, 3);
+      } catch (e) {
+         // If the textarea isn't valid JSON, fall back to a strict compare.
+         return textAreaString != JSON.stringify( fileObject, null, 3);
+      }
+   }
+
    // This checks to see if the capture has been edited to be different from the original file.
    // It requires taking time to load files. So, this is called at the start of a game. The results
    // of this (in aT.hack) are used later when reports are issued to the leaderboard.
@@ -1783,12 +1797,12 @@ window.cR = (function() {
       
       $.getScript( fileName, function() {
          // Note: demo_capture is a page level global and is assigned a value, the capture object, in the first line of the loading capture file.
-         if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
+         if (captureDiffersFromFile( gW.dC.json.value, demo_capture)) gW.aT.hack['captureEdit'] = true;
          
       }).fail( function() {
          // Try again...
          $.getScript( fileName, function() {
-            if (gW.dC.json.value != JSON.stringify( demo_capture, null, 3)) gW.aT.hack['captureEdit'] = true;
+            if (captureDiffersFromFile( gW.dC.json.value, demo_capture)) gW.aT.hack['captureEdit'] = true;
             
          }).fail( function() {
             console.log('capture file not found on server');
