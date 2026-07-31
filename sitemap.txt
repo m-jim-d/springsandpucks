@@ -5,3 +5,4 @@ https://triquence.org/peer2peer
 https://triquence.org/client
 https://triquence.org/videos
 https://triquence.org/mouseandkeys
+https://triquence.org/leaderboard-help
