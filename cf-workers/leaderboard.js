@@ -1,5 +1,12 @@
 export default {
   async fetch(request, env, ctx) {
+    // Only handle the exact API endpoint. Any other path (e.g. /leaderboard-help.html)
+    // is passed through to the origin so a wildcard route won't clobber static pages.
+    const url = new URL(request.url);
+    if (url.pathname !== "/leaderboard") {
+      return fetch(request);
+    }
+
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",

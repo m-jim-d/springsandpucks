@@ -570,11 +570,12 @@
     </ul>
 
     <div class="note">
-        What affects your <strong>ranking</strong>: In Puck Popper, a result where the
-        <strong>mouse</strong> was used in the canvas area (<strong>m</strong> column) or the
-        <strong>drones were sleeping</strong> (<span class="kbd">ctrl-q</span>, <strong>sl</strong> column) still appears
-        in the report, but is <strong>flagged</strong> and excluded from the ranking (it doesn't count
-        toward the "highest human score" placement).
+        The <strong>m</strong> and <strong>sl</strong> flags (Puck Popper): A result where the <strong>mouse</strong> was used in the
+        canvas area (<strong>m</strong> column) or the <strong>drones were sleeping</strong>
+        (<span class="kbd">ctrl-q</span>, <strong>sl</strong> column) is <strong>flagged</strong>, but still appears in
+        the report at its normal position. The only effect is on the "highest human scorer" line: if your own
+        just-finished game is flagged, that line reads <em>"(mouse or npc-sleep used)"</em> instead of giving your
+        placement, and flagged games aren't counted when tallying placements.
         The mouse flag applies only to Puck Popper &mdash; the other games are played with the mouse (or touch).
         Each Puck Popper version reports separately (example: demo 7.a results are kept apart from 8.a and 7.b).
     </div>
@@ -673,7 +674,7 @@
             <ul>
                 <li>Decide the <strong>Friendly fire</strong> setting before starting.</li>
                 <li>Don't use the mouse in the canvas and don't put the drones to sleep
-                    (<span class="kbd">ctrl-q</span>) &mdash; otherwise the result is flagged and excluded from the ranking.</li>
+                    (<span class="kbd">ctrl-q</span>) &mdash; otherwise the result is flagged (m/sl) and doesn't earn a placement.</li>
             </ul>
         </li>
         <li>Host starts the game once everyone is connected; use full-screen (<span class="kbd">v</span>) for a clean

@@ -496,7 +496,7 @@ window.lB = (function() {
             "<td class='scoreHeader' title='seconds to win game (last puck standing)'>time</td>" +
             "<td class='scoreHeader' title='" +scoreTip()+ "'>score</td>" +
             "<td class='scoreHeader' title='mouse usage in the canvas area'>m</td>" +
-            "<td class='scoreHeader' title='NPCs have been sleeping (ctrl-q)'>s</td>" +
+            "<td class='scoreHeader' title='NPCs have been sleeping (ctrl-q)'>sl</td>" +
             "<td class='scoreHeader' title='virtual gamepad used during game'>vgp</td>" + 
             "</tr>";
          // Check for any mouse usage by the players as you write out the rows.
