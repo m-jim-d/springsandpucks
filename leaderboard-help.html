@@ -525,7 +525,7 @@
     <h2 id="leaderboard">The Leaderboard</h2>
     <figure class="shot right">
         <img src="assets/ui/leaderboard-example.png" width="500" alt="Game summary and top-25 leaderboard report for a Puck Popper game">
-        <figcaption>A game summary followed by the top-25 leaderboard report.</figcaption>
+        <figcaption>A game summary followed by the top-25 leaderboard report (time sorted).</figcaption>
     </figure>
     <p>
         After completing a game, a leaderboard report of the <strong>top 25 results</strong>
@@ -564,9 +564,9 @@
         <code>lb</code> to see example queries, then submit one such as:
     </p>
     <ul>
-        <li><code>lb::current</code> &mdash; the current game version</li>
-        <li><code>lb::7.a</code> &mdash; a specific game version</li>
-        <li><code>lb::4.e.monkeyhunt</code> &mdash; a named game</li>
+        <li><code>lb::current</code> &mdash; the current game</li>
+        <li><code>lb::7.a</code> &mdash; a specific game</li>
+        <li><code>lb::4.e.monkeyhunt</code> &mdash; a specific game</li>
     </ul>
 
     <div class="note">
@@ -577,7 +577,6 @@
         just-finished game is flagged, that line reads <em>"(mouse or npc-sleep used)"</em> instead of giving your
         placement, and flagged games aren't counted when tallying placements.
         The mouse flag applies only to Puck Popper &mdash; the other games are played with the mouse (or touch).
-        Each Puck Popper version reports separately (example: demo 7.a results are kept apart from 8.a and 7.b).
     </div>
 
     <h2 id="tournament">Custom Captures for a Tournament</h2>
