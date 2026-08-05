@@ -347,10 +347,14 @@ window.lB = (function() {
          body: JSON.stringify( postObject)
       })
       .then( function( response) {
+         // The worker reports how many upstream tries it made (X-LB-Attempts).
+         var tries = Number( response.headers.get('X-LB-Attempts') || 1);
          if ( ! response.ok) {
-            console.log("leaderboard: response NOT ok (CF worker)");
+            console.log("leaderboard: response NOT ok (CF worker) after " + tries + " attempt(s)");
             return null;
          }
+         // Only note retries; a clean first-try success stays quiet.
+         if (tries > 1) console.log("leaderboard: upstream recovered after " + tries + " attempts");
          return response.json();
       })
       .then( function( lbResp) {

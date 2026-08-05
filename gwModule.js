@@ -479,6 +479,12 @@ window.gW = (function() {
             scrollTargetAtStart = queryStringInURL.slice(1);
          }
       }
+      
+      // Optional tournament name, e.g. triquence.org/?7b&t=redcup-2026
+      // This gets appended to the capture's demoVersion so scores land on a unique leaderboard.
+      var tourneyRaw = new URLSearchParams( window.location.search).get('t');
+      // Sanitize: letters, numbers, and hyphen only; 15 chars max.
+      demoFromURL.tourney = tourneyRaw ? tourneyRaw.replace(/[^A-Za-z0-9-]/g, '').slice(0, 15) : null;
 
       sounds['lowPop'] =  new uT.SoundEffect("sounds/puckpop_lower.mp3", 5); // n copies...
       sounds['highPop'] = new uT.SoundEffect("sounds/puckpop.mp3", 5);
@@ -561,7 +567,7 @@ window.gW = (function() {
       //////////////////////////////////////////////////////////////////////////
       window.setTimeout( function() {
          if (demoFromURL.file) {
-            cR.demoStart_fromCapture( demoFromURL.index, {'fileName':demoFromURL.file});
+            cR.demoStart_fromCapture( demoFromURL.index, {'fileName':demoFromURL.file, 'tourney':demoFromURL.tourney});
          } else if (( ! demoFromURL.file) && demoFromURL.index) {
             dS.demoStart( demoFromURL.index);
          } else {

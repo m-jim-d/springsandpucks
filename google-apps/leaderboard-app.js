@@ -1,4 +1,4 @@
-// Adaptation by James D. Miller (8:02 PM Sat December 1, 2018)
+// Adaptation by James D. Miller
 //    original code by James Kingsley:
 //    https://blog.elblearning.com/blog/how-to-create-a-leaderboard-elearning-google
 //    Archived link (of the orginal page):
@@ -88,10 +88,28 @@ function addGameResult( mode, userName, score, gameVersion, winTime, mouse, npcS
         if (userName == "reportOnly") {
           m_nQueryLimit = 50;
         } else {
-          // Create an array of the new data to facilitate the write.
-          var row = [[userName, score, timeNow, gameVersion, winTime, mouse, npcSleep, nPeople, nDrones, frMonitor, 
-                      hzPhysics, virtualGamePad, noFriendlyFire, editorUsage, index]];
-          m_sheet.getRange(nextRow, 1, 1, m_nColumns).setValues(row);
+          // Idempotency guard: skip the insert if an identical submission already exists (same person,
+          // game version, score, win time, and randomIndex). This prevents duplicate rows caused by
+          // delayed/retried writes (e.g., a slow write that lands after the client resends). Runs inside
+          // the script lock, so the read-check-write is atomic against concurrent submissions.
+          var isDup = false;
+          var nExisting = m_sheet.getLastRow() - 1; // minus the header row
+          if (nExisting > 0) {
+            var existing = m_sheet.getRange(2, 1, nExisting, m_nColumns).getValues();
+            isDup = existing.some(function(r) {
+              return String(r[0])  === String(userName)    &&
+                     String(r[3])  === String(gameVersion) &&
+                     String(r[1])  === String(score)       &&
+                     String(r[4])  === String(winTime)     &&
+                     String(r[14]) === String(index);
+            });
+          }
+          if ( ! isDup) {
+            // Create an array of the new data to facilitate the write.
+            var row = [[userName, score, timeNow, gameVersion, winTime, mouse, npcSleep, nPeople, nDrones, frMonitor, 
+                        hzPhysics, virtualGamePad, noFriendlyFire, editorUsage, index]];
+            m_sheet.getRange(nextRow, 1, 1, m_nColumns).setValues(row);
+          }
         }
         
         // If the user is asking for a leaderboard report.

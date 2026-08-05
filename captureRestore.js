@@ -1837,6 +1837,7 @@ window.cR = (function() {
    function demoStart_fromCapture( index, pars) {
       let fileName = uT.setDefault( pars.fileName, 'null');
       let runIt = uT.setDefault( pars.runIt, true);
+      let tourney = uT.setDefault( pars.tourney, null);
       
       // Note: demo_capture is a page level global (see declaration in index.html) and is assigned a value, the capture object, in the first line of the loading capture file.
       demo_capture = null;
@@ -1889,6 +1890,12 @@ window.cR = (function() {
          
          // Put the capture into the capture input box on the page.
          if (demo_capture) {
+            // Optional tournament name from the URL (?7b&t=redcup-2026): append it to the capture's
+            // demoVersion so scores land on a unique leaderboard. Editing it here (before it's written
+            // to the capture box) makes the unique name visible and persist across re-runs (shift-r).
+            if (tourney && demo_capture.demoVersion) {
+               demo_capture.demoVersion = demo_capture.demoVersion + '.' + tourney;
+            }
             gW.dC.json.value = JSON.stringify( demo_capture, null, 3);
             window.setTimeout( function() { scrollCaptureArea();}, 500);
             if (runIt) dS.demoStart( index);

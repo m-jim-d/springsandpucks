@@ -12,6 +12,8 @@ export default {
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Max-Age": "86400",
+      // Let client JS read the retry count cross-origin (see X-LB-Attempts below).
+      "Access-Control-Expose-Headers": "X-LB-Attempts",
     };
 
     if (request.method === "OPTIONS") {
@@ -62,15 +64,16 @@ export default {
     target.searchParams.set("editorUsage", s(body.editorUsage));
     target.searchParams.set("index", s(body.index));
 
-    // Proxy request to Apps Script
-    let upstreamResp;
-    try {
-      upstreamResp = await fetch(target.toString(), { method: "GET" });
-      if (!upstreamResp.ok) {
-        return new Response("Upstream fetch failed", { status: 502, headers: corsHeaders });
-      }
-    } catch {
-      return new Response("Upstream fetch failed", { status: 502, headers: corsHeaders });
+    // Proxy request to Apps Script, retrying transient upstream failures (Google 5xx / network
+    // hiccups). Safe for all modes because the Apps Script dedupes submissions on randomIndex,
+    // so a retried write that already landed is ignored rather than duplicated.
+    const { response: upstreamResp, attempts } = await fetchWithRetry(target.toString());
+    if (!upstreamResp) {
+      // All attempts failed: report how many were made so the client can log it.
+      return new Response("Upstream fetch failed", {
+        status: 502,
+        headers: { ...corsHeaders, "X-LB-Attempts": String(attempts) },
+      });
     }
 
     // Pass through JSON (or text) response from Apps Script
@@ -81,7 +84,34 @@ export default {
       headers: {
         ...corsHeaders,
         "Content-Type": contentType,
+        "X-LB-Attempts": String(attempts),
       },
     });
   },
 };
+
+// GET the upstream URL, retrying on non-ok responses, network throws, or a per-attempt
+// timeout. The timeout (via AbortController) caps how long a hung upstream leg can stall
+// before we abandon it and retry, so a transport-level freeze becomes fail-fast instead
+// of a 10-30s wait. Returns { response, attempts }: response is the first ok Response
+// (or null if all attempts fail, caller emits 502); attempts is the number of tries made.
+async function fetchWithRetry(url, tries = 3, timeoutMs = 7000) {
+  let attempts = 0;
+  for (let i = 0; i < tries; i++) {
+    attempts++;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const r = await fetch(url, { method: "GET", signal: controller.signal });
+      if (r.ok) return { response: r, attempts };
+    } catch (_) {
+      // network-level failure or timeout abort: fall through to backoff/retry
+    } finally {
+      clearTimeout(timer);
+    }
+    if (i < tries - 1) {
+      await new Promise((res) => setTimeout(res, 400 * (i + 1))); // 400ms, then 800ms
+    }
+  }
+  return { response: null, attempts };
+}
