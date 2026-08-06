@@ -588,15 +588,23 @@
 
     <div class="tip">
         <strong>The easy way &mdash; start here.</strong>
-        You don't need everything below to run a tournament. The simplest version is just three steps:
+        You don't need everything below to run a tournament. 
+        <br><br>
+        You can do it in three steps:
         <ol style="margin:8px 0 0;">
             <li>Start a game and that produces a capture (example 7.b).</li>
-            <li>In the capture text area, edit its <code>demoVersion</code> name to something unique
+            <li>In the capture text area, edit its <code>demoVersion</code> name, appending the tournament name.
                 (e.g. <code>7.b.tourney-abc</code>).</li>
             <li>Have everyone do the same: edit the name, then run that capture &mdash; scores automatically land on your group's own leaderboard.</li>
         </ol>
         <br>
-        The controls and four sharing methods below are just extra options; explore them when you're ready.
+        Alternately, you can share a URL that automates the three steps:
+        <a href="https://triquence.org/?7b&amp;t=tourney-abc" target="_blank" rel="noopener noreferrer"><code>https://triquence.org/?7b&amp;t=tourney-abc</code></a>. 
+        The <code>?7b</code> loads the <code>7.b</code> capture, 
+        and the <code>&amp;t=tourney-abc</code> tournament tag is automatically appended to its <code>demoVersion</code>, producing <code>7.b.tourney-abc</code>. 
+        Everyone who follows the link runs the same course and reports to the same dedicated board.
+        <br><br>
+        The controls and five sharing methods below offer more options; explore them when you're ready.
     </div>
 
     <figure class="shot right">
@@ -617,7 +625,7 @@
         </li>
     </ul>
 
-    <p>There are four ways to share a capture for a tournament:</p>
+    <p>There are five ways to share a capture for a tournament:</p>
     <ol>
         <li><strong>Share by name.</strong> Starting from a capture-based version (e.g.
             <code>7.b</code>), edit its <code>demoVersion</code> name to something unique, such as
@@ -638,14 +646,20 @@
                 <li>then click on the tournament-capture link in the list in the left panel.</li>
             </ul>
         </li>
-        <li><strong>Starting from an <em>a</em> base (scripted) demo.</strong> The <em>a</em> versions (e.g. <code>7.a</code>) run from a
-            script, so there is no capture to work with yet. First produce one: click <strong>Run</strong> with the
-            <span class="kbd">shift</span> key down to run the scripted start and immediately grab a capture into the
-            text area. Then edit its <code>demoVersion</code> name and post it as in method #2.</li>
         <li><strong>Share by file.</strong> Save the capture to a local file with the <strong>S</strong> button and send
             that file to the other players, who load it with the <strong>L</strong> button. Alternatively, copy the
             file's contents and paste them directly into the capture text area. As with the other methods, everyone
             then runs the same course under the shared <code>demoVersion</code> name.</li>
+        <li><strong>Share by URL.</strong> Give the other players a link that loads a capture and appends a
+            tournament tag. For example,
+            <code>https://triquence.org/?7b&amp;t=tourney-abc</code> loads the <code>7.b</code> capture
+            and appends the tag to its <code>demoVersion</code>, producing <code>7.b.tourney-abc</code>
+            automatically, so scores go to that dedicated board. The tag may contain letters, numbers,
+            and hyphens (15 characters max).</li>
+        <li><strong>Starting from an <em>a</em> base (scripted) demo.</strong> The <em>a</em> versions (e.g. <code>7.a</code>) run from a
+            script, so there is no capture to work with yet. First produce one: click <strong>Run</strong> with the
+            <span class="kbd">shift</span> key down to run the scripted start and immediately grab a capture into the
+            text area. Then edit its <code>demoVersion</code> name and post it as in method #2.</li>
     </ol>
 
     <p>A few more notes:</p>

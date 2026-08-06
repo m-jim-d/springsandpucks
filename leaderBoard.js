@@ -114,10 +114,12 @@ window.lB = (function() {
       
       // Find the most recent game report element (in the chat panel).
       let gameReportElement = document.getElementById("gR" + reportCounter);
-      // If this is a report-only query (no preceding game summary), replace instead of appending
-      // so the placeholder "Please wait..." doesn't display after the report is ready.
+      let lbPlaceholder = document.getElementById("gR" + reportCounter + "-lb");
+      // If this is a report-only query (no preceding game summary), replace the whole placeholder.
       if (outputMode == "reportOnly") {
          gameReportElement.innerHTML = leaderBoardReportHTML;
+      } else if (lbPlaceholder) {
+         lbPlaceholder.innerHTML = leaderBoardReportHTML;
       } else {
          gameReportElement.innerHTML += "<br><br>" + leaderBoardReportHTML;
       }
@@ -315,7 +317,12 @@ window.lB = (function() {
       if (outputMode == "reportOnly") {
          gameReportElement.innerHTML = failHTML;
       } else {
-         gameReportElement.innerHTML += "<br><br>" + failHTML;
+         let lbPlaceholder = document.getElementById("gR" + reportCounter + "-lb");
+         if (lbPlaceholder) {
+            lbPlaceholder.innerHTML = failHTML;
+         } else {
+            gameReportElement.innerHTML += "<br><br>" + failHTML;
+         }
          // Share the failure notice with the other players, mirroring the leaderBoardReport broadcast.
          hC.chatToNonHostPlayers( gameReportElement.innerHTML);
       }
@@ -562,6 +569,12 @@ window.lB = (function() {
       // Now report the sorted score summary (pass in function to give descending numeric sort)
       summaryString += "</table>"
       hC.displayMessage( summaryString);
+      
+      // Add a placeholder for the leaderboard report that will be replaced when the report arrives.
+      let gameReportElement = document.getElementById("gR" + hC.gb.gameReportCounter);
+      if (gameReportElement) {
+         gameReportElement.innerHTML += "<br><br><div id='gR" + hC.gb.gameReportCounter + "-lb'><span style='color:brown'>Please wait for the leaderboard...</span></div>";
+      }
       
       // If any of the players or the host (without a puck player) used the mouse, mark everyone 
       // as suspect before doing the submission to the leaderboard. This appropriately blocks the case where the host

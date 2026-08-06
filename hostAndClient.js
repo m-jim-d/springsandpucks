@@ -532,7 +532,7 @@ window.hC = (function() {
       let color = uT.setDefault( pars.color, "gray");
       
       if (msgText.includes("Game Summary")) {
-         if (msgText.includes("do not display")) msgText = "Please wait for query results...<br>";
+         if (msgText.includes("do not display")) msgText = "<span style='color:brown'>Please wait for the leaderboard...<br></span>";
          gb.gameReportCounter += 1;
          var idString = " id='gR" + gb.gameReportCounter + "'";
       } else {

@@ -84,6 +84,13 @@ function addGameResult( mode, userName, score, gameVersion, winTime, mouse, npcS
         var timeNow = new Date(); // create a timestamp
         var nextRow = m_sheet.getLastRow() + 1; // locate next empty row
         
+        // Read the existing data once. Used for both the idempotency check and the report.
+        var allData = [];
+        var nExisting = m_sheet.getLastRow() - 1; // minus the header row
+        if (nExisting > 0) {
+          allData = m_sheet.getRange(2, 1, nExisting, m_nColumns).getValues();
+        }
+        
         // Put the new data into the row.
         if (userName == "reportOnly") {
           m_nQueryLimit = 50;
@@ -92,32 +99,30 @@ function addGameResult( mode, userName, score, gameVersion, winTime, mouse, npcS
           // game version, score, win time, and randomIndex). This prevents duplicate rows caused by
           // delayed/retried writes (e.g., a slow write that lands after the client resends). Runs inside
           // the script lock, so the read-check-write is atomic against concurrent submissions.
-          var isDup = false;
-          var nExisting = m_sheet.getLastRow() - 1; // minus the header row
-          if (nExisting > 0) {
-            var existing = m_sheet.getRange(2, 1, nExisting, m_nColumns).getValues();
-            isDup = existing.some(function(r) {
-              return String(r[0])  === String(userName)    &&
-                     String(r[3])  === String(gameVersion) &&
-                     String(r[1])  === String(score)       &&
-                     String(r[4])  === String(winTime)     &&
-                     String(r[14]) === String(index);
-            });
-          }
+          var isDup = allData.some(function(r) {
+            return String(r[0])  === String(userName)    &&
+                   String(r[3])  === String(gameVersion) &&
+                   String(r[1])  === String(score)       &&
+                   String(r[4])  === String(winTime)     &&
+                   String(r[14]) === String(index);
+          });
           if ( ! isDup) {
             // Create an array of the new data to facilitate the write.
             var row = [[userName, score, timeNow, gameVersion, winTime, mouse, npcSleep, nPeople, nDrones, frMonitor, 
                         hzPhysics, virtualGamePad, noFriendlyFire, editorUsage, index]];
             m_sheet.getRange(nextRow, 1, 1, m_nColumns).setValues(row);
+            
+            // Add the new row to the in-memory data so the report includes it immediately.
+            allData.push(row[0]);
           }
         }
         
         // If the user is asking for a leaderboard report.
         if (mode == 'report') {
             // First, sort by score, and get the best scores for the specified version of the game.
-            var bestSubmissions_score = getBestSubmissions( gameVersion, 'score');
+            var bestSubmissions_score = getBestSubmissions( gameVersion, 'score', allData);
             // Determine user's rank based on the score sorting.
-            var userSummary = findUserRank( userName, score, timeNow, gameVersion);
+            var userSummary = findUserRank( userName, score, timeNow, gameVersion, 'score', allData);
         
             var newRecordSummary = {
                 "result": "report",
@@ -127,13 +132,13 @@ function addGameResult( mode, userName, score, gameVersion, winTime, mouse, npcS
                 "userScore": score,
                 "winTime": winTime,
                 "users": bestSubmissions_score,
-                "version": "v1.2"
+                "version": "v1.4"
             };
 
             // Next, sort by winTime, and get the lowest times for the specified version of the game.
-            var bestSubmissions_time = getBestSubmissions( gameVersion, 'winTime');
+            var bestSubmissions_time = getBestSubmissions( gameVersion, 'winTime', allData);
             // Determine user's rank based on the winTime sorting.
-            var userSummary_timeBased = findUserRank( userName, score, timeNow, gameVersion);
+            var userSummary_timeBased = findUserRank( userName, score, timeNow, gameVersion, 'winTime', allData);
 
             // Insert this time-based result as an attribute of main score-based newRecordSummary result.
             newRecordSummary.timeSortedResults = {
@@ -176,101 +181,113 @@ function addGameResult( mode, userName, score, gameVersion, winTime, mouse, npcS
 }
 
 // Get the best submissions (by score or time), up to a count of m_nQueryLimit.
-function getBestSubmissions( gameVersion, secondSortColumn) {
-    var colMap =       {'score':2,     'version':4,    'winTime':5};
-    var ascendingMap = {'score':false, 'version':true, 'winTime':true};
+function getBestSubmissions( gameVersion, secondSortColumn, allData) {
+    var colMap =       {'score':1, 'winTime':4};
+    var ascendingMap = {'score':false, 'winTime':true};
     var thirdSortColumn = (secondSortColumn == 'score') ? "winTime" : "score";
     
-    // Get a range starting in second row, first column.
-    // Considering the header row, the number of rows and colums in the range.
-    let nRows = m_sheet.getLastRow() - 1;
-    let nCols = m_nColumns;
-    var range = m_sheet.getRange(2, 1, nRows, nCols);
-    
-    // Sort this range (all the data) by game version and then other columns (score or winTime).
-    // Note the array of sorting indications, one for each level of sorting.
-    // https://developers.google.com/apps-script/reference/spreadsheet/range#sort(Object)
-    range.sort([{column: colMap['version'],         ascending: ascendingMap['version']},
-                {column: colMap[ secondSortColumn], ascending: ascendingMap[ secondSortColumn]},
-                {column: colMap[ thirdSortColumn],  ascending: ascendingMap[ thirdSortColumn]}]);
-   
-    var userData = range.getValues();
+    // Use provided data or read once from the sheet.
+    if ( ! allData) {
+      let nRows = m_sheet.getLastRow() - 1;
+      allData = (nRows > 0) ? m_sheet.getRange(2, 1, nRows, m_nColumns).getValues() : [];
+    }
     
     var bestSubmissions = [];
-    var userCounter = 0;
-    // Count up to m_nQueryLimit in the group, for rows that have: 
-    // (1) a user name and, (2) a value in the secondary sort column.
-    // Note: mouse and npcSleep rows are NOT excluded here; they are shown in the report and flagged
-    // in the m/sl columns. (Ranking excludes them separately, in findUserRank.)
-    for (var row = 0, len = userData.length; row < len; row++) {
-        if ( (userData[row][3] == gameVersion) && (userData[row][0] != '') && 
-             (userData[row][ colMap[ secondSortColumn]-1] != '') ) {
-             // && (userData[row][5] == '') && (userData[row][6] == '')
+    // Filter in memory and map to objects. Keep mouse/npcSleep rows; they are shown and flagged in the report.
+    for (var row = 0, len = allData.length; row < len; row++) {
+        if ( (allData[row][3] == gameVersion) && (allData[row][0] != '') && 
+             (allData[row][ colMap[ secondSortColumn]] != '') ) {
 
-            userCounter += 1;
-            var user = {};
-            user.userName = userData[row][0];
-            user.score = userData[row][1];
-            user.date = userData[row][2];
-            user.winTime = userData[row][4];
-            user.mouse = userData[row][5];
-            user.npcSleep = userData[row][6];
-            user.nPeople = userData[row][7];
-            user.nDrones = userData[row][8];
-            user.frMonitor = userData[row][9];
-            user.hzPhysics = userData[row][10];
-            user.virtualGamePad = userData[row][11];            
-            user.noFriendlyFire = userData[row][12];
-            user.editorUsage = userData[row][13];
-            user.index = userData[row][14];
-                        
-            // Add this user to the array
-            bestSubmissions.push(user);
-            if (userCounter == m_nQueryLimit) break;
+            bestSubmissions.push({
+              userName: allData[row][0],
+              score: allData[row][1],
+              date: allData[row][2],
+              winTime: allData[row][4],
+              mouse: allData[row][5],
+              npcSleep: allData[row][6],
+              nPeople: allData[row][7],
+              nDrones: allData[row][8],
+              frMonitor: allData[row][9],
+              hzPhysics: allData[row][10],
+              virtualGamePad: allData[row][11],
+              noFriendlyFire: allData[row][12],
+              editorUsage: allData[row][13],
+              index: allData[row][14]
+            });
         }
+    }
+    
+    // Sort the filtered results in memory (no spreadsheet sort).
+    bestSubmissions.sort(function(a, b) {
+        var av = a[secondSortColumn], bv = b[secondSortColumn];
+        var cmp = (av < bv ? -1 : (av > bv ? 1 : 0));
+        if (cmp !== 0) {
+            return ascendingMap[secondSortColumn] ? cmp : -cmp;
+        }
+        av = a[thirdSortColumn]; bv = b[thirdSortColumn];
+        cmp = (av < bv ? -1 : (av > bv ? 1 : 0));
+        return ascendingMap[thirdSortColumn] ? cmp : -cmp;
+    });
+    
+    // Trim to the query limit.
+    if (bestSubmissions.length > m_nQueryLimit) {
+      bestSubmissions.length = m_nQueryLimit;
     }
     return bestSubmissions;
 }
 
-// Find this users rank (assuming the sheet has been sorted by score or time). 
+// Find this users rank for the specified sort order.
 // Find match based on name, score, and timestamp.
-function findUserRank( userName, score, recordTime, gameVersion) {
-    // Get a range starting in second row, first column.
-    // Considering the header row, the number of rows and colums in the range.
-    let nRows = m_sheet.getLastRow() - 1;
-    let nCols = m_nColumns;
-    var range = m_sheet.getRange(2, 1, nRows, nCols);
-
-    var userData = range.getValues();
+function findUserRank( userName, score, recordTime, gameVersion, secondSortColumn, allData) {
+    var colMap =       {'score':1, 'winTime':4};
+    var ascendingMap = {'score':false, 'winTime':true};
+    var thirdSortColumn = (secondSortColumn == 'score') ? "winTime" : "score";
+    
+    // Use provided data or read once from the sheet.
+    if ( ! allData) {
+      let nRows = m_sheet.getLastRow() - 1;
+      allData = (nRows > 0) ? m_sheet.getRange(2, 1, nRows, m_nColumns).getValues() : [];
+    }
     
     // In case this user has mouse usage...
     var userSummary = {'rank':'mouse or npcSleep usage'};
     var rank = 0;
-    var foundGameSection = false;
+    var recordTimeString = recordTime.toString();
     
-    // Loop thru all rows, looking for the group of records corresponding to this version of
-    // the game. Break from the loop after getting to the end of that group.
-    // Count, in the rows for this particular version of the game, to determine the user rank
-    // and the overall number of score entries (scoreCount) for this version of the game.
-    for (var row = 0, len = userData.length; row < len; row++) {
-        if (foundGameSection && (userData[row][3] != gameVersion)) {
-          userSummary.scoreCount = rank;
-          break;
-        }
-        // Don't count entries with mouse or npcSleep usage.
-        if ((userData[row][3] == gameVersion) && (userData[row][5] != 'x') && (userData[row][6] != 'x')) {
-            foundGameSection = true;
-            rank += 1;
-            // Look for the row of the current user. Identify it using name, score, and timestamp.
-            if ((userData[row][0] == userName) && (userData[row][1] == score) && (userData[row][2] == recordTime.toString())) {
-                userSummary.userName = userData[row][0];
-                userSummary.score = userData[row][1];
-                userSummary.winTime = userData[row][4];
-                userSummary.date = userData[row][2];
-                userSummary.rank = rank;
-            }
+    // Build the list of qualifying rows for this version (non-mouse, non-sleep).
+    var qualifying = [];
+    for (var row = 0, len = allData.length; row < len; row++) {
+        if ((allData[row][3] == gameVersion) && (allData[row][0] != '') &&
+            (allData[row][5] != 'x') && (allData[row][6] != 'x') &&
+            (allData[row][ colMap[ secondSortColumn]] != '')) {
+            qualifying.push(allData[row]);
         }
     }
+    
+    // Sort the qualifying rows in memory.
+    qualifying.sort(function(a, b) {
+        var av = a[colMap[ secondSortColumn]], bv = b[colMap[ secondSortColumn]];
+        var cmp = (av < bv ? -1 : (av > bv ? 1 : 0));
+        if (cmp !== 0) {
+            return ascendingMap[secondSortColumn] ? cmp : -cmp;
+        }
+        av = a[colMap[ thirdSortColumn]]; bv = b[colMap[ thirdSortColumn]];
+        cmp = (av < bv ? -1 : (av > bv ? 1 : 0));
+        return ascendingMap[thirdSortColumn] ? cmp : -cmp;
+    });
+    
+    // Count ranks and look for the user's row.
+    for (var i = 0, len = qualifying.length; i < len; i++) {
+        rank += 1;
+        if ((qualifying[i][0] == userName) && (qualifying[i][1] == score) && (qualifying[i][2].toString() == recordTimeString)) {
+            userSummary.userName = qualifying[i][0];
+            userSummary.score = qualifying[i][1];
+            userSummary.winTime = qualifying[i][4];
+            userSummary.date = qualifying[i][2];
+            userSummary.rank = rank;
+        }
+    }
+    userSummary.scoreCount = rank;
     return userSummary;
 }
 
