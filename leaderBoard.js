@@ -34,6 +34,9 @@ window.lB = (function() {
    
    // Names starting with m_ indicate module-scope globals.
    var m_leaderBoardIndex = 0;
+   // B1 flood guard: true while a chat (reportOnly) query is awaiting a response. Blocks new
+   // chat queries so holding Return or a prank flood collapses to a single in-flight request.
+   var m_reportOnlyInFlight = false;
       
    // module globals for objects brought in by initializeModule
    // (none)
@@ -45,7 +48,7 @@ window.lB = (function() {
       // nothing yet...
    }
    
-   function leaderBoardReport( lbResp, gameVersion, outputMode) {
+   function leaderBoardReport( lbResp, gameVersion, outputMode, reportCounter) {
       m_leaderBoardIndex += 1;
       let scoreCell_id = 'scoresCell' + m_leaderBoardIndex;
       let timeCell_id = 'timesCell' + m_leaderBoardIndex;
@@ -110,7 +113,7 @@ window.lB = (function() {
       }
       
       // Find the most recent game report element (in the chat panel).
-      let gameReportElement = document.getElementById("gR" + hC.gb.gameReportCounter);
+      let gameReportElement = document.getElementById("gR" + reportCounter);
       // If this is a report-only query (no preceding game summary), replace instead of appending
       // so the placeholder "Please wait..." doesn't display after the report is ready.
       if (outputMode == "reportOnly") {
@@ -300,7 +303,25 @@ window.lB = (function() {
       return tableString;
    }
    
-   function sendScoreToSpreadSheet( mode, nR, peopleClients, gameVersion, n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage) {
+   function showLeaderboardFailure( outputMode, tries, reportCounter) {
+      // Replace the lingering "Please wait for query results..." placeholder (reportOnly), or append
+      // to the game summary, with a failure notice so the chat panel doesn't hang when the leaderboard
+      // server never responds (all worker retries exhausted, or a network error before a response).
+      let attemptsNote = (tries) ? " after " + tries + " attempts" : "";
+      let failHTML = "<span style='color:brown'>Leaderboard unavailable" + attemptsNote +
+                     " (server not responding). Please try again shortly.</span>";
+      let gameReportElement = document.getElementById("gR" + reportCounter);
+      if ( ! gameReportElement) return;
+      if (outputMode == "reportOnly") {
+         gameReportElement.innerHTML = failHTML;
+      } else {
+         gameReportElement.innerHTML += "<br><br>" + failHTML;
+         // Share the failure notice with the other players, mirroring the leaderBoardReport broadcast.
+         hC.chatToNonHostPlayers( gameReportElement.innerHTML);
+      }
+   }
+   
+   function sendScoreToSpreadSheet( mode, nR, peopleClients, gameVersion, n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage, reportCounter) {
       var userName = peopleClients[ nR]['name'];
       var n_soloAndTeam = peopleClients.length;
       var userScore = peopleClients[ nR]['score'];
@@ -351,6 +372,7 @@ window.lB = (function() {
          var tries = Number( response.headers.get('X-LB-Attempts') || 1);
          if ( ! response.ok) {
             console.log("leaderboard: response NOT ok (CF worker) after " + tries + " attempt(s)");
+            showLeaderboardFailure( outputMode, tries, reportCounter);
             return null;
          }
          // Only note retries; a clean first-try success stays quiet.
@@ -373,7 +395,7 @@ window.lB = (function() {
                */
                
                // Assemble the html needed to display the leaderboard query results in the chat panel.
-               leaderBoardReport( lbResp, gameVersion, outputMode);
+               leaderBoardReport( lbResp, gameVersion, outputMode, reportCounter);
                console.log("leaderboard app:" + lbResp.version);
                
             } else {
@@ -387,11 +409,16 @@ window.lB = (function() {
                nR += 1;
                console.log('rC='+nR);
                if (nR == n_soloAndTeam-1) reportMode = 'report'; // Do a final submission, and ask for a report from the spreadsheet.
-               sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage);
+               sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage, reportCounter);
             }
       })
       .catch( function() {
          console.log("leaderboard: fetch failed (CF worker)");
+         showLeaderboardFailure( outputMode, null, reportCounter);
+      })
+      .finally( function() {
+         // Release the B1 flood guard once a chat query settles (success or failure).
+         if (outputMode == "reportOnly") m_reportOnlyInFlight = false;
       });
    }
    
@@ -426,17 +453,31 @@ window.lB = (function() {
       // Recursively send the scores. If only one player, go right to 'report' mode.
       if (n_soloAndTeam > 0) {
          let reportMode = (n_soloAndTeam == 1) ? 'report':'noReport'; 
-         sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage);
+         // Bind this submission series to the game-summary element created by reportGameResults,
+         // so a late response can't land in a different (newer) report element.
+         let reportCounter = hC.gb.gameReportCounter;
+         sendScoreToSpreadSheet( reportMode, nR, peopleClients, gW.getDemoVersion(), n_people, n_drones, frameRate_monitor, frameRate_physics, noFriendlyFire, editorUsage, reportCounter);
       }
    }
    
    function requestReportOnly( gameName) {
+      // Flood guard: ignore a new chat query while one is still pending (prevents overloading the
+      // leaderboard with rapid/prank lb::current requests). Released in the fetch chain's .finally.
+      if (m_reportOnlyInFlight) {
+         console.log("leaderboard: query ignored (one already in progress)");
+         return;
+      }
+      m_reportOnlyInFlight = true;
+      
       hC.displayMessage("Game Summary (do not display)");
+      // Capture the counter for the placeholder just created, so this query's response updates
+      // its own "Please wait..." element even if more queries are fired before it returns.
+      let reportCounter = hC.gb.gameReportCounter;
       
       let peopleClients = [];
       peopleClients.push( {'score':0, 'rawName':'none', 'nickName':'none', 'name':'none', 'virtualGamePad':'none', 'winner':'none', 'mouse':'none', 'npcSleep':'none', 'randomIndex':0} );                       
       
-      sendScoreToSpreadSheet('reportOnly', 0, peopleClients, gameName, 0, 0, 60, 60, 'x');
+      sendScoreToSpreadSheet('reportOnly', 0, peopleClients, gameName, 0, 0, 60, 60, 'x', '', reportCounter);
    }
    
    function reportGameResults() {
