@@ -147,6 +147,16 @@ body .il { color: #666 } /* Literal.Number.Integer.Long */
 <span class="w">      </span><span class="c1">// Adjustments to keep tail behavior similar to the 60Hz case.</span>
 <span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">propSpeed_ppf_px</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">uT</span><span class="p">.</span><span class="nx">setDefault</span><span class="p">(</span><span class="w"> </span><span class="nx">pars</span><span class="p">.</span><span class="nx">propSpeed_ppf_px</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">);</span>
 <span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">waveSpeed_mps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">wS</span><span class="p">.</span><span class="nx">meters_from_px</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">propSpeed_ppf_px</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">60</span><span class="p">;</span><span class="w"> </span><span class="c1">// 60 fps assumed in pars.propSpeed_ppf_px</span>
+<span class="w">      </span><span class="c1">// Frames   Display Hz   Effective Ping Hz</span>
+<span class="w">      </span><span class="c1">// ------   ----------   -----------------</span>
+<span class="w">      </span><span class="c1">// 1        60           60</span>
+<span class="w">      </span><span class="c1">// 1        75           75</span>
+<span class="w">      </span><span class="c1">// 1        85           85</span>
+<span class="w">      </span><span class="c1">// 2        120          60</span>
+<span class="w">      </span><span class="c1">// 2        144          72</span>
+<span class="w">      </span><span class="c1">// 3        165          55</span>
+<span class="w">      </span><span class="c1">// 4        240          60</span>
+<span class="w">      </span><span class="c1">// 6        360          60</span>
 <span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">framesBetweenPings_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nx">gW</span><span class="p">.</span><span class="nx">getFrameRate</span><span class="p">()</span><span class="o">/</span><span class="mf">60.0</span><span class="p">);</span>
 <span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">framesBetweenPings_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
 <span class="w">      </span>
