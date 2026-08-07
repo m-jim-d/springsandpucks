@@ -300,3 +300,28 @@ function setup() {
     // Initialize the header row
     m_sheet.getRange(1, 1, 1, m_nColumns).setValues(row);
 }
+
+// Sheet UI sort helper: sort by game version ascending, then timestamp descending.
+function sortByVersionAndTime() {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("games");
+    var lastRow = sheet.getLastRow();
+    if (lastRow < 2) return; // only header, nothing to sort
+    
+    var data = sheet.getRange(2, 1, lastRow - 1, m_nColumns).getValues();
+    
+    data.sort(function(a, b) {
+        var vA = String(a[3]).toLowerCase(); // game version is column 4 (D)
+        var vB = String(b[3]).toLowerCase();
+        if (vA < vB) return -1;
+        if (vA > vB) return 1;
+        
+        // versions equal: sort by timestamp (column 3, C) newest first
+        var tA = new Date(a[2]).getTime();
+        var tB = new Date(b[2]).getTime();
+        if (tA < tB) return 1;
+        if (tA > tB) return -1;
+        return 0;
+    });
+    
+    sheet.getRange(2, 1, data.length, m_nColumns).setValues(data);
+}

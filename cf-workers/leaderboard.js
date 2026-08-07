@@ -67,9 +67,9 @@ export default {
     // Proxy request to Apps Script, retrying transient upstream failures (Google 5xx / network
     // hiccups). Safe for all modes because the Apps Script dedupes submissions on randomIndex,
     // so a retried write that already landed is ignored rather than duplicated.
-    // 14 s per attempt / 2 attempts gives a 2-3 s Apps Script run plus a slow cold start
+    // 20 s per attempt / 2 attempts gives a 2-3 s Apps Script run plus a slow cold start
     // enough time without piling up too many queued lock-waiting retries.
-    const { response: upstreamResp, attempts } = await fetchWithRetry(target.toString(), 2, 14000);
+    const { response: upstreamResp, attempts } = await fetchWithRetry(target.toString(), 2, 20000);
     if (!upstreamResp) {
       // All attempts failed: report how many were made so the client can log it.
       return new Response("Upstream fetch failed", {
