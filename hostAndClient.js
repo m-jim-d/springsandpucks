@@ -532,7 +532,7 @@ window.hC = (function() {
       let color = uT.setDefault( pars.color, "gray");
       
       if (msgText.includes("Game Summary")) {
-         if (msgText.includes("do not display")) msgText = "<span style='color:brown'><span style='display:inline-block;width:14px;height:14px;vertical-align:middle;margin-right:6px;'><svg width='14' height='14' viewBox='0 0 16 16' style='vertical-align:middle; position:relative; top:-0.15em;'><circle cx='8' cy='8' r='6' stroke='brown' stroke-width='2' fill='none' stroke-dasharray='20 8' stroke-linecap='round'><animateTransform attributeName='transform' type='rotate' from='0 8 8' to='360 8 8' dur='1s' repeatCount='indefinite'/></circle></svg></span>Please wait for the leaderboard...<br></span>";
+         if (msgText.includes("do not display")) msgText = "<br><span class='lb-loading'>Please wait for the leaderboard...<br><br></span>";
          gb.gameReportCounter += 1;
          var idString = " id='gR" + gb.gameReportCounter + "'";
       } else {

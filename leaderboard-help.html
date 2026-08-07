@@ -501,14 +501,21 @@
     </table>
 
     <h2 id="team">Team Play</h2>
+    <figure class="shot right">
+        <img src="assets/ui/team-play-9ball.png" width="500" alt="Game summary and top-25 leaderboard report for a 9-ball game">
+        <figcaption>A game of 9-ball with team play, jerry and steve taking turns on the "clients" team v.s. jim on the host (score sorted).</figcaption>
+    </figure>
     <p>
         Team play allows you to group multiple players together for scoring purposes in a tournament. 
         Players in a team work together to clear the drones in Puck Popper or take turns in one of the other games.
     </p>
     <ul>
         <li>Add a team by appending <code>@teamname</code> to your nickname, e.g. <code>bob@red</code>.</li>
+        <li><strong>Individual</strong> team member scores are displayed in the game summary.</li>
         <li><strong>Team totals</strong> (not individual member scores) are reported to the leaderboard.</li>
-        <li><strong>Friendly fire is prevented between team members</strong> in Puck Popper.</li>
+        <li>Team results show the team name and its member count, e.g. <code>red (cnt:3)</code>.</li>
+        <li>Each game that the team finishes will appear as a leaderboard entry. See the
+            repeated <code>green (cnt:2)</code> entries in the leaderboard image below.</li>
         <li>The <strong>"Friendly fire"</strong> checkbox (shown when Multiplayer is checked) controls whether human
             bullets can affect other human players.
             <ul>
@@ -516,10 +523,7 @@
                 <li>With it checked, inter-team bullets can not hit a team member, however teams can shoot at other teams.</li>
             </ul>
         </li>
-        <li>In the game score summary, a team row shows the team name and its member count, e.g.
-            <code>red (cnt:3)</code>.</li>
-        <li>The team's results will appear on multiple leaderboard entries &mdash; one per game played. See the
-            repeated <code>green (cnt:2)</code> entries in the leaderboard image below.</li>
+        <li><strong>Friendly fire</strong> is prevented between team members in Puck Popper.</li>
     </ul>
 
     <h2 id="leaderboard">The Leaderboard</h2>

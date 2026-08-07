@@ -301,27 +301,100 @@ function setup() {
     m_sheet.getRange(1, 1, 1, m_nColumns).setValues(row);
 }
 
-// Sheet UI sort helper: sort by game version ascending, then timestamp descending.
-function sortByVersionAndTime() {
+// Sheet UI sort helpers -------------------------------------------------------
+
+// Main sorting engine: sorts the "games" sheet by one or more columns.
+// sortSpecs is an array of objects: {column: 1-based column number, ascending: true/false}.
+// bandRows: optional, defaults to true. When false, all data rows keep the normal white background.
+function sortBySpecs(sortSpecs, bandRows) {
+    if (typeof bandRows === 'undefined') bandRows = true;
+    
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("games");
     var lastRow = sheet.getLastRow();
     if (lastRow < 2) return; // only header, nothing to sort
     
     var data = sheet.getRange(2, 1, lastRow - 1, m_nColumns).getValues();
     
+    // Normalized key for comparing a cell value (Date, number, or string).
+    function getKey(value) {
+        if (value instanceof Date) return value.getTime();
+        if (typeof value === 'number') return value;
+        if (value !== '' && !isNaN(value)) return Number(value);
+        return String(value).toLowerCase();
+    }
+    
     data.sort(function(a, b) {
-        var vA = String(a[3]).toLowerCase(); // game version is column 4 (D)
-        var vB = String(b[3]).toLowerCase();
-        if (vA < vB) return -1;
-        if (vA > vB) return 1;
-        
-        // versions equal: sort by timestamp (column 3, C) newest first
-        var tA = new Date(a[2]).getTime();
-        var tB = new Date(b[2]).getTime();
-        if (tA < tB) return 1;
-        if (tA > tB) return -1;
+        for (var i = 0, len = sortSpecs.length; i < len; i++) {
+            var col = sortSpecs[i].column - 1;
+            var asc = sortSpecs[i].ascending;
+            var kA = getKey(a[col]);
+            var kB = getKey(b[col]);
+            if (kA < kB) return asc ? -1 : 1;
+            if (kA > kB) return asc ? 1 : -1;
+        }
         return 0;
     });
     
+    // Alternating row backgrounds (light gray / white) based on the primary sort key.
+    var rowLight = "#E7E6E6";
+    var rowWhite = "#FFFFFF";
+    var primaryCol = sortSpecs[0].column - 1;
+    var rowBackgrounds = [];
+    var lastKey = null;
+    var groupToggle = 0;
+    for (var i = 0, len = data.length; i < len; i++) {
+        var rowColor;
+        if (bandRows) {
+            var key = getKey(data[i][primaryCol]);
+            if (i > 0 && key !== lastKey) {
+                groupToggle = (groupToggle === 0) ? 1 : 0;
+            }
+            lastKey = key;
+            rowColor = (groupToggle === 0) ? rowLight : rowWhite;
+        } else {
+            rowColor = "#FFFFFF";
+        }
+        var rowColors = [];
+        for (var c = 0; c < m_nColumns; c++) {
+            rowColors.push(rowColor);
+        }
+        rowBackgrounds.push(rowColors);
+    }
+    
+    // Color-code the header row to show primary, secondary, tertiary sort columns.
+    var sortColors = ["#C6EFCE", "#FFEB9C", "#F4B084"]; // green, yellow, orange
+    var headerColors = [];
+    for (var c = 0; c < m_nColumns; c++) {
+        headerColors.push("#FFFFFF");
+    }
+    for (var i = 0, len = sortSpecs.length; i < len; i++) {
+        var cIndex = sortSpecs[i].column - 1;
+        if (i < sortColors.length) {
+            headerColors[cIndex] = sortColors[i];
+        }
+    }
+    
     sheet.getRange(2, 1, data.length, m_nColumns).setValues(data);
+    sheet.getRange(2, 1, data.length, m_nColumns).setBackgrounds(rowBackgrounds);
+    sheet.getRange(1, 1, 1, m_nColumns).setBackgrounds([headerColors]);
+}
+
+// Button: game version ascending, then timestamp descending.
+function sortByVersionAndTime() {
+    sortBySpecs([{column: 4, ascending: true}, {column: 3, ascending: false}]);
+}
+
+// Button: timestamp descending (newest first).
+function sortByTimestampDescending() {
+    sortBySpecs([{column: 3, ascending: false}], false);
+}
+
+// Button: version ascending, then game time (win time) ascending, then score descending.
+function sortByVersionGameTimeScore() {
+    sortBySpecs([{column: 4, ascending: true}, {column: 5, ascending: true}, {column: 2, ascending: false}]);
+}
+
+// Button: version ascending, then score descending, then game time (win time) ascending.
+function sortByVersionScoreGameTime() {
+    sortBySpecs([{column: 4, ascending: true}, {column: 2, ascending: false}, {column: 5, ascending: true}]);
 }
