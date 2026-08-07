@@ -2528,15 +2528,15 @@ to rejoin the room under a new nickname (chat input).">Create</button>
             <button class="main" title="reverse the velocity and rotation rate (Ctrl-Backspace)"
                onclick="eV.reverseDirection();">Reverse</button><br>
             <p>
-               <input type="checkbox" id="chkCOM_Selection"
+               <label for="chkCOM_Selection"><input type="checkbox" id="chkCOM_Selection"
                   title='change how objects are selected (use Center Of Mass or not)' autocomplete="off"
-                  checked><u>C</u>OM
-               <input type="checkbox" id="chkGravity" autocomplete="off" title='gravity (or use "g" key)'><u>g</u>
-               <input type="checkbox" id="chkC19" autocomplete="off"
-                  title="Make each drone puck a Coronavirus in Puck Popper.">CV
+                  checked><u>C</u>OM</label>
+               <label for="chkGravity"><input type="checkbox" id="chkGravity" autocomplete="off" title='gravity (or use "g" key)'><u>g</u></label>
+               <label for="chkC19"><input type="checkbox" id="chkC19" autocomplete="off"
+                  title="Make each drone puck a Coronavirus in Puck Popper.">CV</label>
                <br>
             <div style=" margin: -4px 0px -4px 0px;">
-               <input type="checkbox" id="chkPause" autocomplete="off" title="stop/start the animation"><u>P</u>ause
+               <label for="chkPause"><input type="checkbox" id="chkPause" autocomplete="off" title="stop/start the animation"><u>P</u>ause</label>
 
                <span id='fps_wrapper' style='display:inline'>
                   (<span id="fps" title="animation rate in frames per second">0</span>fps)
@@ -2564,23 +2564,23 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                </select>
             </div>
             </p>
-            <input type="checkbox" id="chkMultiplayer" autocomplete="off"
-               title="Toggle the left panel between multiplayer features and the demo help."><u>M</u>ultiplayer<br>
+            <label for="chkMultiplayer"><input type="checkbox" id="chkMultiplayer" autocomplete="off"
+               title="Toggle the left panel between multiplayer features and the demo help."><u>M</u>ultiplayer</label><br>
             <div id='clientLinks' style='display:none; margin: 5px 0px 1px 16px;'>
-               <input type="checkbox" checked id="chkStream" autocomplete="off"
-                  title="Uncheck to pause all video streams to the clients.">Streams<br>
-               <input type="checkbox" id="chkLocalCursor" autocomplete="off"
-                  title="Render the local cursor when over the canvas element">Local cursor<br>
-               <input type='checkbox' checked id='chkPlayer' autocomplete='off' title='Request a puck player for the local host 
-when starting demos 7 and 8.'>Host player<br>
-               <input type='checkbox' checked id='chkFriendlyFire' autocomplete='off' title='Uncheck "Friendly fire" when multiple solo players
+               <label for="chkStream"><input type="checkbox" checked id="chkStream" autocomplete="off"
+                  title="Uncheck to pause all video streams to the clients.">Streams</label><br>
+               <label for="chkLocalCursor"><input type="checkbox" id="chkLocalCursor" autocomplete="off"
+                  title="Render the local cursor when over the canvas element">Local cursor</label><br>
+               <label for="chkPlayer"><input type='checkbox' checked id='chkPlayer' autocomplete='off' title='Request a puck player for the local host 
+when starting demos 7 and 8.'>Host player</label><br>
+               <label for="chkFriendlyFire"><input type='checkbox' checked id='chkFriendlyFire' autocomplete='off' title='Uncheck "Friendly fire" when multiple solo players
 or teams work together to scrub out the drones.
 
 If "Friendly fire" is checked, bullets from humans
 can hit humans and score. Players on a team will
 not be able to score hits on their own team members.
 Hits will score when directed at other teams or 
-solo players.'>Friendly fire<br>
+solo players.'>Friendly fire</label><br>
                <div style=" margin: 5px 0px 1px 4px;">
                   Client:
                   <a href="#" onClick="window.open('client.html', '_blank', 'width=1240, height=750')"
@@ -2632,8 +2632,8 @@ solo players.'>Friendly fire<br>
                </button>
             </div>
 
-            <div id="divEditorChk"><input type="checkbox" id="chkEditor" autocomplete="off"
-                  title="change the unchangeable"><u>E</u>dit walls & pins
+            <div id="divEditorChk"><label for="chkEditor"><input type="checkbox" id="chkEditor" autocomplete="off"
+                  title="change the unchangeable"><u>E</u>dit walls & pins</label>
                <select id="TableActions" onChange="tA.tableActions();" autocomplete="off" title="for a fresh start">
                   <option value="table-action" selected disabled hidden>remove/add items</option>
                   <option value="clear-table">remove everything</option>
