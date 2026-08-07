@@ -154,7 +154,7 @@ The Workers live in `cf-workers/`. There are three:
 
 | File | Route path (example) | Purpose |
 |------|----------------------|---------|
-| `leaderboard.js` | `/leaderboard` | Submit scores to Google Sheet |
+| `leaderboard-cfw.js` | `/leaderboard` | Submit scores to Google Sheet |
 | `pvent.js` | `/pvent` | Log events to Google Sheet |
 | `captures.js` | `/captures/submit` | Save/load captures in KV |
 
@@ -176,11 +176,11 @@ npm install -g wrangler
 wrangler login
 ```
 
-Create a `wrangler.toml` in each Worker's directory (example for `leaderboard.js`):
+Create a `wrangler.toml` in each Worker's directory (example for `leaderboard-cfw.js`):
 
 ```toml
 name = "leaderboard"
-main = "leaderboard.js"
+main = "leaderboard-cfw.js"
 compatibility_date = "2024-01-01"
 
 [vars]
@@ -189,7 +189,7 @@ compatibility_date = "2024-01-01"
 
 ```bash
 cd cf-workers
-wrangler deploy leaderboard.js
+wrangler deploy leaderboard-cfw.js
 ```
 
 ### Worker routes

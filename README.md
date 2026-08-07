@@ -112,7 +112,7 @@ If you only want the animations and demos, you can treat this as a fully static 
 
 | Component | Purpose | Where |
 |-----------|---------|-------|
-| `cf-workers/leaderboard.js` | Proxies score submissions → Google Sheet | Cloudflare Workers |
+| `cf-workers/leaderboard-cfw.js` | Proxies score submissions → Google Sheet | Cloudflare Workers |
 | `cf-workers/pvent.js` | Proxies event log entries → Google Sheet | Cloudflare Workers |
 | `cf-workers/captures.js` | Save/load captures in Cloudflare KV | Cloudflare Workers |
 | `google-apps/leaderboard-app.js` | Writes/queries leaderboard rows | Google Apps Script |

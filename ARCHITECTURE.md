@@ -187,7 +187,7 @@ All physics runs on the **host**. Clients send raw input events; the host applie
 
 ### Leaderboard
 
-Game results flow: **browser → CF Worker (`leaderboard.js`) → Google Apps Script → Google Sheet**
+Game results flow: **browser → CF Worker (`leaderboard-cfw.js`) → Google Apps Script → Google Sheet**
 
 The Worker translates the browser's `POST` JSON into a `GET` with querystring params toward Apps Script, then returns the Apps Script JSON response (which may include a sorted leaderboard report) back to the browser with CORS headers.
 
@@ -209,7 +209,7 @@ Dev/local requests (detected by `Origin` containing `localhost`, `192.168.*`, or
 Browser
   POST /leaderboard  {score, game, player, ...}
     ↓
-CF Worker (leaderboard.js)
+CF Worker (leaderboard-cfw.js)
   GET https://<apps-script>/exec?score=...&game=...
     ↓
 Google Apps Script (leaderboard-app.js)
@@ -261,7 +261,7 @@ Host browser (gW animation loop)
 
 | Worker | Policy |
 |--------|--------|
-| `leaderboard.js` | Permissive (`Access-Control-Allow-Origin: *`) |
+| `leaderboard-cfw.js` | Permissive (`Access-Control-Allow-Origin: *`) |
 | `pvent.js` | Permissive (`Access-Control-Allow-Origin: *`) |
 | `captures.js` | Allowlist — echoes requesting origin if approved, else falls back to `https://triquence.org` |
 
