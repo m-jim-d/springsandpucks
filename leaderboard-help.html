@@ -45,6 +45,8 @@
         }
         /* the games table has long descriptions, so let it use full width */
         table.games { width: 100%; clear: both; }
+        /* give the Team play column a bit more width so it wraps less */
+        table.games th:nth-child(3), table.games td:nth-child(3) { min-width: 150px; }
         div.pageblock h2 {
             margin-top: 34px;
             background-color: #e8e3dc;
@@ -288,7 +290,7 @@
         <li>To add a team, append <code>@teamname</code>, for example <code>bob@red</code> (see
             <a class="scroll-link" data-scroll-target="team" href="#">Team play</a>).</li>
         <li>Type <code>noname</code> in the chat field (then Create / Connect / Chat) to go back to being anonymous.</li>
-        <li>The host does <em>not</em> need to connect to the server to establish a nickname &mdash; it takes effect when
+        <li>If playing solo with no clients, the host may choose <em>not</em> to connect to the server. Connected or not, a specified nickname takes effect when
             starting or restarting a game.</li>
     </ul>
     <figure class="shot">
@@ -310,16 +312,17 @@
     <p>
         <strong>Multiplayer order matters:</strong> the host creates the room first, all network clients connect, and
         then the host starts the game (clicks the demo button). Use the <span class="kbd">v</span> key for a full-screen
-        view of the <strong></strong>canvas</strong> (the game window/play area), and <span class="kbd">esc</span> to return.
+        view of the <strong>canvas</strong> (the game window/play area), and <span class="kbd">esc</span> to return.
     </p>
     <table class="games">
         <thead>
-            <tr><th>Game</th><th>Demo</th><th>How to start / play</th></tr>
+            <tr><th>Game</th><th>Demo</th><th>Team play</th><th>How to start / play</th></tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong>Ghost-Ball Pool</strong><br>(9-ball, 8-ball, rotation)</td>
                 <td>3d</td>
+                <td>Best for two teams (or two solo players) taking turns.</td>
                 <td>Select the cue ball and drag the ghost ball to aim; release to shoot (release over the cue ball to
                     cancel, <span class="kbd">alt</span> to reverse). Tap <span class="kbd">z</span> while aiming to set
                     shot speed. Restart with the <span class="kbd">3</span> key.
@@ -329,12 +332,14 @@
             <tr>
                 <td><strong>Monkey Hunt</strong></td>
                 <td>4e</td>
+                <td>Solo or single team with members taking turns.</td>
                 <td>Click the ball and drag to aim (farther = faster); release to shoot the falling monkey. Use
                     <span class="kbd">b</span> (or a second finger) for fine aiming. Best in full-screen.</td>
             </tr>
             <tr>
                 <td><strong>Bipartisan Hoops</strong><br>(basketball)</td>
                 <td>5e</td>
+                <td>Solo or single team with members taking turns.</td>
                 <td>Drag and release to shoot at the hoop. <span class="kbd">b</span> toggles high-resolution aiming;
                     <span class="kbd">ctrl</span>-drag for ball-in-hand positioning; <span class="kbd">c</span> centers
                     the attachment point for vertical bank shots.</td>
@@ -342,6 +347,7 @@
             <tr>
                 <td><strong>Jello Madness</strong></td>
                 <td>6a</td>
+                <td>Solo or single team.</td>
                 <td>Untangle the spinning block of jello as fast as possible. The right mouse button, freeze
                     (<span class="kbd">f</span>), and gravity (<span class="kbd">g</span>) controls all help. Shortest
                     untangle time wins.
@@ -350,6 +356,7 @@
             <tr>
                 <td><strong>Puck Popper</strong> <br> (small canvas)</td>
                 <td>7</td>
+                <td>Solo or single team against the drones.</td>
                 <td>Be the last puck standing. A group of games (7a&ndash;7e), started from the lettered
                     links under the number buttons. Jet: <span class="kbd">w a s d</span>; gun:
                     <span class="kbd">i j k l</span>; hold <span class="kbd">spacebar</span> for a shield. The
@@ -361,6 +368,7 @@
             <tr>
                 <td><strong>Puck Popper</strong> <br> (large canvas)</td>
                 <td>8</td>
+                <td>Solo or single team against the drones.</td>
                 <td>Same controls as the 7 group of games, on a larger course (8a&ndash;8e).</td>
             </tr>
         </tbody>
@@ -688,23 +696,39 @@
 
     <h2 id="checklist">Quick Tournament Checklist</h2>
     <ul>
-        <li>Host: open the main page, check <strong>Multiplayer</strong>, enter a room name, set your nickname, click
-            <strong>Create</strong>. 
-            If not playing, the host should uncheck the host-player option under the multiplayer settings.</li>
-        <li>Non-host players: open the <a href="client.html" target="_blank">client</a> page, enter the same room name, set your
-            nickname (add <code>@yourteam</code> if playing in teams), click <strong>Connect</strong>.</li>
-        <li>The host loads the agreed upon capture (game/course). 
-            This will be a either a unique capture created for the tournament, or a name-edited standard capture (appended tourney name).</li>
-        <li>For <strong>Puck Popper</strong>:
+        <li><strong>Host:</strong>
             <ul>
-                <li>Decide the <strong>Friendly fire</strong> setting before starting.</li>
-                <li>Don't use the mouse in the canvas and don't put the drones to sleep
-                    (<span class="kbd">ctrl-q</span>) &mdash; otherwise the result is flagged (m/sl) and doesn't earn a placement.</li>
+                <li>open the <a href="index.html" target="_blank">main page</a>,</li>
+                <li>in the right panel, check <strong>Multiplayer</strong>; if not playing, uncheck the host-player option.</li>
+                <li>in the left panel, enter a <strong>room name</strong>, set your <strong>nickname</strong>,</li>
+                <li>click <strong>Create</strong>.</li>
+            </ul>
+            
+        </li>
+        <li><strong>Client players:</strong> 
+            <ul>
+                <li>open the <a href="client.html" target="_blank">client</a> page, </li>
+                <li>enter the host's <strong>room name</strong>, set your <strong>nickname</strong> (add <code>@yourteam</code> if playing in teams), </li>
+                <li>click <strong>Connect</strong>.</li>
             </ul>
         </li>
-        <li>Host starts the game once everyone is connected; use full-screen (<span class="kbd">v</span>) for a clean
-            view.</li>
-        <li>After the game, press <span class="kbd">m</span> to toggle the left panel between the leaderboard report and help.</li>
+        <li><strong>Host:</strong> load the agreed upon capture (game/course). 
+            This will be a either a unique capture created for the tournament, or a name-edited standard capture (tourney name appended to its <code>demoVersion</code>).</li>
+        <li>For <strong>Puck Popper</strong>:
+            <ul>
+                <li>Decide the <strong>Friendly fire</strong> setting (on the host) before starting.</li>
+                <li>Remember to not use the mouse in the canvas and don't put the drones to sleep
+                    (<span class="kbd">ctrl-q</span>) &mdash; otherwise the result is flagged (m/sl columns) and excluded from the placement summary.</li>
+            </ul>
+        </li>
+        <li><strong>Host:</strong> start the game once everyone is connected; use full-screen (<span class="kbd">v</span>) for a clean
+            full-screen view.</li>
+        <li>After the game, 
+            <ul>
+                <li><strong>Host:</strong> press <span class="kbd">m</span> to toggle the left panel between the leaderboard report and help.</li>
+                <li><strong>Clients:</strong> to see the leaderboard report, users may need to use the esc key to exit the game pad or full-screen view.</li>
+            </ul>
+        </li>
     </ul>
 
     <p>
