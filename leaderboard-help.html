@@ -173,8 +173,7 @@
     <div class="body-indent">
     <p>
         This page collects information players may need for a Springs &amp; Pucks tournament.<br>
-        It may look like a lot, but running a tournament can be simple &mdash; the
-        <a class="scroll-link" data-scroll-target="tournament" href="#">easy way</a> is just three steps.
+        The <a class="scroll-link" data-scroll-target="tournament" href="#">easy way</a> is just three steps.
     </p>
 
     <div class="toc">
@@ -204,12 +203,13 @@
         Competitors can be <strong>individual players</strong> or <strong>teams</strong>, and a single tournament can mix both.</p>
     <p>
         The <a href="index.html" target="_blank"><strong>host</strong></a> is the computer that runs the physics engine and displays to the audience. 
-        It collects mouse/keyboard input from the host player and connected clients.
+        It collects input from the host player and connected clients. The host player is limited to mouse/keyboard input.
     </p>
     <p>
-        The <a href="client.html" target="_blank"><strong>client</strong></a> collects input from an additional player and sends it to the host. 
-        It can run in mouse/keyboard mode or gamepad mode.
-        The Two-Thumbs <strong>gamepad</strong> is only available on a <strong>client</strong>, which must have a <strong>touch screen</strong>.
+        The <a href="client.html" target="_blank"><strong>client</strong></a> collects input from an additional player and sends it to the host.
+        One or more clients can connect to the host. 
+        Each client can run in mouse/keyboard mode or gamepad mode.
+        The Two-Thumbs <strong>gamepad</strong> requires a touch screen.
     </p>
     <p>
         The host has a <strong>host-player</strong> option under the Multiplayer options (right panel).
@@ -689,10 +689,12 @@
     <h2 id="checklist">Quick Tournament Checklist</h2>
     <ul>
         <li>Host: open the main page, check <strong>Multiplayer</strong>, enter a room name, set your nickname, click
-            <strong>Create</strong>.</li>
-        <li>Players: open the <a href="client.html" target="_blank">client</a> page, enter the same room name, set your
+            <strong>Create</strong>. 
+            If not playing, the host should uncheck the host-player option under the multiplayer settings.</li>
+        <li>Non-host players: open the <a href="client.html" target="_blank">client</a> page, enter the same room name, set your
             nickname (add <code>@yourteam</code> if playing in teams), click <strong>Connect</strong>.</li>
-        <li>Agree on the game/course and, for a dedicated board, load the tournament <strong>capture</strong>.</li>
+        <li>The host loads the agreed upon capture (game/course). 
+            This will be a either a unique capture created for the tournament, or a name-edited standard capture (appended tourney name).</li>
         <li>For <strong>Puck Popper</strong>:
             <ul>
                 <li>Decide the <strong>Friendly fire</strong> setting before starting.</li>
@@ -704,9 +706,6 @@
             view.</li>
         <li>After the game, press <span class="kbd">m</span> to toggle the left panel between the leaderboard report and help.</li>
     </ul>
-
-    <p>For the complete list of mouse, keyboard, and touch commands, see the
-        <a href="mouseandkeys.html" target="_blank">Mice, Keys, and Touch</a> reference.</p>
 
     <p>
         .<br>
