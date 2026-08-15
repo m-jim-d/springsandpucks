@@ -178,6 +178,13 @@
         The <a class="scroll-link" data-scroll-target="tournament" href="#">easy way</a> is just three steps.
     </p>
 
+    <figure class="shot right">
+        <img src="assets/ui/tug-of-war.svg" alt="Two teams of two players in a tug of war" width="500" style="border: none;">
+        <figcaption>
+            Compete for the highest scores or lowest speed-run times.
+        </figcaption>
+    </figure>
+
     <div class="toc">
         <p style="margin-bottom:5px">Topics here:</p>
         <ul>
@@ -192,6 +199,7 @@
         </ul>
     </div>
     
+
     <p>Additional resources:</p>
     <ul>
         <li>The left panel on the main <a href="index.html" target="_blank">S&P</a> page has context help that scrolls to the relevant sections when you start games and demos.</li>
@@ -201,7 +209,7 @@
     </ul>
 
     <h2 id="devices">Devices and Play Modes</h2>
-    <p>A <strong>tournament</strong> is simply an organized session where players compete on the same game course and compare scores on the leaderboard.
+    <p>A <strong>tournament</strong> is simply an organized session where players compete on the same game course and compare times or scores on the leaderboard.
         Competitors can be <strong>individual players</strong> or <strong>teams</strong>, and a single tournament can mix both.</p>
     <p>
         The <a href="index.html" target="_blank"><strong>host</strong></a> is the computer that runs the physics engine and displays to the audience. 
@@ -481,6 +489,17 @@
         <img src="assets/ui/puck-popper.png" alt="Puck Popper arena with pucks aiming and firing bullets">
         <figcaption>Drone pucks (blue) aim and fire; be the last one standing.</figcaption>
     </figure>
+    <table>
+        <thead><tr><th>Points</th><th>Event</th></tr></thead>
+        <tbody>
+            <tr><td class="pts">+200</td><td>last puck-player standing (win)</td></tr>
+            <tr><td class="pts">+100</td><td>popping a client or drone puck</td></tr>
+            <tr><td class="pts">+50</td><td>popping a regular puck</td></tr>
+            <tr><td class="pts">+10</td><td>hitting a puck with one of your bullets</td></tr>
+            <tr><td class="pts">-10</td><td>getting hit by a bullet</td></tr>
+            <tr><td class="pts">-1</td><td>a bullet that expires before hitting another puck</td></tr>
+        </tbody>
+    </table>
     <p>
         Tell the controlled pucks apart by the color of each puck's <strong>jet tube</strong>: the host's is
         <strong>tomato red</strong> (or as specified in the capture), and each client's tube matches the color shown on
@@ -496,17 +515,6 @@
         <a href="videos.html?capture" target="_blank">state capture</a> sections.
         The video on <a href="videos.html?changingDronePath" target="_blank">changing the drone path</a> is particularly useful for making a custom course.
     </p>
-    <table>
-        <thead><tr><th>Points</th><th>Event</th></tr></thead>
-        <tbody>
-            <tr><td class="pts">+200</td><td>last puck-player standing (win)</td></tr>
-            <tr><td class="pts">+100</td><td>popping a client or drone puck</td></tr>
-            <tr><td class="pts">+50</td><td>popping a regular puck</td></tr>
-            <tr><td class="pts">+10</td><td>hitting a puck with one of your bullets</td></tr>
-            <tr><td class="pts">-10</td><td>getting hit by a bullet</td></tr>
-            <tr><td class="pts">-1</td><td>a bullet that expires before hitting another puck</td></tr>
-        </tbody>
-    </table>
 
     <h2 id="team">Team Play</h2>
     <figure class="shot right">
