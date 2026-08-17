@@ -579,7 +579,7 @@ window.gW = (function() {
       //////////////////////////////////////////////////////////////////////////
       window.setTimeout( function() {
          if (demoFromURL.ccKey) {
-            cR.postCaptureToCF({'action':'downLoadOne','downLoadKey':demoFromURL.ccKey,'tourney':demoFromURL.tourney,'fromURL':true});
+            cR.postCaptureToCF({'action':'downLoadOne','downLoadKey':demoFromURL.ccKey,'tourney':demoFromURL.tourney,'skipChatPanel':true});
          } else if (demoFromURL.file) {
             cR.demoStart_fromCapture( demoFromURL.index, {'fileName':demoFromURL.file, 'tourney':demoFromURL.tourney});
          } else if (( ! demoFromURL.file) && demoFromURL.index) {

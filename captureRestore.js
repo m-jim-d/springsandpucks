@@ -1475,7 +1475,7 @@ window.cR = (function() {
       let actionType = uT.setDefault( pars.actionType, "normal");
       let downLoadKey = uT.setDefault( pars.downLoadKey, null); // key for KV (key-value) storage at Cloudflare
       let tourney = uT.setDefault( pars.tourney, null);
-      let fromURL = uT.setDefault( pars.fromURL, false); // true for URL-initiated downloads; suppresses chat-panel switching 
+      let skipChatPanel = uT.setDefault( pars.skipChatPanel, false); // true to suppress the chat-panel switch when loading a capture
       
       let workerURL = "https://triquence.org/captures/submit";
       
@@ -1684,7 +1684,7 @@ window.cR = (function() {
             'body': JSON.stringify( postObject)
          }); 
 
-         if ( ! fromURL) switchToTheChatPanel();
+         if ( ! skipChatPanel) switchToTheChatPanel();
 
          if (response.ok) {
             let jsonInResponse = await response.json();
@@ -1720,7 +1720,7 @@ window.cR = (function() {
          } 
          
       } else if (action == "list") {
-         if ( ! fromURL) switchToTheChatPanel();
+         if ( ! skipChatPanel) switchToTheChatPanel();
          
          let searchString = (gW.clients['local'].key_shift == "D") ? "" : gW.getDemoIndex();
          let postObject = {"action":action, "searchString":searchString};
