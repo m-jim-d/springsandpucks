@@ -1473,7 +1473,9 @@ window.cR = (function() {
    async function postCaptureToCF( pars={}) {
       let action = uT.setDefault( pars.action, "list");
       let actionType = uT.setDefault( pars.actionType, "normal");
-      let downLoadKey = uT.setDefault( pars.downLoadKey, null); // key for KV (key-value) storage at Cloudflare 
+      let downLoadKey = uT.setDefault( pars.downLoadKey, null); // key for KV (key-value) storage at Cloudflare
+      let tourney = uT.setDefault( pars.tourney, null);
+      let fromURL = uT.setDefault( pars.fromURL, false); // true for URL-initiated downloads; suppresses chat-panel switching 
       
       let workerURL = "https://triquence.org/captures/submit";
       
@@ -1682,7 +1684,7 @@ window.cR = (function() {
             'body': JSON.stringify( postObject)
          }); 
 
-         switchToTheChatPanel();
+         if ( ! fromURL) switchToTheChatPanel();
 
          if (response.ok) {
             let jsonInResponse = await response.json();
@@ -1690,19 +1692,26 @@ window.cR = (function() {
             
             // Write to the textarea element.
             if (jsonInResponse.foundIt) {
+               let cloudCapture = jsonInResponse.capture;
+               if (tourney && cloudCapture.demoVersion) {
+                  cloudCapture.demoVersion = cloudCapture.demoVersion + '.' + tourney;
+               }
+               
                // keep the original of the most recent capture for capture-edit checking
-               m_cloudCapture.object = jsonInResponse.capture;
-               m_cloudCapture.string = JSON.stringify( jsonInResponse.capture, null, 3);
+               m_cloudCapture.object = cloudCapture;
+               m_cloudCapture.string = JSON.stringify( cloudCapture, null, 3);
                
                // give it to the user (put the string in the textarea).
                gW.dC.json.value = m_cloudCapture.string;
+               window.setTimeout( function() { scrollCaptureArea();}, 500);
                
                runCapture();
                
                gW.messages['help'].newMessage("Capture downloaded.", 1.0);
                
             } else {
-               hC.displayMessage("Capture not found.");
+               gW.messages['help'].newMessage("Capture not found: [base,yellow]" + downLoadKey + "[base]", 3.0);
+               hC.displayMessage("Capture not found: " + downLoadKey);
             }
             
          } else {
@@ -1711,7 +1720,7 @@ window.cR = (function() {
          } 
          
       } else if (action == "list") {
-         switchToTheChatPanel();
+         if ( ! fromURL) switchToTheChatPanel();
          
          let searchString = (gW.clients['local'].key_shift == "D") ? "" : gW.getDemoIndex();
          let postObject = {"action":action, "searchString":searchString};

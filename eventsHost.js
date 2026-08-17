@@ -1402,7 +1402,7 @@ window.eV = (function() {
          }
       }, {capture: false});   
       
-      // NickName fields in help panel for Puck Popper, Ghost Ball, Monkey Hunt, and Bipartisan Hoops.
+      // NickName fields in help panel for Jello Madness, Puck Popper, Ghost Ball, Monkey Hunt, and Bipartisan Hoops.
       $('input.nickNameField').on('keyup blur', function(e) {
          if (e.key == "Enter") {
             $(this).blur();
@@ -1441,6 +1441,9 @@ window.eV = (function() {
                      }
                   }
                   
+               } else if (this.id == 'nn_jello-madness') {
+                  dS.demoStart(6);
+                  
                } else if (this.id == 'nn_popper7') {
                   dS.demoStart(7);
                   
@@ -1448,7 +1451,7 @@ window.eV = (function() {
                   dS.demoStart(8);
                }
                
-               if (this.id != 'nn_popper7') eVN.changeFullScreenMode( canvas, 'on');
+               if ( ! ['nn_jello-madness','nn_popper7'].includes(this.id)) eVN.changeFullScreenMode( canvas, 'on');
                
             }, 100);
             

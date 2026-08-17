@@ -486,6 +486,18 @@ window.gW = (function() {
       // Sanitize: letters, numbers, and hyphen only; 15 chars max.
       demoFromURL.tourney = tourneyRaw ? tourneyRaw.replace(/[^A-Za-z0-9-]/g, '').slice(0, 15) : null;
 
+      var ccRaw = new URLSearchParams( window.location.search).get('cc');
+      if (ccRaw) {
+         var ccParts = ccRaw.split('__');
+         var ccString = ccParts[0].replace(/[^A-Za-z0-9.-]/g, '');
+         if (ccString.match(/^[0-9][a-zA-Z]/)) {
+            ccString = ccString[0] + '.' + ccString[1] + (ccString.length > 2 ? ccString.slice(2) : '');
+         }
+         ccString = ccString.replace(/^([0-9]\.[a-zA-Z])-/, '$1.');
+         let ccNick = (ccParts.length > 1) ? ccParts[1].replace(/[^A-Za-z0-9-]/g, '') : 'jim';
+         demoFromURL.ccKey = ccString + "__" + ccNick;
+      }
+
       sounds['lowPop'] =  new uT.SoundEffect("sounds/puckpop_lower.mp3", 5); // n copies...
       sounds['highPop'] = new uT.SoundEffect("sounds/puckpop.mp3", 5);
       sounds['clack2'] =  new uT.SoundEffect("sounds/clack_long_b.mp3", 35); //35 100 Note: version "b" avoids overly quiet play in chrome.
@@ -566,7 +578,9 @@ window.gW = (function() {
       // Now, about 0.2 seconds after the framerate measurement, start the demo.
       //////////////////////////////////////////////////////////////////////////
       window.setTimeout( function() {
-         if (demoFromURL.file) {
+         if (demoFromURL.ccKey) {
+            cR.postCaptureToCF({'action':'downLoadOne','downLoadKey':demoFromURL.ccKey,'tourney':demoFromURL.tourney,'fromURL':true});
+         } else if (demoFromURL.file) {
             cR.demoStart_fromCapture( demoFromURL.index, {'fileName':demoFromURL.file, 'tourney':demoFromURL.tourney});
          } else if (( ! demoFromURL.file) && demoFromURL.index) {
             dS.demoStart( demoFromURL.index);
