@@ -224,7 +224,9 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                <p id="browserAdvice" style="margin-bottom: 27px;"> (best with a Chromium-based browser)</p>
 
                <p style="text-align: left;">
-                  Triquence.org hosts a collection of coding projects &mdash; this page is a physics sandbox for interactive animations and games.
+                  Triquence.org is a collection of interactive animations and games, a physics sandbox.
+               </p>
+               <p style="text-align: left;">
                   Use the menu (upper&nbsp;left) to explore the three companion sites:
                </p>
                <ul style="text-align: left; margin: -6px 0 10px 0;">
@@ -232,7 +234,7 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                   <li><a href="https://waconia.triquence.org/weather.html?station=RMTN&days=5" title="weather data, JSON and XML feed readers, screen-scraper parsing, and charts...">Waconia</a> &mdash; some very unrelated weather charting</li>
                   <li><a href="https://bincalcs.triquence.org" title="bin-method calculator">BinCalcs</a> &mdash; an HVAC cooling-energy calculator</li>
                </ul>
-               <p>
+               <p style="text-align: left;">
                   For a start here, click and drag a colored circle on the canvas.
                   Take the <a class="scroll-link" href="#" title="a guided intro"
                      data-scroll-target="superShortIntro">tour</a>.
@@ -308,7 +310,7 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                   </div>
                </div>
 
-               <p>
+               <p style="text-align: left;">
                   These animations use <a class="scroll-link" href="#" title=""
                      data-scroll-target="codeLinks">JavaScript</a>,
                   <a href="https://github.com/hecht-software/box2dweb" target="_blank"
@@ -322,11 +324,12 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                   <a href="peer2peer.html" target="_black" title="discussion on peer-to-peer">WebRTC</a>.
                </p>
 
-               <p>
-                  The <a href="mouseandkeys.html" target="_blank"
-                     title="mice, keyboards, and touchscreens">reference</a> and <a href="rev-history.html"
-                     target="_blank" title="revision history for triquence.org">revisions</a>
-                  pages give another perspective on functionality. You may find a note on what's coming next.
+               <p style="text-align: left;">
+                  The 
+                  <a href="leaderboard-help.html" target="_blank" title="Tournament and Leaderboard Guide">tourney</a>,
+                  <a href="mouseandkeys.html" target="_blank" title="mice, keyboards, and touchscreens">controls</a>, and
+                  <a href="rev-history.html" target="_blank" title="revision history for triquence.org">revisions</a>
+                  pages give more perspective on functionality. You may find a note on what's coming next.
                </p>
 
                <hr><br>
@@ -2162,7 +2165,8 @@ to rejoin the room under a new nickname (chat input).">Create</button>
                   Bullets are elastic and with no drag; regular pucks are inelastic and with no drag.
                   <br><br>
                   There are elastic collisions and no drag in
-                  <a onclick="cR.demoStart_fromCapture(8, {'fileName':'demo8d.js'})">8d</a> and
+                  <a onclick="cR.demoStart_fromCapture(8, {'fileName':'demo8d.js'})">8d</a>,
+                  <a onclick="cR.postCaptureToCF({'action':'downLoadOne','downLoadKey':'8.d.trouble__jim','skipChatPanel':true})">8d.trouble</a>, and
                   <a onclick="cR.demoStart_fromCapture(8, {'fileName':'demo8e.js'})">8e</a>.
                   These versions of Puck Popper are the most challenging to play.
                   This optimizes the capability of the drone pucks to anticipate (and lead) for the motion of the
