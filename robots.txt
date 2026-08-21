@@ -1,4 +1,4 @@
 User-agent: *
 
-# Block political sprites and UI assets from search indexing
+# Block sprites and UI assets from search indexing
 Disallow: /assets/
