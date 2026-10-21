@@ -43,17 +43,27 @@ h1.maintitle {
 strong {
 	color: black;
 }
-strong.title_2 {
+strong.title_2,
+h3.title_2 {
 	font-size: 130%;
    color: #000000; /* slightly less black: #222222 */
+}
+h3.title_2 {
+   margin: 1em 0;
+   font-weight: bold;
 }
 strong.sectionbreak {
    color: white;
 }
-span.sectionbreak {
+span.sectionbreak,
+h2.sectionbreak {
    color: black;
    font-size: 105%;
    font-weight: bold;
+}
+h2.sectionbreak {
+   display: inline;
+   margin: 0;
 }
 
 
@@ -69,8 +79,6 @@ span.float_right {
 }
 
 
-table {
-}
 td {
 	vertical-align: top;
 	text-align: left;

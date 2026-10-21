@@ -4,15 +4,80 @@
 <head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="description" content="videos as captured at triquence.org">
+   <meta name="description" content="Video tutorials and recordings from Springs & Pucks at triquence.org: 2D physics demos, multiplayer games, editor walkthroughs, and the EpL energy-momentum report.">
 
-   <title>S&P Videos</title>
+   <title>Springs & Pucks Videos — Physics Demos, Games, and Editor Walkthroughs</title>
 
    <link rel="canonical" href="https://triquence.org/videos" />
 
+   <!-- Social sharing -->
+   <meta property="og:type" content="website">
+   <meta property="og:title" content="Springs & Pucks Videos">
+   <meta property="og:description" content="Video tutorials and recordings from Springs & Pucks: 2D physics demos, multiplayer games, editor walkthroughs, and the EpL energy-momentum report.">
+   <meta property="og:url" content="https://triquence.org/videos">
+   <meta property="og:image" content="https://triquence.org/screenshots/ghost-ball-eight_550w.png">
+   <meta name="twitter:card" content="summary_large_image">
+
+   <!-- Structured data for the videos embedded on this page -->
+   <script type="application/ld+json">
+   {
+      "@context": "https://schema.org",
+      "@graph": [
+         {"@type": "VideoObject", "name": "Internal / external", "embedUrl": "https://www.youtube.com/embed/enzQJgU8oX4", "thumbnailUrl": "https://triquence.org/screenshots/cannibal-in-here_550w.png", "description": "A modified shooting puck conserves system mass while shooting bullets, inside and outside floating fences of springs and chains."},
+         {"@type": "VideoObject", "name": "Fling, move, and rotate", "embedUrl": "https://www.youtube.com/embed/SPm32QoGzTQ", "thumbnailUrl": "https://triquence.org/screenshots/positioning_550w.png", "description": "How to throw, catch, move, and rotate a puck, wall, or pin in the Springs & Pucks demos."},
+         {"@type": "VideoObject", "name": "Forecast and shoot", "embedUrl": "https://www.youtube.com/embed/QJnV7GwXYsw", "thumbnailUrl": "https://triquence.org/screenshots/projectile-forecasting_550w.png", "description": "Launch a puck as a projectile with keyboard shortcuts for forecasting motion and controlling the shot."},
+         {"@type": "VideoObject", "name": "Speed shots and the stepper", "embedUrl": "https://www.youtube.com/embed/3njR3RlhP3o", "thumbnailUrl": "https://triquence.org/screenshots/bullet-shot_550w.png", "description": "Visualize high-speed shots into a target stack and single-step the physics engine with the stepper."},
+         {"@type": "VideoObject", "name": "No gravity", "embedUrl": "https://www.youtube.com/embed/-gkMXSyy2T0", "thumbnailUrl": "https://triquence.org/screenshots/green-pool-balls3_550w.png", "description": "Without gravity, objects behave like balls on a pool table; ghost-ball aiming forecasts collision motion."},
+         {"@type": "VideoObject", "name": "Multi-select", "embedUrl": "https://www.youtube.com/embed/qxBWKG20HNU", "thumbnailUrl": "https://triquence.org/screenshots/multiselect_550w.png", "description": "Select one or more objects on the canvas using a cursor spring, shift-drag marking, or an alt-drag selection box."},
+         {"@type": "VideoObject", "name": "Connecting with springs", "embedUrl": "https://www.youtube.com/embed/2nsF8TfB3hk", "thumbnailUrl": "https://triquence.org/screenshots/spring-connections_550w.png", "description": "Add spring connections via the remove/add menu or keyboard shortcuts, and step through multi-select groups."},
+         {"@type": "VideoObject", "name": "Connecting with revolute joints", "embedUrl": "https://www.youtube.com/embed/9msTMmAh4SI", "thumbnailUrl": "https://triquence.org/screenshots/joint-connections_550w.png", "description": "Add revolute joints to multi-select attachment points and copy springs onto new attachments."},
+         {"@type": "VideoObject", "name": "Pentagon of joints and springs", "embedUrl": "https://www.youtube.com/embed/Es3a36GIEcA", "thumbnailUrl": "https://triquence.org/screenshots/pentagon_550w.png", "description": "Build a five-sided polygon of joined pucks and springs, then delete joints to watch the new equilibrium."},
+         {"@type": "VideoObject", "name": "Restitution, align and linearize", "embedUrl": "https://www.youtube.com/embed/nCteJ-2A2bw", "thumbnailUrl": "https://triquence.org/screenshots/restitution_550w.png", "description": "Drop a line of balls with varying restitution and use the alignment feature to linearize attribute values."},
+         {"@type": "VideoObject", "name": "Surface friction", "embedUrl": "https://www.youtube.com/embed/9HOvKjV1Uj8", "thumbnailUrl": "https://triquence.org/screenshots/surface-friction_550w.png", "description": "Four segments showing the effects of changing puck surface friction, from tacky stacks to Newton's Cradle."},
+         {"@type": "VideoObject", "name": "Translational drag", "embedUrl": "https://www.youtube.com/embed/O5mMOmSbDm4", "thumbnailUrl": "https://triquence.org/screenshots/translational-drag_550w.png", "description": "Effects of the puck drag coefficient: circular orbits, projectile forecasts, and falling puck rows."},
+         {"@type": "VideoObject", "name": "Rotational drag", "embedUrl": "https://www.youtube.com/embed/jp2mmlOgRPo", "thumbnailUrl": "https://triquence.org/screenshots/rotational-drag_550w.png", "description": "Effects of the rotational drag coefficient, including a dandelion puck torqued by two springs."},
+         {"@type": "VideoObject", "name": "Spring damping", "embedUrl": "https://www.youtube.com/embed/FOTnHMOTvEU", "thumbnailUrl": "https://triquence.org/screenshots/spring-damper_550w.png", "description": "Energy loss via the spring damping coefficient; halting an orbit to leave two pucks oscillating."},
+         {"@type": "VideoObject", "name": "Spring length and stiffness", "embedUrl": "https://www.youtube.com/embed/uiaJiCM2yyc", "thumbnailUrl": "https://triquence.org/screenshots/spring-stiffness_550w.png", "description": "Three contrasting spring systems demonstrating spring length and stiffness adjustments."},
+         {"@type": "VideoObject", "name": "Restoring order", "embedUrl": "https://www.youtube.com/embed/USE8K5WgY60", "thumbnailUrl": "https://triquence.org/screenshots/editing-colormixer_550w.png", "description": "Use the editor to replicate a three-puck group, toggle gravity, and watch springs restore order."},
+         {"@type": "VideoObject", "name": "Changing the drone path", "embedUrl": "https://www.youtube.com/embed/aW8E9uHNPHk", "thumbnailUrl": "https://triquence.org/screenshots/edit-drone-path_550w.png", "description": "Drone-path editing features: navigation pins and springs, replicating drones, and deleting pins."},
+         {"@type": "VideoObject", "name": "Fixed-length distance joints", "embedUrl": "https://www.youtube.com/embed/orxaWhZWNNg", "thumbnailUrl": "https://triquence.org/screenshots/spring-man_550w.png", "description": "Configure Box2D distance joints for fixed-length behavior to build compound objects."},
+         {"@type": "VideoObject", "name": "Springy chain", "embedUrl": "https://www.youtube.com/embed/7Zadsk5r6kI", "thumbnailUrl": "https://triquence.org/screenshots/infinity_550w.png", "description": "A chain of small segments with hidden joints and springs forms a flexible loop shaped into an infinity sign."},
+         {"@type": "VideoObject", "name": "System center of mass", "embedUrl": "https://www.youtube.com/embed/lglc3F2nuBw", "thumbnailUrl": "https://triquence.org/screenshots/center-of-mass_550w.png", "description": "The mass-weighted center of all pucks is displayed; only external forces move it."},
+         {"@type": "VideoObject", "name": "Hybrid edits", "embedUrl": "https://www.youtube.com/embed/gMnFDW8Guo0", "thumbnailUrl": "https://triquence.org/screenshots/fluid-motion_550w.png", "description": "Edit surface friction across 101 pucks and modify a capture to reveal an ordered color pattern."},
+         {"@type": "VideoObject", "name": "Tuning a spring pendulum", "embedUrl": "https://www.youtube.com/embed/PyiboX7208k", "thumbnailUrl": "https://triquence.org/screenshots/spring-pendulum_550w.png", "description": "Adjust spring length, strength, and hanging mass to tune the ratio of pendulum to spring-bounce periods."},
+         {"@type": "VideoObject", "name": "Driving with the keyboard", "embedUrl": "https://www.youtube.com/embed/ZAeRF1GOurA", "thumbnailUrl": "https://triquence.org/screenshots/tt-keyboard_550w.png", "description": "The keyboard interface for the Puck Popper game, explained with puck features and shots."},
+         {"@type": "VideoObject", "name": "Network connections", "embedUrl": "https://www.youtube.com/embed/XM87n9YFWXg", "thumbnailUrl": "https://triquence.org/screenshots/network-connection_550w.png", "description": "Connect a cell phone or laptop client to a desktop game host using WebRTC."},
+         {"@type": "VideoObject", "name": "Virtual game pad", "embedUrl": "https://www.youtube.com/embed/FBjb9hbaRa4", "thumbnailUrl": "https://triquence.org/screenshots/two-thumbs-cell_550w.png", "description": "Layout of the virtual game pad (Two Thumbs) interface for playing on a host from a phone."},
+         {"@type": "VideoObject", "name": "Sharing a private leaderboard", "embedUrl": "https://www.youtube.com/embed/kAWtosA2Qhs", "thumbnailUrl": "https://triquence.org/screenshots/tourney-sharing-lb-report_550w.png", "description": "Edit the capture name to direct game results to a private leaderboard for a tournament or group."},
+         {"@type": "VideoObject", "name": "Taking aim at the Coronavirus", "embedUrl": "https://www.youtube.com/embed/PRNdIAfqoMQ", "thumbnailUrl": "https://triquence.org/screenshots/virus-drone_550w.png", "description": "Puck Popper played with the drone puck in a Coronavirus costume."},
+         {"@type": "VideoObject", "name": "Marx brothers straighten out new jello", "embedUrl": "https://www.youtube.com/embed/j6QSGN565ZQ", "thumbnailUrl": "https://triquence.org/screenshots/harp-cropped_550w.png", "description": "Two players take turns playing Jello Madness, using the editor and capture features to save a custom version."},
+         {"@type": "VideoObject", "name": "Tricks for beating 6a", "embedUrl": "https://www.youtube.com/embed/xiUtsBrxLIs", "thumbnailUrl": "https://triquence.org/screenshots/jello-stretch_550w.png", "description": "Use the editor to separate stubborn jello pucks and win the 6a demo."},
+         {"@type": "VideoObject", "name": "Playing solo on the host", "embedUrl": "https://www.youtube.com/embed/_q-Gtyi25KE", "thumbnailUrl": "https://triquence.org/screenshots/ghost-ball-eight_550w.png", "description": "A game of Ghost-Ball Pool played on the host computer, aiming directly with a mouse."},
+         {"@type": "VideoObject", "name": "Client has the ball", "embedUrl": "https://www.youtube.com/embed/CSYE-lp5RkM", "thumbnailUrl": "https://triquence.org/screenshots/ghost-ball-v2_550w.png", "description": "A cell-phone client aims pool shots on a host computer over a WebRTC peer-to-peer connection."},
+         {"@type": "VideoObject", "name": "A few ideas...", "embedUrl": "https://www.youtube.com/embed/ExHiEVWppV4", "thumbnailUrl": "https://triquence.org/screenshots/tough-shots_550w.png", "description": "Special situations in Ghost-Ball Pool: cushion angles, touching balls, and manual exit from fine-moves."},
+         {"@type": "VideoObject", "name": "Racks and trick shots", "embedUrl": "https://www.youtube.com/embed/ZJmPgz6_nX0", "thumbnailUrl": "https://triquence.org/screenshots/trick-shots_550w.png", "description": "Line and arc methods form unusual rack patterns; gravity and cushion editing enable trick-shot breaks."},
+         {"@type": "VideoObject", "name": "Monkey Hunt", "embedUrl": "https://www.youtube.com/embed/PTPS4D5p8hU", "thumbnailUrl": "https://triquence.org/screenshots/monkey-hunt_550w.png", "description": "The classic monkey-and-hunter physics demo animated with projectile motion and a sight line."},
+         {"@type": "VideoObject", "name": "Bipartisan Hoops", "embedUrl": "https://www.youtube.com/embed/5Z_wTowPCq0", "thumbnailUrl": "https://triquence.org/screenshots/hoops-with-mascots-small.png", "description": "A basketball game with party mascots and instructions for the elusive clean-bank shot."},
+         {"@type": "VideoObject", "name": "The Layout (EpL report)", "embedUrl": "https://www.youtube.com/embed/iqMXuXOKj-k", "thumbnailUrl": "https://triquence.org/screenshots/epl-report_550w.png", "description": "The EpL report overlays a real-time table of energy, momentum, and angular momentum for each puck and spring."},
+         {"@type": "VideoObject", "name": "Linear Momentum", "embedUrl": "https://www.youtube.com/embed/mfJQx_9NcDA", "thumbnailUrl": "https://triquence.org/screenshots/epl-linear_550w.png", "description": "Linear systems in collisions conserving linear momentum, tracked by the EpL report."},
+         {"@type": "VideoObject", "name": "Angular Momentum", "embedUrl": "https://www.youtube.com/embed/ybhjgnFOIJQ", "thumbnailUrl": "https://triquence.org/screenshots/epl-angular_550w.png", "description": "Inelastic tacky pucks in rotational collisions; closed-form calculators predict post-collision states."},
+         {"@type": "VideoObject", "name": "Orbits Without Collisions", "embedUrl": "https://www.youtube.com/embed/nb0y9jUja9U", "thumbnailUrl": "https://triquence.org/screenshots/epl-nco_550w.png", "description": "A non-colliding two-puck system on a damped spring; a quartic equation predicts the final orbital state."},
+         {"@type": "VideoObject", "name": "Moving the source", "embedUrl": "https://www.youtube.com/embed/_lUszvXIwGQ", "thumbnailUrl": "https://triquence.org/screenshots/color-tail-e.png", "description": "A puck emits expanding color-tagged circles, yielding a rainbow tail behind the moving puck."},
+         {"@type": "VideoObject", "name": "Counting to Pi", "embedUrl": "https://www.youtube.com/embed/202O9hOFeuQ", "thumbnailUrl": "https://triquence.org/screenshots/pi-calcs_550w.png", "description": "Galperin's collision-counting method calculates digits of pi with 2D pucks."},
+         {"@type": "VideoObject", "name": "Please, don't erase...", "embedUrl": "https://www.youtube.com/embed/FFFQTaVRVa0", "thumbnailUrl": "https://triquence.org/screenshots/no-erase_550w.png", "description": "Run demos with canvas clearing inhibited to draw motion history trails."},
+         {"@type": "VideoObject", "name": "Leading the target", "embedUrl": "https://www.youtube.com/embed/7Wq5ndoG-Pk", "thumbnailUrl": "https://triquence.org/screenshots/leading-angle-sideways_550w.png", "description": "The aim-to-lead algorithm: matching perpendicular velocity puts a bullet on collision course with a moving target."},
+         {"@type": "VideoObject", "name": "High and low drag", "embedUrl": "https://www.youtube.com/embed/zz7tcol-ej0", "thumbnailUrl": "https://triquence.org/screenshots/high-and-low_550w.png", "description": "Two connected pucks demonstrate drag effects, with a reduced timestep for slow-motion viewing."},
+         {"@type": "VideoObject", "name": "Instability and losses", "embedUrl": "https://www.youtube.com/embed/z7kaLS8Nkmo", "thumbnailUrl": "https://triquence.org/screenshots/twinkle-toes_550w.png", "description": "Hooke's law spring stability and energy loss in an undamped distance joint."},
+         {"@type": "VideoObject", "name": "The nature of clients, humans and drones", "embedUrl": "https://www.youtube.com/embed/guwK3hpiwcE", "thumbnailUrl": "https://triquence.org/screenshots/starting-positions_550w.png", "description": "Edit a capture to adjust drone aggressiveness, bullet life, recoil, and client starting positions in Puck Popper."},
+         {"@type": "VideoObject", "name": "Adding angular momentum", "embedUrl": "https://www.youtube.com/embed/u1XXfPifKYY", "thumbnailUrl": "https://triquence.org/screenshots/edit-velocities_550w.png", "description": "Demonstrate conservation of angular momentum by editing capture velocities of a tri-puck object."},
+         {"@type": "VideoObject", "name": "Thanks for watching...", "embedUrl": "https://www.youtube.com/embed/4uB8iqzTPBM", "thumbnailUrl": "https://triquence.org/screenshots/the-end_550w.png", "description": "Edit the tail and puck attributes in the 2e capture to produce a non-expanding tail."}
+      ]
+   }
+   </script>
+
    <script src="jquery-3.7.1.min.js?v=3"></script>
 
-   <link href="videos.css?v=131" rel="stylesheet" type="text/css">
+   <link href="videos.css?v=132" rel="stylesheet" type="text/css">
    <link href="dialog.css?v=130" rel="stylesheet" type="text/css">
 
    <!-- Google icon library -->
@@ -28,7 +93,7 @@
    <link href="sitemap.css?v=130" rel="stylesheet" type="text/css">
    
    <script src="utilities.js?v=130"></script>
-   <script src="pageStuff.js?v=130"></script>
+   <script src="pageStuff.js?v=131"></script>
 
    <script>
       // after the page loads    "scrollAdjust":-13
@@ -81,24 +146,18 @@
    -->
 	<tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/enzQJgU8oX4?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="enzQJgU8oX4">
-         <img class="frameCapture" src="screenshots/cannibal-in-here_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/cannibal-in-here_550w.png" width="550" height="309" alt="Cannibal in fence" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       <!-- this next hidden element is used for logging the video usage -->
-      <p style="display:none"><strong class="title_2">cannibal in fence</strong></p>
+      <h3 class="title_2" style="display:none">cannibal in fence</h3>
       
       <p>These videos are recordings from the
       <a href="index.html" target="_blank" title="try it; you'll like it...">Springs &amp; Pucks</a> 
       page at triquence.org. Watch, then go there and play.</p>
       <!--  -->
       <p>In this first video, the shooter from the Puck Popper game is repurposed in a demonstration.
-      You can find more on this in the <a class="scroll-link" data-scroll-target="internalExternal" href="#">last topic</a> in the sundries section below.
+      You can find more on this in the <a class="scroll-link" data-scroll-target="internalExternal" href="#internalExternal">last topic</a> in the sundries section below.
       Try the <a href="index.html?7e" target="_blank" title="call the shots">live</a> demo.
       <!--  -->
       </p>
@@ -108,33 +167,33 @@
       <div style="text-align: left;">
          <div style="display: inline-block; vertical-align: top;">
          <ul>
-            <li><a class="scroll-link" data-scroll-target="interactions" href="#">interactions</a> </li>
-            <li><a class="scroll-link" data-scroll-target="editorStuff" href="#">editing</a>
+            <li><a class="scroll-link" data-scroll-target="interactions" href="#interactions">interactions</a> </li>
+            <li><a class="scroll-link" data-scroll-target="editorStuff" href="#editorStuff">editing</a>
                <ul>
-                  <li><a class="scroll-link" data-scroll-target="assembleSystem" href="#">assembling</a></li>
-                  <li><a class="scroll-link" data-scroll-target="adjustProperties" href="#">adjusting attributes</a></li>
+                  <li><a class="scroll-link" data-scroll-target="assembleSystem" href="#assembleSystem">assembling</a></li>
+                  <li><a class="scroll-link" data-scroll-target="adjustProperties" href="#adjustProperties">adjusting attributes</a></li>
                </ul>
             </li>
-            <li><a class="scroll-link" data-scroll-target="editorExamples" href="#" title="using the editor">let's build one</a></li>
-            <li><a class="scroll-link" data-scroll-target="fullscreenview" title="aka favorites" href="#">sundries</a></li>
-            <li><a class="scroll-link" data-scroll-target="limitations" title="yes, but no" href="#">limitations</a></li>
-            <li><a class="scroll-link" data-scroll-target="capture" href="#">state capture</a></li>
+            <li><a class="scroll-link" data-scroll-target="editorExamples" href="#editorExamples" title="using the editor">let's build one</a></li>
+            <li><a class="scroll-link" data-scroll-target="fullscreenview" title="aka favorites" href="#fullscreenview">sundries</a></li>
+            <li><a class="scroll-link" data-scroll-target="limitations" title="yes, but no" href="#limitations">limitations</a></li>
+            <li><a class="scroll-link" data-scroll-target="capture" href="#capture">state capture</a></li>
          </ul>
          </div>
          
          <div style="display: inline-block; vertical-align: top;">
          <ul>
-            <li><a class="scroll-link" data-scroll-target="thegames" href="#">games</a></li> 
-            <li><a class="scroll-link" data-scroll-target="puckPopper" href="#">puck popper</a></li>
-            <li><a class="scroll-link" data-scroll-target="ghostBallPool" href="#">ghost-ball pool</a></li>
-            <li><a class="scroll-link" data-scroll-target="projectiles" href="#">some gravity</a>
+            <li><a class="scroll-link" data-scroll-target="thegames" href="#thegames">games</a></li> 
+            <li><a class="scroll-link" data-scroll-target="puckPopper" href="#puckPopper">puck popper</a></li>
+            <li><a class="scroll-link" data-scroll-target="ghostBallPool" href="#ghostBallPool">ghost-ball pool</a></li>
+            <li><a class="scroll-link" data-scroll-target="projectiles" href="#projectiles">some gravity</a>
                <ul>
-                  <li><a class="scroll-link" data-scroll-target="monkey" href="#">monkey hunt</a></li>
-                  <li><a class="scroll-link" data-scroll-target="basketball" href="#">bipartisan hoops</a></li>
+                  <li><a class="scroll-link" data-scroll-target="monkey" href="#monkey">monkey hunt</a></li>
+                  <li><a class="scroll-link" data-scroll-target="basketball" href="#basketball">bipartisan hoops</a></li>
                </ul>
             </li>
-            <li><a class="scroll-link" data-scroll-target="jelloMadness" href="#">jello madness</a></li>
-            <li><a class="scroll-link" data-scroll-target="eplreport" href="#">EpL report</a></li>
+            <li><a class="scroll-link" data-scroll-target="jelloMadness" href="#jelloMadness">jello madness</a></li>
+            <li><a class="scroll-link" data-scroll-target="eplreport" href="#eplreport">EpL report</a></li>
          </ul>
          </div>
       </div>
@@ -161,7 +220,7 @@
    
    
    <tr>
-   <td class="sectionbreak" colspan="2"><a name="interactions"></a><span class="sectionbreak">interactions</span></td>
+   <td class="sectionbreak" colspan="2"><h2 class="sectionbreak" id="interactions">interactions</h2></td>
    </tr>
 
    <tr>
@@ -174,17 +233,11 @@
   
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/SPm32QoGzTQ?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      -->
       <div class="video-container" data-videoID="SPm32QoGzTQ">
-         <img class="frameCapture" src="screenshots/positioning_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/positioning_550w.png" width="550" height="309" alt="Fling, move, and rotate" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Fling, move, and rotate</strong></p>
+      <h3 class="title_2">Fling, move, and rotate</h3>
       
       <p>This is a good place to start. The video shows how to throw (and catch), move, and rotate, a single puck, wall, or pin. The demos
       will never be quite the same after you've learned how to muscle things around.</p>
@@ -213,17 +266,11 @@
 
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/QJnV7GwXYsw?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      -->
       <div class="video-container" data-videoID="QJnV7GwXYsw">
-         <img class="frameCapture" src="screenshots/projectile-forecasting_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/projectile-forecasting_550w.png" width="550" height="309" alt="Forecast and shoot" oncontextmenu="pS.loadLargeImage( this);">
       </div>
 
-      <p><strong class="title_2">Forecast and shoot</strong></p>
+      <h3 class="title_2">Forecast and shoot</h3>
       
       <p>Shoot (launch) a puck as a projectile. Keyboard shortcuts are demonstrated for forecasting the motion and controlling the shot.</p>
       <p> 
@@ -251,17 +298,11 @@
 
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/3njR3RlhP3o?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      -->
       <div class="video-container" data-videoID="3njR3RlhP3o">
-         <img class="frameCapture" src="screenshots/bullet-shot_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/bullet-shot_550w.png" width="550" height="309" alt="Speed shots and the stepper" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Speed shots and the stepper</strong></p>
+      <h3 class="title_2">Speed shots and the stepper</h3>
       
       <p>
       Visualize high-speed shots into a target (a stack). 
@@ -290,17 +331,11 @@
 
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/-gkMXSyy2T0?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      -->
       <div class="video-container" data-videoID="-gkMXSyy2T0">
-         <img class="frameCapture" src="screenshots/green-pool-balls3_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/green-pool-balls3_550w.png" width="550" height="309" alt="No gravity" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><a name="nogravity"></a><strong class="title_2">No gravity</strong></p>
+      <h3 class="title_2" id="nogravity">No gravity</h3>
       <p>
       Without the effects of gravity in our 2D model, objects behave like balls on a pool table (or pucks on an air table). 
       Shots are aimed using a ghost-ball technique (the ghost of a cue ball).
@@ -328,13 +363,13 @@
    
    
    <tr>
-      <td class="sectionbreak" colspan="2"><a name="editorStuff"></a><span class="sectionbreak">editing</span></td>
+      <td class="sectionbreak" colspan="2"><h2 class="sectionbreak" id="editorStuff">editing</h2></td>
    </tr>
    
    <tr>
    <td class="indent" colspan="2">
-      <p>The editing features can help you change existing demos, make new stuff, maybe even try some interactive <a class="scroll-link" data-scroll-target="basketball" title="bipartisan hoops" href="#">satire</a>.
-      Coupled with the means to save it (<a class="scroll-link" data-scroll-target="capture" href="#">state capture</a>), the editor can produce something to be replayed. 
+      <p>The editing features can help you change existing demos, make new stuff, maybe even try some interactive <a class="scroll-link" data-scroll-target="basketball" title="bipartisan hoops" href="#basketball">satire</a>.
+      Coupled with the means to save it (<a class="scroll-link" data-scroll-target="capture" href="#capture">state capture</a>), the editor can produce something to be replayed. 
       All of the demos on the S&P page were (to varying degrees) generated with the use of these features.
       You can find corresponding discussion on the 
       <a href="index.html" target="_blank" title="Springs &amp; Pucks">S&amp;P</a> 
@@ -354,7 +389,7 @@
       </p>
       
       <hr style="margin-top:25px">
-      <p><a name="assembleSystem"></a><strong class="title_2">Assembling</strong></p>
+      <h3 class="title_2" id="assembleSystem">Assembling</h3>
    
       <p>Get some pucks, position and rotate them, set attachment points, then connect them together with springs and revolute joints.</p>
    </td>
@@ -362,17 +397,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/qxBWKG20HNU?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="qxBWKG20HNU">
-         <img class="frameCapture" src="screenshots/multiselect_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/multiselect_550w.png" width="550" height="309" alt="Multi-select" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Multi-select</strong></p>
+      <h3 class="title_2">Multi-select</h3>
 
       <p>A first step in editing is to select one or more objects on the canvas.
       Do this by attaching a cursor spring (single-select) or by marking one or more objects as selected (multi-select). 
@@ -384,17 +413,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/2nsF8TfB3hk?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    
-      </div>
-      -->
       <div class="video-container" data-videoID="2nsF8TfB3hk">
-         <img class="frameCapture" src="screenshots/spring-connections_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/spring-connections_550w.png" width="550" height="309" alt="Connecting with springs" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Connecting with springs</strong></p>
+      <h3 class="title_2">Connecting with springs</h3>
 
       <p>This is the first video to demonstrate the addition of a spring connection. This is done via the remove/add menu and
       also with the corresponding keyboard shortcut (ctrl-alt-S). </p>
@@ -413,17 +436,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/9msTMmAh4SI?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    
-      </div>
-      -->
       <div class="video-container" data-videoID="9msTMmAh4SI">
-         <img class="frameCapture" src="screenshots/joint-connections_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/joint-connections_550w.png" width="550" height="309" alt="Connecting with revolute joints" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Connecting with revolute joints</strong></p>
+      <h3 class="title_2">Connecting with revolute joints</h3>
 
       <p>This is the first use of a revolute joint. They can be added to a pair of multi-select attachment points via the remove/add menu and
       also with the corresponding keyboard shortcut (alt-R).</p>
@@ -443,17 +460,11 @@
       
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/Es3a36GIEcA?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    
-      </div>
-      -->
       <div class="video-container" data-videoID="Es3a36GIEcA">
-         <img class="frameCapture" src="screenshots/pentagon_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/pentagon_550w.png" width="550" height="309" alt="Pentagon of joints and springs" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Pentagon of joints and springs</strong></p>
+      <h3 class="title_2">Pentagon of joints and springs</h3>
 
       <p>A spring is added to the ends of a joined puck pair.
       The spring is lengthened until compressed and acting to keep the pair in line. 
@@ -474,7 +485,7 @@
    <tr>
    <td class="indent" colspan="2">
       <hr> 
-      <p><a name="adjustProperties"></a><strong class="title_2">Adjusting Attributes</strong></p>   
+      <h3 class="title_2" id="adjustProperties">Adjusting Attributes</h3>   
       
       <p>A system's interactions, with itself and its environment, can be adjusted though the attributes of its pucks and springs.
       In the "multi-select" section above, size changes were made through the dimensional attributes of the pucks.      
@@ -485,17 +496,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/nCteJ-2A2bw?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="nCteJ-2A2bw">
-         <img class="frameCapture" src="screenshots/restitution_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/restitution_550w.png" width="550" height="309" alt="Restitution, align and linearize" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Restitution, align and linearize</strong></p>
+      <h3 class="title_2">Restitution, align and linearize</h3>
 
       <p>This is the first in a series of videos that shows how systems can lose energy: restitution, surface friction, translational and rotational drag, and spring damping.</p>
 
@@ -510,17 +515,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/9HOvKjV1Uj8?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="9HOvKjV1Uj8">
-         <img class="frameCapture" src="screenshots/surface-friction_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/surface-friction_550w.png" width="550" height="309" alt="Surface friction" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Surface friction</strong></p>
+      <h3 class="title_2">Surface friction</h3>
 
       <p>This video has four segments, each showing the effects of changing the surface friction. This puck attribute is changed using the minus (-) and plus (+) keys from the main part
       of the keyboard. Holding these keys down repeats the change.</p>
@@ -535,17 +534,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/O5mMOmSbDm4?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="O5mMOmSbDm4">
-         <img class="frameCapture" src="screenshots/translational-drag_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/translational-drag_550w.png" width="550" height="309" alt="Translational drag" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Translational drag</strong></p>
+      <h3 class="title_2">Translational drag</h3>
 
       <p>The three segments in this video show the effects of changing the drag coefficient. This puck attribute is changed using the less-than (<) and greater-than (>) keys. 
       Holding these keys down repeats the change.</p>
@@ -564,17 +557,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/jp2mmlOgRPo?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="jp2mmlOgRPo">
-         <img class="frameCapture" src="screenshots/rotational-drag_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/rotational-drag_550w.png" width="550" height="309" alt="Rotational drag" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Rotational drag</strong></p>
+      <h3 class="title_2">Rotational drag</h3>
 
       <p>This video show the effects of changing the rotational drag coefficient. This puck attribute is changed using the less-than (<) and greater-than (>) keys with the alt key down. 
       Holding these keys down repeats the change.</p>
@@ -588,17 +575,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/FOTnHMOTvEU?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      -->
       <div class="video-container" data-videoID="FOTnHMOTvEU">
-         <img class="frameCapture" src="screenshots/spring-damper_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/spring-damper_550w.png" width="550" height="309" alt="Spring damping" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Spring damping</strong></p>
+      <h3 class="title_2">Spring damping</h3>
 
       <p> Here, the energy loss is affected by changing the damping coefficient of the connecting spring. This attribute is changed using the less-than (<) and greater-than (>) keys with the S key down. 
       Holding these keys down repeats the change.</p>
@@ -610,17 +591,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/uiaJiCM2yyc?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      -->
       <div class="video-container" data-videoID="uiaJiCM2yyc">
-         <img class="frameCapture" src="screenshots/spring-stiffness_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/spring-stiffness_550w.png" width="550" height="309" alt="Spring length and stiffness" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Spring length and stiffness</strong></p>
+      <h3 class="title_2">Spring length and stiffness</h3>
 
       <p>There are three contrasting spring systems in the segments of this video: (a) pair of pucks, (b) blocks on an inclined plane, and (3) a pinned puck without gravity.
       Each of these demonstrates the spring nature as affected by length and stiffness.</p>
@@ -640,7 +615,7 @@
    </tr>
    
    <tr>
-   <td class="sectionbreak" colspan="2"><a name="editorExamples"></a><span class="sectionbreak">let's build one</span></td>
+   <td class="sectionbreak" colspan="2"><h2 class="sectionbreak" id="editorExamples">let's build one</h2></td>
    </tr>
    
    <tr>
@@ -651,17 +626,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/USE8K5WgY60?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="USE8K5WgY60">
-         <img class="frameCapture" src="screenshots/editing-colormixer_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/editing-colormixer_550w.png" width="550" height="309" alt="Restoring order" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Restoring order</strong></p>
+      <h3 class="title_2">Restoring order</h3>
 
       <p>First step: the "e" key is used to enable editing (copying) of the anchor pins behind the each three-puck system. 
       The "alt" key is held down while dragging the mouse to select a group. Then paste (replicate) the group at the position of the cursor using control-v.
@@ -676,17 +645,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/aW8E9uHNPHk?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="aW8E9uHNPHk">
-         <img class="frameCapture" src="screenshots/edit-drone-path_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/edit-drone-path_550w.png" width="550" height="309" alt="Changing the drone path" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><a name="changingDronePath"></a><strong class="title_2">Changing the drone path</strong></p>
+      <h3 class="title_2" id="changingDronePath">Changing the drone path</h3>
 
       <p>
       The Puck Popper demos in the 7 and 8 groups (and seen in the games section below) were produced using the drone-path editing features seen in this video:
@@ -701,7 +664,7 @@
       </p>
       
       <p>The video plays at double-time until the first capture is run. You may find the space bar useful to pause and read the annotations.
-      A sister topic below, <a class="scroll-link" data-scroll-target="captureEditClientAndDrones" href="#">The nature of client and drone pucks</a>, shows how to dial the
+      A sister topic below, <a class="scroll-link" data-scroll-target="captureEditClientAndDrones" href="#captureEditClientAndDrones">The nature of client and drone pucks</a>, shows how to dial the
       game by editing a capture.
       
       </p>
@@ -710,17 +673,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/orxaWhZWNNg?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="orxaWhZWNNg">
-         <img class="frameCapture" src="screenshots/spring-man_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/spring-man_550w.png" width="550" height="309" alt="Fixed-length distance joints" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Fixed-length distance joints</strong></p>
+      <h3 class="title_2">Fixed-length distance joints</h3>
 
       <p>A Box2d distance joint can be configured for spring or fixed-length behavior. The fixed-length type is useful for building compound
       objects as shown in this video. Set the separation distance between two pucks, select them, then pick the "add fixed-length spring" option from the "remove/add items" menu.
@@ -736,17 +693,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/7Zadsk5r6kI?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="7Zadsk5r6kI">
-         <img class="frameCapture" src="screenshots/infinity_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/infinity_550w.png" width="550" height="309" alt="Springy chain" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><a name="springyChain"></a><strong class="title_2">Springy chain</strong></p>
+      <h3 class="title_2" id="springyChain">Springy chain</h3>
 
       <p>This topic is similar to "Pentagon of Springs and Joints" above. There are more, and smaller segments in the chain. Plus
       the joints, springs, and puck edges are hidden. This gives the appearance of continuous flexible stick, connected into a loop.
@@ -766,40 +717,28 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/lglc3F2nuBw?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="lglc3F2nuBw">
-         <img class="frameCapture" src="screenshots/center-of-mass_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/center-of-mass_550w.png" width="550" height="309" alt="System center of mass" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><a name="systemCOM"></a><strong class="title_2">System center of mass</strong></p>
+      <h3 class="title_2" id="systemCOM">System center of mass</h3>
 
       <p>The mass-weighted center of all the pucks on the canvas is shown as a small white circle with cross hairs. The second segment
       shows a compressed spring being added to a three-puck system. Notice how the system's center is unaffected. Only at the end, when
       a cursor spring is used to apply an external force, does the system center move.
       </p>
       
-      <p>This serves as an introduction to the <a class="scroll-link" data-scroll-target="internalExternal" href="#">Internal/External</a> topic below.</p>
+      <p>This serves as an introduction to the <a class="scroll-link" data-scroll-target="internalExternal" href="#internalExternal">Internal/External</a> topic below.</p>
    </td>
    </tr> 
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/gMnFDW8Guo0?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="gMnFDW8Guo0">
-         <img class="frameCapture" src="screenshots/fluid-motion_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/fluid-motion_550w.png" width="550" height="309" alt="Hybrid edits" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Hybrid edits</strong></p>
+      <h3 class="title_2">Hybrid edits</h3>
 
       <p>The first clip shows the editor enlisted in changing the surface friction of the 101 pucks in demo 1b. The lower friction
       results in a more fluid motion as the system of pucks "drains" to the floor.
@@ -814,17 +753,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/PyiboX7208k?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="PyiboX7208k">
-         <img class="frameCapture" src="screenshots/spring-pendulum_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/spring-pendulum_550w.png" width="550" height="309" alt="Tuning a spring pendulum" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Tuning a spring pendulum</strong></p>
+      <h3 class="title_2">Tuning a spring pendulum</h3>
 
       <p>The <a href="https://triquence.org/?5c" target="_blank">spring pendulum</a> is a fascinating, yet simple piece of apparatus in the lab: spring with hanging mass. The first clip
       shows the resulting system after adjusting spring length, spring strength, and hanging mass to produce a ratio of pendulum period to spring-bounce period
@@ -860,7 +793,7 @@
    
    
    <tr>
-   <td class="sectionbreak" colspan="2"><a name="thegames"></a><span class="sectionbreak">games</span></td>
+   <td class="sectionbreak" colspan="2"><h2 class="sectionbreak" id="thegames">games</h2></td>
    </tr>
    
    <tr>
@@ -880,7 +813,7 @@
    <tr>
    <td class="indent" colspan="2">
       <hr>
-      <p><a name="puckPopper"></a><strong class="title_2">Puck Popper</strong></p>
+      <h3 class="title_2" id="puckPopper">Puck Popper</h3>
       
       <p>The Puck Popper game enlists computer drones that 
       travel along a path, searching for targets, anticipating their motion and 
@@ -896,7 +829,7 @@
       <ul>
          <li>Move out of range of the sweeping rays. That's how the drones sees you.</li>
          <li>If they lock onto you, keep moving. Acceleration is good. Use your 
-         jet, zig and zag. Evasive flying is fun with the <a class="scroll-link" data-scroll-target="network-connection" href="#">virtual game 
+         jet, zig and zag. Evasive flying is fun with the <a class="scroll-link" data-scroll-target="network-connection" href="#network-connection">virtual game 
          pad</a> (cell-phone controller).</li>
          <li>Back away. You can out run perfectly-aimed bullets in many cases.</li>
          <li>Bounce off a wall to confuse the drones.</li>
@@ -922,17 +855,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/ZAeRF1GOurA?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="ZAeRF1GOurA">
-         <img class="frameCapture" src="screenshots/tt-keyboard_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/tt-keyboard_550w.png" width="550" height="309" alt="Driving with the keyboard" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Driving with the keyboard</strong></p>
+      <h3 class="title_2">Driving with the keyboard</h3>
       
       <p>This first video, an epic 3 minutes, describes the keyboard interface. 
       The Google voice brings some attitude but does a nice job explaining the puck features. A keyboard is a good way to just get started and try it.</p><p>
@@ -945,17 +872,11 @@
    
    <tr id="network-connection">
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/XM87n9YFWXg?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="XM87n9YFWXg">
-         <img class="frameCapture" src="screenshots/network-connection_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/network-connection_550w.png" width="550" height="309" alt="Network connections" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Network connections</strong></p>
+      <h3 class="title_2">Network connections</h3>
 
       <p>
       This video shows how to connect a cell phone (or laptop) to a second device (usually a desktop) that is serving as the game host. The mini-client
@@ -978,17 +899,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="339" src="https://www.youtube.com/embed/FBjb9hbaRa4?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="FBjb9hbaRa4">
-         <img class="frameCapture" src="screenshots/two-thumbs-cell_550w.png" width="550" height="339" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/two-thumbs-cell_550w.png" width="550" height="339" alt="Virtual game pad" oncontextmenu="pS.loadLargeImage( this);">
       </div>
    
-      <p><strong class="title_2">Virtual game pad</strong></p>
+      <h3 class="title_2">Virtual game pad</h3>
 
       <p>The layout of controls on the virtual game pad (aka Two Thumbs) interface are explained.
       The game pad offers somewhat more fluid game play and generally, after a little practice, lower time scores in Puck Popper.</p>
@@ -998,10 +913,10 @@
    <tr>
    <td class="indent" colspan="2">
       <div class="video-container" data-videoID="kAWtosA2Qhs">
-         <img class="frameCapture" src="screenshots/tourney-sharing-lb-report_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/tourney-sharing-lb-report_550w.png" width="550" height="309" alt="Sharing a private leaderboard" oncontextmenu="pS.loadLargeImage( this);">
       </div>
    
-      <p><a name="privateLeaderBoards"></a><strong class="title_2">Sharing a private leaderboard</strong></p>
+      <h3 class="title_2" id="privateLeaderBoards">Sharing a private leaderboard</h3>
 
       <p>
          There may be an occasion where you need a private leaderboard, perhaps for a tournament or a small group of friends. 
@@ -1016,25 +931,19 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/PRNdIAfqoMQ?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="PRNdIAfqoMQ">
-         <img class="frameCapture" src="screenshots/virus-drone_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/virus-drone_550w.png" width="550" height="309" alt="Taking aim at the Coronavirus" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Taking aim at the Coronavirus</strong></p>
+      <h3 class="title_2">Taking aim at the Coronavirus</h3>
 
       <p>Want to squish one of those little virus guys? Here's a Puck Popper game played with the drone puck in a Coronavirus costume.
       Try playing Puck Popper with the CV option selected.</p>
       
       <p>
       More ideas for customizing your game: 
-      <a class="scroll-link" data-scroll-target="changingDronePath" href="#">changing the drone path</a> and
-      <a class="scroll-link" data-scroll-target="captureEditClientAndDrones" href="#">the nature of clients</a>.      
+      <a class="scroll-link" data-scroll-target="changingDronePath" href="#changingDronePath">changing the drone path</a> and
+      <a class="scroll-link" data-scroll-target="captureEditClientAndDrones" href="#captureEditClientAndDrones">the nature of clients</a>.      
       </p>
       
    </td>
@@ -1044,7 +953,7 @@
    <tr>
    <td class="indent" colspan="2">
       <hr>
-      <p><a name="jelloMadness"></a><strong class="title_2">Jello Madness</strong></p>
+      <h3 class="title_2" id="jelloMadness">Jello Madness</h3>
       
       <p>To stop the madness, detangle. Straighten out the block of jello (no 
 	  pucks touching each other) and the tangle timer stops. Pass the jello to 
@@ -1065,17 +974,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/j6QSGN565ZQ?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="j6QSGN565ZQ">
-         <img class="frameCapture" src="screenshots/harp-cropped_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/harp-cropped_550w.png" width="550" height="309" alt="Marx brothers straighten out new jello" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Marx brothers straighten out new jello</strong></p>
+      <h3 class="title_2">Marx brothers straighten out new jello</h3>
 
       <p>This shows the rhythm of two players taking turns and playing Jello Madness. Also shown here
       is the use of the editor and capture features to create a custom version and save it for later use.
@@ -1090,17 +993,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/xiUtsBrxLIs?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="xiUtsBrxLIs">
-         <img class="frameCapture" src="screenshots/jello-stretch_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/jello-stretch_550w.png" width="550" height="309" alt="Tricks for beating 6a" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Tricks for beating 6a</strong></p>
+      <h3 class="title_2">Tricks for beating 6a</h3>
 
       <p>
       Editor can be handy for dealing with stubborn jello. This video shows ways to enlist it
@@ -1114,7 +1011,7 @@
    <tr>
    <td class="indent" colspan="2">
       <hr>
-      <p><a name="ghostBallPool"></a><strong class="title_2">Ghost-Ball Pool</strong></p>
+      <h3 class="title_2" id="ghostBallPool">Ghost-Ball Pool</h3>
       
       <p>This pool game is built around the <a href="https://billiards.colostate.edu/faq/aiming/ghost-ball/" target="_blank" title="description of the Ghost-Ball method">ghost-ball</a> aiming method. 
       An image of the cue ball (the ghost) can be positioned in contact with the object ball. Contact normals are drawn which serve to predict the paths of the cue ball and object ball after the
@@ -1135,17 +1032,11 @@
    <tr>
    <td class="indent" colspan="2">
       
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/_q-Gtyi25KE?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="_q-Gtyi25KE">
-         <img class="frameCapture" src="screenshots/ghost-ball-eight_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/ghost-ball-eight_550w.png" width="550" height="309" alt="Playing solo on the host" oncontextmenu="pS.loadLargeImage( this);">
       </div>
 
-      <p><strong class="title_2">Playing solo on the host</strong></p>
+      <h3 class="title_2">Playing solo on the host</h3>
 
       <p>
       Watch (or <a href="https://triquence.org/?3d" target="_blank" title="">play</a>) a game of Ghost-Ball on the host computer.
@@ -1165,17 +1056,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="440" src="https://www.youtube.com/embed/CSYE-lp5RkM?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="CSYE-lp5RkM">
-         <img class="frameCapture" src="screenshots/ghost-ball-v2_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">  <!-- screenshots/ghostball-v10.png -->
+         <img class="frameCapture" src="screenshots/ghost-ball-v2_550w.png" width="550" height="309" alt="Client has the ball" oncontextmenu="pS.loadLargeImage( this);">  <!-- screenshots/ghostball-v10.png -->
       </div>
       <!-- this next hidden element is used for logging the video usage -->
-      <p><strong class="title_2">Client has the ball</strong></p>
+      <h3 class="title_2">Client has the ball</h3>
 
       <!--  -->
       <p>QuietGuy uses a cell-phone client to aim <a href="index.html?3d" target="_blank" title="start a game">pool</a> shots on a host computer. 
@@ -1199,17 +1084,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/ExHiEVWppV4?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="ExHiEVWppV4">
-         <img class="frameCapture" src="screenshots/tough-shots_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/tough-shots_550w.png" width="550" height="309" alt="A few ideas" oncontextmenu="pS.loadLargeImage( this);">
       </div>
 
-      <p><strong class="title_2">A few ideas...</strong></p>
+      <h3 class="title_2">A few ideas...</h3>
 
       <p>...for special situations:
       <ul>
@@ -1224,17 +1103,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/ZJmPgz6_nX0?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="ZJmPgz6_nX0">
-         <img class="frameCapture" src="screenshots/trick-shots_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/trick-shots_550w.png" width="550" height="309" alt="Racks and trick shots" oncontextmenu="pS.loadLargeImage( this);">
       </div>
 
-      <p><strong class="title_2">Racks and trick shots</strong></p>
+      <h3 class="title_2">Racks and trick shots</h3>
 
       <p>
       The line and arc methods are demonstrated in forming unusual rack patterns for trick-shot breaks. 
@@ -1252,7 +1125,7 @@
    <tr>
    <td class="indent" colspan="2">
       <hr>
-      <p><a name="projectiles"></a><strong class="title_2">Projectile Games</strong></p>
+      <h3 class="title_2" id="projectiles">Projectile Games</h3>
       
       <p>Monkey Hunt and Bipartisan Hoops enlist gravity in producing projectile motion. Projectile forecasts are drawn. Monkey Hunt also has a sight line drawn.
       These are used for aiming at targets.</p>
@@ -1268,17 +1141,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/PTPS4D5p8hU?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="PTPS4D5p8hU">
-         <img class="frameCapture" src="screenshots/monkey-hunt_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/monkey-hunt_550w.png" width="550" height="309" alt="Monkey Hunt" oncontextmenu="pS.loadLargeImage( this);">
       </div>
 
-      <p><a name="monkey"></a><strong class="title_2">Monkey Hunt</strong></p>
+      <h3 class="title_2" id="monkey">Monkey Hunt</h3>
 
       <p>The classic physics demo, <i>The Monkey and the Hunter</i>, is animated here. The platform under the monkey releases when the ball is shot.
       The goal is to hit the monkey before he hits the ground, even more points if you send him outside via the window.
@@ -1298,17 +1165,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/Bk0EI4IMqOQ?rel=0" frameborder="0"
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="5Z_wTowPCq0">
-         <img class="frameCapture" src="screenshots/hoops-with-mascots-small.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/hoops-with-mascots-small.png" width="550" height="309" alt="Bipartisan Hoops" oncontextmenu="pS.loadLargeImage( this);">
       </div>
 
-      <p><a name="basketball"></a><strong class="title_2">Bipartisan Hoops</strong></p>
+      <h3 class="title_2" id="basketball">Bipartisan Hoops</h3>
 
       <p>
       The video has instructions on making the elusive clean-bank shot, helpful for a good game score.
@@ -1334,7 +1195,7 @@
    
 
    <tr>
-   <td class="sectionbreak" colspan="2"><a name="eplreport"></a><span class="sectionbreak" title="Energy, Momentum and Speed">EpL</span></td>
+   <td class="sectionbreak" colspan="2"><h2 class="sectionbreak" id="eplreport" title="Energy, Momentum and Speed">EpL</h2></td>
    </tr>
    
    <tr>
@@ -1349,10 +1210,10 @@
    <tr>
    <td class="indent" colspan="2">
       <div class="video-container" data-videoID="iqMXuXOKj-k">
-         <img class="frameCapture" src="screenshots/epl-report_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/epl-report_550w.png" width="550" height="309" alt="The Layout (EpL report)" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">The Layout</strong></p>
+      <h3 class="title_2">The Layout</h3>
       
       <p>
          The EpL report displays the quantitative state of each 
@@ -1400,10 +1261,10 @@
    <tr>
    <td class="indent" colspan="2">
       <div class="video-container" data-videoID="mfJQx_9NcDA">
-         <img class="frameCapture" src="screenshots/epl-linear_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/epl-linear_550w.png" width="550" height="309" alt="Linear Momentum" oncontextmenu="pS.loadLargeImage( this);">
       </div>
    
-      <p><strong class="title_2">Linear Momentum</strong></p>
+      <h3 class="title_2">Linear Momentum</h3>
       
       <p>This series of clips primarily shows linear systems in collisions, 
          conserving linear momentum as shown in the EpL report.
@@ -1447,10 +1308,10 @@
    <tr>
    <td class="indent" colspan="2">
       <div class="video-container" data-videoID="ybhjgnFOIJQ">
-         <img class="frameCapture" src="screenshots/epl-angular_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/epl-angular_550w.png" width="550" height="309" alt="Angular Momentum" oncontextmenu="pS.loadLargeImage( this);">
       </div>
    
-      <p><strong class="title_2">Angular Momentum</strong></p>
+      <h3 class="title_2">Angular Momentum</h3>
       
       <p>These systems are composed of inelastic tacky pucks, pulled together into collisions and held in contact by springs.
          All systems are initialized with rotational motion, 
@@ -1495,10 +1356,10 @@
    <tr>
    <td class="indent" colspan="2">
       <div class="video-container" data-videoID="nb0y9jUja9U">
-         <img class="frameCapture" src="screenshots/epl-nco_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/epl-nco_550w.png" width="550" height="309" alt="Orbits Without Collisions" oncontextmenu="pS.loadLargeImage( this);">
       </div>
    
-      <p><strong class="title_2">Orbits Without Collisions</strong></p>
+      <h3 class="title_2">Orbits Without Collisions</h3>
       
       <p>This is a non-colliding two-puck system, coupled by a damped spring.
          This system is initialized with translational motion, no rotation.
@@ -1544,7 +1405,7 @@
    
 
    <tr>
-   <td class="sectionbreak" colspan="2"><a name="fullscreenview"></a><span class="sectionbreak" title="favorites">sundries</span></td>
+   <td class="sectionbreak" colspan="2"><h2 class="sectionbreak" id="fullscreenview" title="favorites">sundries</h2></td>
    </tr>
    
    <tr>
@@ -1564,17 +1425,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/_lUszvXIwGQ?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="_lUszvXIwGQ">
-         <img class="frameCapture" src="screenshots/color-tail-e.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this, 'color-tail.png');">
+         <img class="frameCapture" src="screenshots/color-tail-e.png" width="550" height="309" alt="Moving the source" oncontextmenu="pS.loadLargeImage( this, 'color-tail.png');">
       </div>
       
-      <p><strong class="title_2">Moving the source</strong></p>
+      <h3 class="title_2">Moving the source</h3>
       
       <p>A puck is emitting expanding circles (like sound). Each circle is incrementally tagged with a color from the visible
       spectrum, yielding the appearance of a rainbow tail behind the moving 
@@ -1589,17 +1444,11 @@
    
    <tr id="countpi">
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/202O9hOFeuQ?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="202O9hOFeuQ">
-         <img class="frameCapture" src="screenshots/pi-calcs_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/pi-calcs_550w.png" width="550" height="309" alt="Counting to Pi" oncontextmenu="pS.loadLargeImage( this);">
       </div>
    
-      <p><strong class="title_2">Counting to Pi</strong></p>
+      <h3 class="title_2">Counting to Pi</h3>
       
       <p>A collision-counting method for calculating the digits of pi, is described in <a href="https://www.maths.tcd.ie/~lebed/Galperin.%20Playing%20pool%20with%20pi.pdf" target="_blank">Galperin's paper</a> 
       and also a 3Blue1Brown <a href="https://www.youtube.com/watch?v=jsYwFizhncE" target="_blank">video</a>.</p>
@@ -1618,17 +1467,11 @@
    
    <tr id="">
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/FFFQTaVRVa0?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="FFFQTaVRVa0">
-         <img class="frameCapture" src="screenshots/no-erase_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/no-erase_550w.png" width="550" height="309" alt="Please, don't erase" oncontextmenu="pS.loadLargeImage( this);">
       </div>
    
-      <p><strong class="title_2">Please, don't erase...</strong></p>
+      <h3 class="title_2">Please, don't erase...</h3>
        
       <p>The <a href="https://triquence.org/?2e" target="_blank">2e</a> and <a href="https://triquence.org/?4d" target="_blank">4d</a> demos 
       are run while inhibiting the canvas clearing (erasing) that happens at the beginning of each frame. Simultaneously press the "alt" and "p" keys to try it.
@@ -1640,21 +1483,15 @@
    <tr id="leadingangle">
    <td class="indent" colspan="2">
       
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/7Wq5ndoG-Pk?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="7Wq5ndoG-Pk">
-         <img class="frameCapture" src="screenshots/leading-angle-sideways_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/leading-angle-sideways_550w.png" width="550" height="309" alt="Leading the target" oncontextmenu="pS.loadLargeImage( this);">
       </div>
    
-      <p><strong class="title_2">Leading the target</strong></p>
+      <h3 class="title_2">Leading the target</h3>
       
       <p>This video starts with a <a href="images/leading-angle.png" 
       target="_blank">diagram</a> showing the relationship between the bullet 
-	  and target velocities in <a class="scroll-link" data-scroll-target="puckPopper" href="#">Puck Popper</a>. This is in the 
+	  and target velocities in <a class="scroll-link" data-scroll-target="puckPopper" href="#puckPopper">Puck Popper</a>. This is in the 
 	  reference frame of the shooter (riding along) looking at the target. The 
 	  idea is that the bullet will hit the target if the gun is angled such that 
 	  its perpendicular component of velocity (perpendicular to the line between 
@@ -1682,17 +1519,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/zz7tcol-ej0?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="zz7tcol-ej0">
-         <img class="frameCapture" src="screenshots/high-and-low_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/high-and-low_550w.png" width="550" height="309" alt="High and low drag" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">High and low drag</strong></p>
+      <h3 class="title_2">High and low drag</h3>
       
       <p>The effects of drag are demonstrated here using a system with two connected pucks. It's like a parachute providing a soft landing for a payload.
       Halfway through, the timestep is reduced, providing some slow-motion viewing. The ctrl-shift-L shooting lock has been applied here, so shots, at 200 mps, 
@@ -1704,17 +1535,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/enzQJgU8oX4?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="enzQJgU8oX4">
-         <img class="frameCapture" src="screenshots/cannibal-in-here_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/cannibal-in-here_550w.png" width="550" height="309" alt="Internal / external" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><a name="internalExternal"></a><strong class="title_2">Internal / external</strong></p>
+      <h3 class="title_2" id="internalExternal">Internal / external</h3>
             
       <p>A modified shooting puck (from the Puck Popper game) is introduced here. It accounts for the physics of shooting
       a bullet (launching a little puck):
@@ -1729,7 +1554,7 @@
       </ul>
 
       The center of mass of all the pucks is displayed as a small white circle with cross hairs. This is introduced in the 
-      <a class="scroll-link" data-scroll-target="systemCOM" href="#">System Center of Mass</a> topic above.</p>
+      <a class="scroll-link" data-scroll-target="systemCOM" href="#systemCOM">System Center of Mass</a> topic above.</p>
       
       <p>The shooting puck is placed into three different floating fences: springy chain, chain, and triangle. Each of these fences is composed of rectangular pucks that contribute to
       the system center of mass. Whether inside or outside of the floating fence, the shooting puck is not able to move the SCM until it uses its jet (an external force).</p>
@@ -1739,7 +1564,7 @@
    
    
    <tr>
-      <td class="sectionbreak" colspan="2"><a name="limitations"></a><span class="sectionbreak">limitations</span></td>
+      <td class="sectionbreak" colspan="2"><h2 class="sectionbreak" id="limitations">limitations</h2></td>
    </tr>
    
    <tr>
@@ -1750,7 +1575,7 @@
       <li>Box2D uses an iterative solver to provide real-time performance. You will not get precisely rigid collisions or pixel perfect accuracy.</li>     
       </ul>
       
-      <p>The <a class="scroll-link" data-scroll-target="nogravity" href="#">no gravity</a> topic discusses deviations from ideal puck-collision physics. 
+      <p>The <a class="scroll-link" data-scroll-target="nogravity" href="#nogravity">no gravity</a> topic discusses deviations from ideal puck-collision physics. 
       The next topic discusses limitations in modeling springs.</p>
 
       <p>There are two versions of Box2D used on triquence.org:</p>
@@ -1763,17 +1588,11 @@
    
    <tr>
    <td class="indent" colspan="2">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="307" src="https://www.youtube.com/embed/z7kaLS8Nkmo?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="z7kaLS8Nkmo">
-         <img class="frameCapture" src="screenshots/twinkle-toes_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/twinkle-toes_550w.png" width="550" height="309" alt="Instability and losses" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Instability and losses</strong></p>
+      <h3 class="title_2">Instability and losses</h3>
       
       <p>Hooke's law springs have reduced stability as shown in the first two clips. You can <a href="https://triquence.org/?5a.twinkle" target="_blank">play</a> with
       the tap dancer. After the demo loads,
@@ -1792,7 +1611,7 @@
    
    
    <tr>
-      <td class="sectionbreak" colspan="2"><a name="capture"></a><span class="sectionbreak">state capture</span></td>
+      <td class="sectionbreak" colspan="2"><h2 class="sectionbreak" id="capture">state capture</h2></td>
    </tr>
    
    <tr>
@@ -1807,23 +1626,17 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/guwK3hpiwcE?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="guwK3hpiwcE">
-         <img class="frameCapture" src="screenshots/starting-positions_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/starting-positions_550w.png" width="550" height="309" alt="The nature of clients, humans and drones" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><a name="captureEditClientAndDrones"></a><strong class="title_2">The nature of clients, humans and drones</strong></p>
+      <h3 class="title_2" id="captureEditClientAndDrones">The nature of clients, humans and drones</h3>
 
       <p>The balance of power, in Puck Popper, between the client pucks and drone pucks, can be adjusted by editing the capture.
       </p>
       <ul>
          <li>raycasting sweep <strong>rate and reach</strong>: the aggressiveness of the drones is partly established by their
-         numbers and their navigation course (see topic above, <a class="scroll-link" data-scroll-target="changingDronePath" href="#">Changing the drone path</a>). 
+         numbers and their navigation course (see topic above, <a class="scroll-link" data-scroll-target="changingDronePath" href="#changingDronePath">Changing the drone path</a>). 
          The nature of the drones raycasting has an equally strong effect on how quickly they eliminate a target as is shown in the first two segments of this video.</li>
          
          <li><strong>bullet-life limit</strong>: short bullet-life will motivate more hand-to-hand combat, longer life will allow successful ricochet shots off the fence, even longer will 
@@ -1845,17 +1658,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/u1XXfPifKYY?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="u1XXfPifKYY">
-         <img class="frameCapture" src="screenshots/edit-velocities_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/edit-velocities_550w.png" width="550" height="309" alt="Adding angular momentum" oncontextmenu="pS.loadLargeImage( this);">
       </div>
       
-      <p><strong class="title_2">Adding angular momentum</strong></p>
+      <h3 class="title_2">Adding angular momentum</h3>
 
       <p>The goal: demonstrate conservation of angular momentum by changing the spring lengths of the tri-puck object in demo 5a. (similar to how 
       figure skaters increase their rotation rate by pulling in their arms and legs during a spin) 
@@ -1871,17 +1678,11 @@
    
    <tr>
    <td class="indent">
-      <!--
-      <div class="video-container">
-         <iframe loading="lazy" width="550" height="309" src="https://www.youtube.com/embed/4uB8iqzTPBM?rel=0" frameborder="0" 
-         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
-      </div>
-      -->
       <div class="video-container" data-videoID="4uB8iqzTPBM">
-         <img class="frameCapture" src="screenshots/the-end_550w.png" width="550" height="309" oncontextmenu="pS.loadLargeImage( this);">
+         <img class="frameCapture" src="screenshots/the-end_550w.png" width="550" height="309" alt="Thanks for watching" oncontextmenu="pS.loadLargeImage( this);">
       </div>
 
-      <p><strong class="title_2">Thanks for watching...</strong></p>
+      <h3 class="title_2">Thanks for watching...</h3>
 
       <p>This tale-end video shows how to edit the tail and puck attributes in the 2e capture to produce a non-expanding tail.</p>
       
