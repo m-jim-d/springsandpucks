@@ -1,0 +1,701 @@
+Video ID,Approx Duration (ms),Video Audio Language,Video Category,Video Description (Original),Video Description (Original) Language,Channel ID,Tag 1,Tag 2,Tag 3,Tag 4,Tag 5,Tag 6,Tag 7,Tag 8,Tag 9,Tag 10,Video Title (Original),Video Title (Original) Language,Privacy,Video State,Video Create Timestamp,Video Publish Timestamp
+53NsBPRrHUk,28000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 2b: Air-Track Framework (1D)
+
+The 1D framework introduces the relationship between the screen and the physics world. It also brings in the first taste of Euler's method in animating the motion. There are no car-wall or car-car collisions here; no gravity. Cars just pass through each other (and walls) and no acceleration from gravity. OOP classes are used here to organize the code and prepare for the object nature of the games to follow.
+
+The video shows five short demos (press keyboard numbers 1 through 5). The first two are two-car animations. The last three show stacks of cars spreading out due to the differences in their velocities. The car in the middle of the stack has zero velocity. At any point in time, the relative velocity of any pair of cars is proportional to the separation distance between them (kind of like Hubble's law).",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Air-Track Framework,,Public,Processed,2013-06-05T15:22:46+00:00,2013-06-05T15:23:02+00:00
+4WrtW3DBfZM,49000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 3: Wall Collisions and Gravity (1D)
+
+Euler's method comes to life here. Velocities are changing under the accelerating influence of gravity. There is a drawing in the PDF that illustrates the idea of penetration/stickiness correction. (Note that the drawings in the PDFs display with varying quality depending on the browser; Chrome: great, IE: OK, Firefox: not so hot.) For now, we'll just do the stickiness correction; later there will be several video demos of this issue. A coefficient of restitution is used to model the energy loss in the wall collisions. Notice the apparent settling of the cars at the end of the video.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Wall Collisions and Gravity,,Public,Processed,2013-06-05T16:42:08+00:00,2013-06-19T16:51:26+00:00
+8cJDiRcHsLo,119000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 4: Car-Car Collisions (1D)
+
+Car-car collision physics and car-car stickiness correction are added here. This script uses the ""c"" and the ""s"" keys to toggle two algorithmic features that help to illustrate the collisions and stickiness. The ""c"" key toggles the ""color-transfer"" feature which, when enabled, causes the colors of two colliding cars to swap. So when two cars start to settle near a wall under the influence of gravity, they collide frequently and the colors will swap quickly to show the cars are still colliding. If this feature is off the cars will appear to settle, but the cars really don't settle in our basic physic engine! (Later with Box2D we will show true settling.) The ""s"" toggles the stickiness correction on and off. So if you turn off the correction, the cars will be pulled into each other as they settle. Hit the ""s"" key again and they will unstick with a little pop. A combination of the ""c"" and ""s"" key is used at the tail end of the video. Sorry, this one runs a little long (kind of like watching paint dry).",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Car-Car Collisions,,Public,Processed,2013-06-05T19:56:12+00:00,2013-06-05T19:56:30+00:00
+r-ihjKNH86U,78000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 5: Cursor Tethers (1D)
+
+The user gets to interact with the objects on the screen. Cursor spring and drag forces are calculated based on the separation distance between the cursor and the selected car (and the velocity of the car). Cars are selected by clicking on the car or holding down the mouse button and letting the car run over the cursor. Cursors attach at the center of the car. Each mouse button invokes a different cursor tether (with a different spring constant and car drag coefficient). The left mouse button is medium, the right mouse button is stiff, and the center (roller) button has the softest spring. The video closes with me trying to pull the car into the wall. The color transfer (""c"") is turned on so the frequent collisions are illustrated. Note you can again turn off the stickiness correction here (""s"") and pull the cars into the wall; then toggle it off and watch them pop out (not so much ""paint drying"" here since you can pull them in pretty quickly, especially with the stiffer of the three cursor tethers).",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Cursor Tethers,,Public,Processed,2013-06-05T20:36:04+00:00,2013-06-19T16:51:26+00:00
+hImkAaGWQ-4,64000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 6: GUI Interface (1D)
+
+Gui here, not just sticky (ha ha). Controls have been added for stickiness and color-transfer toggles as well as a gravity slider (for simulating that bad cruise-liner experience) and a button to freeze the cars. If gravity is set to zero, a freeze operation will stop the cars and they will stay that way until...",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,GUI Interface,,Public,Processed,2013-06-05T21:07:58+00:00,2013-06-19T16:51:26+00:00
+oBJlfGduAZA,165000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 7: Hollow Cars (1D)
+
+Car mass is visualized here by hollowing out the lighter cars. The video shows 10 of the 13 demos. The demo number is indicated in the window title (upper part of the Pygame window frame). Demo #4 shows the inelastic collisions between a set of cars where the total momentum of the set is zero before and after the collision (a reverse explosion). Most of the other demos make use of the color-transfer feature to highlight the transfer of momentum through cars (like Newton's cradle). A description of each demo is in the PDF.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Hollow Cars,,Public,Processed,2013-06-05T21:48:44+00:00,2013-06-19T16:51:26+00:00
+8qi1EQs9USU,42000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 8: Multiplayer Demo
+
+The video shows the server window and one client's game-pad window (also running on the server's computer). Another client (running on a networked laptop) is connected but not visible in the video. The state (U:up or D:down) of the a-s-d-w keys of each client are also rendered on the server screen. Please note that this client works only for this assignment.
+
+The last 200 mouse locations (when mouse button is down) are drawn each game loop. This causes the dynamic tails effect.
+
+One Friday we ran this server on the computer that hosts the projector in the lecture room. Many students connected with the client. For a while we tried this with no verbal communication. It was interesting to see how cooperative this became in spite of the silence.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Multiplayer Demo,,Public,Processed,2013-06-06T15:41:13+00:00,2013-06-19T16:51:26+00:00
+RyZaQYYgglw,51000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 1: Pygame Drawing
+
+This first assignment illustrates the display screen and event-handling features that are used from Pygame. Drawing, erasing, and screen updating are viewed in the Pygame window. Keyboard and mouse events are interpreted and used to control the drawing algorithms. A game loop keeps repeating the process: erase, draw, update the screen. Holding down the ""e"" key enables screen erasing every time through the game loop. Holding down the ""f"" inhibits the flip operation that is use to update the screen at the end of the game loop. The two mouse buttons are used to change the color of the circle. 
+
+The video starts with the erase feature. With erasing enabled, the ball seems animated (the drawing tail does not persist). Later the flip (screen update) operation is inhibited (these are drawn in memory but not to the screen). Finally a combination of erasing and flip inhibiting cause the ball to lag behind and then catch up to the cursor.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Pygame Drawing,,Public,Processed,2013-06-07T00:00:15+00:00,2013-06-19T16:51:26+00:00
+A8PydtjE2BM,143000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 16a: Pybox2d (Box2D) Framework Example
+
+This script is based on the test_BodyTypes.py file in the examples directory of the pybox2d distribution. This depends on the Pygame framework in that distribution so all the framework files must be in the same directory as this file. (This script works best if you run it in the ""...box2d_source_files\box2d_jdm"" folder of the zip distribution provided above. I fixed a few things in their framework files and those fixes are only available in the box2d_jdm folder.)
+
+This file has been modified to support bullet shooting. (I looked through their examples for one that had some hinged object that would work for aiming the projectile stream.) The main adders here are: (1) bullet aiming and firing, (2) masking of objects (bullets pass through the gun base without a collision), (3) age limits on the bullets so they clean up after themselves (the simulation would labor if the collection of bullets kept growing), (4) the cursor gun, (5) something interesting to shoot at (target generation): pyramids, circles, and squares.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Pybox2d (Box2D) Framework Example,,Public,Processed,2013-06-07T16:59:36+00:00,2013-06-19T16:51:26+00:00
+NqGfp82ZGEU,132000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 16b: Box2D and Forces
+
+This script is based on the simple_01.py example in the pybox2d example directory. Unlike the example above, this one does not depend on the framework files, so it will run anywhere. I've extracted mouse-joint and zooming features as well as some basic polygon rendering facilitated by Pygame. This demonstrates the body-transform overload operation on a vertex of a polygon (to get its physics-world coordinates). There are also two force points defined on one of the cars (keyboard controlled).
+
+The video shows an air-track type environment, except of course this is 2D and the cars are allowed to behave very badly and can end up off the track. Cars can be dragged with the mouse. Zoom the view with the mouse wheel; pan the view with the right mouse button. Control the two force points with the ""f"" and ""g"" keys. When a force is applied at a force point, the point lights up green. (View in full-screen mode at 480p to see the force points.)",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Box2D and Forces,,Public,Processed,2013-06-07T21:49:43+00:00,2013-06-19T16:51:26+00:00
+u2-8P7MKbNo,284000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 16c: Box2d and The Air-Table Framework
+
+Finally, here is an integration of the box2d engine into our own 2D framework. This is like taking the engine out of our Honda Civic and replacing it with a 426 Hemi. This opens the door to non-spherical object collisions, object rotation, torque (and rotational drag), surface friction, and true settling behaviors.
+
+The basic idea here is that we define an interface between our air-table framework and pybox2d engine using force points. So we keep all the force generating objects such as springs and cursor-tethers and communicate their forces to the Box2D world. Then we let Box2D take care of collisions and object motion and let it inform our rendering functionality as to the state/position of the objects.
+
+A few notes on the interface: gun and jet controls are the same as before. The ""t"" key will torque a selected object. Shift-t will torque it the other way. The ""f"" key still freezes the translational motion, but now there is also the ""r"" key which will stop the rotation of all the objects in the world. Cursor tethers attach, by default, to the center of mass of the object, but with the shift key down, you can attach cursor tether anywhere on the object. The ""h"" and ""n"" keys zoom the view in and out; if the control key is down, mouse movement acts to pan the view. Various demos are initiated as usual with the keyboard number keys (i.e. above the letters). In this video I have one network client, a laptop, connected (red cursor); the regular cursor is controlled by the server.
+
+Many of the features of this final topic are demonstrated at https://triquence.org using a live HTML-5 Canvas.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Box2d and The Air-Table Framework,,Unlisted,Processed,2013-06-07T22:59:59+00:00,2013-06-19T16:51:26+00:00
+jc7IFmR8R48,31000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 11: Rotating Tubes
+
+This introduces the concepts behind polygon rotation as facilitated by the rotation methods in the vector class. This tube class will be the base class for representing both jet and turret tubes.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Rotating Tubes,,Public,Processed,2013-06-07T23:17:45+00:00,2013-06-19T16:51:26+00:00
+XIxGaZvdOaE,49000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.timetocode.org
+
+Part 12: Rotating Tube and Jet
+
+A raw tube and a jet tube are associated with a client-controlled puck. The association causes the tubes to move with (are drawn relative to the center of mass of) the pucks. The video shows the local client and a network client controlling (rotating) tubes on the two pucks. Python inheritance is introduced in this exercise: jet-tube is derived from the tube base class.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Rotating Tube and Jet,,Public,Processed,2013-06-07T23:48:55+00:00,2013-06-19T16:51:26+00:00
+w0TSMIwPnb8,219000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 10: 2D Physics Engine Framework
+
+This assignment merges the 1D engine with the 2D vector class and the multiplayer module. The spring class is also introduced here. There are drawings in the PDF that explain 2D collisions, stickiness corrections, and the client-server relationship.
+
+The video shows two cursors, one from the local client and the other from a network client on a laptop. Left and right hands are working the two cursors. It's surprisingly natural (we've got two hands). One section of the video shows the two cursors' tethers pulling two balls together and watching the transition from stable to unstable as the cursors cross each other; once unstable, the balls flip their positions to get back to stability. Stickiness behavior is toggled on/off with the ""p"" key; the black background turns grey when the stickiness corrections are off.
+
+The client script that is used here works with all the following assignments (except the first two in the Box2D section).",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,2D Physics Engine Framework (the original),,Public,Processed,2013-06-08T17:19:11+00:00,2013-06-08T17:21:30+00:00
+ -LyL246nq94,42000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 13: Jet Forces
+
+A thrust force is added to coincide with the jet's flame. This brings the total to four forces that are being processed in the physics engine: gravity, cursor-tether tension, spring-damper, and now jet force.
+
+The ""w"" key turns on the jet forces that are applied to the host puck along the direction of the jet-tube axis. This jet-force vector is added to the puck_forces_2d_N (net-force-on-puck) vector and processed in the Euler's method calculations.
+
+The video show a cursor tether restraining a puck under continuously applied jet forces while the jet tube is turned at a constant rate.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Jet Forces,,Public,Processed,2013-06-08T17:33:56+00:00,2013-06-19T16:51:26+00:00
+pcxxD5I0leI,71000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 14: Gun and Impulse Forces
+
+The physics of gun recoil is modeled with an impulse force. Each bullet firing causes an opposing impulse force to be delivered to the gun. The magnitude of this force is equal to the change in momentum of the bullet divided by the duration of the firing interval (one step in time by the physics calculations in the game loop). Bullet clean-up is implemented by assigning a birth time to each fired bullet. Bullet objects older than 3 seconds are deleted.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Gun and Impulse Forces,,Public,Processed,2013-06-08T17:54:10+00:00,2013-06-19T16:51:26+00:00
+81PO3o2_grQ,111000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 15: Final Game Features
+
+This assignment adds features to make a playable game. For example, a hit counter (a hit by another player makes your puck flash red) is the basis for establishing the health of each player. Health, or rather the lack of it, is illustrated with an expanding red circle. Too many hits and your puck pops (hence the name of the game: Puck Popper). Shields prevent bullets from hitting your puck; when shields are up, you can't fire. The ""s"" and ""k"" keys are used to flip the tube directions into an orientation opposing the current motion of the puck; this can be useful in breaking (stopping). The ""f"" and ""g"" keys can add an interesting dimension to the game by the local user (user on the server computer); try it.
+
+The jello simulation has been turned into a game here (Jello Madness). You scramble the jello (this starts the timer) for your opponent then press the ""p"" key to freeze the physics engine and the corresponding timer on the screen. When your opponent is ready to try and straighten out the jello, they press the ""p"" key again. That resets and starts the timer and physics engine. When the jello is straightened (no puck collisions), the timer will stop. A useful tool to use in the straightening is repeated use of the ""f"" key. This momentarily sets the velocity of each puck to zero. Low score (time) wins. Players take turns.
+
+The video shows me playing Puck Popper solo with something heavy sitting on the ""i"" key of my laptop. So the red player is pretty much a sitting duck in the corner. But you get the idea of the shields, health circles, and the popping pucks. I also do one round of Jello Madness and got a de-tangling time of 22.15 seconds (a big part of this is to really make a mess of it for the other guy). Jello Madness requires an I5 processor or better; this will crash (become unstable) on slower machines.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Final Game Features,,Unlisted,Processed,2013-06-08T22:53:16+00:00,2013-06-19T16:51:26+00:00
+d54VGC95sjQ,453000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 09b: Vector Sandbox
+https://pet.triquence.org?vector-sandbox
+
+The video shows a vector sandbox that is based on the vector class. There are seven demos that are run (start these using the number keys above the keyboard). Each demo uses a set of vectors ranging in set size from 2 to 140. Vectors can be selected with the mouse (click and drag over the arrow head). Components of selected vectors can be displayed (""c"" key toggles this on/off). Components include x, y, unit normal (red), unit perpendicular (red), and the projection of the selected vector onto a second vector. Vector rotation can be toggled on/off with the ""f"" key. The ""a"" key toggles the display of the add vector (grand total), which is shown in green. In ""add"" mode each vector in the sum series is rendered head to tail. The ""t"" key toggles on/off the display of a tail drawn from the head of the total vector. The tail is represented with a 350 point FIFO list of the most recent points. The tail can be shown as points or lines (toggle back and forth with the ""l"" key). Zoom in/out with the ""h"" and ""n"" keys.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Vector Sandbox,,Public,Processed,2013-07-30T21:37:24+00:00,2013-07-30T21:53:23+00:00
+sLDOgXG27No,226000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 2: String Rendering
+https://pet.triquence.org/?one-d
+
+This first look at a 1D-physics engine does so without any use of Pygame. Instead, this renders to a simple text string that is printed out on the command line. The #1 version is fully functional with only one page of Python code. The #2 version can be executed with command-line parameters and facilitates running the various examples in the video.
+
+The video is best viewed in full-screen mode so that the preliminary text, before each example run, can be read. At the beginning, an annotation block is used to help the viewer direct (and keep) their gaze on the first row of output. This first row yields the intended animation effect: move, draw, erase, repeat. There is an animated-gif capture of the ""first row"" displayed at the top of the code discussion page:  
+https://pet.triquence.org/A02.1_sr_walkthrough
+
+This rendering approach has the added advantage of preserving the frame history. As the viewer looks up, to higher rows on the screen, they are looking back in time, frame by frame (row by row). This can help in visualizing and understanding wall collisions and the associated position corrections that are made.",,UCH-9NND_epgVGRcT0WqCg_A,Rendering,physics engine,1D,,,,,,,,String Rendering,,Public,Processed,2015-10-14T16:57:10+00:00,2015-10-15T01:47:11+00:00
+DjifBSJNLBI,599000,,Science,"Discussion and installation instructions on running pybox2d on the Raspberry Pi 2:
+
+http://pet.triquence.org/raspberrypi.html",,UCH-9NND_epgVGRcT0WqCg_A,raspberry pi physics engine animation games,,,,,,,,,,Raspberry Pi and Game Physics,,Public,Processed,2019-01-15T03:16:33+00:00,2019-01-15T03:28:26+00:00
+aO8QEWOlxHk,63000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+
+Part 15c: Perfect Kiss
+https://pet.triquence.org?perfect-kiss
+
+The perfect-kiss algorithm is a refinement to the overlap-correction calculations described in the 2D-Physics Engine Framework assignment. This refinement offers true contact-normal calculations and corresponding ideal modeling of 2D puck collisions. The video is annotated to show three categories of puck collisions: (1) raw (no overlap correction), (2) overlap correction using the approximate-contact normal, and (3) overlap correction using the idea-contact normal. The speed of the incoming puck is chosen to produce large overlaps and its initial position is randomized to show a variety of responses. The third category of runs shows a consistent collision prediction that is independent of the amount of overlap at the collision detection point. To illustrate the correction process two intermediate steps are drawn with special colors: both overlapping pucks are drawn in red; both kissing pucks are drawn in cyan; the final corrected position is drawn in normal puck colors. There are cases where some of the intermediate puck images are not visible because they lie directly underneath a subsequent drawing.",,UCH-9NND_epgVGRcT0WqCg_A,contact normal,collisions,physics engine tutorial,,,,,,,,Perfect Kiss,,Public,Processed,2019-01-15T17:14:22+00:00,2019-01-15T17:15:09+00:00
+ZAeRF1GOurA,182000,en-US,Gaming,"https://triquence.org/?8c
+https://triquence.org/videos?puckPopper
+
+Puck Popper is a game where human players use a jet to maneuver their black pucks, aim a gun turret, and then shoot at the computer's blue drone pucks. These drone pucks scan their
+surroundings looking for targets, aim while anticipating their motion, then shoot, hoping to hit and eventually pop them.",,UCH-9NND_epgVGRcT0WqCg_A,physics-engine game,couch co-op,javascript,box2d,multiplayer,Shared-screen,shooting game,gaming,game,Puck Popper,puck popper intro,,Public,Processed,2019-04-28T02:06:25+00:00,2019-04-28T02:10:23+00:00
+6Uftmwnvc34,114000,,Science,"http://pet.triquence.org?perfect-kiss
+
+The ideal collisions of the previous topic support reversibility in our 2D framework. This means an ordered set of pucks can be disordered through a series of collisions and then returned to order by reversing the direction of the time step or by reversing the velocity of each of the pucks. This produces a very counterintuitive result, like watching a scrambled egg return to the shell by playing a video in reverse, decreasing entropy.
+
+The video shows each of the first four demos running in perfect-kiss mode (background turns from black to gray), flinging a puck to disorder the set, waiting for disorder, then pressing the ""r"" key to reverse all the puck velocities. The collision counter (upper left) will start counting in the reverse direction at this point. As the counter approaches zero, order returns and flings the ball back where it is caught it with the mouse. Watch fullscreen to better see the output from the command line.
+
+Keyboard commands useful for playing with reversibility:
+
+    ""z"" enables the Perfect Kiss algorithm. This also set each puck to be elastic; coefficient of restitution is set to 1.0.
+    ""r"" reverses the velocity of each puck.
+    ""shift-r"" reverses the direction of the timestep. Note time reversal differs from velocity reversal in that spring losses, dampers, will gain energy, generally behaving unstable. So if you intend to use the mouse, velocity reversal, ""r"", works best.
+    ""shift-p"" clamps the framerate at the current value and then steps the engine in equal interval steps (inverse of the clamped rate). The clamped framerate value is shown in parentheses.
+    ""e"" sets all collisions to be elastic; useful for testing without Perfect Kissing.
+    ""t"" starts and stops a general timer (0.1s resolution).",,UCH-9NND_epgVGRcT0WqCg_A,game,reversibility,entropy,collisions,physics,pygame,python,,,,Playing Catch with Perfect Kiss,,Public,Processed,2019-05-18T17:25:45+00:00,2019-05-18T17:29:44+00:00
+YmVOG8uD4pg,65000,,Science,"Counting to Pi
+https://pet.triquence.org?countpi
+
+This counting method is described in this 3Blue1Brown video:
+https://www.youtube.com/watch?v=jsYwFizhncE
+
+A 1D physics engine is modified here to facilitate counting the elastic collisions. A mass ratio of 100 to the 4th power is used in this video (surface area ratio of 100, density ratio of 100^3) and yields the first 5 digits of pi. Play this fullscreen to see the blue counter on the far right.
+
+Try this interactive 2-digit version using Box2D:
+https://triquence.org/?1c
+https://www.youtube.com/watch?v=202O9hOFeuQ
+
+A secondary loop runs the physics calculations 1000 times per rendering frame. The collision sound (the clack) plays at most once per frame. Alternating collisions (block-block, then block-wall) are enforced in the code and the large block is not allowed to collide with the walls.",,UCH-9NND_epgVGRcT0WqCg_A,Physics engine,3Blue1Brown,counting method to calculate the digits of pi,python,pygame,,,,,,Calculating Pi with Collisions,,Public,Processed,2019-06-19T20:14:05+00:00,2019-06-19T20:16:52+00:00
+_lUszvXIwGQ,53000,,Science,"A moving puck is emitting sound. Each pulse is incrementally tagged with a color from the visible spectrum, yielding the appearance of a rainbow tail behind the puck. During the recording, the puck diameter is adjusted (up and down arrow keys).
+
+This video is based on a full-screen capture of demo 2e at timetocode.org:
+https://triquence.org/?2e
+
+Here is a low-compression version of this video at Vimeo:
+https://vimeo.com/402738898",,UCH-9NND_epgVGRcT0WqCg_A,box2d,sound propagation,html5 canvas,interactive animation,,,,,,,sound field from a moving object,,Public,Processed,2020-03-31T01:01:49+00:00,2020-03-31T01:05:34+00:00
+202O9hOFeuQ,105000,,Science,"A collision-counting method for calculating the digits of pi, is described in Galperin's paper and also a 3Blue1Brown video.
+
+https://www.maths.tcd.ie/~lebed/Galperin.%20Playing%20pool%20with%20pi.pdf
+https://www.youtube.com/watch?v=jsYwFizhncE
+
+The video here presents calculations of this kind yielding 1, 2, 3, and 5 digits of pi. The circular shapes provide a good visual representation of the 100,000,000 mass ratio in the 5-digit case. Try this interactively by running 1c, 1d, and 1e on the main page at timetocode.org.
+
+https://triquence.org/?1c
+https://triquence.org/?1d
+https://triquence.org/?1e
+
+The first two cases use the Box2D engine. Higher number of digits require a small specialized engine:
+https://triquence.org/piEngine.js.html",,UCH-9NND_epgVGRcT0WqCg_A,pi,calculation,collision counting,animation,,,,,,,calculating pi with collisions,,Public,Processed,2020-03-31T01:11:48+00:00,2020-03-31T01:14:23+00:00
+PRNdIAfqoMQ,39000,,Science,"ChildOfGod vs the Coronavirus...
+
+Play against the virus at https://triquence.org. Select the CV option, then click the game buttons, #7 or #8.",,UCH-9NND_epgVGRcT0WqCg_A,games,coronavirus,html5 canvas,javascript,astroids,,,,,,kill that bug,,Public,Processed,2020-03-31T16:51:09+00:00,2020-03-31T16:53:33+00:00
+XM87n9YFWXg,101000,,Science,"This video shows how to connect a cell phone (or laptop) to a second device (usually a desktop) that is serving as the Puck Popper game host. The mobile client page is demonstrated here, but the same approach can be used with the desktop client page on a laptop.
+
+Synchronized cell phone (the virtual game pad) and desktop screen captures are shown superimposed in this and the next two videos. This gives you a sense of the two devices: the cell-phone game pad in your hands, with your eyes looking out at the desktop screen. Cell phone touch points are shown as white dots.
+
+Here is a link to the 7a version of Puck Popper:
+https://triquence.org/?7
+
+(note: the page title has change from ""time to code,"" as seen in the video, to ""springs & pucks"")",,UCH-9NND_epgVGRcT0WqCg_A,games,couch coop,cell phone,box2d,astroids,,,,,,"pops, the network, and a game pad",,Public,Processed,2020-03-31T16:57:50+00:00,2020-03-31T17:01:10+00:00
+FBjb9hbaRa4,106000,,Science,"the Two-Thumbs interface, a virtual game pad, for the Puck Popper game
+https://triquence.org/?7",,UCH-9NND_epgVGRcT0WqCg_A,virtual game pad,cell phone,game,astroids,html5 canvas,,,,,,two-thumbs,,Public,Processed,2020-03-31T17:03:05+00:00,2020-03-31T17:06:00+00:00
+USE8K5WgY60,138000,,Science,"Using multi-select features to select and replicate groups of objects.
+
+https://triquence.org?9b
+https://triquence.org/videos.html",,UCH-9NND_epgVGRcT0WqCg_A,box2d,box select,editor,javascript,,,,,,,self-organizing,,Public,Processed,2020-04-12T21:39:17+00:00,2020-04-12T21:47:05+00:00
+7Wq5ndoG-Pk,52000,,Science,"Vector diagram and computer animation illustrate how to aim a gun to lead a target.
+
+https://triquence.org?8e
+https://triquence.org/videos.html?leadingangle
+
+The Puck Popper game enlists computer drones that travel along a path, searching for targets, anticipating their motion and then shooting at them. This video shows a drone puck working to clear out a set of targets. It sweeps the field, locks in, then aims the gun tube so as to lead the target, accounting for the movement that will happen after the shot.
+
+This video starts with a vector diagram showing the required relationship between the bullet and target velocities. This is in the reference frame of the shooter (riding with the shooter) looking at the target. The idea is that the bullet will hit the target if the gun is angled such that its perpendicular component of velocity (perpendicular to the line between the bullet and the target) matches that of the target. This puts the bullet on the needed collision course (left-right movement matching the target). The other requirement is that the parallel component of velocity is such that, in time, the bullet will overtake the target and collide. In some cases the target puck can out run the perfectly-aimed bullets of the shooter, especially if the shooter and the target are receding from each other.
+
+These calculations can be applied in estimating how to aim a shotgun, to lead, when skeet shooting. Assuming a muzzle velocity of 1200 fps, clay pigeon speed of 50 mph (73 fps), a shotgun length of 48 inches, and that your eye is about 3/4 of that length from the bead, you can calculate how far the bead needs to be from the line of site to the target: 36 * (73/1200) = 2 inches.",,UCH-9NND_epgVGRcT0WqCg_A,shot guns,leading angle for skeet shooting,games,box2d,animation,,,,,,the leading angle,,Public,Processed,2020-04-18T02:40:34+00:00,2020-04-18T02:44:47+00:00
+j6QSGN565ZQ,124000,,Science,"A demonstration of the turn-taking approach for playing Jello Madness.
+
+https://triquence.org?6d
+https://triquence.org/videos.html",,UCH-9NND_epgVGRcT0WqCg_A,box2d,multiplayer,game,,,,,,,,it's your turn,,Public,Processed,2020-04-22T02:25:17+00:00,2020-04-22T02:29:31+00:00
+xiUtsBrxLIs,148000,,Science,"Editor powers through jello obstacle course.
+
+https://triquence.org?6
+https://triquence.org/videos.html",,UCH-9NND_epgVGRcT0WqCg_A,box2d,animation,html5 canvas,,,,,,,,editor vs jello,,Public,Processed,2020-04-22T18:55:02+00:00,2020-04-22T18:58:17+00:00
+4uB8iqzTPBM,90000,,Science,"The tail properties of demo 2e are edited to produce a longer lasting and smaller tail, useful for writing a self-erasing message...
+https://triquence.org/
+https://triquence.org/?2e
+https://triquence.org/videos.html",,UCH-9NND_epgVGRcT0WqCg_A,box2d,state capture,html5 canvas,javascript,,,,,,,editing a tail,,Public,Processed,2020-04-24T17:12:34+00:00,2020-04-24T17:15:14+00:00
+u1XXfPifKYY,98000,,Science,"Adding angular momentum
+
+https://triquence.org/?5
+
+The goal: demonstrate conservation of angular momentum by changing the spring lengths of the tri-puck object in demo 5a. (similar to how figure skaters increase their rotation rate by pulling in their arms and legs during a spin) The group must be centered so the longer springs don't cause the pucks to touch the walls.
+
+The method (a dash of physics): Do this by editing a capture of the centered system. Change the y component of velocity of two pucks such that the net change of their y components of momentum is zero. This causes rotation without causing movement of the system's center.
+
+Alternative method (without the capture edit or physics): use multi-select to copy the rotating trio, then paste to a centered cursor position with control-v, then delete the original trio (for the reader to try, not in the video).",,UCH-9NND_epgVGRcT0WqCg_A,box2d,state capture,html5 canvas,javascript,,,,,,,an odd twist,,Public,Processed,2020-04-26T01:10:31+00:00,2020-04-26T01:12:45+00:00
+FFFQTaVRVa0,132000,,Science,"Demos 2e and 4d are run using a feature that inhibits canvas erasing at the beginning of each frame. Simultaneously press the ""alt"" and ""p"" keys to try it:  https://triquence.org
+The second half is kind of like Escher: https://en.wikipedia.org/wiki/M._C._Escher",,UCH-9NND_epgVGRcT0WqCg_A,box2d,animation,html5 canvas,physics,computer art,,,,,,"please, don't erase",,Public,Processed,2020-05-09T17:39:48+00:00,2020-05-09T17:45:53+00:00
+CSYE-lp5RkM,204000,,Gaming,"In this Ghost Ball Pool game, shots on a host computer are aimed from a network client (cell phone). The ghost ball is the imaginary position of the cue ball, at contact with the object ball, that is needed to pocket the object ball. Here is a link to the 9-ball version of the game: https://triquence.org?3d.",en,UCH-9NND_epgVGRcT0WqCg_A,pool,ghost-ball,multiplayer,browser game,physics,,,,,,ghost-ball pool,en,Public,Processed,2021-12-22T18:34:05+00:00,2021-12-22T18:38:15+00:00
+qxBWKG20HNU,158000,,Science,"A first step in editing is to select one or more objects on the canvas. Do this by attaching a cursor spring (single-select) or by marking one or more objects as selected (multi-select). Objects in a multi-select group are marked with a yellow dot. Selection can be done in two ways: (1) drag the cursor over an object while the shift key is down (use the right mouse button to erase a mark), and (2) drag with the alt key down to form a selection box.
+
+https://triquence.org",,UCH-9NND_epgVGRcT0WqCg_A,editor,box2D,,,,,,,,,it's almost a party,,Public,Processed,2022-03-11T22:25:12+00:00,2022-03-11T22:27:57+00:00
+_q-Gtyi25KE,190000,,Science,"Watch a game of Ghost-Ball pool as played with a mouse on a host computer.
+
+Take a shot:
+
+1. Click and drag the ghost out from the cue ball.
+2. Optionally adjust the shot speed with the z key.
+3. Aim the shot by touching the ghost to the object ball.
+4. Release the mouse button to shoot.
+
+https://triquence.org/?3d",,UCH-9NND_epgVGRcT0WqCg_A,box2d,pool,9 ball,8 ball,rotation,javascript game,,,,,ghost on host,,Public,Processed,2022-03-14T19:01:40+00:00,2022-03-14T19:06:32+00:00
+nCteJ-2A2bw,72000,,Science,"A line of balls with restitutions varying linearly from 0.86 to 0.61 are dropped.
+https://triquence.org/videos.html
+
+This demonstrates the use of the alignment feature (use alt-L or the ""align selected"" option under the ""remove/add items"" control). A small puck is replicated to form a group which is then aligned. The restitution of the far left and right pucks is set using the [ and ] keys. The alignment feature is run again and now acts to linearize the restitution values of the intermediate pucks. Finally, the g key is used to turn on gravity. The middle segment of the video is rendered at 2x speed (I'm not that fast). The final bouncing-puck segment was recorded at a 4ms timestep and then rendered at 4x speed.",,UCH-9NND_epgVGRcT0WqCg_A,box2d,restitution,bouncing balls,,,,,,,,some restitution please,,Public,Processed,2022-03-24T02:41:52+00:00,2022-03-24T02:44:47+00:00
+9HOvKjV1Uj8,115000,,Science,"This video has four segments, each showing the effects of changing the surface friction. This puck attribute is changed using the minus (-) and plus (+) keys from the main part of the keyboard. Holding these keys down repeats the change.
+
+---A puck with surface friction is replicated to form a tacky stack.
+---With no friction, the pucks form a 1-D version of Newton's Cradle.
+---Pucks follow the wall-collision forecast line when surface friction is set to zero.
+---Pharaoh's not happy with this construction by workers from the 1950s.
+
+https://triquence.org/",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Pharaoh's not happy,,Public,Processed,2022-04-01T00:05:32+00:00,2022-04-01T00:07:52+00:00
+O5mMOmSbDm4,95000,,Science,"The three segments in this video show the effects of changing the drag coefficient. This puck attribute is changed using the less-than and greater-than keys. Holding these keys down repeats the change.
+
+---A pair of pucks, connected by a spring, are set in motion about their midpoint. This becomes a perfect circle (note: alt-p is used to toggle the frame erasing) due to damping in the spring and no drag force on the pucks. They slow to a stop only after the puck drag coefficient is increased above zero.
+---Drag affects projectile forecasts.
+---A row of pucks with increasing drag coefficients is dropped.
+
+https://triquence.org?5a.orbitingOnSpring
+https://triquence.org/videos.html",,UCH-9NND_epgVGRcT0WqCg_A,box2d,drag coefficient,,,,,,,,,a bit of a drag,,Public,Processed,2022-04-04T23:05:30+00:00,2022-04-04T23:08:03+00:00
+jp2mmlOgRPo,61000,,Science,"There'd be something missing without a dandelion and two springs. This little lion starts out with no rotational drag but some translational drag. There's no damping in the springs. Try cursor interactions with this system. The translational drag, coupled with the spring forces, act to return the puck to center after any displacement.
+https://triquence.org/?5a.dandelion
+https://triquence.org/videos.html",,UCH-9NND_epgVGRcT0WqCg_A,box2d,rotational drag,dandelion image,animation,,,,,,,someday,,Public,Processed,2022-04-05T23:13:58+00:00,2022-04-05T23:18:16+00:00
+FOTnHMOTvEU,59000,,Science,"The spring between two orbiting pucks is selected and its damping coefficient is adjusted.
+
+https://triquence.org?5a.orbitingOnSpring
+https://triquence.org/videos.html
+
+Here, the energy loss is affected by changing the damping coefficient of the connecting spring. This attribute is changed using the less-than and greater-than keys with the S key down. Holding these keys down repeats the change.
+
+This video compliments the one on translational drag (a bit of a drag). There, the spring damping acts to eliminate the relative motion and form the perfect circular orbit. Here, the F key acts to halt the orbit, leaving the two pucks to oscillate on the damped and later the un-damped spring.",,UCH-9NND_epgVGRcT0WqCg_A,box2d,spring damping,,,,,,,,,shock absorber,,Public,Processed,2022-04-07T15:47:24+00:00,2022-04-07T15:48:27+00:00
+uiaJiCM2yyc,214000,,Science,"https://triquence.org
+
+There are three contrasting spring systems in the segments of this video: (a) pair of pucks, (b) blocks on an inclined plane, and (3) a pinned puck without gravity. Each of these demonstrates the spring nature as affected by length and stiffness.
+
+With S key down, adjust a selected spring using the arrow keys:
+← →   strength
+↑ ↓   length
+
+With S and Alt keys down:
+← →   unstretched width",,UCH-9NND_epgVGRcT0WqCg_A,Box2D,springs,,,,,,,,,strength and length,,Public,Processed,2022-05-05T20:31:27+00:00,2022-05-05T20:33:53+00:00
+2nsF8TfB3hk,115000,,Science,"This is the first video to demonstrate the addition of a spring connection. This is done via the remove/add menu and also with the corresponding keyboard shortcut (ctrl-alt-S).
+
+https://triquence.org/
+
+This also shows the use of the multi-select menu that can be stepped through with the ""tab"" key. This directs actions to subgroups in the multi-select. Here, the springs are selected, are then individual springs are stepped through with the ""enter"" key. S3 is shown to be compressed when dangling.
+
+There's a fair amount of miscellaneous activity and annotation: a capture is used to edit a spring's color; the edited capture is played with the ""run"" button; a jump to full-canvas; gravity is toggled on; the length of all springs is adjusted as a group; a fence section is moved and its width is increased; the two forms of selection are used as described in the previous video (drags modified by ""alt"" or ""shift"" keys).
+
+https://www.triquence.org/videos.html",,UCH-9NND_epgVGRcT0WqCg_A,box2d,springs,animation,physics engine,,,,,,,exit stage left,,Public,Processed,2022-06-13T22:44:50+00:00,2022-06-13T22:46:59+00:00
+9msTMmAh4SI,156000,,Science,"Ball and chain created using the revolute joints of Box2D.
+
+https://triquence.org/",,UCH-9NND_epgVGRcT0WqCg_A,box2d,ball and chain,revolute joints,springs,,,,,,,ball and chain,,Public,Processed,2022-06-14T21:16:20+00:00,2022-06-14T21:19:24+00:00
+Es3a36GIEcA,167000,,Science,"A spring is added to the ends of a joined puck pair. The spring is lengthened until compressed and acting to keep the pair in line. The puck pair is duplicated and joined. One of the springs is set as a source for copying. This spring is pasted three times as the object is further extended and joined to complete the five-sided polygon.
+
+The ""tab"" key is used to give focus to the springs within the multi-select. The ""enter"" key then steps through the springs, showing a report, indicating compression (negative stretch) is equal in all five legs of the polygon.
+
+Various joints in the object are deleted to show the transition to a new equilibrium. The ""tab"" key is used to give focus to the joints so that springs are not deleted.
+
+https://triquence.org/?5e",,UCH-9NND_epgVGRcT0WqCg_A,box2d,animation,html canvas,,,,,,,,five sides to this story,,Public,Processed,2022-06-21T15:56:43+00:00,2022-06-21T15:58:44+00:00
+aW8E9uHNPHk,125000,,Science,"The Puck Popper demos (groups 7 and 8 at https://triquence.org/) were produced using the drone-path editing features seen in this video:
+
+--- creating a drone puck with a navigation pin and spring (shift-d-p)
+--- extending the path by dragging and replicating the pin 
+    (drag with repeated v key)
+--- replicating the drone (ctrl-v)
+--- setting a navigation spring to be the source for copying (ctrl-c)
+--- pasting the spring onto a drone puck and pin (ctrl-s)
+--- deleting pins (ctrl-x)
+--- The video plays at double-time until the first capture is run. 
+
+The video plays at double-time until the first capture is run. You may find the space bar useful to pause and read the annotations.",,UCH-9NND_epgVGRcT0WqCg_A,box2d,editing a the game,,,,,,,,,path of the opposition,,Public,Processed,2022-07-01T17:27:43+00:00,2022-07-01T17:32:33+00:00
+guwK3hpiwcE,173000,,Science,"https://triquence.org/videos.html
+
+The balance of power, in Puck Popper, between the client pucks and drone pucks, can be adjusted by editing the capture.
+
+raycasting sweep rate and reach: the aggressiveness of the drones is partly established by their numbers and their navigation course (see topic ""Changing the drone path""). The nature of the drones raycasting has an equally strong effect on how quickly they eliminate a target as is shown in the first two segments of this video.
+
+bullet-life limit: short bullet-life will motivate more hand-to-hand combat, longer life will allow successful ricochet shots off the fence, even longer will basically turn you into a fumigator.
+
+recoil: turn off recoil to stay put while shooting.
+
+network clients starting positions: some positions are inherently more defensible. No hills here, but corners generally are good places to take a stand.
+
+The host's puck is a template for all the network-client pucks. That keeps it fair if you are playing against each other and not only teaming up against the drones. Edit the following attributes on the host puck and you will see the same attributes on the network client pucks: radius_m, hitLimit, noRecoil, linDamp, restitution, restitution_fixed, friction, friction_fixed.",,UCH-9NND_epgVGRcT0WqCg_A,box2d,state capture,puck popper,,,,,,,,the nature of it,,Public,Processed,2022-07-15T17:37:25+00:00,2022-07-15T17:59:06+00:00
+orxaWhZWNNg,195000,,Science,"A Box2d distance joint can be configured for spring or fixed-length behavior. The fixed-length type is useful for building compound objects as shown in this video. Set the separation distance between two pucks, select them, then pick the ""add fixed-length spring"" option from the ""remove/add items"" menu.
+
+All editing features for springs apply also to these fixed-length springs (distance joints). After the first fixed-length joint is added (here), it is used as a source for identical replication in making the first row of the rolling pyramid (five equally spaced pucks). Then a subset of the row is used to make the next higher (and shorter) row. Later, two additional fixed-length joints are added to join the whole system into one compound body (motivating the disclaimer at the beginning, ha ha). At the end, all the joints are deleted.
+
+https://triquence.org/?5",,UCH-9NND_epgVGRcT0WqCg_A,box2d,distance joints,fixed length,,,,,,,,transform,,Public,Processed,2022-07-20T18:19:46+00:00,2022-07-20T18:31:58+00:00
+7Zadsk5r6kI,353000,,Science,"https://triquence.org/videos.html
+
+This topic is similar to the ""Pentagon of Springs and Joints"" topic on the page above. There are more, and smaller segments in the chain. Plus the joints, springs, and puck edges are hidden. This gives the appearance of continuous flexible stick, connected into a loop. The video starts by clearing off the canvas and adding a springy-chain from the remove/add menu.
+
+This system is also different in that all puck-puck collisions are inhibited. This allows for the overlap needed in making the infinity sign.
+
+The tear is formed by deleting one of the springs. The technique for targeting only springs for deletion is used and annotated in the video of the Pentagon topic.
+
+The f key is frequently used to momentarily stop translational movement. This brings the system to equilibrium quicker and is useful in encouraging oscillation modes of interest.",,UCH-9NND_epgVGRcT0WqCg_A,box2d,springs,revolute joints,chain loop,,,,,,,tears and infinity,,Public,Processed,2022-09-07T02:04:50+00:00,2022-09-07T02:09:39+00:00
+PTPS4D5p8hU,105000,,Science,"The classic physics demo, The Monkey and The Hunter, is animated here. The platform under the monkey releases when the ball is shot. The goal is to hit the monkey before he hits the ground, even more points if you send him outside via the window.
+
+You'll get six shots. The b key toggles on fine-adjust for better aiming. The s key can be used to manually setup the next shot (instead of waiting).
+
+Take up the hunt yourself: 
+https://triquence.org/?4e.monkeyhunt
+After the game loads, press the v key to view it fullscreen.",,UCH-9NND_epgVGRcT0WqCg_A,box2d,the monkey and the hunter,projectile motion,game,cell phone,animation,,,,,monkey hunt,,Public,Processed,2022-09-08T21:49:09+00:00,2022-09-08T21:50:02+00:00
+zz7tcol-ej0,135000,,Science,"Watch as dandelions save the day.
+
+https://triquence.org/?5d",,UCH-9NND_epgVGRcT0WqCg_A,box2d,pretty animation,dandelion,parachute,drag,air resistance,,,,,dandelion parachute,,Public,Processed,2022-09-16T21:56:54+00:00,2022-09-16T22:00:00+00:00
+ZJmPgz6_nX0,216000,,Science,"The line and arc methods are demonstrated in forming unusual rack patterns for trick-shot breaks.
+
+In one clip, gravity is turned on, introducing projectile motion to the game, as if the table has been lowered on one side.
+
+The final clip shows how the editor can be used to shorten, lengthen, and rotate the cushions of the table.
+
+https://triquence.org/?3d",,UCH-9NND_epgVGRcT0WqCg_A,pool trick shots,special racks,box2d,animation,,,,,,,the rack,,Public,Processed,2022-09-29T18:33:07+00:00,2022-09-29T18:35:06+00:00
+ExHiEVWppV4,83000,,Science,"techniques:
+--- getting a better angle on a shot by using the corner of the cushion
+--- how to shoot a cue ball when it's touching the object ball
+--- a manual exit from fine-moves
+
+https://triquence.org/?3d",,UCH-9NND_epgVGRcT0WqCg_A,pool shot tips,box2d,animation,ghost ball,,,,,,,tight spots,,Public,Processed,2022-09-29T18:37:41+00:00,2022-09-29T18:40:30+00:00
+lglc3F2nuBw,89000,,Science,"https://triquence.org/
+The mass-weighted center of all the pucks on the canvas is shown as a small white circle with cross hairs. The second segment shows a compressed spring being added to a three-puck system. Notice how the system's center is unaffected. Only at the end, when a cursor spring is used to apply an external force, does the system center move.
+
+Watch part II:
+https://youtu.be/enzQJgU8oX4",,UCH-9NND_epgVGRcT0WqCg_A,box2d,system center of mass,internal forces,springs,,,,,,,internal shake-up,,Public,Processed,2022-10-14T21:54:04+00:00,2022-10-14T21:56:24+00:00
+enzQJgU8oX4,176000,,Science,"https://triquence.org/?7e
+A modified shooting puck (from the Puck Popper game) is introduced here. It accounts for the physics of shooting a bullet (launching a little puck):
+** The mass of the system (the shooter and its bullets) is conserved. This means the mass of the bullet is taken from the shooter's puck (cannibalization). The reduced puck size is drawn with a decreased radius.
+** The ejected mass (the bullet) starts its movement from the center of the shooter's puck.
+** The shooter's puck has no drag (no external force).
+** The shooter's jet behaves as usual in the Puck Popper game. It provides a pure external force: no accounting for exhaust mass, and no accounting for interactions with other objects.
+
+The center of mass of all the pucks is displayed as a small white circle with cross hairs.
+https://youtu.be/lglc3F2nuBw
+
+The shooting puck is placed into three different floating fences: springy chain, chain, and triangle. Each of these fences is composed of rectangular pucks that contribute to the system center of mass. Whether inside or outside of the floating fence, the shooting puck is not able to move the SCM until it uses its jet (an external force).",,UCH-9NND_epgVGRcT0WqCg_A,box2d,conservation laws,momentum,impulse,internal and external forces,,,,,,accounting for small things,,Public,Processed,2022-10-15T15:19:21+00:00,2022-10-15T15:23:05+00:00
+gMnFDW8Guo0,138000,,Science,"https://triquence.org/
+https://triquence.org/videos.html
+
+The first clip shows the editor enlisted in changing the surface friction of the 101 pucks in demo 1b. The lower friction results in a more fluid motion as the system of pucks ""drains"" to the floor.
+
+The second clip uses the ""modify capture"" feature under remove/add to reveal the magic of how demo 1b produces a surprisingly ordered color pattern at the end of a seemingly random process.",,UCH-9NND_epgVGRcT0WqCg_A,box2d,html5 canvas,animation,physics,,,,,,,from tacky to tricky,,Public,Processed,2022-10-25T22:01:30+00:00,2022-10-25T22:03:51+00:00
+z7kaLS8Nkmo,121000,,Science,"Hooke's law springs have reduced stability as shown in the first two clips. You can play with the tap dancer here: https://triquence.org/?5a.twinkle
+After the demo loads, use the shift-alt-S command, and check to see that the timestep is set to 17ms.
+
+The third clip shows energy loss in an undamped distance joint (right side, third row). The Hooke's law equivalent (left side), shows the ideal undamped behavior. See also the corresponding demo and discussion for Box2D Distance Joints: https://www.triquence.org/?5a.soft",,UCH-9NND_epgVGRcT0WqCg_A,Box2d,unstability,physics,dancer,distance joints,soft constraints,,,,,twinkle toes,,Public,Processed,2022-11-03T22:31:12+00:00,2022-11-03T22:33:39+00:00
+PyiboX7208k,339000,,Science,"https://triquence.org/?5c
+
+The spring pendulum is a fascinating, yet simple piece of apparatus in the lab: spring with hanging mass. The first clip shows the resulting system after adjusting spring length, spring strength, and hanging mass to produce a ratio of pendulum period to spring-bounce period of about 1.8. Ratios near 2 will produce a system that wanders back and forth between two modes: a pure vertical bouncing motion and a pure pendulum motion. The second clip has the ratio up near 5 and shows a spring oscillation superimposed on an orbit around the pin. The third clip had the unstretched length of the spring adjusted to zero and yields a period ratio of exactly 1.0.
+
+Puck color is varied by stepping through the lightness index in the HSL color space. ""alt-p"" toggles screen erasing on/off and shows motion history. The ""f"" key stops movement.
+
+Prior to recording the video:
+--- the ""e"" key enables selection of the pin
+--- click and drag to position the pin
+--- mouse dragging with the ""alt"" key down, box selects the pin-spring-puck system
+--- with ""s"" key down, arrow keys adjust spring strength and length
+--- with ""s"" key up, arrow keys adjust the selected puck size",,UCH-9NND_epgVGRcT0WqCg_A,box2d,spring pendulum,computer art,,,,,,,,swingy springy,,Public,Processed,2022-11-16T16:17:15+00:00,2022-11-16T16:20:01+00:00
+SPm32QoGzTQ,154000,,Science,"This video describes the operations needed for throwing, moving, and rotating, a single puck, wall, or pin.
+https://triquence.org",,UCH-9NND_epgVGRcT0WqCg_A,science,physics engines,box2D,playing catch,,,,,,,grab a puck,,Public,Processed,2022-11-16T18:32:17+00:00,2022-11-16T18:34:46+00:00
+QJnV7GwXYsw,121000,en-US,Science,"https://triquence.org
+Shoot (launch) a puck as a projectile. Keyboard shortcuts are demonstrated for forecasting the motion and controlling the shot. The forecast renders the future 2.5-second path at 0.1 second intervals.",,UCH-9NND_epgVGRcT0WqCg_A,Box2D,shooting,launching,projectile motion,prediction visualization,,,,,,projectile forecasts,,Public,Processed,2022-11-17T18:22:25+00:00,2022-11-17T18:24:41+00:00
+3njR3RlhP3o,137000,,Science,"https://triquence.org/
+High-speed shots are taken at stacks of pucks and then replayed frame-by-frame and at slow-motion speeds. The following sequence is demonstrated in the video:
+
+ctrl-Shift-L:   lock down ctrl-Shift
+drag with ctrl key down:   to position the bullet
+drag with ctrl key up:   to aim the shot
+o key:   stop the physics engine
+release the mouse button:   to shoot
+u key:   take a capture for replaying the shot
+o key:   repeatedly single step the engine
+p key:   resume normal engine stepping
+change Δt:   optionally, change the physics engine timestep
+#1 key:   run the capture (if based on a demo from the #1 group)",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,bullets and the stepper,,Public,Processed,2022-11-17T22:22:01+00:00,2022-11-17T22:24:21+00:00
+ -gkMXSyy2T0,112000,en-US,Science,"The video demonstrates the fine-adjust feature that compliments the ghost-ball aiming technique.
+https://triquence.org/?3d",,UCH-9NND_epgVGRcT0WqCg_A,box2d,ghost-ball,2d physics,pool shots,,,,,,,pool-shot forecasts,,Public,Processed,2022-11-18T03:30:15+00:00,2022-11-18T03:32:01+00:00
+c6JncQ8ISC0,4000,,People,Dave stopped for a visit with Mom.,,UCH-9NND_epgVGRcT0WqCg_A,family friend,,,,,,,,,,Mom with friend Dave Swanson,,Public,Processed,2024-03-27T03:24:54+00:00,2024-03-27T03:28:34+00:00
+Kys0nk3PkRs,156000,,Science,"Tried a live stream from the Avata. About half way in, I scramble to get to the light switch. Couldn't see well enough to land without the deck lights on.",,UCH-9NND_epgVGRcT0WqCg_A,Saint Peter,MN,twilight,DJI Avata,,,,,,,"Twilight in Saint Peter, MN",,Public,Processed,2024-04-06T22:43:13+00:00,2024-04-25T02:00:18+00:00
+t08AYLnCy2w,69000,,Science,tree branch damage...,,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,gutter,,Unlisted,Processed,2024-05-01T16:41:05+00:00,
+5Z_wTowPCq0,51000,,Science,"The coach shows how to make a clean bank shot.
+https://triquence.org/?5e.basketball-par",,UCH-9NND_epgVGRcT0WqCg_A,game,box2d,animation,civics lesson,,,,,,,bipartisan hoops,,Public,Processed,2024-05-18T17:11:13+00:00,2024-05-18T17:13:30+00:00
+t-_5S1aloqk,275000,,Travel,"This is a drone video of the parade and closing moments of the fireworks. The forecasted rain held off for the events. (4K, 60fps)
+00:01 vultures soaring
+00:12 first flight to parade
+01:02 second flight
+01:53 360 spin of cloud view
+02:22 another look at the parade (later)
+02:35 closest position
+03:34 cell tower and vultures
+04:15 fireworks",,UCH-9NND_epgVGRcT0WqCg_A,Avata,drone,,,,,,,,,"2024 July 4th Parade and Fireworks in Saint Peter, MN",,Public,Processed,2024-07-11T16:11:44+00:00,2024-07-11T20:19:29+00:00
+IUvXoQiEnGM,184000,,Science,"High school track in Saint Peter, MN  (4K, 60fps)
+00:17 around the track
+00:56 up the cell tower
+01:51 the chair
+02:16 under the deck",,UCH-9NND_epgVGRcT0WqCg_A,DJI avata,,,,,,,,,,The 440,,Public,Processed,2024-07-11T20:22:02+00:00,2024-07-11T20:48:15+00:00
+F8ZMeMCUFtY,217000,,Travel,"This drone video, June 26th, 2024, in Saint Peter, shows the flooding of the Minnesota river as seen from 400 feet near the middle school on Broadway. Looking down Broadway, the water on highway 99 is visible, east side of the bridge. The drone is leaning into a north wind. (4K, 60fps)
+00:10 water tower
+01:22 360 spin 
+01:59 mystery bird
+02:35 vultures on the cell tower and baseball game down below
+03:03 landing",,UCH-9NND_epgVGRcT0WqCg_A,dji,avata,,,,,,,,,"Flooding in Saint Peter, MN",,Public,Processed,2024-07-11T23:55:32+00:00,2024-07-12T00:01:42+00:00
+R5BSwmE127c,428000,,Travel,"Drone view from Malone Island, near Isle MN.
+00:00 Birds in defense
+00:18 Descending, retreat from the birds
+00:30 Group shot
+00:33 Memories
+01:29 The old fire ring
+02:06 View from 400 ft
+02:35  Looking toward Isle
+02:43 Distant horizon
+03:39 Distant horizon, another look
+04:14 Descending
+06:26 Sunset",,UCH-9NND_epgVGRcT0WqCg_A,DJI,Avata,Mille Lacs,Isle MN,,,,,,,Mille Lacs Lake (longer version),,Unlisted,Processed,2024-07-26T14:43:49+00:00,
+f7eVpxqyAtM,175000,,Travel,"Drone view from Malone Island, near Isle MN.
+00:00 Birds in defense
+00:18 Descending, retreat from the birds
+00:30 Group shot
+00:33 View from 400 ft
+01:02 Looking toward Isle
+01:10 Distant horizon
+01:57 Again, toward Isle
+02:08 Horizon
+02:13 Sunset",,UCH-9NND_epgVGRcT0WqCg_A,DJI,Avata,Mille Lacs Lake,Malone Island,Isle MN,,,,,,Mille Lacs Lake,,Public,Processed,2024-07-26T14:57:02+00:00,2024-07-26T15:58:41+00:00
+nazkAHtqsHA,591000,,Travel,"10 minute flight around the island, pretty day.",,UCH-9NND_epgVGRcT0WqCg_A,Drone video,,,,,,,,,,Isle in September,,Public,Processed,2025-01-22T02:12:52+00:00,2025-01-22T02:28:02+00:00
+dPE-Yi3g3LA,88000,en-US,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org/
+https://github.com/m-jim-d/pet-code
+
+Total angular momentum is conserved in these inelastic collisions of pucks with surface friction. Pucks are pulled into contact with springs (an internal force). The transfer of angular momentum from rotational to orbital form is perfectly accounted for by Box2D. The results, final states, correspond to expectations as predicted by conservation laws. The video tells the story.
+
+This video is intended to be watched with this one:
+https://youtu.be/yEG9lp0wCZc",en-US,UCH-9NND_epgVGRcT0WqCg_A,Box2D,Angular Momentum,Conservation Laws,Inelastic Collisions,Physics,,,,,,The Story,en-US,Public,Processed,2025-03-03T16:59:44+00:00,2025-03-04T21:00:35+00:00
+A_G3tQQLJXE,426000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+https://github.com/m-jim-d/pet-code
+
+Part 16c: Box2D and The Air-Table Framework
+
+This brings the Box2D physics engine into our 2D air-table framework. It's like taking the engine out of a Honda Civic and replacing it with a 426 Hemi. This opens the door to non-spherical object collisions, object rotation, torque (and rotational drag), surface friction, and true settling behaviors.
+
+The AirTable class defines a force-point interface to the Box2D (pybox2d) engine. All the force-generating objects, such as springs and cursor-tethers, communicate (apply) their forces to the pucks in the Box2D world. Box2D takes care of collisions and motion and informs our rendering functionality as to the state/position of the pucks.
+
+A few notes on the keyboard interface: The ""t"" key will torque a selected object. Shift-t will torque it the other way. The ""f"" key still freezes all translational motion, ""shift-f"" stops all rotational. Cursor tethers attach, by default, to the center of mass of the puck, but with the shift key down, you can attach the cursor tether anywhere on the puck. Use the ""x"" key to delete a selected puck. The ""h"" and ""n"" keys zoom the view in and out at the cursor. If the control key is down, mouse movement acts to pan the view. Various demos are initiated as usual with the keyboard number keys (above the letters). Variations of the demos are selected with the left and right arrow keys.
+
+In most of this video, there's an active network client (a Raspberry Pi running A10_2D_baseline_client.py). The network client's light maroon cursor is controlled left-handed with the RPi's mouse and displayed on the host computer's screen. The host controls the green cursor (on the server, running A16c_2D_B2D_serverN.py). In the Puck Popper segments (demo #7) the client is disconnected (its pygame window closed); the host is playing solo. However, you can play with multiple players. Each player (network clients and the host) will see their controllable puck rendered on the host at the start of the game.
+
+Many of the features of this final topic are demonstrated at https://triquence.org using a live HTML-5 Canvas.",,UCH-9NND_epgVGRcT0WqCg_A,Box2D,Animation,physics,games,tutorial,,,,,,Box2D and the Air-Table,,Public,Processed,2025-03-26T22:14:18+00:00,2025-03-26T22:47:17+00:00
+vQxoyHqSfzs,162000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+https://github.com/m-jim-d/pet-code
+
+This assignment adds features to make a playable game:
+
+A hit counter is the basis for establishing the health of each player. A hit by another player makes your puck flash red. Health, or rather the lack of it, is illustrated with an expanding red circle. Too many hits and your puck pops (hence the name of the game: Puck Popper).
+
+Shields (hold down the space bar) prevent bullets from hitting your puck; when shields are up, you can't shoot the gun.
+
+The ""a"",""d"", and ""w"" keys orient and fire the jet. The ""j"",""l"", and ""i"" keys orient and shoot the gun. The ""s"" and ""k"" keys are used to flip the tube directions into an orientation opposing the current motion of the puck; this can be useful in breaking (stopping) and bull-fighting maneuvers.
+
+The ""f"" and ""g"" keys can add an interesting dimension to the game by the local user (host on the server computer); try it.
+
+The video shows me playing Puck Popper solo against some drones. They don't have shields and only move in recoil to their shooting. They randomly target all other pucks. You'll see shields, health circles, and the popping pucks.",,UCH-9NND_epgVGRcT0WqCg_A,game physics,,,,,,,,,,Puck Popper,,Public,Processed,2025-03-28T03:45:35+00:00,2025-03-30T02:12:26+00:00
+LGA_csBD84Y,150000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+https://github.com/m-jim-d/pet-code
+
+You may have noticed in demo #8 that if you tangle the jello (pucks have sustained contact), the tangle timer runs. This feature of the jello simulation has been used to make a game (referred to in the J-term class as Jello Madness).
+
+The first step in the game is to tangle the jello for your opponent then press the ""p"" key to freeze the physics engine. When your opponent is ready to try and detangle the jello, they press the ""p"" key again. That resets and starts the timer and physics engine. When the jello is detangled (no puck collisions), the timer will stop. Low score (time) wins. Players take turns.
+
+Here are two tips for tangling and detangling: The ""f"" key momentarily sets the speed of each puck to zero, stopping the jello. The right mouse button enlists a very firm cursor spring for grabbing pucks in the jello.
+
+I play one solo round of the 4x3 version of Jello Madness (the name used in the J-term course). A big part of the game is to really make a mess of it for the other guy.
+
+The jello simulation requires an I5 processor or better; it will become unstable on slower machines. The Box2D engine (the A16c script in the section below) offers somewhat more stability in the Jello simulations. This is further enhanced if using equal interval time steps (shift-p).",,UCH-9NND_epgVGRcT0WqCg_A,game physics,,,,,,,,,,The Jello,,Public,Processed,2025-03-29T21:58:30+00:00,2025-03-30T02:09:36+00:00
+yEG9lp0wCZc,305000,,Science,"Introduction to 2D Game Physics with Pygame
+https://pet.triquence.org
+https://github.com/m-jim-d/pet-code
+
+This demonstrates that pucks held in contact can't roll in groups of odd numbers.
+See also:
+https://youtu.be/dPE-Yi3g3LA",,UCH-9NND_epgVGRcT0WqCg_A,physics animations,,,,,,,,,,Odds and Evens,,Public,Processed,2025-04-01T18:16:50+00:00,2025-04-02T01:48:10+00:00
+Miu9KWA37Fs,480000,,Science,"Introduction to 2D Game Physics with Python
+https://pet.triquence.org
+
+Part 10: 2D Physics Engine Framework
+
+00:02 Collisions
+00:41 Spring
+01:18 Spring Triangle
+02:04 Circle of Pucks
+02:26 Line of Pucks
+03:03 Non-colliding Pucks
+06:24 Stickiness
+07:15 Limitations
+
+This assignment merges the 1D engine with the 2D vector class and the multiplayer module. The spring class is also introduced here. The drawings in the PDF help explain 2D collisions, stickiness corrections, and the client-server relationship.
+
+The number keys start the ten demos (0-9). The left/right arrow keys select the variations of each demo. For example, in demo #0, each variation starts with a different number of pucks (4 to 2000).
+
+The video shows two cursors, one from the local client (the host computer) and the other from a network client (Raspberry Pi). Left and right hands are working the two cursors. It's surprisingly natural (we've got two hands). The client script used here is also used with the following assignments.
+
+The non-colliding pucks in demo #0 (03:02) do not interact with each other, but do bounce off the walls. The ""shift-e"" keys toggle the frame eraser, helping to show the path of the pucks. The ""g"" key toggles gravity on/off. The ""f"" key momentarily freezes the pucks.
+
+One section of the video (at 6:26) shows the cursors pulling two pucks together and watching the transition from stable to unstable. Then (at 6:52), stickiness behavior is toggled on/off with ctrl-shift-p; the black background turns grey when the stickiness corrections are off.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,2D Physics Engine Framework,,Public,Processed,2025-08-26T16:04:13+00:00,2025-08-26T20:16:56+00:00
+Cu0RHzJFcUI,118000,,Science,"Dave flies the drone, no goggles, no trigger, just controller tilt (drone rotation) and joystick maneuvers.
+
+This is a good way to share a drone with a first-time flyer. Caution against using the trigger! Then take off for them, and show how to tilt the single-hand controller to rotate the drone. Use the joystick to slowly move left/right and up/down. Landing is easy; pull the joystick back. 
+
+This first lesson is fun and safe.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,First Flight,,Public,Processed,2025-11-22T18:10:04+00:00,2025-11-22T18:46:47+00:00
+fN6pZ_KmRc8,438000,,Science,"Seven minutes in Saint Peter, MN. Ash trees are bare, but the maples still have nice color. A few lilac bushes are in fall bloom (got close, so you can smell them).",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Drone Flight / Maple Trees 2025,,Public,Processed,2025-11-22T18:40:26+00:00,2025-11-22T19:54:31+00:00
+zzHGHF3U2sM,28000,,How-To,"Little snow blower, another use for my DeWalt batteries (20/60V Flex Volt).
+
+https://www.amazon.com/dp/B0F4QLW8R7?ref=ppx_pop_dt_b_product_details&th=1
+
+https://www.amazon.com/dp/B01MQTIEMD?ref=nb_sb_ss_w_as-reorder_k3_1_5&amp=&crid=1HCAYQ2YK2BHO&sprefix=dewal&th=1",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,New helper earns its keep.,,Public,Processed,2026-03-01T15:12:14+00:00,2026-03-01T15:14:34+00:00
+oaO5uR75DQU,15000,,How-To,"Saint Peter, MN   storm of March 14-15, 2026",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,"Old Honda HS50 Snow Blower, March in MN",,Public,Processed,2026-03-16T02:32:14+00:00,2026-03-16T02:42:33+00:00
+ODryl18gWUM,322000,,Science,"Snow from the March 14-15 storm, Saint Peter, MN.
+
+0:33 Drifts
+1:19 Up high
+2:10 Down the steps
+2:27 Kicking the can (leaf) down the road
+3:37 Another drift off the roof
+3:46 The mail-person route (shows depth)
+4:12 Drone selfie
+4:55 The landing",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Fresh Snow in March,,Public,Processed,2026-03-20T02:28:48+00:00,2026-03-20T03:17:38+00:00
+f8TPoOjwLbY,13000,,Travel,"Hail in Saint Peter, MN, 4/13/2026.",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,More white stuff coming out of the sky,,Public,Processed,2026-04-16T04:15:01+00:00,2026-04-16T04:19:26+00:00
+_XPq8X_-554,30000,,Science,"Conservation of linear momentum shown with five rectangular pucks in a hollow cage.
+https://triquence.org/?4f",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Momentum Cage,,Public,Processed,2026-04-24T04:06:59+00:00,2026-04-24T04:16:40+00:00
+iqMXuXOKj-k,182000,,Science,"The EpL (Energy, Momentum & Angular Momentum) report is a real-time data table overlaid on the Springs & Pucks simulation canvas. This video shows the main EpL report — individual puck and spring states at the bottom, totals and aggregates at the top. Also shown: the Speed version, displaying translational speed, orbital and rotational angular speeds, and spring length and stretch. Use ctrl-L to toggle the report on/off; ctrl-shift-L to switch between versions.
+
+0:04 EpL: Energy & Momentum
+0:39 EpL: Speed
+1:15 Documentation
+1:45 Moving the EpL reference axis
+
+Try it live:
+https://triquence.org/?5b
+
+More on the EpL report:
+https://triquence.org/videos.html?eplreport
+
+Full EpL series playlist:
+https://www.youtube.com/playlist?list=PLTMmJ3C3RoL_9uFOQalRfSTfC8HETIDzU",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,"The EpL Report - Energy, Momentum, and Angular Momentum | Springs & Pucks",,Public,Processed,2026-05-15T15:36:35+00:00,2026-05-20T20:29:11+00:00
+mfJQx_9NcDA,154000,,Science,"Linear momentum conserved through puck collisions, as tracked by the EpL report.
+
+Includes demos showing how walls exert external forces that change system momentum, with large pucks used as wall substitutes for comparison. A triangular momentum cage is initialized with translational motion, producing orbital behavior. The final clip converts rotational motion into orbital motion — Box2D's precise angular momentum accounting across messy collisions motivated
+the closed-form calculators shown in the next video. 
+
+0:04 Elastic and frictionless
+0:25 Momentum cages
+0:52 Large pucks substitute for walls
+1:17 No walls, momentum conserved
+1:31 Wall (external force) affects  conservation
+1:43 Inelastic pucks
+1:59 Small puck triggers large release of potential energy
+2:19 Rotational momentum converts to orbital
+
+Try it live:
+https://triquence.org/?5b
+
+More on the EpL report:
+https://triquence.org/videos.html?eplreport
+
+Full EpL series playlist:
+https://www.youtube.com/playlist?list=PLTMmJ3C3RoL_9uFOQalRfSTfC8HETIDzU",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Linear Momentum in Puck Collisions | Springs & Pucks,,Public,Processed,2026-05-15T21:40:28+00:00,2026-05-20T20:29:35+00:00
+ybhjgnFOIJQ,115000,,Science,"Inelastic tacky pucks pulled into collision and held by springs, initialized with rotational motion. 
+
+Final states show mixtures of rotational, orbital, and rolling motion. Closed-form calculators (left panel) predict the post-collision state; results are compared to Box2D via the EpL report. Highlight: odd-number puck systems end in pure orbital motion. An odd-number system initialized with zero net angular momentum comes to a complete stop — no external forces required.
+
+0:06 Three pucks with non-zero net initial angular momentum
+0:19 Three pucks with zero net initial angular momentum
+0:30 Even number of pucks show rolling behavior
+0:34 Two pucks -- orbit and roll
+0:44 Two pucks -- orbit, NO roll
+0:54 Two pucks -- yellow rolls on non-rotating green 
+1:03 Two pucks -- roll, NO orbit
+1:14 Four pucks
+1:31 Five pucks 
+1:41 Six pucks
+
+Try it live:
+https://triquence.org/?5b
+
+More on the EpL report:
+https://triquence.org/videos.html?eplreport
+
+Full EpL series playlist:
+https://www.youtube.com/playlist?list=PLTMmJ3C3RoL_9uFOQalRfSTfC8HETIDzU",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Angular Momentum: Puck Collisions & Closed-Form Predictions | Springs & Pucks,,Public,Processed,2026-05-15T21:56:50+00:00,2026-05-20T20:29:55+00:00
+nb0y9jUja9U,86000,,Science,"A non-colliding two-puck system coupled by a damped spring, initialized with translational motion and no rotation. 
+
+Conservation of angular momentum and a force balance yield a quartic equation, solved iteratively by the calculator and compared to the EpL Speed report. For a zero-length spring, the quartic simplifies to a closed-form expression. The spring is then shortened to zero length in the simulation, confirming the closed-form prediction — with the timestep reduced to improve the precision of Box2D's modeling of system energy.     
+
+0:08 Spring length = 7.0
+0:18 Increase k
+0:29 Select pucks and reduce spring length to zero
+0:40 Reduce timestep to improve precision of energy modeling
+0:58 Return to original timestep
+1:03 Select pucks and return spring length to 7.0
+
+Try it live:
+https://triquence.org/?5a.orbitingOnSpring
+
+More on the EpL report:
+https://triquence.org/videos.html?eplreport
+
+Full EpL series playlist:
+https://www.youtube.com/playlist?list=PLTMmJ3C3RoL_9uFOQalRfSTfC8HETIDzU",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,Orbits Without Collisions | Springs & Pucks,,Public,Processed,2026-05-15T22:17:44+00:00,2026-05-20T20:30:16+00:00
+kAWtosA2Qhs,68000,,Science,"https://triquence.org/
+
+There may be an occasion where you need a private leaderboard, perhaps for a tournament or a small group of friends. This video shows how to edit the capture name before runtime, directing game results to a dedicated leaderboard for your group. Each host computer in the tournament will need to use the same capture name: edit, then run. Do the edit once, then you can restart (run) without changing the capture name. This applies to any of the games that produce a capture.
+
+See the leaderboard help page for step-by-step instructions:
+https://triquence.org/leaderboard-help.html?tournament",,UCH-9NND_epgVGRcT0WqCg_A,,,,,,,,,,,private leaderboards,,Public,Processed,2026-08-09T22:43:31+00:00,2026-08-10T02:54:23+00:00
+
+
+
+
+

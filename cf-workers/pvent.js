@@ -51,6 +51,22 @@ export default {
       eventDesc = "____L____" + eventDesc;
     }
 
+    // Visitor metadata: bot detection + geolocation from request.cf
+    const ua = request.headers.get("User-Agent") || "";
+    const cf = request.cf || {};
+    const BOT_RE = /bot|crawler|spider|crawling|slurp|facebookexternalhit|pingdom|uptime|headlesschrome|lighthouse|pagespeed|python-requests|curl|wget/i;
+    const isBot = BOT_RE.test(ua);
+
+    const country = cf.country || "";
+    let location = "";
+    if (country === "US") {
+      location = [cf.city, cf.region].filter(Boolean).join(", ");
+    } else if (country) {
+      location = cf.city ? `${cf.city}, ${country}` : country;
+    }
+    if (location) eventDesc += " | " + location;
+    if (isBot) eventDesc += " [BOT]";
+
     const target = new URL(SHEET_URL);
     target.searchParams.set("mode", mode);
     target.searchParams.set("eventDesc", eventDesc);
